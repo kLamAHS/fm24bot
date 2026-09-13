@@ -1,0 +1,480 @@
+{
+  "captured_at": "2026-09-13T22:55:30.570434+00:00",
+  "checks": {
+    "menu_disconnected": true,
+    "menu_observations_unavailable": true,
+    "same_fm_process": true,
+    "three_distinct_connections": true,
+    "all_three_squads_have_31": true,
+    "earlier_values_differ": true,
+    "return_rejects_stale_manager": true,
+    "all_settled_player_models_identical_to_before": true,
+    "returned_club_and_manager_identical": true,
+    "earlier_jude_ui_identity": true,
+    "earlier_jude_ui_attributes": true,
+    "earlier_jude_ui_positions": true,
+    "post_reload_full_ui_validation_passed": true,
+    "post_reload_two_extra_numeric_ui_profiles": true
+  },
+  "passed": true,
+  "checkpoint_files": [
+    "api-lifecycle-before-unload.json",
+    "api-lifecycle-unloaded.json",
+    "api-lifecycle-at-start-screen.json",
+    "api-lifecycle-earlier-loaded.json",
+    "api-lifecycle-return-first-attempt.json",
+    "api-lifecycle-returned-first.json",
+    "api-lifecycle-returned-first-idle.json"
+  ],
+  "connection_ids": [
+    "b28a0d84-73bd-4f4f-b663-60f36c9b194d",
+    "8b254d67-4767-4e22-a752-ba2e642d85be",
+    "4dd6fee5-2cf7-41b7-919c-d4190c420fe3"
+  ],
+  "changed_player_count": 31,
+  "changes": [
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 50.5,
+          "feb7": 51.0
+        }
+      }
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "changed_fields": {
+        "condition": {
+          "feb17": 75.4,
+          "feb7": 76.51
+        },
+        "match_sharpness": {
+          "feb17": 99.0,
+          "feb7": 97.0
+        }
+      }
+    },
+    {
+      "id": 28084868,
+      "name": "Jason McCarthy",
+      "changed_fields": {
+        "condition": {
+          "feb17": 68.6,
+          "feb7": 86.3
+        },
+        "match_sharpness": {
+          "feb17": 93.0,
+          "feb7": 85.76
+        }
+      }
+    },
+    {
+      "id": 28088510,
+      "name": "Kane Vincent-Young",
+      "changed_fields": {
+        "condition": {
+          "feb17": 67.99,
+          "feb7": 78.99
+        }
+      }
+    },
+    {
+      "id": 28108492,
+      "name": "Arijanet Murić",
+      "changed_fields": {
+        "condition": {
+          "feb17": 100.0,
+          "feb7": 99.61
+        }
+      }
+    },
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "changed_fields": {
+        "condition": {
+          "feb17": 100.0,
+          "feb7": 86.24
+        }
+      }
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "changed_fields": {
+        "position_ratings": {
+          "feb17": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 12,
+            "MC": 1,
+            "MR": 13,
+            "AML": 14,
+            "AMC": 10,
+            "AMR": 14,
+            "ST": 20,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "feb7": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 12,
+            "MC": 1,
+            "MR": 12,
+            "AML": 14,
+            "AMC": 10,
+            "AMR": 14,
+            "ST": 20,
+            "WBL": 1,
+            "WBR": 1
+          }
+        },
+        "condition": {
+          "feb17": 97.69,
+          "feb7": 88.0
+        },
+        "match_sharpness": {
+          "feb17": 84.23,
+          "feb7": 88.0
+        }
+      }
+    },
+    {
+      "id": 28117405,
+      "name": "Jack Young",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 51.0,
+          "feb7": 51.5
+        }
+      }
+    },
+    {
+      "id": 28127270,
+      "name": "Saxon Earley",
+      "changed_fields": {
+        "condition": {
+          "feb17": 100.0,
+          "feb7": 97.32
+        },
+        "match_sharpness": {
+          "feb17": 81.48,
+          "feb7": 91.0
+        }
+      }
+    },
+    {
+      "id": 28127368,
+      "name": "Chem Campbell",
+      "changed_fields": {
+        "condition": {
+          "feb17": 89.6,
+          "feb7": 100.0
+        },
+        "match_sharpness": {
+          "feb17": 56.81,
+          "feb7": 55.71
+        }
+      }
+    },
+    {
+      "id": 29000734,
+      "name": "Joe Jacobson",
+      "changed_fields": {
+        "condition": {
+          "feb17": 80.59,
+          "feb7": 90.25
+        }
+      }
+    },
+    {
+      "id": 29064636,
+      "name": "Josh Scowen",
+      "changed_fields": {
+        "condition": {
+          "feb17": 100.0,
+          "feb7": 96.41
+        },
+        "match_sharpness": {
+          "feb17": 52.5,
+          "feb7": 53.0
+        }
+      }
+    },
+    {
+      "id": 29086854,
+      "name": "Kieran Sadlier",
+      "changed_fields": {
+        "condition": {
+          "feb17": 99.25,
+          "feb7": 94.48
+        },
+        "match_sharpness": {
+          "feb17": 50.5,
+          "feb7": 49.39
+        }
+      }
+    },
+    {
+      "id": 29120249,
+      "name": "Brandon Hanlan",
+      "changed_fields": {
+        "condition": {
+          "feb17": 77.7,
+          "feb7": 97.28
+        },
+        "match_sharpness": {
+          "feb17": 93.0,
+          "feb7": 94.0
+        }
+      }
+    },
+    {
+      "id": 29141735,
+      "name": "Beryly Lubala",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 49.0,
+          "feb7": 49.5
+        }
+      }
+    },
+    {
+      "id": 29141819,
+      "name": "Matt Butcher",
+      "changed_fields": {
+        "condition": {
+          "feb17": 82.72,
+          "feb7": 87.43
+        }
+      }
+    },
+    {
+      "id": 29214946,
+      "name": "Chris Forino",
+      "changed_fields": {
+        "condition": {
+          "feb17": 92.52,
+          "feb7": 96.06
+        },
+        "match_sharpness": {
+          "feb17": 96.0,
+          "feb7": 96.02
+        }
+      }
+    },
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "changed_fields": {
+        "condition": {
+          "feb17": 86.32,
+          "feb7": 84.28
+        }
+      }
+    },
+    {
+      "id": 30002284,
+      "name": "Garath McCleary",
+      "changed_fields": {
+        "condition": {
+          "feb17": 71.5,
+          "feb7": 93.14
+        }
+      }
+    },
+    {
+      "id": 30019004,
+      "name": "David Wheeler",
+      "changed_fields": {
+        "condition": {
+          "feb17": 72.67,
+          "feb7": 100.0
+        },
+        "match_sharpness": {
+          "feb17": 61.0,
+          "feb7": 52.0
+        }
+      }
+    },
+    {
+      "id": 37078342,
+      "name": "Nigel Lonwijk",
+      "changed_fields": {
+        "condition": {
+          "feb17": 76.76,
+          "feb7": 86.51
+        }
+      }
+    },
+    {
+      "id": 49060933,
+      "name": "Maxime Estève",
+      "changed_fields": {
+        "condition": {
+          "feb17": 91.36,
+          "feb7": 86.69
+        }
+      }
+    },
+    {
+      "id": 61031508,
+      "name": "Jack Grimmer",
+      "changed_fields": {
+        "condition": {
+          "feb17": 95.89,
+          "feb7": 100.0
+        },
+        "match_sharpness": {
+          "feb17": 57.09,
+          "feb7": 54.61
+        }
+      }
+    },
+    {
+      "id": 61057162,
+      "name": "Luke Leahy",
+      "changed_fields": {
+        "condition": {
+          "feb17": 80.0,
+          "feb7": 88.26
+        }
+      }
+    },
+    {
+      "id": 78090138,
+      "name": "Darwin Núñez",
+      "changed_fields": {
+        "condition": {
+          "feb17": 70.0,
+          "feb7": 85.71
+        }
+      }
+    },
+    {
+      "id": 96053555,
+      "name": "Maksymilian Stryjek",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 51.5,
+          "feb7": 52.0
+        }
+      }
+    },
+    {
+      "id": 2000008139,
+      "name": "Dale Taylor",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 50.5,
+          "feb7": 51.0
+        }
+      }
+    },
+    {
+      "id": 2000020024,
+      "name": "Freddie Potts",
+      "changed_fields": {
+        "condition": {
+          "feb17": 69.2,
+          "feb7": 96.24
+        },
+        "match_sharpness": {
+          "feb17": 99.0,
+          "feb7": 98.06
+        }
+      }
+    },
+    {
+      "id": 2000061312,
+      "name": "Luca Koleosho",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 76.0,
+          "feb7": 76.88
+        }
+      }
+    },
+    {
+      "id": 2000102722,
+      "name": "Wilson Odobert",
+      "changed_fields": {
+        "condition": {
+          "feb17": 82.36,
+          "feb7": 90.64
+        },
+        "match_sharpness": {
+          "feb17": 92.88,
+          "feb7": 100.0
+        }
+      }
+    },
+    {
+      "id": 2000118384,
+      "name": "Gideon Kodua",
+      "changed_fields": {
+        "match_sharpness": {
+          "feb17": 49.5,
+          "feb7": 50.0
+        }
+      }
+    }
+  ],
+  "sample_player_addresses": [
+    {
+      "id": 29232937,
+      "before": "0x116af8940",
+      "after": "0x116af8940"
+    },
+    {
+      "id": 28028684,
+      "before": "0x116501e18",
+      "after": "0x116501e18"
+    },
+    {
+      "id": 14185872,
+      "before": "0x115de9a00",
+      "after": "0x115de9a00"
+    }
+  ],
+  "immediate_reload_differences": [
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "fields": {
+        "condition": {
+          "before_unload": 100.0,
+          "immediately_after_load": 99.9
+        }
+      }
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "fields": {
+        "condition": {
+          "before_unload": 97.69,
+          "immediately_after_load": 97.06
+        },
+        "match_sharpness": {
+          "before_unload": 84.23,
+          "immediately_after_load": 85.2
+        }
+      }
+    }
+  ],
+  "settling_note": "Immediately after reloading, Jack Wakely and D Mani Mellor had small condition/sharpness differences. Their initial post-load values also match the pre-implementation position-candidates capture. During idle UI navigation, they returned to the pre-unload values; the idle checkpoint matches all 31 full models. Both later numeric fitness panels were independently verified (six checks). The game date/time stayed Feb 17 08:00; no Continue, save or fitness-edit action was issued. The underlying FM update trigger is not established. Do not treat the first successful post-load observation as a settled snapshot.",
+  "scope": "Two snapshots of the same Wycombe career, February 17 and February 7. Not two independently created careers. API process stayed running through both loads.",
+  "status_issue_and_fix": "The pre-fix return-first-attempt status accepted a reused registry and retained its prior connection ID. The manager request correctly rejected the changed club and the next request reattached. Final status code additionally validates the manager/club chain; the observed reused-registry case is covered by a regression test. These checkpoint files preserve pre-fix live evidence; the status fix has separate offline and live-smoke validation.",
+  "transition_note": "The unloaded checkpoint was captured during the unload transition: its earlier status response preceded failed observations. At-start-screen is the confirmed main-menu checkpoint. Separate HTTP requests are not an atomic snapshot."
+}

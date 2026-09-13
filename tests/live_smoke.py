@@ -29,10 +29,15 @@ def main():
         status = request('/status')
         checks['connected'] = status.get('connected') is True
         expected = json.loads(Path('research/ui-observations.json').read_text(encoding='utf-8'))
+        readiness = {p['id']:p for p in json.loads(Path('research/ui-readiness-observations.json').read_text())['players']}
         for observed in expected['players']:
             player = request('/players/'+str(observed['id']))['data']
             checks[str(observed['id'])+' identity'] = player['id']==observed['id'] and player['name']==observed['name']
             checks[str(observed['id'])+' attributes'] = all(player['attributes'][k]==v for k,v in observed['attributes'].items())
+            ready=readiness[observed['id']]
+            checks[str(observed['id'])+' condition']=player['condition']==ready['condition_raw']/100
+            checks[str(observed['id'])+' sharpness']=player['match_sharpness']==ready['match_sharpness_raw']/100
+            checks[str(observed['id'])+' positions']=player['position_ratings']==ready['position_ratings']
         manager = request('/manager')['data']
         club = request('/club')['data']
         squad = request('/squad')['data']
@@ -50,9 +55,10 @@ def main():
         bridge = server.state_service.bridge
         checks['python lookup'] = asdict(bridge.player(29232937)) == responses['GET /players/29232937']['body']['data']
         checks['loopback'] = server.server_address[0]=='127.0.0.1'
+        checks['consistent connection identity'] = all(item['body'].get('session_id')==status['session_id'] for item in responses.values() if item['status']==200 and 'data' in item['body'])
         report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
                   'checks':checks, 'responses':responses, 'passed':all(checks.values())}
-        Path('research/api-live-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        Path('research/api-readiness-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
         print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
         if not report['passed']: raise SystemExit(1)
     finally:

@@ -1,0 +1,25 @@
+{
+  "save": "FM24 Bridge Test Earlier 2026-09-13",
+  "ui_date": "2024-02-07 00:00",
+  "screenshot": "ui/lifecycle-earlier-jude-profile.png",
+  "id": 29232937,
+  "name": "Jude Bellingham",
+  "positions": [
+    "DM",
+    "MC",
+    "AMC"
+  ],
+  "attributes": {
+    "acceleration": 15,
+    "pace": 14,
+    "passing": 17,
+    "finishing": 16,
+    "technique": 17,
+    "decisions": 15,
+    "vision": 16,
+    "work_rate": 18,
+    "strength": 13
+  },
+  "numeric_fitness_ui_verified": false,
+  "limitation": "The save loaded with the manager on vacation. The existing editor menu did not open. No vacation or game-time action was taken; exact fitness numbers were not independently UI checked on this earlier date."
+}

@@ -7,3 +7,7 @@ class Player:
     first_name: str
     surname: str
     attributes: dict[str,int]
+    positions: list[str]
+    position_ratings: dict[str,int]
+    condition: float
+    match_sharpness: float

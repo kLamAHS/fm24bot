@@ -17,3 +17,8 @@ Candidate facts to validate locally:
 * Human manager signature and club chain available for a later experiment after one player is validated.
 
 Also examined FMSuperScout's README: it targets FM26 and requires an injected BepInEx plugin. Rejected as unsuitable for this project's read-only external-process constraint.
+
+## Readiness follow-up
+Inspected [PhilipArmstead/Football-Manager-Squad-Analyzer](https://github.com/PhilipArmstead/Football-Manager-Squad-Analyzer/blob/b94f7780defa73e723b74e2d38584cd8e06ec897/NOTES.md), commit `b94f7780defa73e723b74e2d38584cd8e06ec897`. Its notes identify candidate sharpness/condition fields at player+0x1F4/+0x1F8 and fatigue at +0x1F6, plus the same position byte order. Local source snapshot is in workspace `work/squad-analyzer-research`. Some source functions write game memory; none of this source was built, imported or executed. Only structure facts were used as leads and independently checked against FM's numeric UI.
+
+The earlier fm_scouter source gives position block +0x208 and the 15-slot order. The legacy sweeper slot has no corresponding field in the inspected FM UI and is deliberately omitted from the public model. `ui-readiness-observations.json` is the independent numeric ground truth for the implementation.

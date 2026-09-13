@@ -1,0 +1,154 @@
+{
+  "captured_at": "2026-09-13T22:55:30.512965+00:00",
+  "players": [
+    {
+      "id": 28112991,
+      "checks": {
+        "condition_raw": true,
+        "match_sharpness_raw": true,
+        "fatigue_raw": true
+      },
+      "memory": {
+        "player": {
+          "id": 28112991,
+          "name": "Jack Wakely",
+          "first_name": "Jack",
+          "surname": "Wakely",
+          "attributes": {
+            "acceleration": 11,
+            "pace": 13,
+            "passing": 8,
+            "finishing": 9,
+            "technique": 9,
+            "decisions": 8,
+            "vision": 7,
+            "work_rate": 7,
+            "strength": 10
+          },
+          "positions": [
+            "DC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 20,
+            "DR": 1,
+            "DM": 2,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 100.0,
+          "match_sharpness": 100.0
+        },
+        "evidence": {
+          "person": "0x116726a18",
+          "player_base": "0x1167267a0",
+          "uid_address": "0x116726a24",
+          "attribute_block": "0x1167269b7",
+          "raw_attributes": {
+            "acceleration": 54,
+            "pace": 64,
+            "passing": 40,
+            "finishing": 44,
+            "technique": 44,
+            "decisions": 42,
+            "vision": 34,
+            "work_rate": 35,
+            "strength": 52
+          },
+          "block_hex": "18232c2c1d2d2928182d220f0f0f0f0f0a282a0535052d2c5a640b153623220f140f36223440404529234a322323231e190b3d322a29",
+          "birth_day_raw": 299,
+          "birth_year_raw": 2000,
+          "readiness_address": "0x116726994",
+          "readiness_hex": "1027caff1027550e040f04075000600000000000010101140102010101010101010101",
+          "condition_raw": 10000,
+          "match_sharpness_raw": 10000,
+          "fatigue_raw": -54
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": 28115830,
+      "checks": {
+        "condition_raw": true,
+        "match_sharpness_raw": true,
+        "fatigue_raw": true
+      },
+      "memory": {
+        "player": {
+          "id": 28115830,
+          "name": "D'Mani Mellor",
+          "first_name": "D'Mani",
+          "surname": "Mellor",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 8,
+            "finishing": 11,
+            "technique": 10,
+            "decisions": 9,
+            "vision": 5,
+            "work_rate": 15,
+            "strength": 9
+          },
+          "positions": [
+            "ST"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 12,
+            "MC": 1,
+            "MR": 13,
+            "AML": 14,
+            "AMC": 10,
+            "AMR": 14,
+            "ST": 20,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 97.69,
+          "match_sharpness": 84.23
+        },
+        "evidence": {
+          "person": "0x11672f6b8",
+          "player_base": "0x11672f440",
+          "uid_address": "0x11672f6c4",
+          "attribute_block": "0x11672f657",
+          "raw_attributes": {
+            "acceleration": 74,
+            "pace": 69,
+            "passing": 39,
+            "finishing": 54,
+            "technique": 49,
+            "decisions": 44,
+            "vision": 24,
+            "work_rate": 74,
+            "strength": 44
+          },
+          "block_hex": "1d273631180e36272723180a140a0f0f0a282c0a220f363132642813454a130f0f054a132c3c4534142836373046360f324d4b37282c",
+          "birth_day_raw": 264,
+          "birth_year_raw": 2000,
+          "readiness_address": "0x11672f634",
+          "readiness_hex": "e7202aff29264c0faa0fc90953005e00000000000101010101010c010d0e0a0e140101",
+          "condition_raw": 9769,
+          "match_sharpness_raw": 8423,
+          "fatigue_raw": -214
+        }
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

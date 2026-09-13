@@ -1,0 +1,74 @@
+{
+  "method": "Manually transcribed from FM24 in-game editor detail panels. Tabs were viewed only; no fields typed or changed, panels dismissed with Escape.",
+  "players": [
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "condition_raw": 7540,
+      "match_sharpness_raw": 9900,
+      "fatigue_raw": 422,
+      "position_ratings": {
+        "GK": 1,
+        "DL": 1,
+        "DC": 20,
+        "DR": 1,
+        "WBL": 1,
+        "WBR": 1,
+        "DM": 1,
+        "ML": 1,
+        "MC": 1,
+        "MR": 1,
+        "AML": 1,
+        "AMC": 1,
+        "AMR": 1,
+        "ST": 1
+      }
+    },
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "condition_raw": 10000,
+      "match_sharpness_raw": 5050,
+      "fatigue_raw": -500,
+      "position_ratings": {
+        "GK": 20,
+        "DL": 1,
+        "DC": 1,
+        "DR": 1,
+        "WBL": 1,
+        "WBR": 1,
+        "DM": 1,
+        "ML": 1,
+        "MC": 1,
+        "MR": 1,
+        "AML": 1,
+        "AMC": 1,
+        "AMR": 1,
+        "ST": 1
+      }
+    },
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "condition_raw": 8632,
+      "match_sharpness_raw": 10000,
+      "fatigue_raw": 436,
+      "position_ratings": {
+        "GK": 1,
+        "DL": 1,
+        "DC": 1,
+        "DR": 1,
+        "WBL": 1,
+        "WBR": 1,
+        "DM": 16,
+        "ML": 10,
+        "MC": 20,
+        "MR": 10,
+        "AML": 13,
+        "AMC": 17,
+        "AMR": 12,
+        "ST": 10
+      }
+    }
+  ]
+}

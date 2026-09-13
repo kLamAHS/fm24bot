@@ -58,3 +58,19 @@ Strict bulk decoding of the 26,223 pure-player entries encountered an invalid di
 SHA-256 checks after the restart matched the initial test-copy hash for both the original save and named test save. See `save-integrity-after.json`. No game time was advanced or save command issued. The screen-ID display preference remains enabled. No software was installed, no privileges changed, and no process mutation API was used.
 
 Unimplemented subsystems remain explicit: age/game date, positions, condition, morale, fixtures, finances, match and AI actions. Next bounded investigation should validate condition/position fields against several squad profiles, then a second disposable save and save reload while the service is running. Do not treat plausible candidate fields as confirmed.
+
+## 11. Positions and readiness increment
+
+Completed the bounded next investigation. Captured all 31 position/nearby fitness candidate blocks before UI numeric inspection or decoder implementation. Compared 30 fully visible squad position sets and three complete numeric position/fitness panels: Ryan Tafazolli, Franco Ravizzoli and Jude Bellingham. All 51 numeric assertions and 30 role sets agree. Implemented 14 position ratings, familiar positions (>=15), condition and match sharpness with strict bounds and a repeated contiguous-block read. Raw fatigue is research evidence only. The legacy sweeper slot remains omitted. Field-level evidence, scales and attribution are in `readiness.md` and `sources.md`.
+
+The expanded localhost API and Python model passed 35 live checks. Added connection UUIDs to distinguish successful reattachments. No AI actions or additional unverified observation subsystems were added.
+
+## 12. Continuous-service save reload and status fix
+
+Kept API PID 37092 running while FM PID 21328 unloaded to the main menu, loaded a second disposable February 7 snapshot, then directly loaded the original February 17 test copy. Menu observations returned 503 without stale data. Each detected invalidation was followed by a fresh bridge connection. The earlier-save profile independently confirmed Jude's name, ID, nine attributes and displayed positions; its numeric fitness menu was unavailable with the manager on vacation, so no exact earlier-date fitness UI claim is made.
+
+The direct return load reused the Person registry and player addresses, revealing that registry-only `/status` validation was insufficient. The manager request correctly rejected a changed club pointer; the next request reattached. Updated `/status` to validate manager/club context too and added a regression test for this observed case. Final code passed 22 offline tests and all 35 live API checks. Preserved pre-fix lifecycle evidence is clearly distinguished from final-code tests in `lifecycle.md`.
+
+Immediately after return, two players differed slightly in condition/sharpness. During idle navigation they returned to prior values, leaving all 31 full models identical to before unload. Independent numeric UI checks on Jack Wakely and D'Mani Mellor validated all six fitness values in the later state. The game date/time did not change; the internal FM update trigger is unresolved. A successful read is not proof that post-load values have settled.
+
+The lifecycle comparison passed 14 checks. Both original files and both disposable copies retain their original hashes. No Continue, save or fitness-edit action was issued. FM is left on the February 17 test copy. Next bounded work can investigate age/game date or morale, with independent UI validation; full-process HTTP-service restart and independent-career testing remain open.

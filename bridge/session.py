@@ -3,10 +3,11 @@ from .process import FMProcess,MemoryReadError
 from .database import Database
 from .players import decode_player
 from .club import CurrentClub
+from uuid import uuid4
 
 class FMBridge:
     def __init__(self,pid=None):
-        self.fm=FMProcess(pid); self.db=None; self.context=None; self.index={}
+        self.fm=FMProcess(pid); self.db=None; self.context=None; self.index={}; self.session_id=None
 
     def attach(self):
         self.fm.attach()
@@ -14,6 +15,7 @@ class FMBridge:
             self.db=Database(self.fm)
             self.db.resolve()
             self.refresh_index()
+            self.session_id=str(uuid4())
         except Exception:
             self.close(); raise
         return self
@@ -60,7 +62,7 @@ class FMBridge:
     def squad(self): return self._context().squad()
 
     def close(self):
-        self.fm.close(); self.db=None; self.context=None; self.index={}
+        self.fm.close(); self.db=None; self.context=None; self.index={}; self.session_id=None
 
     def __enter__(self): return self.attach()
     def __exit__(self,*args): self.close()

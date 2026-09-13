@@ -34,3 +34,35 @@ Separate whole-database bulk decode did NOT pass: an unvalidated display
 attribute caused the strict reader to reject the collection. See
 python-database-validation.json. The UID index contains 26,223 unique
 supported player-type entries and includes all three UI sample players.
+
+Readiness and lifecycle increment, 2026-09-13:
+python -m unittest discover -s tests -v
+22 tests passed in 1.573 seconds (exit 0), including five added cases:
+test_captured_bytes_match_independent_ui_values
+test_squad_roles_match_ui
+test_invalid_values_are_not_clamped
+test_incomplete_block_rejected
+test_status_rejects_changed_club_even_when_registry_is_reused
+
+python -m tests.live_smoke
+35 live API/Python checks passed against PID 21328 (exit 0), with final
+manager/club validation in /status. Evidence: api-readiness-validation.json.
+
+Direct UI validation passed before and after save reload:
+32 identity/attribute assertions, 51 numeric position/fitness assertions,
+30 squad position sets, and the full 31-name squad comparison.
+Evidence: validation-readiness-before-reload.json and
+validation-readiness-after-reload.json.
+
+Two extra post-reload Fitness panels matched six raw numeric fields.
+Evidence: validation-post-reload-fitness.json.
+
+Continuous-service lifecycle: 14 comparisons passed; same API and FM
+processes, two career snapshots, no data at menu, new connections after
+invalidation, and all 31 full models equal after values settled.
+The first post-load read had two temporary fitness differences. The old
+status check also accepted a reused registry; final code fixes that case
+with a regression test. See lifecycle.md for full limits and chronology.
+
+Both original saves and both disposable copies retain their hashes.
+Evidence: save-integrity-after-readiness.json.

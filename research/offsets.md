@@ -14,6 +14,10 @@ Addresses in experiment JSON are session evidence only. Field locations below ar
 | Person | 0x44/0x46 | uint16/uint16 | birth ordinal/year | 3 DOB candidates agree; not public API yet |
 | vtable | -8 | pointer | MSVC complete-object locator | module bounds checked |
 | locator | +4 | uint32 | subobject back-offset | 0x278 player, 0xF8 staff; human observed 0x450 |
+| Player complete object | 0x1F4 | int16 LE | match sharpness, 0..10000 | five numeric UI profiles across reload; public value raw/100 |
+| Player complete object | 0x1F6 | int16 LE | fatigue | five numeric UI profiles, including negatives; research only |
+| Player complete object | 0x1F8 | int16 LE | physical condition, 0..10000 | five numeric UI profiles across reload; public value raw/100 |
+| Player complete object | 0x208 | 15 uint8 slots | positional familiarity | 14 mapped slots, three full numeric profiles and 30 squad position sets; see readiness.md |
 | Player complete object | 0x217 | 54 bytes | attributes | individual fields below |
 | Person | 0xC8 | pointer | parent/full contract | source + current manager, Tafazolli/Ravizzoli; medium |
 | Contract | 0x10 | pointer | team | source + same objects; medium |
@@ -37,7 +41,7 @@ Attribute offsets are relative to the 54-byte attribute block. Stored as uint8, 
 | strength | 0x24 | 0x23B | 3 |
 
 Sources and discovery methods: `sources.md`, `experiments.md`. UI ground truth: `ui-observations.json`, screenshots in `ui/`. Exact addresses and raw bytes: validation JSON files.
-Cross-save tests: not performed. Restart status: passed one full exit/relaunch of the same test save (PID 28168 -> 21328). All three sample player heap addresses changed; all 32 identity/attribute assertions and all 31 squad models remained identical. See `restart-comparison.json`. Attribute interpretation outside the validated displayed 1–20 range is deliberately rejected.
+Cross-save tests: two snapshots of the same career (February 17 and February 7), with the API running through both loads. Readiness and position checks passed again after returning to February 17; two temporary post-load fitness differences settled to their prior values and were checked against UI. See `lifecycle.md`. Restart status: passed one full exit/relaunch before readiness was added (PID 28168 -> 21328). All three sample player heap addresses changed; all 32 identity/attribute assertions and all 31 then-current squad models remained identical. See `restart-comparison.json`. Attribute interpretation outside the validated displayed 1–20 range is deliberately rejected.
 
-Confidence applies only to this exact executable and save. The nine attribute fields were decoded for all 31 roster members, but their values were compared directly with UI only on the three documented profiles. Finishing was visible on two of those profiles. The common-name path is still a candidate. A bulk decode of the wider 26,223-player index encountered an unvalidated display attribute and was rejected; whole-database attribute coverage is not established.
-Unknown/unimplemented: condition, morale decoding, full position representation, age/game date, contracts beyond club resolution, fixtures, finances and match state. No offsets invented for them.
+Confidence applies only to this exact executable and the tested career snapshots. The nine attribute fields were decoded for all 31 roster members, but their values were compared directly with UI only on the three documented profiles. Finishing was visible on two of those profiles. The common-name path is still a candidate. A bulk decode of the wider 26,223-player index encountered an unvalidated display attribute and was rejected; whole-database attribute coverage is not established.
+Unknown/unimplemented: morale decoding, age/game date, contracts beyond club resolution, fixtures, finances and match state. The legacy sweeper position slot is unvalidated and omitted. No offsets invented for unknown fields.

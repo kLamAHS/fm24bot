@@ -35,9 +35,10 @@ class StateService:
         if path=='/status':
             try:
                 b=self.ready()
-                # A loaded-save registry must still be present.
-                b.db.person_pointers()
-                return 200,{'connected':True,'pid':b.fm.pid,'read_only':True,'build':'24.4.2+2081827','capabilities':['player_identity','nine_attributes','current_manager','current_club','team_roster'],'unresolved':['age','positions','condition','morale','fixtures','finances','match'],'validation_scope':'one save, three profiles; see research reports'}
+                # FM can reuse the entire Person registry across a save reload.
+                # Validate the manager/club chain as well before reporting ready.
+                b.manager()
+                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','current_manager','current_club','team_roster'],'unresolved':['age','morale','fixtures','finances','match'],'validation_scope':'three numeric profiles and thirty squad position lists; see research reports'}
             except Exception as exc:
                 self.close(); self.last_error=str(exc)
                 return 200,{'connected':False,'read_only':True,'reason':str(exc)}
@@ -55,7 +56,7 @@ class StateService:
                 if not token.isascii() or not token.isdecimal() or len(token)>10:
                     return 400,{'error':'invalid_player_id'}
                 data=asdict(b.player(int(token)))
-            return 200,{'observed_at':datetime.now(timezone.utc).isoformat(),'data':data}
+            return 200,{'observed_at':datetime.now(timezone.utc).isoformat(),'session_id':b.session_id,'data':data}
         except KeyError:
             return 404,{'error':'player_not_found'}
         except Exception as exc:

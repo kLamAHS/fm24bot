@@ -3,7 +3,24 @@ import threading
 import unittest
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
-from api.server import create_server
+from unittest.mock import Mock
+from api.server import create_server, StateService
+from bridge.process import MemoryReadError
+
+class StateServiceTests(unittest.TestCase):
+    def test_status_rejects_changed_club_even_when_registry_is_reused(self):
+        # Observed during the Feb 7 -> Feb 17 reload: stable registry, new team.
+        bridge=Mock()
+        bridge.fm.alive.return_value=True
+        bridge.db.person_pointers.return_value=[0x1000,0x2000]
+        bridge.manager.side_effect=MemoryReadError('Current club changed; reconnect')
+        service=StateService(); service.bridge=bridge
+        status,body=service.get('/status')
+        self.assertEqual(status,200)
+        self.assertFalse(body['connected'])
+        self.assertNotIn('session_id',body)
+        self.assertIsNone(service.bridge)
+        bridge.close.assert_called_once()
 
 class FakeService:
     def __init__(self): self.calls=[]

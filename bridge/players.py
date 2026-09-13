@@ -3,6 +3,7 @@ import struct
 from dataclasses import asdict
 from .process import MemoryReadError
 from structures.player import Player
+from .readiness import decode_readiness, READINESS_OFFSET, READINESS_SIZE
 
 # Facts from attributed research; confidence is recorded per field in research/offsets.md.
 ATTRIBUTES={
@@ -39,16 +40,18 @@ def decode_player(db,person,with_evidence=False):
     if offset!=0x278: raise MemoryReadError(f'Unvalidated player type offset {offset:#x}')
     uid,name,first,last=identity(fm,person)
     base=person-offset
+    readiness_raw=fm.read_bytes(base+READINESS_OFFSET,READINESS_SIZE)
+    readiness=decode_readiness(readiness_raw)
     block=fm.read_bytes(base+0x217,54)
     raw={k:block[v] for k,v in ATTRIBUTES.items()}
     if any(v<1 or v>100 for v in raw.values()): raise MemoryReadError('Attribute byte outside candidate range')
     attributes={k:(v+2)//5 for k,v in raw.items()}
     if any(v<1 or v>20 for v in attributes.values()): raise MemoryReadError('Invalid display attribute')
-    if uid!=fm.read_uint32(person+0xC) or block!=fm.read_bytes(base+0x217,54):
+    if uid!=fm.read_uint32(person+0xC) or block!=fm.read_bytes(base+0x217,54) or readiness_raw!=fm.read_bytes(base+READINESS_OFFSET,READINESS_SIZE):
         raise MemoryReadError('Player changed during read')
-    player=Player(uid,name,first,last,attributes)
+    player=Player(uid,name,first,last,attributes,readiness['positions'],readiness['position_ratings'],readiness['condition'],readiness['match_sharpness'])
     if not with_evidence: return player
-    return {'player':asdict(player),'evidence':{'person':hex(person),'player_base':hex(base),'uid_address':hex(person+0xC),'attribute_block':hex(base+0x217),'raw_attributes':raw,'block_hex':block.hex(),'birth_day_raw':fm.read_uint16(person+0x44),'birth_year_raw':fm.read_uint16(person+0x46)}}
+    return {'player':asdict(player),'evidence':{'person':hex(person),'player_base':hex(base),'uid_address':hex(person+0xC),'attribute_block':hex(base+0x217),'raw_attributes':raw,'block_hex':block.hex(),'birth_day_raw':fm.read_uint16(person+0x44),'birth_year_raw':fm.read_uint16(person+0x46),'readiness_address':hex(base+READINESS_OFFSET),'readiness_hex':readiness_raw.hex(),**readiness['evidence']}}
 
 def find_players(db,query):
     found=[]; errors=0
