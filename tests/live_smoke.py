@@ -56,6 +56,10 @@ def main():
             checks[str(observed['id'])+' age reference']=p['age_as_of']==game['date']
         ages=json.loads(Path('research/ui-squad-ages.json').read_text(encoding='utf-8'))['ages_by_name']
         checks['all squad ages']={p['name']:p['age'] for p in squad}==ages and all(p['age_as_of']==game['date'] for p in squad)
+        morale=json.loads(Path('research/ui-morale-observations.json').read_text(encoding='utf-8'))['morale_by_name']
+        for p in squad:
+            checks[str(p['id'])+' morale']=p['morale']==morale[p['name']]
+        checks['morale capability']='morale' in status['capabilities'] and 'morale' not in status['unresolved']
         request('/players/0',404)
         request('/players/bad',400)
         request('/match',501)
@@ -68,7 +72,7 @@ def main():
         checks['consistent connection identity'] = all(item['body'].get('session_id')==status['session_id'] for item in responses.values() if item['status']==200 and 'data' in item['body'])
         report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
                   'checks':checks, 'responses':responses, 'passed':all(checks.values())}
-        Path('research/api-dates-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        Path('research/api-morale-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
         print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
         if not report['passed']: raise SystemExit(1)
     finally:

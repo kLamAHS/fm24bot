@@ -28,3 +28,9 @@ The earlier fm_scouter source gives position block +0x208 and the 15-slot order.
 Revisited the same local fm_scouter snapshot, `fm_scout/scanner.py` (current-date resolver) and the Person offsets. Its current-date signature `83 F2 01 8B 05 ?? ?? ?? ?? 66 09` and nine-bit ordinal mask supplied the lead. Its real-world date fallback was deliberately excluded. The squad-analyzer snapshot contains a candidate absolute date address, which was treated only as corroborating research, never as a production constant; its date conversion code was not copied.
 
 The independently implemented date reader was compared with FM's two test-save dates, four player birth-date profiles and 31 squad ages. Gregorian conversion uses Python's standard calendar/date tools. The sources remain unexecuted and are not dependencies. Exact raw bytes and uncertainty are recorded in `dates.md`.
+
+## Morale follow-up
+
+Neither local research snapshot supplied a morale offset. A further primary-source review included the [FM Dossier author changelog](https://www.fmdossier.dev/changelog), which mentions morale support but provides no field location or full mapping. The Fearless Revolution FM24 table topic could not be retrieved (HTTP 403); no table was downloaded or executed.
+
+The +0x25F location and supported labels were discovered independently from bounded live-memory captures and the normal FM squad/profile UI. They are not attributed to an unavailable table or inferred from another tool's feature list. See morale.md and the raw/UI evidence files.

@@ -93,3 +93,28 @@ restart. The date signature resolved again and sample heap addresses changed.
 API observations unavailable while FM absent or starting without a save.
 Temporary API helper stopped, port 8765 closed, and all four save hashes unchanged.
 Evidence: date-lifecycle-comparison.json and save-integrity-after-dates.json.
+
+Morale increment — 2026-09-13
+35 offline tests passed (exit 0). Four morale tests cover 62 independent UI
+observations across two saves, malformed/unconfirmed bytes, and concurrent changes.
+Evidence: offline-morale-tests.txt.
+
+85 live API/Python checks passed after FM restart, PID 33644. Direct validation
+passed the previous field checks and all 31 squad morale labels.
+Evidence: api-morale-validation.json, validation-morale-after-restart.json.
+
+31 squad labels matched each of the February 7 and February 17 snapshots.
+22 morale values differed between saves. Thirteen labels are confirmed;
+seven other values fail closed. The earlier twelve-label API rejected value 17
+before it was confirmed from four Excellent labels and added to final code.
+
+20 final-code lifecycle checks passed: final API 13452 persisted through the
+return load and FM restart 41840 -> 33644. All 31 morale labels/ratings were
+identical across restart. Three sample player heap addresses changed.
+Two full models differed in fitness immediately before/after restart; their
+three fields are recorded, not suppressed. All 31 full models after restart
+matched the initial snapshot. See morale-lifecycle-comparison.json and morale.md.
+
+Both original saves and both test copies retain their hashes. Temporary API
+helper stopped, port 8765 closed, FM left idle on February 17 at 08:00.
+Evidence: save-integrity-after-morale.json, morale-helper-stopped.json.

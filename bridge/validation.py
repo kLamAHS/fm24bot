@@ -29,6 +29,10 @@ def validate_live(db,research_dir):
     expected_positions=json.loads((research/'ui-squad-positions.json').read_text(encoding='utf-8'))['positions_by_id']
     by_id={p.id:p for p in squad}
     positions=[{'id':int(uid),'expected':value,'actual':by_id[int(uid)].positions,'passed':set(value)==set(by_id[int(uid)].positions)} for uid,value in expected_positions.items()]
+    morale_observed=json.loads((research/'ui-morale-observations.json').read_text(encoding='utf-8'))
+    morale=[{'id':p.id,'name':p.name,'actual':p.morale,
+             'expected':morale_observed['morale_by_name'][p.name],
+             'passed':p.morale==morale_observed['morale_by_name'][p.name]} for p in squad]
     dates=validate_dates(db,research)
-    passed=all(r['passed'] for r in results+readiness+positions) and squad_check['passed'] and dates['passed']
-    return {'captured_at':datetime.now(timezone.utc).isoformat(),'pid':db.fm.pid,'resolution':db.info(),'players':results,'squad':squad_check,'readiness':readiness,'squad_positions':positions,'dates':dates,'context':context.evidence(),'passed':passed}
+    passed=all(r['passed'] for r in results+readiness+positions+morale) and squad_check['passed'] and dates['passed']
+    return {'captured_at':datetime.now(timezone.utc).isoformat(),'pid':db.fm.pid,'resolution':db.info(),'players':results,'squad':squad_check,'readiness':readiness,'squad_positions':positions,'dates':dates,'morale':morale,'context':context.evidence(),'passed':passed}

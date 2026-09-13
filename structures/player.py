@@ -14,3 +14,5 @@ class Player:
     date_of_birth: str
     age: int
     age_as_of: str
+    morale: str
+    morale_rating: int

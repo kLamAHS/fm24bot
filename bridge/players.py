@@ -5,6 +5,7 @@ from .process import MemoryReadError
 from structures.player import Player
 from .readiness import decode_readiness, READINESS_OFFSET, READINESS_SIZE
 from .dates import decode_birth_date, age_on
+from .morale import decode_morale, MORALE_OFFSET
 
 # Facts from attributed research; confidence is recorded per field in research/offsets.md.
 ATTRIBUTES={
@@ -47,6 +48,8 @@ def decode_player(db,person,with_evidence=False,*,as_of=None):
     born=decode_birth_date(birth_raw)
     age=age_on(born,as_of)
     base=person-offset
+    morale_raw=fm.read_bytes(base+MORALE_OFFSET,1)
+    morale=decode_morale(morale_raw)
     readiness_raw=fm.read_bytes(base+READINESS_OFFSET,READINESS_SIZE)
     readiness=decode_readiness(readiness_raw)
     block=fm.read_bytes(base+0x217,54)
@@ -54,16 +57,17 @@ def decode_player(db,person,with_evidence=False,*,as_of=None):
     if any(v<1 or v>100 for v in raw.values()): raise MemoryReadError('Attribute byte outside candidate range')
     attributes={k:(v+2)//5 for k,v in raw.items()}
     if any(v<1 or v>20 for v in attributes.values()): raise MemoryReadError('Invalid display attribute')
-    if uid!=fm.read_uint32(person+0xC) or birth_raw!=fm.read_bytes(person+0x44,4) or block!=fm.read_bytes(base+0x217,54) or readiness_raw!=fm.read_bytes(base+READINESS_OFFSET,READINESS_SIZE):
+    if uid!=fm.read_uint32(person+0xC) or birth_raw!=fm.read_bytes(person+0x44,4) or block!=fm.read_bytes(base+0x217,54) or readiness_raw!=fm.read_bytes(base+READINESS_OFFSET,READINESS_SIZE) or morale_raw!=fm.read_bytes(base+MORALE_OFFSET,1):
         raise MemoryReadError('Player changed during read')
     if owns_date and db.current_date()!=as_of:
         raise MemoryReadError('Game date changed while reading player')
     player=Player(id=uid,name=name,first_name=first,surname=last,attributes=attributes,
                   positions=readiness['positions'],position_ratings=readiness['position_ratings'],
                   condition=readiness['condition'],match_sharpness=readiness['match_sharpness'],
-                  date_of_birth=born.isoformat(),age=age,age_as_of=as_of.isoformat())
+                  date_of_birth=born.isoformat(),age=age,age_as_of=as_of.isoformat(),
+                  morale=morale,morale_rating=morale_raw[0])
     if not with_evidence: return player
-    return {'player':asdict(player),'evidence':{'person':hex(person),'player_base':hex(base),'uid_address':hex(person+0xC),'attribute_block':hex(base+0x217),'raw_attributes':raw,'block_hex':block.hex(),'birth_day_raw':int.from_bytes(birth_raw[:2],'little'),'birth_year_raw':int.from_bytes(birth_raw[2:],'little'),'birth_hex':birth_raw.hex(),'readiness_address':hex(base+READINESS_OFFSET),'readiness_hex':readiness_raw.hex(),**readiness['evidence']}}
+    return {'player':asdict(player),'evidence':{'person':hex(person),'player_base':hex(base),'uid_address':hex(person+0xC),'attribute_block':hex(base+0x217),'raw_attributes':raw,'block_hex':block.hex(),'birth_day_raw':int.from_bytes(birth_raw[:2],'little'),'birth_year_raw':int.from_bytes(birth_raw[2:],'little'),'birth_hex':birth_raw.hex(),'morale_address':hex(base+MORALE_OFFSET),'morale_hex':morale_raw.hex(),'morale_raw':morale_raw[0],'readiness_address':hex(base+READINESS_OFFSET),'readiness_hex':readiness_raw.hex(),**readiness['evidence']}}
 
 def find_players(db,query):
     found=[]; errors=0

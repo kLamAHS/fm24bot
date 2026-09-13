@@ -39,7 +39,7 @@ class StateService:
                 # Validate the manager/club chain as well before reporting ready.
                 b.manager()
                 game=b.game()
-                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','game_date':game.date,'capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','date_of_birth','age','game_date','current_manager','current_club','team_roster'],'unresolved':['morale','fixtures','finances','match','time_of_day'],'validation_scope':'see research reports for per-field UI, reload and restart coverage'}
+                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','game_date':game.date,'capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','morale','date_of_birth','age','game_date','current_manager','current_club','team_roster'],'unresolved':['fixtures','finances','match','time_of_day'],'validation_scope':'see research reports for per-field UI, reload and restart coverage'}
             except Exception as exc:
                 self.close(); self.last_error=str(exc)
                 return 200,{'connected':False,'read_only':True,'reason':str(exc)}
