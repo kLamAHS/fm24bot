@@ -13,7 +13,7 @@ from bridge.validation import validate_live
 def main():
     sys.stdout.reconfigure(encoding='utf-8')
     parser=argparse.ArgumentParser(description='Read-only FM24 observation bridge')
-    parser.add_argument('command',choices=['status','resolve','find','squad','validate'])
+    parser.add_argument('command',choices=['status','resolve','game','find','squad','validate'])
     parser.add_argument('query',nargs='?',default='')
     parser.add_argument('--pid',type=int)
     parser.add_argument('--output',type=Path)
@@ -25,6 +25,8 @@ def main():
         else:
             db=Database(fm).resolve()
             result={'pid':fm.pid,'resolution':db.info()}
+            if args.command=='game':
+                result.update(game={'date':db.current_date().isoformat()},evidence=db.dates.evidence())
             if args.command=='validate':
                 result=validate_live(db,Path(__file__).parent/'research')
             if args.command=='squad':

@@ -11,3 +11,6 @@ class Player:
     position_ratings: dict[str,int]
     condition: float
     match_sharpness: float
+    date_of_birth: str
+    age: int
+    age_as_of: str

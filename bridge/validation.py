@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from .players import decode_player
 from .club import CurrentClub
+from .date_validation import validate_dates
 
 def validate_live(db,research_dir):
     research=Path(research_dir)
@@ -28,5 +29,6 @@ def validate_live(db,research_dir):
     expected_positions=json.loads((research/'ui-squad-positions.json').read_text(encoding='utf-8'))['positions_by_id']
     by_id={p.id:p for p in squad}
     positions=[{'id':int(uid),'expected':value,'actual':by_id[int(uid)].positions,'passed':set(value)==set(by_id[int(uid)].positions)} for uid,value in expected_positions.items()]
-    passed=all(r['passed'] for r in results+readiness+positions) and squad_check['passed']
-    return {'captured_at':datetime.now(timezone.utc).isoformat(),'pid':db.fm.pid,'resolution':db.info(),'players':results,'squad':squad_check,'readiness':readiness,'squad_positions':positions,'context':context.evidence(),'passed':passed}
+    dates=validate_dates(db,research)
+    passed=all(r['passed'] for r in results+readiness+positions) and squad_check['passed'] and dates['passed']
+    return {'captured_at':datetime.now(timezone.utc).isoformat(),'pid':db.fm.pid,'resolution':db.info(),'players':results,'squad':squad_check,'readiness':readiness,'squad_positions':positions,'dates':dates,'context':context.evidence(),'passed':passed}

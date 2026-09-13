@@ -11,7 +11,7 @@ Addresses in experiment JSON are session evidence only. Field locations below ar
 | Name wrapper | 0 | pointer | string entry | observed local pointer chain |
 | String entry | 0 | uint32 | UTF-8 byte length | length and terminator validated on every read |
 | String entry | 4 | bytes | UTF-8 string | all 31 squad names match UI, including accented names |
-| Person | 0x44/0x46 | uint16/uint16 | birth ordinal/year | 3 DOB candidates agree; not public API yet |
+| Person | 0x44/0x46 | uint16/uint16 LE | birth ordinal/year | four profile DOBs and 31 squad ages match UI; high in tested snapshots; see dates.md |
 | vtable | -8 | pointer | MSVC complete-object locator | module bounds checked |
 | locator | +4 | uint32 | subobject back-offset | 0x278 player, 0xF8 staff; human observed 0x450 |
 | Player complete object | 0x1F4 | int16 LE | match sharpness, 0..10000 | five numeric UI profiles across reload; public value raw/100 |
@@ -44,4 +44,6 @@ Sources and discovery methods: `sources.md`, `experiments.md`. UI ground truth: 
 Cross-save tests: two snapshots of the same career (February 17 and February 7), with the API running through both loads. Readiness and position checks passed again after returning to February 17; two temporary post-load fitness differences settled to their prior values and were checked against UI. See `lifecycle.md`. Restart status: passed one full exit/relaunch before readiness was added (PID 28168 -> 21328). All three sample player heap addresses changed; all 32 identity/attribute assertions and all 31 then-current squad models remained identical. See `restart-comparison.json`. Attribute interpretation outside the validated displayed 1–20 range is deliberately rejected.
 
 Confidence applies only to this exact executable and the tested career snapshots. The nine attribute fields were decoded for all 31 roster members, but their values were compared directly with UI only on the three documented profiles. Finishing was visible on two of those profiles. The common-name path is still a candidate. A bulk decode of the wider 26,223-player index encountered an unvalidated display attribute and was rejected; whole-database attribute coverage is not established.
-Unknown/unimplemented: morale decoding, age/game date, contracts beyond club resolution, fixtures, finances and match state. The legacy sweeper position slot is unvalidated and omitted. No offsets invented for unknown fields.
+
+Expanded-model restart follow-up: PID 21328 -> 41840 passed with the API continuously running. All 31 complete models, now including readiness and date/age fields, matched the pre-restart checkpoint. The old UI comparisons and four new date-profile comparisons passed again. See `dates.md` and `date-lifecycle-comparison.json` for exact scope and addresses.
+Unknown/unimplemented: morale decoding, game time of day, contracts beyond club resolution, fixtures, finances and match state. Game date is signature-resolved (see signatures.md); age is calculated from that date and birth date. The legacy sweeper position slot is unvalidated and omitted. No offsets invented for unknown fields.

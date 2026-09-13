@@ -1,0 +1,69 @@
+{
+  "captured_at": "2026-09-13T23:24:16.881682+00:00",
+  "checks": {
+    "initial_feb17_age32": true,
+    "earlier_feb7_age31": true,
+    "earlier_ui_checks_pass": true,
+    "both_reload_context_changes_detected": true,
+    "returned_feb17_age32": true,
+    "no_observations_when_fm_absent": true,
+    "no_observations_during_startup": true,
+    "new_fm_pid": true,
+    "new_connection_after_restart": true,
+    "all_31_complete_models_identical_after_restart": true,
+    "eriksen_birth_age_unchanged_after_restart": true,
+    "all_ui_validation_after_restart": true,
+    "same_date_signature_and_target_rvas": true,
+    "same_api_process_through_restart": true,
+    "temporary_api_port_closed": true
+  },
+  "passed": true,
+  "api_process": {
+    "Id": 35048,
+    "Path": "C:\\Python314\\python.exe",
+    "StartTime": "2026-09-13T18:15:20.3227843-05:00"
+  },
+  "fm_pid_before": 21328,
+  "fm_pid_after": 41840,
+  "date_resolution_before": {
+    "date": "2024-02-17",
+    "address": "0x14631d5bc",
+    "target_rva": "0x631d5bc",
+    "signature_rvas": [
+      "0x20b566b"
+    ],
+    "raw_hex": "3012e807"
+  },
+  "date_resolution_after": {
+    "date": "2024-02-17",
+    "address": "0x14631d5bc",
+    "target_rva": "0x631d5bc",
+    "signature_rvas": [
+      "0x20b566b"
+    ],
+    "raw_hex": "3012e807"
+  },
+  "profile_addresses": [
+    {
+      "id": 28115830,
+      "before": "0x11672f440",
+      "after": "0x117054640"
+    },
+    {
+      "id": 61031508,
+      "before": "0x117036c10",
+      "after": "0x1178f9f50"
+    },
+    {
+      "id": 29232937,
+      "before": "0x116af8940",
+      "after": "0x1173c5490"
+    },
+    {
+      "id": 27010680,
+      "before": "0x1164cde10",
+      "after": "0x116dd6a00"
+    }
+  ],
+  "scope": "Two snapshots of one career; one continuous-API full-process restart. restarted-menu capture was taken during startup splash, before any save was loaded. No time advancement or time-of-day decoder."
+}

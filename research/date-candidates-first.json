@@ -1,0 +1,336 @@
+{
+  "captured_at": "2026-09-13T23:02:34.222666+00:00",
+  "pid": 21328,
+  "date_pattern": "83 F2 01 8B 05 ?? ?? ?? ?? 66 09",
+  "targets": [
+    {
+      "hit": "0x1420b566b",
+      "hit_rva": "0x20b566b",
+      "target": "0x14631d5bc",
+      "target_rva": "0x631d5bc",
+      "raw_hex": "3012e807",
+      "packed": 132649520,
+      "year": 2024,
+      "ordinal": 48,
+      "unknown_bits_9_15": 9,
+      "candidate_date": "2024-02-17",
+      "surrounding_code_hex": "410fb71081f16c07000081e2ff01000083f2018b05487f26046609ca89c17403418b08440fb68424e8000000894c2440c1e8108d48ff440fb7e18d48014439e1",
+      "nearby_data_hex": "4e5452414354406462404000030000003012e80701000000000000000000000000000000a0ff83450100000000000000000000002e3f41563f24444154414241"
+    }
+  ],
+  "squad_birth_dates": [
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "person": "0x115de9c78",
+      "raw_hex": "be00cd07",
+      "birth_ordinal": 190,
+      "birth_year": 1997,
+      "candidate_date_of_birth": "1997-07-09"
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "person": "0x116502090",
+      "raw_hex": "0f01c707",
+      "birth_ordinal": 271,
+      "birth_year": 1991,
+      "candidate_date_of_birth": "1991-09-28"
+    },
+    {
+      "id": 28084868,
+      "name": "Jason McCarthy",
+      "person": "0x11654a4d0",
+      "raw_hex": "3701cb07",
+      "birth_ordinal": 311,
+      "birth_year": 1995,
+      "candidate_date_of_birth": "1995-11-07"
+    },
+    {
+      "id": 28088510,
+      "name": "Kane Vincent-Young",
+      "person": "0x116555498",
+      "raw_hex": "4b00cc07",
+      "birth_ordinal": 75,
+      "birth_year": 1996,
+      "candidate_date_of_birth": "1996-03-15"
+    },
+    {
+      "id": 28117405,
+      "name": "Jack Young",
+      "person": "0x116743320",
+      "raw_hex": "2701d007",
+      "birth_ordinal": 295,
+      "birth_year": 2000,
+      "candidate_date_of_birth": "2000-10-21"
+    },
+    {
+      "id": 29000734,
+      "name": "Joe Jacobson",
+      "person": "0x116790198",
+      "raw_hex": "4101c207",
+      "birth_ordinal": 321,
+      "birth_year": 1986,
+      "candidate_date_of_birth": "1986-11-17"
+    },
+    {
+      "id": 29064636,
+      "name": "Josh Scowen",
+      "person": "0x1167b7298",
+      "raw_hex": "5700c907",
+      "birth_ordinal": 87,
+      "birth_year": 1993,
+      "candidate_date_of_birth": "1993-03-28"
+    },
+    {
+      "id": 29086854,
+      "name": "Kieran Sadlier",
+      "person": "0x1167d5ec8",
+      "raw_hex": "0101ca07",
+      "birth_ordinal": 257,
+      "birth_year": 1994,
+      "candidate_date_of_birth": "1994-09-14"
+    },
+    {
+      "id": 29120249,
+      "name": "Brandon Hanlan",
+      "person": "0x116a1d018",
+      "raw_hex": "9700cd07",
+      "birth_ordinal": 151,
+      "birth_year": 1997,
+      "candidate_date_of_birth": "1997-05-31"
+    },
+    {
+      "id": 29141735,
+      "name": "Beryly Lubala",
+      "person": "0x116a4ae78",
+      "raw_hex": "0800ce07",
+      "birth_ordinal": 8,
+      "birth_year": 1998,
+      "candidate_date_of_birth": "1998-01-08"
+    },
+    {
+      "id": 29141819,
+      "name": "Matt Butcher",
+      "person": "0x116a4be18",
+      "raw_hex": "8600cd07",
+      "birth_ordinal": 134,
+      "birth_year": 1997,
+      "candidate_date_of_birth": "1997-05-14"
+    },
+    {
+      "id": 29214946,
+      "name": "Chris Forino",
+      "person": "0x116aca1a0",
+      "raw_hex": "7500d007",
+      "birth_ordinal": 117,
+      "birth_year": 2000,
+      "candidate_date_of_birth": "2000-04-26"
+    },
+    {
+      "id": 30002284,
+      "name": "Garath McCleary",
+      "person": "0x116d34c70",
+      "raw_hex": "8700c307",
+      "birth_ordinal": 135,
+      "birth_year": 1987,
+      "candidate_date_of_birth": "1987-05-15"
+    },
+    {
+      "id": 30019004,
+      "name": "David Wheeler",
+      "person": "0x116d35828",
+      "raw_hex": "1501c607",
+      "birth_ordinal": 277,
+      "birth_year": 1990,
+      "candidate_date_of_birth": "1990-10-04"
+    },
+    {
+      "id": 61031508,
+      "name": "Jack Grimmer",
+      "person": "0x117036e88",
+      "raw_hex": "1900ca07",
+      "birth_ordinal": 25,
+      "birth_year": 1994,
+      "candidate_date_of_birth": "1994-01-25"
+    },
+    {
+      "id": 61057162,
+      "name": "Luke Leahy",
+      "person": "0x1170629c0",
+      "raw_hex": "4401c807",
+      "birth_ordinal": 324,
+      "birth_year": 1992,
+      "candidate_date_of_birth": "1992-11-19"
+    },
+    {
+      "id": 96053555,
+      "name": "Maksymilian Stryjek",
+      "person": "0x11818cc68",
+      "raw_hex": "c800cc07",
+      "birth_ordinal": 200,
+      "birth_year": 1996,
+      "candidate_date_of_birth": "1996-07-18"
+    },
+    {
+      "id": 28127270,
+      "name": "Saxon Earley",
+      "person": "0x116780798",
+      "raw_hex": "1c01d207",
+      "birth_ordinal": 284,
+      "birth_year": 2002,
+      "candidate_date_of_birth": "2002-10-11"
+    },
+    {
+      "id": 28127368,
+      "name": "Chem Campbell",
+      "person": "0x1167878e0",
+      "raw_hex": "6c01d207",
+      "birth_ordinal": 364,
+      "birth_year": 2002,
+      "candidate_date_of_birth": "2002-12-30"
+    },
+    {
+      "id": 37078342,
+      "name": "Nigel Lonwijk",
+      "person": "0x116d94b98",
+      "raw_hex": "2c01d207",
+      "birth_ordinal": 300,
+      "birth_year": 2002,
+      "candidate_date_of_birth": "2002-10-27"
+    },
+    {
+      "id": 2000008139,
+      "name": "Dale Taylor",
+      "person": "0x1181a8da0",
+      "raw_hex": "5a01d307",
+      "birth_ordinal": 346,
+      "birth_year": 2003,
+      "candidate_date_of_birth": "2003-12-12"
+    },
+    {
+      "id": 2000020024,
+      "name": "Freddie Potts",
+      "person": "0x1181ca8b0",
+      "raw_hex": "ff00d307",
+      "birth_ordinal": 255,
+      "birth_year": 2003,
+      "candidate_date_of_birth": "2003-09-12"
+    },
+    {
+      "id": 2000118384,
+      "name": "Gideon Kodua",
+      "person": "0x1189232a0",
+      "raw_hex": "1401d407",
+      "birth_ordinal": 276,
+      "birth_year": 2004,
+      "candidate_date_of_birth": "2004-10-02"
+    },
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "person": "0x116726a18",
+      "raw_hex": "2b01d007",
+      "birth_ordinal": 299,
+      "birth_year": 2000,
+      "candidate_date_of_birth": "2000-10-25"
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "person": "0x11672f6b8",
+      "raw_hex": "0801d007",
+      "birth_ordinal": 264,
+      "birth_year": 2000,
+      "candidate_date_of_birth": "2000-09-20"
+    },
+    {
+      "id": 2000102722,
+      "name": "Wilson Odobert",
+      "person": "0x1186ffb00",
+      "raw_hex": "4d01d407",
+      "birth_ordinal": 333,
+      "birth_year": 2004,
+      "candidate_date_of_birth": "2004-11-28"
+    },
+    {
+      "id": 2000061312,
+      "name": "Luca Koleosho",
+      "person": "0x1186252e8",
+      "raw_hex": "0301d407",
+      "birth_ordinal": 259,
+      "birth_year": 2004,
+      "candidate_date_of_birth": "2004-09-15"
+    },
+    {
+      "id": 49060933,
+      "name": "Maxime Estève",
+      "person": "0x116fae6f0",
+      "raw_hex": "9200d207",
+      "birth_ordinal": 146,
+      "birth_year": 2002,
+      "candidate_date_of_birth": "2002-05-26"
+    },
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "person": "0x116af8bb8",
+      "raw_hex": "b400d307",
+      "birth_ordinal": 180,
+      "birth_year": 2003,
+      "candidate_date_of_birth": "2003-06-29"
+    },
+    {
+      "id": 28108492,
+      "name": "Arijanet Murić",
+      "person": "0x1167106a0",
+      "raw_hex": "3701ce07",
+      "birth_ordinal": 311,
+      "birth_year": 1998,
+      "candidate_date_of_birth": "1998-11-07"
+    },
+    {
+      "id": 78090138,
+      "name": "Darwin Núñez",
+      "person": "0x117b8b880",
+      "raw_hex": "af00cf07",
+      "birth_ordinal": 175,
+      "birth_year": 1999,
+      "candidate_date_of_birth": "1999-06-24"
+    }
+  ],
+  "birthday_test_candidates": [
+    {
+      "id": 14004589,
+      "name": "Nicolás Otamendi",
+      "person": "0x115dd48a0",
+      "birth_ordinal": 43,
+      "birth_year": 1988,
+      "raw_hex": "2b00c407"
+    },
+    {
+      "id": 27010680,
+      "name": "Christian Eriksen",
+      "person": "0x1164ce088",
+      "birth_ordinal": 45,
+      "birth_year": 1992,
+      "raw_hex": "2d00c807"
+    },
+    {
+      "id": 37024470,
+      "name": "Memphis Depay",
+      "person": "0x116d73088",
+      "birth_ordinal": 44,
+      "birth_year": 1994,
+      "raw_hex": "2c00ca07"
+    },
+    {
+      "id": 78005742,
+      "name": "Edinson Cavani",
+      "person": "0x1179e7f68",
+      "birth_ordinal": 45,
+      "birth_year": 1987,
+      "raw_hex": "2d00c307"
+    }
+  ]
+}

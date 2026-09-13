@@ -1,0 +1,102 @@
+{
+  "checks": {
+    "game_date": true
+  },
+  "players": [
+    {
+      "id": 27010680,
+      "checks": {
+        "id": true,
+        "name": true,
+        "date_of_birth": true,
+        "age": true,
+        "age_as_of": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 27010680,
+          "name": "Christian Eriksen",
+          "first_name": "Christian",
+          "surname": "Eriksen",
+          "attributes": {
+            "acceleration": 10,
+            "pace": 11,
+            "passing": 17,
+            "finishing": 14,
+            "technique": 17,
+            "decisions": 16,
+            "vision": 17,
+            "work_rate": 12,
+            "strength": 7
+          },
+          "positions": [
+            "DM",
+            "MC",
+            "AML",
+            "AMC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 16,
+            "ML": 12,
+            "MC": 20,
+            "MR": 12,
+            "AML": 15,
+            "AMC": 19,
+            "AMR": 13,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 89.71,
+          "match_sharpness": 100.0,
+          "date_of_birth": "1992-02-14",
+          "age": 31,
+          "age_as_of": "2024-02-07"
+        },
+        "evidence": {
+          "person": "0x11a164488",
+          "player_base": "0x11a164210",
+          "uid_address": "0x11a164494",
+          "attribute_block": "0x11a164427",
+          "raw_attributes": {
+            "acceleration": 51,
+            "pace": 55,
+            "passing": 85,
+            "finishing": 70,
+            "technique": 84,
+            "decisions": 79,
+            "vision": 87,
+            "work_rate": 59,
+            "strength": 34
+          },
+          "block_hex": "4c35460d46134055501d570f050f0a0a05454f0a230f5b544b644649553b0e050f0f334a223c3726280f3b1e44233d41143f55504d45",
+          "birth_day_raw": 45,
+          "birth_year_raw": 1992,
+          "birth_hex": "2d00c807",
+          "readiness_address": "0x11a164404",
+          "readiness_hex": "102713000b23d01f601dcd1b9300aa00ffff00000101010101100c140c0f130d010101",
+          "condition_raw": 8971,
+          "match_sharpness_raw": 10000,
+          "fatigue_raw": 19
+        }
+      }
+    }
+  ],
+  "squad_ages": [],
+  "resolution": {
+    "date": "2024-02-07",
+    "address": "0x14631d5bc",
+    "target_rva": "0x631d5bc",
+    "signature_rvas": [
+      "0x20b566b"
+    ],
+    "raw_hex": "2600e807"
+  },
+  "passed": true,
+  "pid": 21328
+}

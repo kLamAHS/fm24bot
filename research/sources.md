@@ -22,3 +22,9 @@ Also examined FMSuperScout's README: it targets FM26 and requires an injected Be
 Inspected [PhilipArmstead/Football-Manager-Squad-Analyzer](https://github.com/PhilipArmstead/Football-Manager-Squad-Analyzer/blob/b94f7780defa73e723b74e2d38584cd8e06ec897/NOTES.md), commit `b94f7780defa73e723b74e2d38584cd8e06ec897`. Its notes identify candidate sharpness/condition fields at player+0x1F4/+0x1F8 and fatigue at +0x1F6, plus the same position byte order. Local source snapshot is in workspace `work/squad-analyzer-research`. Some source functions write game memory; none of this source was built, imported or executed. Only structure facts were used as leads and independently checked against FM's numeric UI.
 
 The earlier fm_scouter source gives position block +0x208 and the 15-slot order. The legacy sweeper slot has no corresponding field in the inspected FM UI and is deliberately omitted from the public model. `ui-readiness-observations.json` is the independent numeric ground truth for the implementation.
+
+## Date follow-up
+
+Revisited the same local fm_scouter snapshot, `fm_scout/scanner.py` (current-date resolver) and the Person offsets. Its current-date signature `83 F2 01 8B 05 ?? ?? ?? ?? 66 09` and nine-bit ordinal mask supplied the lead. Its real-world date fallback was deliberately excluded. The squad-analyzer snapshot contains a candidate absolute date address, which was treated only as corroborating research, never as a production constant; its date conversion code was not copied.
+
+The independently implemented date reader was compared with FM's two test-save dates, four player birth-date profiles and 31 squad ages. Gregorian conversion uses Python's standard calendar/date tools. The sources remain unexecuted and are not dependencies. Exact raw bytes and uncertainty are recorded in `dates.md`.

@@ -13,6 +13,14 @@ Global pointer from match+7+signed displacement at +3. Dereference, then manager
 Observed instruction RVA 0x3A278B1, global RVA 0x6365118. Human complete object to Person delta 0x450 discovered dynamically.
 
 Squad requires no signature or process-wide search: manager -> contract -> team; roster vector at team+0x38/+0x40. Resolution and object/registry checks precede decoding.
-Restart validation passed once: process 28168 was closed through FM's UI, process 21328 was launched normally, and the same test copy loaded. Both signatures resolved again; player and team heap pointers changed. See `restart-comparison.json`. The module happened to retain its base, so relocation of the module itself was not empirically tested. A signed RIP-displacement unit test covers the arithmetic. No cross-save or game-update stability claim is made.
+Initial restart validation passed: process 28168 was closed through FM's UI, process 21328 was launched normally, and the same test copy loaded. Both original signatures resolved again; player and team heap pointers changed. See `restart-comparison.json`. A second full restart, 21328 -> 41840, passed with the expanded date/readiness model and API process continuously running. All three signatures resolved again. Two snapshots of one career were also tested. The module retained its base, so relocation of the module itself was not empirically tested. A signed RIP-displacement unit test covers the arithmetic. Independent-career and game-update stability are not established.
 
 Before decoded reads, the on-disk executable must match SHA-256 `e1059eee82fa7832188831521a3fa633ec3260dd98d03da48b16661147e3ab48`. A new binary is rejected even if its signatures appear to match. The raw process reader remains available for new-build investigation.
+
+## Current game date
+
+AOB: `83 F2 01 8B 05 ?? ?? ?? ?? 66 09`. The MOV instruction begins at match+3; signed displacement is at match+5, and the target is match+9+disp32. One hit was observed at instruction RVA `0x20B566B`, targeting a four-byte global at RVA `0x631D5BC`. The production reader scans and resolves these dynamically; it does not use either RVA as an address constant.
+
+Interpret the little-endian uint32 as year in bits 16..31 and a 1-based ordinal day in bits 0..8. Bits 9..15 remain uninterpreted. Raw `3012e807` gave 2024, day 48 (February 17); `2600e807` gave 2024, day 38 (February 7), matching the two test-save UIs. These samples have different unknown flag bits and different UI times; two samples do not establish a time encoding.
+
+Require exactly one distinct valid in-module target, a valid Gregorian year/day, a loaded Person registry and unchanged bytes on a repeated read. No real-world clock fallback. See `dates.md` for per-field reload and restart evidence.

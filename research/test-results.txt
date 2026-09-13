@@ -66,3 +66,30 @@ with a regression test. See lifecycle.md for full limits and chronology.
 
 Both original saves and both disposable copies retain their hashes.
 Evidence: save-integrity-after-readiness.json.
+
+Date/age increment — 2026-09-13
+python -m unittest discover -s tests -v
+31 tests passed (exit 0), including nine date tests using captured bytes,
+independent UI expectations, birthday boundaries, Gregorian leap rules,
+ambiguous signature rejection, unloaded state and changed date/DOB rejection.
+
+python -m tests.live_smoke
+53 live API/Python checks passed on PID 41840 after the full restart.
+Evidence: api-dates-validation.json.
+
+Direct validation passed before reload and after full restart:
+the previous identity/attribute/readiness/position checks plus 54 date-section
+comparisons (3 context checks, 4 profiles x 5 checks, 31 squad ages).
+Evidence: validation-dates-before-reload.json and validation-dates-after-restart.json.
+
+Six checks passed on the earlier February 7 copy: game date and Eriksen's
+identity, birth date, age 31 and age reference. Returning to February 17
+restored age 32, matching the later UI observation. Evidence: dates.md,
+validation-dates-earlier.json and date-api-*.json.
+
+Continuous-API full restart: FM 21328 -> 41840, API process 35048 unchanged.
+15 lifecycle comparisons passed. All 31 complete models matched before/after
+restart. The date signature resolved again and sample heap addresses changed.
+API observations unavailable while FM absent or starting without a save.
+Temporary API helper stopped, port 8765 closed, and all four save hashes unchanged.
+Evidence: date-lifecycle-comparison.json and save-integrity-after-dates.json.

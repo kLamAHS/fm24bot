@@ -46,6 +46,16 @@ def main():
         checks['club'] = club['id']==742 and club['name']=='Wycombe Wanderers'
         checks['squad'] = len(squad)==31 and {p['name'] for p in squad}==set(names)
         checks['club squad'] = club['squad']==squad
+        game=request('/game')['data']
+        dates=json.loads(Path('research/ui-date-observations.json').read_text(encoding='utf-8'))
+        checks['game date']=game['date']==dates['game_date']==status['game_date']
+        for observed in dates['players']:
+            p=request('/players/'+str(observed['id']))['data']
+            for field in ('date_of_birth','age'):
+                checks[str(observed['id'])+' '+field]=p[field]==observed[field]
+            checks[str(observed['id'])+' age reference']=p['age_as_of']==game['date']
+        ages=json.loads(Path('research/ui-squad-ages.json').read_text(encoding='utf-8'))['ages_by_name']
+        checks['all squad ages']={p['name']:p['age'] for p in squad}==ages and all(p['age_as_of']==game['date'] for p in squad)
         request('/players/0',404)
         request('/players/bad',400)
         request('/match',501)
@@ -58,7 +68,7 @@ def main():
         checks['consistent connection identity'] = all(item['body'].get('session_id')==status['session_id'] for item in responses.values() if item['status']==200 and 'data' in item['body'])
         report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
                   'checks':checks, 'responses':responses, 'passed':all(checks.values())}
-        Path('research/api-readiness-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        Path('research/api-dates-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
         print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
         if not report['passed']: raise SystemExit(1)
     finally:

@@ -68,6 +68,7 @@ class CurrentClub:
 
     def squad(self):
         self.check(); fm=self.fm
+        as_of=self.db.current_date()
         begin,end=vector(fm,self.team+0x38,max_count=512)
         raw=fm.read_bytes(begin,end-begin)
         members=[]
@@ -81,11 +82,13 @@ class CurrentClub:
                 person=pointer+0x278
             else:
                 raise MemoryReadError('Unrecognized roster member; refusing partial squad')
-            members.append(decode_player(self.db,person))
+            members.append(decode_player(self.db,person,as_of=as_of))
         if len({p.id for p in members})!=len(members): raise MemoryReadError('Duplicate squad IDs')
         if vector(fm,self.team+0x38,max_count=512)!=(begin,end) or fm.read_bytes(begin,end-begin)!=raw:
             raise MemoryReadError('Squad changed during read')
         self.check()
+        if self.db.current_date()!=as_of:
+            raise MemoryReadError('Game date changed while reading squad')
         return members
 
     def model(self):

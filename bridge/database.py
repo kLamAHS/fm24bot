@@ -15,8 +15,10 @@ class Database:
         self.module=next(m for m in fm.modules() if m.name.casefold() in ('fm.exe','fm24.exe'))
         self.root=None
         self.registry=None
+        self.dates=None
 
     def resolve(self):
+        self.dates=None
         require_supported_build(self.module)
         fm=self.fm
         matches=[]
@@ -72,6 +74,12 @@ class Database:
         locator=fm.read_pointer(vt-8)
         if not base<=locator<end-24: raise MemoryReadError('Type locator outside FM module')
         return fm.read_uint32(locator+4)
+
+    def current_date(self):
+        if self.dates is None:
+            from .dates import GameDate
+            self.dates=GameDate(self).resolve()
+        return self.dates.read()
 
     def info(self):
         b,e=vector(self.fm,self.registry)

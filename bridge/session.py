@@ -4,6 +4,7 @@ from .database import Database
 from .players import decode_player
 from .club import CurrentClub
 from uuid import uuid4
+from structures.game import Game
 
 class FMBridge:
     def __init__(self,pid=None):
@@ -44,7 +45,10 @@ class FMBridge:
     def players(self):
         """Strict bulk decode; raises if any indexed player has unvalidated data."""
         self.refresh_index()
-        return [decode_player(self.db,p) for p in self.index.values()]
+        as_of=self.db.current_date()
+        result=[decode_player(self.db,p,as_of=as_of) for p in self.index.values()]
+        if self.db.current_date()!=as_of: raise MemoryReadError('Game date changed while reading players')
+        return result
 
     def player_ids(self):
         """Enumerate supported player-type identities without decoding attributes."""
@@ -58,6 +62,7 @@ class FMBridge:
         return self.context
 
     def current_club(self): return self._context().model()
+    def game(self): return Game(date=self.db.current_date().isoformat())
     def manager(self): return self._context().manager
     def squad(self): return self._context().squad()
 

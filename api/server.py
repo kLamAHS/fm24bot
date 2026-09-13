@@ -38,17 +38,19 @@ class StateService:
                 # FM can reuse the entire Person registry across a save reload.
                 # Validate the manager/club chain as well before reporting ready.
                 b.manager()
-                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','current_manager','current_club','team_roster'],'unresolved':['age','morale','fixtures','finances','match'],'validation_scope':'three numeric profiles and thirty squad position lists; see research reports'}
+                game=b.game()
+                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','game_date':game.date,'capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','date_of_birth','age','game_date','current_manager','current_club','team_roster'],'unresolved':['morale','fixtures','finances','match','time_of_day'],'validation_scope':'see research reports for per-field UI, reload and restart coverage'}
             except Exception as exc:
                 self.close(); self.last_error=str(exc)
                 return 200,{'connected':False,'read_only':True,'reason':str(exc)}
-        if path in ('/fixtures','/finances','/match','/game'):
+        if path in ('/fixtures','/finances','/match'):
             return 501,{'error':'not_implemented','message':'Memory fields for this subsystem have not been validated.'}
-        if path not in ('/manager','/club','/squad') and not path.startswith('/players/'):
+        if path not in ('/game','/manager','/club','/squad') and not path.startswith('/players/'):
             return 404,{'error':'not_found'}
         try:
             b=self.ready()
-            if path=='/manager': data=asdict(b.manager())
+            if path=='/game': data=asdict(b.game())
+            elif path=='/manager': data=asdict(b.manager())
             elif path=='/club': data=asdict(b.current_club())
             elif path=='/squad': data=[asdict(p) for p in b.squad()]
             else:
