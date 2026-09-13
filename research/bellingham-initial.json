@@ -1,0 +1,133 @@
+{
+  "pid": 28168,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0xa4d7ab0",
+    "person_count": 82953
+  },
+  "query": "Bellingham",
+  "matches": [
+    {
+      "player": {
+        "id": 29232937,
+        "name": "Jude Bellingham",
+        "first_name": "Jude",
+        "surname": "Bellingham",
+        "attributes": {
+          "acceleration": 15,
+          "pace": 14,
+          "passing": 17,
+          "finishing": 16,
+          "technique": 17,
+          "decisions": 15,
+          "vision": 16,
+          "work_rate": 18,
+          "strength": 13
+        }
+      },
+      "evidence": {
+        "person": "0x11234abb8",
+        "player_base": "0x11234a940",
+        "uid_address": "0x11234abc4",
+        "attribute_block": "0x11234ab57",
+        "raw_attributes": {
+          "acceleration": 74,
+          "pace": 70,
+          "passing": 84,
+          "finishing": 79,
+          "technique": 84,
+          "decisions": 74,
+          "vision": 80,
+          "work_rate": 89,
+          "strength": 64
+        },
+        "block_hex": "3b544f46403b5654404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+        "birth_day_raw": 180,
+        "birth_year_raw": 2003
+      }
+    },
+    {
+      "player": {
+        "id": 61074474,
+        "name": "Ally Bellingham",
+        "first_name": "Ally",
+        "surname": "Bellingham",
+        "attributes": {
+          "acceleration": 13,
+          "pace": 13,
+          "passing": 7,
+          "finishing": 2,
+          "technique": 6,
+          "decisions": 9,
+          "vision": 3,
+          "work_rate": 6,
+          "strength": 5
+        }
+      },
+      "evidence": {
+        "person": "0x112a8abf8",
+        "player_base": "0x112a8a980",
+        "uid_address": "0x112a8ac04",
+        "attribute_block": "0x112a8ab97",
+        "raw_attributes": {
+          "acceleration": 64,
+          "pace": 64,
+          "passing": 34,
+          "finishing": 9,
+          "technique": 29,
+          "decisions": 44,
+          "vision": 14,
+          "work_rate": 29,
+          "strength": 24
+        },
+        "block_hex": "2213091813221d22032c0e0a050f0505052c2c0f220a221d2864190e1d1d180a0a1440181836400e361e1d1b4b4640051e47230f1d1d",
+        "birth_day_raw": 362,
+        "birth_year_raw": 1995
+      }
+    },
+    {
+      "player": {
+        "id": 2000205927,
+        "name": "Jobe Bellingham",
+        "first_name": "Jobe",
+        "surname": "Bellingham",
+        "attributes": {
+          "acceleration": 14,
+          "pace": 12,
+          "passing": 14,
+          "finishing": 13,
+          "technique": 14,
+          "decisions": 9,
+          "vision": 12,
+          "work_rate": 13,
+          "strength": 12
+        }
+      },
+      "evidence": {
+        "person": "0x1149cc778",
+        "player_base": "0x1149cc500",
+        "uid_address": "0x1149cc784",
+        "attribute_block": "0x1149cc717",
+        "raw_attributes": {
+          "acceleration": 69,
+          "pace": 60,
+          "passing": 70,
+          "finishing": 65,
+          "technique": 69,
+          "decisions": 46,
+          "vision": 62,
+          "work_rate": 63,
+          "strength": 60
+        },
+        "block_hex": "2b40413c30354146323b3e050a050f0a0f452e0a370f444532643a303a3f17050a0f45273c363c3f33283646323737552d32413c4d3b",
+        "birth_day_raw": 266,
+        "birth_year_raw": 2005
+      }
+    }
+  ],
+  "undecodable_records": 0
+}
