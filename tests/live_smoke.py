@@ -1,0 +1,62 @@
+"""Opt-in integration check: run `python -m tests.live_smoke` on the test save."""
+import json
+import threading
+from dataclasses import asdict
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
+from api.server import create_server
+
+def main():
+    server = create_server(0)
+    worker = threading.Thread(target=server.serve_forever, daemon=True)
+    worker.start()
+    base = f'http://127.0.0.1:{server.server_port}'
+    responses = {}
+    checks = {}
+    def request(path, expected_status=200, method='GET'):
+        try:
+            response = urlopen(Request(base + path, method=method), timeout=60)
+        except HTTPError as exc:
+            response = exc
+        with response:
+            data = json.loads(response.read())
+            responses[method+' '+path] = {'status':response.status, 'body':data}
+            checks[method+' '+path] = response.status == expected_status
+            return data
+    try:
+        status = request('/status')
+        checks['connected'] = status.get('connected') is True
+        expected = json.loads(Path('research/ui-observations.json').read_text(encoding='utf-8'))
+        for observed in expected['players']:
+            player = request('/players/'+str(observed['id']))['data']
+            checks[str(observed['id'])+' identity'] = player['id']==observed['id'] and player['name']==observed['name']
+            checks[str(observed['id'])+' attributes'] = all(player['attributes'][k]==v for k,v in observed['attributes'].items())
+        manager = request('/manager')['data']
+        club = request('/club')['data']
+        squad = request('/squad')['data']
+        names = json.loads(Path('research/ui-squad-names.json').read_text(encoding='utf-8'))
+        checks['manager'] = manager == {'id':2002077023, 'name':'Liam Boyd'}
+        checks['club'] = club['id']==742 and club['name']=='Wycombe Wanderers'
+        checks['squad'] = len(squad)==31 and {p['name'] for p in squad}==set(names)
+        checks['club squad'] = club['squad']==squad
+        request('/players/0',404)
+        request('/players/bad',400)
+        request('/match',501)
+        request('/squad',405,'POST')
+        request('/missing',404)
+        # Use the same live session to exercise the address-free Python lookup.
+        bridge = server.state_service.bridge
+        checks['python lookup'] = asdict(bridge.player(29232937)) == responses['GET /players/29232937']['body']['data']
+        checks['loopback'] = server.server_address[0]=='127.0.0.1'
+        report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
+                  'checks':checks, 'responses':responses, 'passed':all(checks.values())}
+        Path('research/api-live-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
+        if not report['passed']: raise SystemExit(1)
+    finally:
+        server.shutdown(); server.server_close(); worker.join()
+        server.state_service.close()
+
+if __name__=='__main__': main()

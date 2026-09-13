@@ -4,6 +4,7 @@ import struct
 from .process import MemoryReadError
 from .signatures import pe_sections,scan,rip_target
 from .pointers import vector
+from .profile import require_supported_build
 
 log=logging.getLogger(__name__)
 DB_PATTERN='48 8D 0D ?? ?? ?? ?? 48 8D 15'
@@ -16,6 +17,7 @@ class Database:
         self.registry=None
 
     def resolve(self):
+        require_supported_build(self.module)
         fm=self.fm
         matches=[]
         # The executable's principal code section has a nonstandard name.
@@ -59,7 +61,7 @@ class Database:
             raise MemoryReadError('Save/database changed; resolve again')
         begin,end=vector(fm,self.registry)
         data=fm.read_bytes(begin,end-begin)
-        if (begin,end)!=vector(fm,self.registry):
+        if (begin,end)!=vector(fm,self.registry) or data!=fm.read_bytes(begin,end-begin) or fm.read_pointer(fm.read_pointer(self.root+0x68)+0x80)!=self.registry:
             raise MemoryReadError('Registry changed during read; retry when game is idle')
         return [p[0] for p in struct.iter_unpack('<Q',data) if p[0]]
 

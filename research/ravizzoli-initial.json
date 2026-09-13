@@ -1,0 +1,55 @@
+{
+  "pid": 28168,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0xa4d7ab0",
+    "person_count": 82953
+  },
+  "query": "Franco Ravizzoli",
+  "matches": [
+    {
+      "player": {
+        "id": 14185872,
+        "name": "Franco Ravizzoli",
+        "first_name": "Franco",
+        "surname": "Ravizzoli",
+        "attributes": {
+          "acceleration": 8,
+          "pace": 7,
+          "passing": 5,
+          "finishing": 2,
+          "technique": 6,
+          "decisions": 7,
+          "vision": 7,
+          "work_rate": 7,
+          "strength": 10
+        }
+      },
+      "evidence": {
+        "person": "0x1116bac08",
+        "player_base": "0x1116ba990",
+        "uid_address": "0x1116bac14",
+        "attribute_block": "0x1116baba7",
+        "raw_attributes": {
+          "acceleration": 40,
+          "pace": 35,
+          "passing": 25,
+          "finishing": 10,
+          "technique": 30,
+          "decisions": 35,
+          "vision": 35,
+          "work_rate": 35,
+          "strength": 50
+        },
+        "block_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+        "birth_day_raw": 190,
+        "birth_year_raw": 1997
+      }
+    }
+  ],
+  "undecodable_records": 0
+}

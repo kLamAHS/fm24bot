@@ -1,0 +1,11 @@
+{
+  "pid": 21328,
+  "indexed_pure_players": 26223,
+  "passed": false,
+  "error": "Invalid display attribute",
+  "identity_index_checks": {
+    "count": 26223,
+    "unique": true,
+    "ui_players_present": true
+  }
+}

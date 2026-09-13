@@ -1,0 +1,559 @@
+{
+  "pid": 28168,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0xa4d7ab0",
+    "person_count": 82953
+  },
+  "manager": {
+    "id": 2002077023,
+    "name": "Liam Boyd"
+  },
+  "club": {
+    "id": 742,
+    "name": "Wycombe Wanderers",
+    "squad": [
+      {
+        "id": 14185872,
+        "name": "Franco Ravizzoli",
+        "first_name": "Franco",
+        "surname": "Ravizzoli",
+        "attributes": {
+          "acceleration": 8,
+          "pace": 7,
+          "passing": 5,
+          "finishing": 2,
+          "technique": 6,
+          "decisions": 7,
+          "vision": 7,
+          "work_rate": 7,
+          "strength": 10
+        }
+      },
+      {
+        "id": 28028684,
+        "name": "Ryan Tafazolli",
+        "first_name": "Ryan",
+        "surname": "Tafazolli",
+        "attributes": {
+          "acceleration": 7,
+          "pace": 7,
+          "passing": 13,
+          "finishing": 5,
+          "technique": 10,
+          "decisions": 11,
+          "vision": 8,
+          "work_rate": 13,
+          "strength": 14
+        }
+      },
+      {
+        "id": 28084868,
+        "name": "Jason McCarthy",
+        "first_name": "Jason",
+        "surname": "McCarthy",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 12,
+          "passing": 10,
+          "finishing": 7,
+          "technique": 10,
+          "decisions": 10,
+          "vision": 10,
+          "work_rate": 15,
+          "strength": 13
+        }
+      },
+      {
+        "id": 28088510,
+        "name": "Kane Vincent-Young",
+        "first_name": "Kane",
+        "surname": "Vincent-Young",
+        "attributes": {
+          "acceleration": 13,
+          "pace": 13,
+          "passing": 11,
+          "finishing": 9,
+          "technique": 12,
+          "decisions": 9,
+          "vision": 8,
+          "work_rate": 14,
+          "strength": 11
+        }
+      },
+      {
+        "id": 28117405,
+        "name": "Jack Young",
+        "first_name": "Jack",
+        "surname": "Young",
+        "attributes": {
+          "acceleration": 11,
+          "pace": 9,
+          "passing": 10,
+          "finishing": 6,
+          "technique": 11,
+          "decisions": 10,
+          "vision": 10,
+          "work_rate": 12,
+          "strength": 8
+        }
+      },
+      {
+        "id": 29000734,
+        "name": "Joe Jacobson",
+        "first_name": "Joe",
+        "surname": "Jacobson",
+        "attributes": {
+          "acceleration": 7,
+          "pace": 7,
+          "passing": 12,
+          "finishing": 8,
+          "technique": 15,
+          "decisions": 11,
+          "vision": 13,
+          "work_rate": 15,
+          "strength": 10
+        }
+      },
+      {
+        "id": 29064636,
+        "name": "Josh Scowen",
+        "first_name": "Josh",
+        "surname": "Scowen",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 12,
+          "passing": 12,
+          "finishing": 6,
+          "technique": 11,
+          "decisions": 11,
+          "vision": 10,
+          "work_rate": 17,
+          "strength": 11
+        }
+      },
+      {
+        "id": 29086854,
+        "name": "Kieran Sadlier",
+        "first_name": "Kieran",
+        "surname": "Sadlier",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 12,
+          "passing": 12,
+          "finishing": 8,
+          "technique": 14,
+          "decisions": 11,
+          "vision": 12,
+          "work_rate": 9,
+          "strength": 8
+        }
+      },
+      {
+        "id": 29120249,
+        "name": "Brandon Hanlan",
+        "first_name": "Brandon",
+        "surname": "Hanlan",
+        "attributes": {
+          "acceleration": 14,
+          "pace": 16,
+          "passing": 12,
+          "finishing": 12,
+          "technique": 14,
+          "decisions": 8,
+          "vision": 11,
+          "work_rate": 14,
+          "strength": 14
+        }
+      },
+      {
+        "id": 29141735,
+        "name": "Beryly Lubala",
+        "first_name": "Beryly",
+        "surname": "Lubala",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 12,
+          "passing": 10,
+          "finishing": 11,
+          "technique": 10,
+          "decisions": 8,
+          "vision": 10,
+          "work_rate": 11,
+          "strength": 12
+        }
+      },
+      {
+        "id": 29141819,
+        "name": "Matt Butcher",
+        "first_name": "Matt",
+        "surname": "Butcher",
+        "attributes": {
+          "acceleration": 10,
+          "pace": 10,
+          "passing": 11,
+          "finishing": 9,
+          "technique": 12,
+          "decisions": 12,
+          "vision": 12,
+          "work_rate": 15,
+          "strength": 14
+        }
+      },
+      {
+        "id": 29214946,
+        "name": "Chris Forino",
+        "first_name": "Chris",
+        "surname": "Forino",
+        "attributes": {
+          "acceleration": 14,
+          "pace": 14,
+          "passing": 9,
+          "finishing": 4,
+          "technique": 8,
+          "decisions": 9,
+          "vision": 7,
+          "work_rate": 12,
+          "strength": 12
+        }
+      },
+      {
+        "id": 30002284,
+        "name": "Garath McCleary",
+        "first_name": "Garath",
+        "surname": "McCleary",
+        "attributes": {
+          "acceleration": 11,
+          "pace": 12,
+          "passing": 11,
+          "finishing": 11,
+          "technique": 11,
+          "decisions": 12,
+          "vision": 10,
+          "work_rate": 12,
+          "strength": 10
+        }
+      },
+      {
+        "id": 30019004,
+        "name": "David Wheeler",
+        "first_name": "David",
+        "surname": "Wheeler",
+        "attributes": {
+          "acceleration": 11,
+          "pace": 9,
+          "passing": 9,
+          "finishing": 12,
+          "technique": 11,
+          "decisions": 13,
+          "vision": 10,
+          "work_rate": 15,
+          "strength": 12
+        }
+      },
+      {
+        "id": 61031508,
+        "name": "Jack Grimmer",
+        "first_name": "Jack",
+        "surname": "Grimmer",
+        "attributes": {
+          "acceleration": 11,
+          "pace": 11,
+          "passing": 11,
+          "finishing": 6,
+          "technique": 12,
+          "decisions": 10,
+          "vision": 11,
+          "work_rate": 15,
+          "strength": 10
+        }
+      },
+      {
+        "id": 61057162,
+        "name": "Luke Leahy",
+        "first_name": "Luke",
+        "surname": "Leahy",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 11,
+          "passing": 13,
+          "finishing": 12,
+          "technique": 12,
+          "decisions": 12,
+          "vision": 12,
+          "work_rate": 14,
+          "strength": 12
+        }
+      },
+      {
+        "id": 96053555,
+        "name": "Maksymilian Stryjek",
+        "first_name": "Maksymilian",
+        "surname": "Stryjek",
+        "attributes": {
+          "acceleration": 6,
+          "pace": 7,
+          "passing": 7,
+          "finishing": 3,
+          "technique": 8,
+          "decisions": 12,
+          "vision": 5,
+          "work_rate": 8,
+          "strength": 13
+        }
+      },
+      {
+        "id": 28127270,
+        "name": "Saxon Earley",
+        "first_name": "Saxon",
+        "surname": "Earley",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 13,
+          "passing": 11,
+          "finishing": 6,
+          "technique": 10,
+          "decisions": 9,
+          "vision": 9,
+          "work_rate": 12,
+          "strength": 9
+        }
+      },
+      {
+        "id": 28127368,
+        "name": "Chem Campbell",
+        "first_name": "Chem",
+        "surname": "Campbell",
+        "attributes": {
+          "acceleration": 13,
+          "pace": 13,
+          "passing": 12,
+          "finishing": 9,
+          "technique": 12,
+          "decisions": 10,
+          "vision": 11,
+          "work_rate": 9,
+          "strength": 9
+        }
+      },
+      {
+        "id": 37078342,
+        "name": "Nigel Lonwijk",
+        "first_name": "Nigel",
+        "surname": "Lonwijk",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 14,
+          "passing": 13,
+          "finishing": 7,
+          "technique": 13,
+          "decisions": 9,
+          "vision": 11,
+          "work_rate": 12,
+          "strength": 10
+        }
+      },
+      {
+        "id": 2000008139,
+        "name": "Dale Taylor",
+        "first_name": "Dale",
+        "surname": "Taylor",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 12,
+          "passing": 11,
+          "finishing": 12,
+          "technique": 11,
+          "decisions": 10,
+          "vision": 10,
+          "work_rate": 12,
+          "strength": 11
+        }
+      },
+      {
+        "id": 2000020024,
+        "name": "Freddie Potts",
+        "first_name": "Freddie",
+        "surname": "Potts",
+        "attributes": {
+          "acceleration": 9,
+          "pace": 10,
+          "passing": 14,
+          "finishing": 10,
+          "technique": 13,
+          "decisions": 13,
+          "vision": 14,
+          "work_rate": 11,
+          "strength": 8
+        }
+      },
+      {
+        "id": 2000118384,
+        "name": "Gideon Kodua",
+        "first_name": "Gideon",
+        "surname": "Kodua",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 14,
+          "passing": 14,
+          "finishing": 12,
+          "technique": 15,
+          "decisions": 7,
+          "vision": 12,
+          "work_rate": 15,
+          "strength": 10
+        }
+      },
+      {
+        "id": 28112991,
+        "name": "Jack Wakely",
+        "first_name": "Jack",
+        "surname": "Wakely",
+        "attributes": {
+          "acceleration": 11,
+          "pace": 13,
+          "passing": 8,
+          "finishing": 9,
+          "technique": 9,
+          "decisions": 8,
+          "vision": 7,
+          "work_rate": 7,
+          "strength": 10
+        }
+      },
+      {
+        "id": 28115830,
+        "name": "D'Mani Mellor",
+        "first_name": "D'Mani",
+        "surname": "Mellor",
+        "attributes": {
+          "acceleration": 15,
+          "pace": 14,
+          "passing": 8,
+          "finishing": 11,
+          "technique": 10,
+          "decisions": 9,
+          "vision": 5,
+          "work_rate": 15,
+          "strength": 9
+        }
+      },
+      {
+        "id": 2000102722,
+        "name": "Wilson Odobert",
+        "first_name": "Wilson",
+        "surname": "Odobert",
+        "attributes": {
+          "acceleration": 13,
+          "pace": 13,
+          "passing": 13,
+          "finishing": 13,
+          "technique": 13,
+          "decisions": 13,
+          "vision": 14,
+          "work_rate": 13,
+          "strength": 13
+        }
+      },
+      {
+        "id": 2000061312,
+        "name": "Luca Koleosho",
+        "first_name": "Luca",
+        "surname": "Koleosho",
+        "attributes": {
+          "acceleration": 17,
+          "pace": 17,
+          "passing": 17,
+          "finishing": 17,
+          "technique": 17,
+          "decisions": 17,
+          "vision": 9,
+          "work_rate": 17,
+          "strength": 8
+        }
+      },
+      {
+        "id": 49060933,
+        "name": "Maxime Estève",
+        "first_name": "Maxime",
+        "surname": "Estève",
+        "attributes": {
+          "acceleration": 13,
+          "pace": 16,
+          "passing": 12,
+          "finishing": 4,
+          "technique": 12,
+          "decisions": 13,
+          "vision": 10,
+          "work_rate": 13,
+          "strength": 15
+        }
+      },
+      {
+        "id": 29232937,
+        "name": "Jude Bellingham",
+        "first_name": "Jude",
+        "surname": "Bellingham",
+        "attributes": {
+          "acceleration": 15,
+          "pace": 14,
+          "passing": 17,
+          "finishing": 16,
+          "technique": 17,
+          "decisions": 15,
+          "vision": 16,
+          "work_rate": 18,
+          "strength": 13
+        }
+      },
+      {
+        "id": 28108492,
+        "name": "Arijanet Murić",
+        "first_name": "Arijanet",
+        "surname": "Murić",
+        "attributes": {
+          "acceleration": 12,
+          "pace": 15,
+          "passing": 12,
+          "finishing": 2,
+          "technique": 12,
+          "decisions": 12,
+          "vision": 11,
+          "work_rate": 11,
+          "strength": 13
+        }
+      },
+      {
+        "id": 78090138,
+        "name": "Darwin Núñez",
+        "first_name": "Darwin",
+        "surname": "Núñez",
+        "attributes": {
+          "acceleration": 16,
+          "pace": 16,
+          "passing": 10,
+          "finishing": 13,
+          "technique": 14,
+          "decisions": 12,
+          "vision": 14,
+          "work_rate": 15,
+          "strength": 13
+        }
+      }
+    ]
+  },
+  "evidence": {
+    "manager_person": "0x11105b2a0",
+    "manager_base": "0x11105ae50",
+    "team": "0xd84bedb8",
+    "club": "0xc5b9e0c0",
+    "roster_begin": "0xd6b02a00",
+    "roster_end": "0xd6b02af8",
+    "roster_count": 31,
+    "manager_global_rva": "0x6365118"
+  }
+}

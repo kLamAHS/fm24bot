@@ -1,0 +1,40 @@
+{
+  "captured_at": "2026-09-13T22:25:37.840154+00:00",
+  "before_pid": 28168,
+  "after_pid": 21328,
+  "players": [
+    {
+      "id": 29232937,
+      "before": "0x11234a940",
+      "after": "0x116af8940",
+      "moved": true,
+      "values_equal": true
+    },
+    {
+      "id": 28028684,
+      "before": "0x111daf648",
+      "after": "0x116501e18",
+      "moved": true,
+      "values_equal": true
+    },
+    {
+      "id": 14185872,
+      "before": "0x1116ba990",
+      "after": "0x115de9a00",
+      "moved": true,
+      "values_equal": true
+    }
+  ],
+  "checks": {
+    "new_pid": true,
+    "before_passed": true,
+    "after_passed": true,
+    "all_sample_players_moved": true,
+    "all_sample_values_equal": true,
+    "full_squad_values_equal": true,
+    "manager_equal": true,
+    "club_id_equal": true
+  },
+  "passed": true,
+  "scope": "One full FM24 exit/relaunch, same test save and executable. Cross-save and long-running advancement untested."
+}

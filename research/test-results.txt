@@ -1,0 +1,36 @@
+Validation session: 2026-09-13, Windows x64, Python 3.14.2
+
+python -m unittest discover -s tests -v
+17 tests passed in 2.075 seconds (exit 0).
+
+Passed cases:
+test_foreign_host_and_origin_denied
+test_json_utf8_and_loopback_binding
+test_mutation_methods_never_reach_service
+test_query_rejected
+test_consistent_registry_accepted
+test_same_bounds_changed_members_rejected
+test_stale_registry_rejected_before_member_read
+test_unsupported_executable_rejected
+test_access_has_no_mutation_rights
+test_cross_chunk_signature_with_wildcard_newline
+test_invalid_ranges
+test_overlapping_matches
+test_signature_validation
+test_signed_rip_displacement
+test_unreadable_skipped
+test_vector_rejects_misalignment_and_overflow
+test_windows_structure
+
+python -m tests.live_smoke
+25 live API/Python checks passed against PID 21328 (exit 0).
+Detailed request/response evidence: api-live-validation.json.
+
+First-player and squad validation passed before and after a full process restart.
+32 identity/attribute checks per run; 31 squad names matched the UI.
+Detailed comparison: restart-comparison.json.
+
+Separate whole-database bulk decode did NOT pass: an unvalidated display
+attribute caused the strict reader to reject the collection. See
+python-database-validation.json. The UID index contains 26,223 unique
+supported player-type entries and includes all three UI sample players.

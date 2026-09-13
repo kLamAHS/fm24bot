@@ -1,0 +1,16 @@
+{
+  "captured_at": "2026-09-13T22:25:38.618119+00:00",
+  "expected_sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+  "files": [
+    {
+      "name": "Liam Boyd - Wycombe.fm",
+      "sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "unchanged_from_initial_copy": true
+    },
+    {
+      "name": "FM24 Bridge Test 2026-09-13.fm",
+      "sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "unchanged_from_initial_copy": true
+    }
+  ]
+}
