@@ -60,6 +60,13 @@ def main():
         for p in squad:
             checks[str(p['id'])+' morale']=p['morale']==morale[p['name']]
         checks['morale capability']='morale' in status['capabilities'] and 'morale' not in status['unresolved']
+        # These Gretna values matched across the two saved snapshots. English
+        # labels were independently visible in the February 7 UI.
+        gretna=json.loads(Path('research/ui-morale-gretna-observations.json').read_text(encoding='utf-8'))['morale_by_name']
+        captured=json.loads(Path('research/morale-gretna-capture-earlier.json').read_text(encoding='utf-8'))['players']
+        for observed in captured:
+            p=request('/players/'+str(observed['id']))['data']
+            checks[str(observed['id'])+' Gretna morale']=p['id']==observed['id'] and p['name']==observed['name'] and p['morale']==gretna[p['name']] and p['morale_rating']==bytes.fromhex(observed['hex'])[0x25F]
         request('/players/0',404)
         request('/players/bad',400)
         request('/match',501)
@@ -72,7 +79,7 @@ def main():
         checks['consistent connection identity'] = all(item['body'].get('session_id')==status['session_id'] for item in responses.values() if item['status']==200 and 'data' in item['body'])
         report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
                   'checks':checks, 'responses':responses, 'passed':all(checks.values())}
-        Path('research/api-morale-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        Path('research/api-morale-complete-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
         print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
         if not report['passed']: raise SystemExit(1)
     finally:

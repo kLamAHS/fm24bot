@@ -1,0 +1,32 @@
+{
+  "save": "FM24 Bridge Test Earlier 2026-09-13",
+  "game_date": "2024-02-07",
+  "ui_time": "00:00",
+  "club_id": 61014159,
+  "club_name": "Gretna FC 2008",
+  "method": "Transcribed the visible Morale column in Players / Senior Squad / Selection Info. The February 17 view hid morale with Scouting Required; the earlier copy, with the manager already on vacation, displayed these labels. No vacation or player setting was changed.",
+  "screenshot": "ui/morale-gretna-earlier.png",
+  "morale_by_name": {
+    "Jonny Jamieson": "Fair",
+    "Vinnie Parker": "Slightly Poor",
+    "Scott McLellan": "Quite Poor",
+    "Alfie Robinson": "Extremely Poor",
+    "Douglas Simpson": "Fairly Okay",
+    "Bryan Gilfillan": "Poor",
+    "Connor Austin": "Fair",
+    "Dean Brotherston": "Quite Poor",
+    "Carter Jenkins": "Good",
+    "Ronan Kearney": "Poor",
+    "Clayton Ruddick": "Exceptional",
+    "Paddy Meechan": "Fairly Good",
+    "Liam Short": "Very Poor",
+    "Robbie Ivison": "Abysmal",
+    "Lewis Bell": "Extremely Poor",
+    "Dan Carmichael": "Very Poor",
+    "David Cox": "Slightly Poor",
+    "Dylan Neill": "Fairly Poor",
+    "Julien Kouamé": "Perfect",
+    "Iain Anderson": "Okay",
+    "Kieran Syrjanen": "Fairly Poor"
+  }
+}

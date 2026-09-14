@@ -1,0 +1,41 @@
+test_foreign_host_and_origin_denied (test_api.APITests.test_foreign_host_and_origin_denied) ... ok
+test_json_utf8_and_loopback_binding (test_api.APITests.test_json_utf8_and_loopback_binding) ... ok
+test_mutation_methods_never_reach_service (test_api.APITests.test_mutation_methods_never_reach_service) ... ok
+test_query_rejected (test_api.APITests.test_query_rejected) ... ok
+test_status_rejects_changed_club_even_when_registry_is_reused (test_api.StateServiceTests.test_status_rejects_changed_club_even_when_registry_is_reused) ... ok
+test_all_31_captured_squad_ages_match_ui (test_dates.DateTests.test_all_31_captured_squad_ages_match_ui) ... ok
+test_ambiguous_and_outside_module_targets_rejected (test_dates.DateTests.test_ambiguous_and_outside_module_targets_rejected) ... ok
+test_calendar_and_birthday_boundaries (test_dates.DateTests.test_calendar_and_birthday_boundaries) ... ok
+test_captured_birth_dates_and_ages_match_four_ui_profiles (test_dates.DateTests.test_captured_birth_dates_and_ages_match_four_ui_profiles) ... ok
+test_captured_birthday_across_two_saves (test_dates.DateTests.test_captured_birthday_across_two_saves) ... ok
+test_captured_game_date_matches_ui (test_dates.DateTests.test_captured_game_date_matches_ui) ... ok
+test_date_changes_and_unloaded_registry_rejected (test_dates.DateTests.test_date_changes_and_unloaded_registry_rejected) ... ok
+test_invalid_dates_and_unvalidated_leap_boundary_rejected (test_dates.DateTests.test_invalid_dates_and_unvalidated_leap_boundary_rejected) ... ok
+test_player_read_rejects_date_rollover_and_changed_dob (test_dates.DateTests.test_player_read_rejects_date_rollover_and_changed_dob) ... ok
+test_consistent_registry_accepted (test_guards.GuardTests.test_consistent_registry_accepted) ... ok
+test_same_bounds_changed_members_rejected (test_guards.GuardTests.test_same_bounds_changed_members_rejected) ... ok
+test_stale_registry_rejected_before_member_read (test_guards.GuardTests.test_stale_registry_rejected_before_member_read) ... ok
+test_unsupported_executable_rejected (test_guards.GuardTests.test_unsupported_executable_rejected) ... ok
+test_access_has_no_mutation_rights (test_memory.ReaderTests.test_access_has_no_mutation_rights) ... ok
+test_cross_chunk_signature_with_wildcard_newline (test_memory.ReaderTests.test_cross_chunk_signature_with_wildcard_newline) ... ok
+test_invalid_ranges (test_memory.ReaderTests.test_invalid_ranges) ... ok
+test_overlapping_matches (test_memory.ReaderTests.test_overlapping_matches) ... ok
+test_signature_validation (test_memory.ReaderTests.test_signature_validation) ... ok
+test_signed_rip_displacement (test_memory.ReaderTests.test_signed_rip_displacement) ... ok
+test_unreadable_skipped (test_memory.ReaderTests.test_unreadable_skipped) ... ok
+test_vector_rejects_misalignment_and_overflow (test_memory.ReaderTests.test_vector_rejects_misalignment_and_overflow) ... ok
+test_windows_structure (test_memory.ReaderTests.test_windows_structure) ... ok
+test_captured_31_players_match_independent_ui_labels (test_morale.MoraleTests.test_captured_31_players_match_independent_ui_labels) ... ok
+test_earlier_save_labels_and_changes_match_ui (test_morale.MoraleTests.test_earlier_save_labels_and_changes_match_ui) ... ok
+test_gretna_capture_confirms_remaining_seven_labels (test_morale.MoraleTests.test_gretna_capture_confirms_remaining_seven_labels) ... ok
+test_incomplete_and_outside_values_rejected (test_morale.MoraleTests.test_incomplete_and_outside_values_rejected) ... ok
+test_repeated_byte_detects_change_and_model_matches_capture (test_morale.MoraleTests.test_repeated_byte_detects_change_and_model_matches_capture) ... ok
+test_captured_bytes_match_independent_ui_values (test_readiness.ReadinessTests.test_captured_bytes_match_independent_ui_values) ... ok
+test_incomplete_block_rejected (test_readiness.ReadinessTests.test_incomplete_block_rejected) ... ok
+test_invalid_values_are_not_clamped (test_readiness.ReadinessTests.test_invalid_values_are_not_clamped) ... ok
+test_squad_roles_match_ui (test_readiness.ReadinessTests.test_squad_roles_match_ui) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 2.105s
+
+OK

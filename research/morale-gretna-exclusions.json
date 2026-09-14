@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-09-14T00:15:31.126214+00:00",
+  "pid": 36240,
+  "game_date": "2024-02-17",
+  "players": [
+    {
+      "id": 5204869,
+      "name": "Bryan Gilfillan",
+      "person": "0x115ce94a8",
+      "type_offset": "0x368",
+      "contract_club_id": 61014159,
+      "contract_club_name": "Gretna FC 2008"
+    },
+    {
+      "id": 2000215675,
+      "name": "Carter Jenkins",
+      "person": "0x116f48ea0",
+      "type_offset": "0x278",
+      "contract_club_id": 1542,
+      "contract_club_name": "Ayr United"
+    },
+    {
+      "id": 2000225975,
+      "name": "Paddy Meechan",
+      "person": "0x116ed62b0",
+      "type_offset": "0x278",
+      "contract_club_id": 1572,
+      "contract_club_name": "Hamilton Academical"
+    }
+  ]
+}

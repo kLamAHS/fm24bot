@@ -118,3 +118,25 @@ matched the initial snapshot. See morale-lifecycle-comparison.json and morale.md
 Both original saves and both test copies retain their hashes. Temporary API
 helper stopped, port 8765 closed, FM left idle on February 17 at 08:00.
 Evidence: save-integrity-after-morale.json, morale-helper-stopped.json.
+
+Complete morale mapping increment — 2026-09-13 local / 2026-09-14 UTC
+36 offline tests passed. Five morale regressions cover 80 independent UI
+observations across 49 unique players, all 20 labels, invalid byte values,
+incomplete reads and a changed-byte guard.
+Evidence: offline-morale-complete-tests.txt.
+
+121 live API/Python checks passed on FM PID 36240 after return to February 17.
+Direct validation passed the existing fields and all 31 Wycombe morale labels.
+Evidence: api-morale-complete-validation.json, validation-morale-complete.json.
+
+78 lifecycle checks passed with API PID 19848 unchanged across FM restart
+33644 -> 36240 and return load. All 18 Gretna Player addresses changed; all 18
+morale labels/ratings matched before/after restart and across the saved dates.
+Thirteen complete models differed only in condition and/or sharpness. These
+fitness values were not numerically UI-validated in Gretna; no settled-state
+or complete-record equality claim is made. Full differences are retained.
+Evidence: morale-complete-lifecycle-comparison.json.
+
+All four save hashes unchanged; temporary helper stopped; port 8765 closed.
+FM left on February 17 test copy at 08:00, Squad / Selection Info.
+Evidence: save-integrity-after-morale-complete.json, morale-complete-helper-stopped.json.

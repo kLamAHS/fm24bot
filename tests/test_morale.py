@@ -21,10 +21,25 @@ class MoraleTests(unittest.TestCase):
             self.assertTrue(p['stable'])
             self.assertEqual(decode_morale(raw[MORALE_OFFSET:MORALE_OFFSET+1]),expected[p['name']])
 
-    def test_incomplete_outside_and_unconfirmed_values_rejected(self):
+    def test_gretna_capture_confirms_remaining_seven_labels(self):
+        rows=read('morale-gretna-capture-earlier.json')['players']
+        expected=read('ui-morale-gretna-observations.json')['morale_by_name']
+        self.assertEqual(len(rows),18)
+        self.assertEqual(set(expected)-{p['name'] for p in rows},
+                         {'Bryan Gilfillan','Carter Jenkins','Paddy Meechan'})
+        values=set()
+        for p in rows:
+            raw=bytes.fromhex(p['hex'])[MORALE_OFFSET:MORALE_OFFSET+1]
+            self.assertTrue(p['morale_byte_stable'])
+            self.assertEqual(decode_morale(raw),expected[p['name']])
+            values.add(raw[0])
+        self.assertTrue({1,3,4,5,7,9,19}<=values)
+        self.assertEqual(set(MORALE_LABELS),set(range(1,21)))
+
+    def test_incomplete_and_outside_values_rejected(self):
         for raw in (b'',b'\x0f\x00'):
             with self.assertRaises(MemoryReadError): decode_morale(raw)
-        for value in set(range(256))-MORALE_LABELS.keys():
+        for value in [0,*range(21,256)]:
             with self.assertRaises(MemoryReadError): decode_morale(bytes([value]))
 
     def test_earlier_save_labels_and_changes_match_ui(self):
