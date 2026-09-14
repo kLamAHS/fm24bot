@@ -3,8 +3,8 @@ from .fixture import FixtureTeam
 
 @dataclass(frozen=True)
 class MatchPlayer:
-    id: int
-    name: str
+    id: int | None
+    name: str | None
     side: str
     shirt_number: int
     started: bool
@@ -20,6 +20,25 @@ class MatchPlayer:
     condition: float | None = None
     red_cards: int | None = None
     injury: str | None = None
+    identity_status: str = 'resolved'
+    starting_position: str | None = None
+    last_position: str | None = None
+    condition_basis: str = 'retained_match_statistics'
+    condition_may_lag: bool = True
+
+@dataclass(frozen=True)
+class FormationSlot:
+    player_id: int | None
+    player_name: str | None
+    shirt_number: int
+    position: str | None
+
+@dataclass(frozen=True)
+class MatchFormation:
+    team_id: int
+    slots: list[FormationSlot]
+    basis: str = 'starting_lineup'
+    name: str | None = None
 
 @dataclass(frozen=True)
 class TeamMatchStats:
@@ -33,6 +52,7 @@ class TeamMatchStats:
     passes_completed: int
     pass_completion: int | None
     possession: int | None
+    possession_basis: str = 'inferred_from_completed_pass_share'
 
 @dataclass(frozen=True)
 class Match:
@@ -51,9 +71,10 @@ class Match:
     away_stats: TeamMatchStats
     source: str = 'match_viewer'
     timeline: str = 'unclassified'
-    # Null is explicit until these fields pass their own UI validation.
+    # Field-specific basis/status values distinguish validated data from unknowns.
     players: list[MatchPlayer] | None = None
-    opposition_formation: str | None = None
+    opposition_formation: MatchFormation | None = None
+    clock_basis: str = 'retained_match_statistics'
 
 @dataclass(frozen=True)
 class MatchObservation:

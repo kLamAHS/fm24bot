@@ -7,6 +7,9 @@ from .players import identity,name_entry
 from structures.inbox import Inbox,InboxMessage
 
 def message_time(date_raw,minute_adjustment):
+    # A cold-loaded message may have no minute adjustment yet. FM fills this
+    # byte when building the inbox display. Never guess the nominal time.
+    if minute_adjustment==0xff:return None
     if not 0<=minute_adjustment<=14: raise MemoryReadError('Invalid inbox minute adjustment')
     clock=decode_game_time(date_raw)
     if clock is None:return None
@@ -53,7 +56,9 @@ def read_inbox(context):
         name=ti['name']
         if not name.startswith('.?AV') or not name.endswith('@@'):raise MemoryReadError('Unsupported news type name')
         kind=name[4:-2].removesuffix('@db').lower()
-        messages.append(InboxMessage(uid,sent.isoformat(),message_time(raw[0xa0:0xa4],raw[0xb3]),not bool(raw[0xb0]&1),kind,sender_id,sender_name))
+        time=message_time(raw[0xa0:0xa4],raw[0xb3])
+        messages.append(InboxMessage(uid,sent.isoformat(),time,not bool(raw[0xb0]&1),kind,sender_id,sender_name,
+                                     time_status='current' if time is not None else 'not_initialized'))
     for address,raw in guards:
         if fm.read_bytes(address,len(raw))!=raw:raise MemoryReadError('Inbox changed during observation')
     if db.dates.read_raw()!=clock or set(db.person_pointers())!=known:raise MemoryReadError('Inbox registry or game time changed')

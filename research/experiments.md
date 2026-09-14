@@ -114,3 +114,20 @@ Updated API PID 19848 stayed running through FM exit/relaunch 33644 -> 36240, lo
 Thirteen Gretna complete models differed in condition and/or match sharpness across restart. Numeric Gretna fitness was not independently UI-validated and no settled-state or complete-model equality claim is made. The full differences are preserved in `morale-complete-lifecycle-comparison.json`; the cause and timing require separate investigation.
 
 All 36 offline tests, 121 live API/Python checks, 78 lifecycle checks and the direct existing-field validation passed. All four save hashes remained unchanged. The temporary API was stopped, port 8765 closed, and FM left idle on the February 17 test copy at 08:00. All 20 English morale labels are now confirmed across 80 independent UI observations and 49 unique players. Next bounded work can investigate post-load fitness behavior, followed by independent-career validation.
+
+
+## 19. Expanded observation integration
+
+Expanded from the player/squad baseline through primary nationality, supported contracts, finances, fixtures, staff, selected tactics, inbox metadata, training, stored scouting reports, shortlists and transfer targets. Each focused subsystem report records typed ownership, offsets, independent UI values, rejected candidates and field limits. A controlled February 7 project save preserves non-empty and changed tactic/training/list/target state for replication.
+
+With API PID 42772 running continuously, FM exited and restarted 45464 → 5464. All 15 sampled routes returned 200 and all 14 data models matched, with shortlist list order normalized. All 32 comparison checks passed. While FM was absent, data was withheld with 503. A February 17 cold load then exposed inbox B3=FF; exact message time now returns null with not_initialized instead of rejecting the entire inbox. Second-save evidence retains both the original failure and successful corrected results.
+
+## 20. Match completion and delivery validation — 2026-09-14
+
+Validated retained match score, clock and team/player statistics through four Wycombe–Peterborough panels and a second Stevenage–Wycombe fixture in restarted FM PID 5464. The latter passed 107 UI-based active-match checks. A virtual substitute previously rejected the entire roster; its exact type is now supported with unresolved public identity and preserved shirt/statistics. Read size was corrected from observed pool stride 100 to allocator-confirmed F8.
+
+All eleven opposition starting positions were compared with the 28:33 panel. Starting formation and last position now have precise semantics: last positions can remain after substitution. Writer code and three post-match numeric Fitness panels corroborated retained condition 59/95/71; a 28:33 counterexample proves this byte can lag simulation. Its basis and lag flag are explicit. A goal replay showed visible 05:05 while retained statistics held 05:17; timeline classification is still unclassified. Red cards/injuries and other unvalidated fields remain unknown.
+
+Final source passed 116 offline tests and 122 live API checks. Updated API PID 29124 serves localhost only; all 15 sampled routes passed on the restored February 17 named test copy at 08:00. The /club route is additionally covered by live_smoke. Currency/salary display preferences were restored to USD/yearly through normal Preferences. The four protected original/regression files passed their original SHA-256 checks. No protected save was overwritten; the advanced match copy was left unsaved. Evidence includes observation-checkpoint-final-baseline.json, api-observation-validation.json, save-integrity-observation-final.json and the final UI captures.
+
+The deliverable is the supported observation library/API with documented limits, source and evidence. There is no AI decision maker, action controller, startup service, software installation, or process-memory write.

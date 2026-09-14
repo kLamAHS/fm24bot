@@ -8,8 +8,8 @@ from tests.test_contracts_nations import RecordedMemory
 ROOT=Path(__file__).resolve().parents[1]/'research'
 
 class InboxTests(unittest.TestCase):
- def context(self):
-  trace=json.loads((ROOT/'inbox-read-trace-third-read.json').read_text(encoding='utf-8'))
+ def context(self,label='third-read'):
+  trace=json.loads((ROOT/f'inbox-read-trace-{label}.json').read_text(encoding='utf-8'))
   fm=RecordedMemory(trace['reads']);db=SimpleNamespace(fm=fm,module=SimpleNamespace(**trace['module']),person_pointers=lambda:trace['known_persons'],current_date=lambda:date.fromisoformat(trace['date']),dates=SimpleNamespace(read_raw=lambda:bytes.fromhex(trace['date_raw'])))
   return SimpleNamespace(db=db,fm=fm,check=lambda:None,**trace['context'])
 
@@ -39,6 +39,18 @@ class InboxTests(unittest.TestCase):
  def test_undecoded_text_is_not_invented(self):
   for row in read_inbox(self.context()).messages:
    self.assertIsNone(row.subject);self.assertIsNone(row.body);self.assertEqual(row.text_status,'not_decoded')
+
+ def test_cold_loaded_message_has_no_invented_time(self):
+  result=read_inbox(self.context('second-save-cold'))
+  self.assertEqual((len(result.messages),result.unread_count),(75,6))
+  newest=result.messages[-1]
+  self.assertEqual((newest.date,newest.sender_name),('2024-02-17','Sarah McHugh'))
+  self.assertIsNone(newest.time);self.assertEqual(newest.time_status,'not_initialized')
+  old=json.loads((ROOT/'inbox-second-save-raw.json').read_text())['rows'][-1]
+  shown=json.loads((ROOT/'inbox-second-save-opened-raw.json').read_text())['rows'][-1]
+  self.assertEqual(old['id'],shown['id'])
+  self.assertEqual((old['adjustment'],shown['adjustment']),(255,9))
+  self.assertEqual(message_time(bytes.fromhex(shown['hex'])[0xa0:0xa4],9),'07:51')
 
  def test_changed_message_and_replaced_inbox_rejected(self):
   for size in (0xb8,16):

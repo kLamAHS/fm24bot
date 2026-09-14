@@ -1,56 +1,105 @@
-> Current expansion: the earlier milestone notes below are historical. The production 47-attribute map is in bridge/attributes.py; conversion is max(1, (raw + 2) // 5). Current contracts/nationality, finances, fixtures, staff, tactics, inbox, training, scouting and match layouts live in their bridge modules and focused research reports. The integrated restart comparison covers all currently returned data; remaining field gaps are explicit in observation-progress.md.
+# Validated runtime offsets
 
-# Verified build: 24.4.2+2081827, Steam 18129188
+These layouts apply only to Windows x64 Steam 24.4.2+2081827 (build 18129188), with the executable hash enforced by bridge/profile.py. Hex offsets are relative to the named object, never reusable heap addresses. The linked subsystem reports record discovery methods, UI evidence, confidence and limits. Confidence means corroborated on this build and these career snapshots; it does not imply all builds or careers.
 
-Addresses in experiment JSON are session evidence only. Field locations below are relative to validated objects.
+## Core identities, players and ownership
 
-| Base | Offset | Type | Field | Evidence/confidence |
-|---|---:|---|---|---|
-| Person | 0x0C | uint32 | unique ID | UI matches for 3 people, high in tested save |
-| Person | 0x58 | pointer | first-name wrapper | 3 names and 2 staff samples, high |
-| Person | 0x60 | pointer | surname wrapper | 3 names and 2 staff samples, high |
-| Person | 0x68 | pointer/null | common-name wrapper | source candidate; fallback path, not independently UI tested |
-| Name wrapper | 0 | pointer | string entry | observed local pointer chain |
-| String entry | 0 | uint32 | UTF-8 byte length | length and terminator validated on every read |
-| String entry | 4 | bytes | UTF-8 string | all 31 squad names match UI, including accented names |
-| Person | 0x44/0x46 | uint16/uint16 LE | birth ordinal/year | four profile DOBs and 31 squad ages match UI; high in tested snapshots; see dates.md |
-| vtable | -8 | pointer | MSVC complete-object locator | module bounds checked |
-| locator | +4 | uint32 | subobject back-offset | 0x278 player, 0xF8 staff; human observed 0x450 |
-| Player complete object | 0x1F4 | int16 LE | match sharpness, 0..10000 | five numeric UI profiles across reload; public value raw/100 |
-| Player complete object | 0x1F6 | int16 LE | fatigue | five numeric UI profiles, including negatives; research only |
-| Player complete object | 0x1F8 | int16 LE | physical condition, 0..10000 | five numeric UI profiles across reload; public value raw/100 |
-| Player complete object | 0x208 | 15 uint8 slots | positional familiarity | 14 mapped slots, three full numeric profiles and 30 squad position sets; see readiness.md |
-| Player complete object | 0x217 | 54 bytes | attributes | individual fields below |
-| Player complete object | 0x25F | one byte | morale | 49 players, 80 independent UI observations in two snapshots, all 20 labels; 22 Wycombe changes; two morale-stage restarts; see morale.md |
-| Person | 0xC8 | pointer | parent/full contract | source + current manager, Tafazolli/Ravizzoli; medium |
-| Contract | 0x10 | pointer | team | source + same objects; medium |
-| Team | 0x30 | pointer | club | club ID 742 and name match Wycombe UI; medium |
-| Team | 0x38/0x40 | pointer/pointer | roster begin/end | independently discovered in bounded local inspection; all 31 names match UI |
-| Club | 0x0C | uint32 | club unique ID | UI 742; one club tested |
-| Club | 0xC0 | pointer | direct string entry | Wycombe Wanderers; parent club F.C. Málaga City also observed |
+| Base | Offset | Type | Meaning and empirical scope |
+|---|---:|---|---|
+| Person | 08 | u32 | Internal registry index; not array offset or public UID |
+| Person | 0C | u32 | Public FM UID; validated profiles and all 31 squad identities |
+| Person | 44/46 | u16/u16 | Birth ordinal/year; four exact dates and 31 ages, birthday across saves |
+| Person | 58/60/68 | pointers | First/surname/common-name wrappers; 31 squad names, accented names included |
+| Name wrapper | 0 | pointer | Direct string entry |
+| String entry | 0 / 4 | u32 / UTF-8 bytes | Byte length, then text and NUL; checked lengths/terminators |
+| Person | 70 | pointer | Primary NATION; Nation 0C UID, 18 name entry; six UI nationality checks |
+| Person | C8 | pointer | Employment contract; typed and owner checked |
+| Person | D0 | pointer | Optional holder whose first pointer is a loan contract |
+| Complete Player | 150 | packed timestamp | Freshness of readiness cache; must equal current game timestamp |
+| Complete Player | 1F4/1F6/1F8 | i16/i16/i16 | Sharpness/fatigue/condition; numeric UI checks on five profiles. Fatigue is research only |
+| Complete Player | 208 | 15 bytes | Positional familiarity; legacy SW slot omitted; 14 supported slots |
+| Complete Player | 217 | 54 bytes | Attribute block; 47 visible attributes below, seven other bytes omitted |
+| Complete Player | 25F | u8 | Morale 1–20; 80 UI observations across 49 players and all labels |
+| Full contract | 08/10 | pointers | Owner Person / Team |
+| Full contract | 18 | i32 | Native weekly GBP; employment salary versus loan contribution explicitly distinguished |
+| Full contract | 3C/40 | packed dates | Start and end; 40 agreements including nine loans read, selected UI terms compared |
+| Team | 30 | pointer | Club |
+| Team | 38/40 | pointer vector | Roster; all 31 names match, includes some loaned-out players |
+| Club | 0C/C0 | u32 / pointer | UID and direct name entry |
 
-Attribute offsets are relative to the 54-byte attribute block. Stored as uint8, display `(raw + 2) // 5`.
+Supported Person subobjects are identified through bounded MSVC RTTI. Pure Player back-offset is 278, ordinary non-player F8, human non-player 450, support staff 88. Do not subtract a Player offset from another Person class. Support staff display names live at complete object 30/38, not the generic Person name offsets.
 
-| Field | Block offset | Complete-player offset | Objects UI tested |
+Readiness is normalized to percentages by dividing by 100 and withheld when stale. An injury can coexist with high condition. Positions list familiar codes with ratings >=15; this does not prove eligibility. Details: [readiness](readiness.md), [dates](dates.md), [morale](morale.md), and bridge/players.py, bridge/contracts.py.
+
+## Player attributes
+
+All fields below are u8 values in 1–100, displayed as max(1, (raw + 2) // 5). The lower clamp was separately checked on two players with raw 1/2. Each field has at least two independent UI comparisons; six profiles contribute 220 comparisons. General Player attributes are not filtered by scouting visibility. See attribute-validation-expanded.json and tests/test_attributes.py.
+
+| Field | Block offset | Complete Player offset | UI comparisons |
 |---|---:|---:|---:|
-| acceleration | 0x22 | 0x239 | 3 |
-| pace | 0x26 | 0x23D | 3 |
-| passing | 0x07 | 0x21E | 3 |
-| finishing | 0x02 | 0x219 | 2 (not visible on goalkeeper profile) |
-| technique | 0x17 | 0x22E | 3 |
-| decisions | 0x12 | 0x229 | 3 |
-| vision | 0x0A | 0x221 | 3 |
-| work rate | 0x1D | 0x234 | 3 |
-| strength | 0x24 | 0x23B | 3 |
+| crossing | 00 | 217 | 4 |
+| dribbling | 01 | 218 | 4 |
+| finishing | 02 | 219 | 4 |
+| heading | 03 | 21A | 4 |
+| long_shots | 04 | 21B | 4 |
+| marking | 05 | 21C | 4 |
+| off_the_ball | 06 | 21D | 6 |
+| passing | 07 | 21E | 6 |
+| penalty_taking | 08 | 21F | 6 |
+| tackling | 09 | 220 | 4 |
+| vision | 0A | 221 | 6 |
+| handling | 0B | 222 | 2 |
+| aerial_reach | 0C | 223 | 2 |
+| command_of_area | 0D | 224 | 2 |
+| communication | 0E | 225 | 2 |
+| kicking | 0F | 226 | 2 |
+| throwing | 10 | 227 | 2 |
+| anticipation | 11 | 228 | 6 |
+| decisions | 12 | 229 | 6 |
+| one_on_ones | 13 | 22A | 2 |
+| positioning | 14 | 22B | 6 |
+| reflexes | 15 | 22C | 2 |
+| first_touch | 16 | 22D | 6 |
+| technique | 17 | 22E | 6 |
+| flair | 1A | 231 | 6 |
+| corners | 1B | 232 | 4 |
+| teamwork | 1C | 233 | 6 |
+| work_rate | 1D | 234 | 6 |
+| long_throws | 1E | 235 | 4 |
+| eccentricity | 1F | 236 | 2 |
+| rushing_out | 20 | 237 | 2 |
+| punching_tendency | 21 | 238 | 2 |
+| acceleration | 22 | 239 | 6 |
+| free_kick_taking | 23 | 23A | 6 |
+| strength | 24 | 23B | 6 |
+| stamina | 25 | 23C | 6 |
+| pace | 26 | 23D | 6 |
+| jumping_reach | 27 | 23E | 6 |
+| leadership | 28 | 23F | 6 |
+| balance | 2A | 241 | 6 |
+| bravery | 2B | 242 | 6 |
+| aggression | 2D | 244 | 6 |
+| agility | 2E | 245 | 6 |
+| natural_fitness | 32 | 249 | 6 |
+| determination | 33 | 24A | 6 |
+| composure | 34 | 24B | 6 |
+| concentration | 35 | 24C | 6 |
 
-Sources and discovery methods: `sources.md`, `experiments.md`. UI ground truth: `ui-observations.json`, screenshots in `ui/`. Exact addresses and raw bytes: validation JSON files.
-Cross-save tests: two snapshots of the same career (February 17 and February 7), with the API running through both loads. Readiness and position checks passed again after returning to February 17; two temporary post-load fitness differences settled to their prior values and were checked against UI. See `lifecycle.md`. Restart status: passed one full exit/relaunch before readiness was added (PID 28168 -> 21328). All three sample player heap addresses changed; all 32 identity/attribute assertions and all 31 then-current squad models remained identical. See `restart-comparison.json`. Attribute interpretation outside the validated displayed 1–20 range is deliberately rejected.
+## Expanded subsystems
 
-Confidence applies only to this exact executable and the tested career snapshots. The nine attribute fields were decoded for all 31 roster members, but their values were compared directly with UI only on the three documented profiles. Finishing was visible on two of those profiles. The common-name path is still a candidate. A bulk decode of the wider 26,223-player index encountered an unvalidated display attribute and was rejected; whole-database attribute coverage is not established.
+These reports are the authoritative detailed offset tables and include bounds, typed owners, unknowns and rejected candidates.
 
-Expanded-model restart follow-up: PID 21328 -> 41840 passed with the API continuously running. All 31 complete models, now including readiness and date/age fields, matched the pre-restart checkpoint. The old UI comparisons and four new date-profile comparisons passed again. See `dates.md` and `date-lifecycle-comparison.json` for exact scope and addresses.
-Unknown/unimplemented: game time of day, contracts beyond club resolution, fixtures, finances and match state. Game date is signature-resolved (see signatures.md); age is calculated from that date and birth date. The legacy sweeper position slot is unvalidated and omitted. No offsets invented for unknown fields.
+| Subsystem | Production owner chain | Detailed layout and evidence |
+|---|---|---|
+| Finances | Club+150 → CLUB_FINANCE (owner at +08) | [Finances](finances.md) |
+| Fixtures/results | AOB → rule wrapper+08 → competition manager → calendar day buckets | [Fixtures](fixtures.md) |
+| Staff | Club-owned team, medical, coaching, recruitment and board collections | [Staff](staff.md) |
+| Tactics | AOB → tactics manager → human record → team tree → selected creator | [Tactics](tactics.md) |
+| Inbox | Human+338 → holder pointer vector → NEWS_ITEM base | [Inbox](inbox.md) |
+| Training | AOB → training manager → human record → team tree → weeks | [Training](training.md) |
+| Scouting | Human+108 vector of stored report records | [Scouting](scouting.md) |
+| Shortlists | Human+210 vector → kind-zero lists → C0 entries | [Scouting](scouting.md) |
+| Transfer targets | Human+370 → holder+B48 groups → group+08 target vector | [Scouting](scouting.md) |
+| Match viewer | AOB → controller map → live controller+20 → wrapper → impl+1C0 | [Match](live-match.md) |
 
-Morale restart follow-up: PID 41840 -> 33644 passed with final API PID 13452 unchanged. All 31 morale labels/ratings matched across restart; the complete model had three fitness differences in two players from its immediate pre-restart state, and all 31 complete models matched the initial snapshot after restart. See `morale.md` and `morale-lifecycle-comparison.json`. That checkpoint confirmed 13 labels. The follow-up below completes the mapping.
-
-Complete morale follow-up: all 20 labels are confirmed after observing 18 supported Gretna players. API PID 19848 remained unchanged through FM PID 33644 -> 36240 and return to the February 17 test copy. All 18 morale readings survived restart; all 18 sampled Player addresses changed. Thirteen Gretna full models differed only in fitness; no complete-model equality or settled-state claim is made. See `morale-complete-lifecycle-comparison.json`.
+The integrated restart from FM PID 45464 to 5464 passed 32 checks, including relocation of manager memory and equality of every returned data model. The match route was inactive in that comparison. Loading the second save additionally checked empty shortlists/targets and found the inbox's FF uninitialized-time sentinel, now handled explicitly. See observation-expanded-restart-comparison.json and observation-checkpoint-expanded-second-save-cold-fixed.json. Active-match coverage is separately recorded in live-match.md. Earlier milestones remain in experiments.md and their dated evidence; they do not limit the current field map.

@@ -1,6 +1,6 @@
 # Training observation — active research
 
-Build: Steam Windows x64 24.4.2+2081827, executable hash gated by the bridge. Initial training observations are in PID 45464 after an actual restart; a second-save comparison and another restart regression remain pending. All process access is read-only 0x410. Normal UI experiments use `work/FM24 Match Observation.fm` without saving.
+Build: Steam Windows x64 24.4.2+2081827, executable hash gated by the bridge. Initial training observations were captured in PID 45464. The later integrated restart to PID 5464 preserved the full public training model, including controlled settings changes; the second snapshot and final baseline passed too. See observation-expanded-restart-comparison.json and observation-checkpoint-final-baseline.json. All process access is read-only 0x410. Normal UI experiments use `work/FM24 Match Observation.fm` without saving.
 
 ## Implemented schedule
 
@@ -47,4 +47,4 @@ The separate 33-record vector at human training record +0 is **not the weekly sc
 
 ## Outstanding
 
-Finish focus/intensity/position decoding, investigate current-rating calculation, training units and responsibility if needed, then validate another save and process restart. Current unit tests do not replace those live regressions.
+Remaining decoding limits are additional focus/intensity/position labels, the current-rating calculation, training units and responsibility. The supported fields have completed second-save and full process restart validation; those live regressions complement the recorded-read tests.

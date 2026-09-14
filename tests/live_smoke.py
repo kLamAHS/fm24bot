@@ -70,7 +70,8 @@ def main():
             checks[str(observed['id'])+' Gretna morale']=p['id']==observed['id'] and p['name']==observed['name'] and p['morale']==gretna[p['name']] and p['morale_rating']==bytes.fromhex(observed['hex'])[0x25F]
         request('/players/0',404)
         request('/players/bad',400)
-        request('/match',501)
+        match=request('/match')['data']
+        checks['idle match unavailable']=match['available'] is False and match['match'] is None
         request('/squad',405,'POST')
         request('/missing',404)
         # Use the same live session to exercise the address-free Python lookup.

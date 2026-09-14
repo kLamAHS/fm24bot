@@ -56,4 +56,4 @@ Target terms, automatic limits, expiry and additional enums remain undecoded. `s
 
 Seven offline regression tests replay 562 captured reads and independent UI expectations. They check report dates/scouts, player list filtering, two target statuses, the controlled state change, unknown labels, wrong owners, registry membership, bounded/empty vectors, and mutation rejection. `scouting-read-trace-checked.json` retains the input bytes. `/scouting`, `/shortlists` and `/transfer-targets` require no UI interaction or address-space scanning.
 
-Final lifecycle results are recorded separately in the observation lifecycle report. Field layout validation and restart validation are distinct claims.
+The integrated restart reproduced all report/list/target public data, including the two non-empty targets and named shortlist, with shortlist list order normalized. A second snapshot validated empty collections. See observation-expanded-restart-comparison.json and observation-checkpoint-final-baseline.json. Field layout validation and restart validation remain distinct claims.

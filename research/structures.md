@@ -1,32 +1,48 @@
-> Current expansion: the earlier milestone notes below are historical. The production 47-attribute map is in bridge/attributes.py; conversion is max(1, (raw + 2) // 5). Current contracts/nationality, finances, fixtures, staff, tactics, inbox, training, scouting and match layouts live in their bridge modules and focused research reports. The integrated restart comparison covers all currently returned data; remaining field gaps are explicit in observation-progress.md.
+# Runtime structures and public observations
 
-# Runtime structures and public model
+FMProcess opens a separate handle using PROCESS_QUERY_INFORMATION | PROCESS_VM_READ (0x410). It owns and closes that handle, enumerates modules with PSAPI, reads live PE sections and validates pointers, lengths and container bounds. No process writes, suspension, injected code or remote calls occur.
 
-The implementation reads an independently opened Windows process handle with access mask 0x410. `FMProcess` owns and closes the handle. It enumerates modules using PSAPI and reads live PE sections. `Database` resolves a signature-derived global and a bounded registry of Person pointers. `FMBridge` indexes supported player UIDs once per session, then follows pointers for observations. It rescans code only when resolving a new session, not for each player request.
+Database resolves a code signature to the Person registry. FMBridge builds a UID index for supported pure Player records and follows owned pointers for subsequent requests. The observed registry contains 82,953 Person records and 26,223 pure Players. These counts do not mean every profile was independently UI validated; bulk decoding may reject unsupported data.
 
 ```text
-main executable -> AOB + signed RIP displacement -> database root
-  [root+0x68] -> [database+0x80] -> Person vector {begin,end}
-  Person vtable -> complete-object locator -> back-offset -> Player
-
-human-manager AOB -> global pointer -> human complete-object vector
-  embedded Person -> full contract -> team -> club
-                                     team -> roster vector -> players
+Executable AOB + signed RIP displacement → global owner
+  Database → Person registry → typed Person → complete Player
+  Human manager → employment contract → Team → Club
+                                       Team → roster Players
+  Human → inbox / reports / shortlists / transfer target collections
+  Tactics and training managers → human record → team data
+  Competition manager → calendar-year fixtures/results
+  Match viewer manager → controller → decoded viewer frame → statistics
 ```
 
-The Person registry had 82,953 entries in this save. Player decoding currently supports RTTI back-offset 0x278 only; 26,223 such entries were indexed. Staff (+0xF8), other Person-derived types, and hybrid player/staff types are not exposed as Player models. The human-manager Person was located dynamically through membership and RTTI; the observed 0x450 offset is not a fixed resolver constant.
+## Public models
 
-Names use wrapper -> entry pointer -> uint32 byte length -> UTF-8 bytes -> NUL. Club name uses a direct entry pointer. Null common names fall back to first name plus surname. Attribute fields use uint8 values in a 54-byte block; exact offsets, discovery and confidence appear in `offsets.md`.
+Python dataclasses in structures/ carry values and public FM identifiers without memory addresses. API JSON uses their serialized fields. Null and status fields distinguish unknown/unavailable values from real zeroes or empty lists.
 
-Public frozen dataclasses contain no addresses:
+| Model | Returned observations |
+|---|---|
+| Player | Identity, DOB, age/as-of date, primary nationality, 47 attributes, positions, morale, timestamped readiness and employment/loan terms |
+| Manager / Club | Manager identity; club identity and current team roster |
+| Game | In-game date and time; no invented real-world timezone |
+| Finances | Native GBP balance and transfer budget, weekly wage budget/payroll |
+| Fixtures | Loaded calendar year, as-of date, teams, competition, kickoff and supported results |
+| Staff | Owned staff identities, validated job labels and supported contract terms |
+| Tactics | Selected tactic/slot, mentality, supported positions/roles and selected players |
+| Inbox | Message IDs, dates, initialized times, unread state, sender and event type; prose remains null |
+| Training | Committed calendar, recognized sessions and individual focus/configured intensity; current ratings remain null |
+| Scouting / Shortlists / TransferTargets | Stored report metadata/knowledge, owned player lists and target state; unvalidated grades/expiry/terms remain null |
+| MatchObservation | Explicit availability and reason; a supported viewer frame carries clock, score, team/player statistics |
 
-* `Player`: id, name, first_name, surname, date_of_birth (ISO date), age (integer), age_as_of (ISO in-game reference date), attributes (nine integer display values), positions (ratings >=15), position_ratings (14 integer values, 1..20), condition and match_sharpness (percentages, raw/100), morale (confirmed English label), morale_rating (ordinal byte).
-* `Manager`: id, name.
-* `Club`: id, name, squad (list of Player).
-* `Game`: date (ISO in-game calendar date).
+Match source is match_viewer, clock_basis is retained_match_statistics and timeline is unclassified. Player condition uses the same retained basis and may lag. MatchFormation contains eleven starting FormationSlot records with basis=starting_lineup, without an inferred formation name. Each MatchPlayer includes starting_position and last_position; a substituted player can retain the latter. Virtual players have null public identity with an explicit identity_status, while their roster place and statistics remain available. Possession is a completed-pass-share estimate, labelled by possession_basis. The selected club roster is not an eligibility list. Stored reports describe prior scouting and are not a live worldwide knowledge estimate. Selected tactics are read from the committed creator, not a saved lineup copy.
 
-The game-date AOB resolves a separate four-byte global. Person birth dates store a year-specific 1-based ordinal and year. Age compares calendar month/day rather than comparing ordinal days from different leap/non-leap years. Batch reads share one date and check it again at the end; standalone player reads check the date before and after decoding. Both date and birth bytes are reread. A detected rollover rejects the observation. The unvalidated February 29 birthday convention on February 28 in a non-leap year fails closed. No time-of-day field is exposed.
+## Freshness and consistency
 
-Unknown fields are omitted rather than filled with invented values. Morale accepts all 20 independently confirmed byte/label pairs (1..20); other values reject the entire player or containing squad/club observation. See morale.md for validation and scouting-visibility scope. The roster matches the observed squad screen and can include loaned-out players. Returned objects are observations, not a simultaneous game snapshot: the game is never paused or suspended by the bridge. Bounds, registry bytes, identity, attributes, the contiguous readiness block, morale byte and roster references are reread to detect many concurrent changes, but reads across all players are not atomic. Use while the game is idle. Two saves of the same career were tested; reads during simulation have not been validated. Two Wycombe fitness records updated during idle navigation after reload despite unchanged displayed game time. Thirteen Gretna records also differed in condition and/or sharpness across a later restart; those non-morale fields were not independently validated numerically in Gretna. No settled-state flag is implemented.
+Each reader validates current manager/team/club ownership, supported types, bounded containers and relevant date/registry state. It rereads owner pointers and observed fields before returning. The bridge never freezes the game: observations are not atomic, and undetected changes remain possible. Keep FM idle and retry 503 responses after transitions.
 
-The HTTP service reattaches after detected process exit or invalidated state on a subsequent request, with a two-second retry cooldown between attachment attempts. It returns 503 for unavailable observations and never returns a cached squad as fresh. Each successful attachment gets a UUID exposed as `session_id`; it identifies the bridge connection, not a saved game. `/status` checks the manager/club chain and current date as well as the registry because the live reload reused the original Person registry addresses. Continuous-service save reload/reconnect and one full-process restart were exercised; see `dates.md` for the expanded model's restart evidence. Multiple FM processes, multiple human managers and unemployed managers require explicit handling beyond this prototype. See `lifecycle.md` for the earlier status-check regression found and fixed during save-reload testing.
+Readiness is a dated cache and is exposed only when its timestamp exactly matches current game time. Cold-loaded inbox messages may have B3=FF; their exact time is null with time_status=not_initialized. The API does not invoke getters or open UI panels to populate such data.
+
+The HTTP service reconnects after detected process exit or invalidated context, with a two-second retry cooldown. It never returns a cached squad as current. Successful responses include observed_at (UTC), session_id (connection UUID) and data. The UUID is not a save identifier. A save reload may reuse registry addresses, so manager/team/club checks are required too.
+
+The integrated process restart reproduced all currently returned non-match data, including controlled tactic/training/list/target changes. A second snapshot exposed the inbox initialization edge case and passed all 15 sampled routes after the fix. Active match and independent-career coverage are reported separately, without implying every undecoded field is supported. Multiple FM processes, multiple human managers and unemployed managers are outside the current supported context.
+
+See [offsets](offsets.md), [signatures](signatures.md), [experiments](experiments.md), [observation progress](observation-progress.md) and the focused subsystem reports for validation scope.

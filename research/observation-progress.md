@@ -1,11 +1,29 @@
-# Observation expansion — remaining work
+# Observation coverage — delivery checkpoint
 
-Current checkpoint: 109 passing offline tests. Full restart FM PID 45464 → 5464 passed with API PID 42772 continuously running. All 15 routes returned HTTP 200; all 14 data responses matched exactly (shortlist list order normalized). Manager heap memory relocated and the API connection UUID changed. The disconnected API withheld observations with 503. See observation-expanded-restart-comparison.json and expanded-api-disconnected.json.
+The read-only library and localhost API are implemented and tested for the gated Windows x64 Steam build 24.4.2+2081827. The delivery contains source, regression tests, discovery notes and paired UI/memory evidence. It does not decode every field in FM or include an AI decision maker/action controller.
 
-Implemented: 47 player attributes, identity/date/positions/readiness/morale, primary nationality, employment/loan contracts, finances, calendar-year fixtures, staff, selected tactics/lineup, inbox metadata, committed training calendars/settings, manager-owned shortlists, stored scouting report metadata/knowledge, transfer targets, and current match viewer statistics/players. Validation details and honest null fields are documented in each subsystem report and README.
+## Implemented coverage
 
-Remaining priority: match replay classification, player condition, red cards/injuries and opposition formation; active match checks after restart. Broader fields still undecoded include inbox prose/attachments, scout prose/recommendation grades, transfer terms/extra enum labels, shortlist expiry, staff attributes/responsibilities, team instructions, all tactic roles, current training ratings and effective intensity. Do not treat existing subsystem coverage as decoding all these fields.
+Player identity, DOB/age, primary nationality, 47 attributes, positions, morale, timestamped readiness, employment/loan terms; current manager/club/squad; basic finances and budgets; calendar-year fixtures/results; club staff; selected tactic/lineup; inbox metadata; committed training calendars and supported player settings; stored scout report metadata/knowledge; shortlists and transfer targets.
 
-A separate project save, work/FM24 Observation Regression.fm, preserves the Feb 7 controlled experiments for reproducible restart tests: goalkeeper swap/personal role fallback, inbox read flags, Feb 19 Physical→Overall, two Quickness/Double Intensity changes, Brad/Sam shortlists, Bridge Watch list, and two transfer targets. Protected originals and named regression copies have not been saved over. Rehash before final delivery. Currency/salary display preferences are temporarily GBP/weekly and still need restoration to USD/yearly.
+Match observations include retained clock/score, team statistics, player identity when decoded, ratings, goals, shots, yellow cards, substitution indicators, retained condition, starting/last positions and opposition starting slots. The active viewer handles virtual players with explicit unresolved identity.
 
-Next integration tasks: second-save comparison for new subsystems, final baseline restore, protected save integrity report, live-check refresh, documentation consolidation and final packaging. No AI decision maker or action controller is in scope. The bridge remains read-only (0x410).
+## Completed validation
+
+* **116 offline tests** passed, including six independent match-stat UI panels across two fixtures, numeric condition checks, virtual-player handling, strict object bounds and cold inbox initialization.
+* **122 live API checks** passed on the restored February 17 named regression copy: [report](api-observation-validation.json).
+* All **15 sampled routes** returned HTTP 200 from the updated running API: [final baseline](observation-checkpoint-final-baseline.json). The additional `/club` route is covered by the live checks.
+* Full FM restart **45464 → 5464**, with API PID 42772 continuously running, passed **32 comparison checks**: [report](observation-expanded-restart-comparison.json). All 14 data models matched, shortlist list order normalized, while manager memory relocated and connection UUID changed. Disconnected observations were withheld with 503.
+* A second active fixture in the restarted process passed **107 UI-based checks**: [Stevenage report](match-stevenage-after-restart-validation.json). This is a different fixture after restart, not a saved/restored paused match.
+* Two saved snapshots of one Wycombe career were checked, including cold empty/non-empty lists and target collections. The cold inbox FF-time sentinel now returns null with `time_status=not_initialized`.
+* All four protected original/regression save files retain their original SHA-256 hashes: [integrity report](save-integrity-observation-final.json).
+
+## Explicit limits
+
+Match replay/live classification, exact current simulation condition, red cards, injuries, current opposition formation and generated virtual-player names remain unvalidated or undecoded. Retained clock/score can lead a replay. Retained condition can lag simulation; its public basis and lag flag make this explicit. Starting formation does not establish the current eleven, and last positions may remain after substitution. Possession is labelled as an inference from completed-pass share.
+
+Other unknowns include inbox prose/attachments, full scout prose/recommendation grades, worldwide scouting knowledge, target terms/extra labels, shortlist expiry, staff attributes/responsibilities, contract clauses, secondary nationalities, team instructions/all tactic roles, some training labels/positions, current training ratings/effective intensity, finance breakdowns/debts/scouting budget. Public unknown fields stay null or have an explicit status.
+
+Validation is limited to this executable and two snapshots of one career. Other careers, multiple human managers, unemployed managers, multiple FM processes and future builds require separate validation. Bounded rereads detect many transitions but do not produce atomic snapshots.
+
+The separate `work/FM24 Observation Regression.fm` retains controlled February 7 UI experiments for reproducing non-empty tactic/training/list/target restart checks. Match experiments used independent project copies. The named February 17 baseline is restored; currency/salary preferences are restored to USD/yearly, as recorded in the final delivery log. No protected save was overwritten.

@@ -1,33 +1,67 @@
-# Live viewer investigation
+# Match observations and validation
 
-Work in progress on the exact gated Steam build; all external access is read-only 0x410. No game functions were executed. Existing VS dumpbin disassembled bounded copies of runtime code saved as inert COFF data under work/.
+The supported Steam build exposes retained match statistics through the active viewer. Production access is read-only 0x410. Runtime code was copied into inert COFF files for the already installed VS dumpbin; no game function was executed.
 
-The unique complete MATCH_CONTROLLER_MANAGER@fmmatchviewer is reached through module RVA 0x6364C68. Its +8 tree sentinel and +0x10 count own an MSVC map. Tree nodes have left +0, parent +8, right +0x10, nil byte +0x19, uint64 session key +0x20, controller +0x28. Select complete GAME_LIVE_MATCH_CONTROLLER, excluding GAME_LIVE_LATEST_SCORES_CONTROLLER. GAME_MATCH_SESSION at the session-manager global is a separate simulation copy, not the displayed frame.
+## Ownership and bounds
 
-The live controller +0x20 points to a wrapper, whose first pointer leads to an implementation. Implementation +0x1C0 is the decoded viewer GAME_MATCH. +0x1B0 is an initial snapshot; controller +0x18 is another initial copy. Code at RVAs 0x12AAEC0 and 0x127D470 confirms the +0x20 / +0 / +0x1C0 chain. GAME_MATCH has an observed bound 0xE640, backed by constructor writes at +0xE630. Do not attribute neighboring allocations to it.
+The AOB in bridge/match.py resolves MATCH_CONTROLLER_MANAGER@fmmatchviewer (observed module RVA 0x6364C68). Its +8 sentinel and +10 count own an MSVC tree. Nodes have left +0, parent +8, right +10, nil byte +19, session key +20 and controller +28. Select GAME_LIVE_MATCH_CONTROLLER; a latest-scores controller is a separate type.
 
-GAME_MATCH +0x28 has the session key. +0x930 points to match statistics, whose +0x10 is FIXTURE_RESULT, +0x50 and +0x58 are home and away statistics (observed stride 0x280). The result's +0x64 and +0x68 score bytes agree with the fixture decoder. Result +8/+0x10 identify the two database TEAM objects.
+Controller +20 → wrapper +0 → implementation +1C0 → GAME_MATCH. Code at RVAs 0x12AAEC0 and 0x127D470 corroborates the chain. GAME_MATCH is bounded at 0xE640, supported by constructor writes through +E630. Match key +28 and competition +680 must agree with the controller and result. The separate simulation session and initial snapshots are not public sources.
 
-**A stale cache was rejected.** Controller +0x5D8 points to a statistics copy that remained at half-time 3–0 after the viewer showed 55:03 and 3–1. Only viewer GAME_MATCH +0x930 followed the visible goal and xG change. Earlier captures named `pre-kickoff` were acquired too late and equal the half-time state; those labels are not evidence of zero-minute validation.
+GAME_MATCH +930 → statistics; statistics +10 → FIXTURE_RESULT, +50/+58 → home/away team statistics. Controller +5D8 is a rejected cache: it remained 3–0 at half-time when the owned GAME_MATCH statistics and UI showed 55:03, 3–1. Captures labelled pre-kickoff from that early experiment were late captures, not zero-minute evidence.
 
-Two paused observations so far:
+Team statistics occupy 0x280 bytes. Their +240/+248 vector had 26 player-stat pointers per side, including 18 populated rows and empty index-FFFFFFFF rows. GAME_MATCH_PLAYER_STATS **allocation size is 0xF8**, established by allocator RVA 0x3ABF800 requesting F8 and constructor writes ending at F6. The earlier observed 0x100 was a pool stride; production reads exactly F8. Readers validate types, owners, bounds and reread observed fields before returning.
 
-| Field | Half-time | 55:03 | Candidate decoder |
-|---|---:|---:|---|
-| Score | 3–0 | 3–1 | result +0x64/+0x68 uint8 |
-| xG | 0.88–0.17 | 0.88–1.11 | team stats +0x60 float32, rounded to 2 decimals |
-| Shots | 5–4 | 5–6 | +0x161 uint8 |
-| On target | 3–2 | 3–3 | +0x162 uint8 |
-| Corners | 0–1 | 1–2 | +0x218 uint8 (also a matching +0x1DC counter; distinguish with further observations) |
-| Fouls | 7–5 | 10–5 | +0x21B uint8 |
-| Yellow cards | 1–1 | 2–1 | +0x21D uint8 |
-| Passing completion | 87–83% | 86–85% | completed +0xDE / attempted +0xDC, uint16 |
-| Possession | 57–43% | 54–46% | candidate share of completed passes, rounded; further validation needed |
+## Validated fields
 
-Clock: GAME_MATCH +0xA84 is a signed tick count at 4 ticks/second, 240 ticks/minute. +0xCDE4 is the displayed second byte and +0xCDE5 the minute byte. Half-time has display 45:00 while raw A84 is 11882; at 55:03 raw A84 is 13213. Disassembly 0x1AD19D0 divides A84 by 240 and remainder by 4, applies period flags, and stores these displayed bytes. Period/replay flags remain under investigation; do not infer phase from raw simulation-frame +0x9E8.
+All offsets below are hexadecimal. Confidence is high within these observed cases and this executable gate, not a claim about other careers/builds.
 
-Team stats +0x240/+0x248 hold a vector of 26 GAME_MATCH_PLAYER_STATS pointers, observed stride 0x100. +0x10 uint32 is the Person registry index, not the public FM UID; unused slots have 0xFFFFFFFF. +0x76 uint16 /100 is a candidate rating; +0x78 is another rating, zero for unused bench players. Shirt number +0x7A; team side +0x7B. +0x7D condition and +0x7E sharpness bytes are candidates, not yet numerically corroborated. +0x50/+0x54 are candidate substitution frame indices, -1 when absent.
+| Owner / offset | Type | Meaning / evidence |
+|---|---|---|
+| Result +64 / +68 | uint8 | Home/away score; six paused UI panels across two fixtures |
+| Game +CDE4 / +CDE5 | uint8 | Retained second/minute; six paired panels and clock code RVA 0x1AD19D0 |
+| Game +AA4 | uint32 flags | Validated in-play, half-time and full-time states; other period combinations unknown |
+| Team +60 | float32 | xG, rounded to two decimals |
+| Team +161 / +162 | uint8 | Shots / on target |
+| Team +218 / +21B / +21D | uint8 | Corners / fouls / yellow cards |
+| Team +DC / +DE | uint16 | Attempted / completed passes; UI percentage uses nearest integer, half up |
+| Player stats +10 | uint32 | Internal Person index, not a public UID |
+| Player stats +50 / +54 | int32 | Substitution in/out frame, -1 absent |
+| Player stats +64 / +68 | uint32 | Starting / last assigned position codes |
+| Player stats +76 / +78 | uint16 | Rating / prior rating; UI rounding, unused bench rating withheld |
+| Player stats +7A / +7B | uint8 | Shirt number / home-away side |
+| Player stats +7D | uint8 | Retained condition percentage, 0..100; three independent numeric post-match checks and writer code |
+| Player stats +7F / +84 / +85 / +9A | uint8 | Goals / shots / on target / yellow cards |
 
-GAME_MATCH +0xCEA8 and +0xCF38 have 18 pointers per side to MATCH_PLAYER@simatch. Their +0x28 is the Person subobject (RTTI ACTUAL_PLAYER@db offset 0x278); **do not add another 0x278**. Person +8 is the internal index; +0xC is public UID. The match roster order differs from tactics display order and can retain a prior lineup at half-time; resolve identities by index rather than by UI row.
+Possession is the observed completed-pass-share percentage; it matches all six panels but remains an **inference**, explicitly labelled `inferred_from_completed_pass_share`. It is not a decoded possession-duration counter.
 
-Freshly opened detailed player-statistics tables corroborated all 22 starter ratings and 36 shirt numbers. The bottom ratings bar had stale values (Bellingham 7.9, McCleary 7.7, Odobert 7.7) until the detailed table was opened; the fresh table showed 7.7, 7.4, 7.6, matching memory rounding. Bench ratings must remain null instead of exposing the default 6.7. Evidence: `ui/match-peterborough-half-time-player-stats.png`, `ui/match-peterborough-half-time-away-stats.png`, `ui/match-peterborough-minute55.png`, and paired `match-details-*.json` captures.
+## UI comparisons and restart
+
+| Fixture | Clock | Score | Shots | xG | Possession |
+|---|---|---|---|---|---|
+| Wycombe–Peterborough | 45:00 | 3–0 | 5–4 | .88–.17 | 57–43 |
+| Wycombe–Peterborough | 55:03 | 3–1 | 5–6 | .88–1.11 | 54–46 |
+| Wycombe–Peterborough | 75:31 | 5–1 | 9–7 | 2.14–1.15 | 55–45 |
+| Wycombe–Peterborough | 90:00 | 6–1 | 11–11 | 2.76–1.60 | 53–47 |
+| Stevenage–Wycombe | 45:00 | 0–2 | 3–5 | .29–1.13 | 55–45 |
+| Stevenage–Wycombe | 90:00 | 1–3 | 9–10 | .59–1.80 | 45–55 |
+
+Corresponding `match-details-*.json` and `ui/match-*.png` files retain the evidence. Offline tests assert the independently transcribed panels, goal/card players, substitutions and detailed ratings. Fresh detailed player tables corroborated all 22 Peterborough-fixture starter ratings and 36 shirt numbers; the bottom ratings bar initially held stale values. Eleven Wycombe full-time ratings were independently checked in the Stevenage fixture.
+
+The integrated restart changed FM PID 45464 → 5464 and passed 32 checks across non-match observations. The second fixture ran in PID 5464 on an independent February 17 project save: `match-stevenage-after-restart-validation.json` records 107 passing checks against the active 90:00, 1–3 viewer, including score/clock, team counters, 36-player goals/cards, eleven ratings and starting formation. This validates resolution after process restart and in a different fixture; it does not claim the same paused match was saved/restarted.
+
+## Condition and positions
+
+Writer RVA 0x1B4E640 updates MATCH_PLAYER@simatch +240 (int32, 10,000 units per percentage point) using +244 and baseline +2CA, then divides by 10,000 and stores a byte through actor +16E0 → stats +7D. This supports the field meaning beyond coincidental values. The retained byte can lag the actor: Murić's byte was 98 while the 28:33 actor value was about 94.68. It must not be advertised as an exact current simulation value.
+
+After Stevenage full-time processing, existing numeric Fitness panels showed McCarthy **5900**, Murić **9500**, McCleary **7100** on FM's 0..10000 player scale. Their retained match bytes were **59, 95, 71**. Screenshots `ui/match-stevenage-post-condition-*.png` and `post-match-readiness-raw.json` preserve these independent checks. Detail dialogs were dismissed with Escape without editing/applying values. Production returns a whole percentage, `condition_basis=retained_match_statistics`, `condition_may_lag=true`. Values over 100 are rejected. Match sharpness +7E remains unvalidated.
+
+All eleven Stevenage starting positions were compared with the Opposition panel at 28:33: GK, DCR, DC, DCL, WBR, DM, WBL, MCR, MCL, STCR, STCL. They are returned as slots with `basis=starting_lineup`, not a guessed formation name. +68 is a last assignment: Katongo retained DR after coming off; Edwards changed DCR→DCL. It cannot establish a current eleven by itself.
+
+## Virtual players and timeline limits
+
+Stevenage's unused substitute goalkeeper, shirt 27, is a VIRTUAL_PLAYER@db Person subobject at offset 30. The UI calls him Ady Cornick, but its generated name layout has not been decoded. The registry index now supports this exact type as well as ACTUAL_PLAYER at offset 278. The public row retains statistics with null id/name and `identity_status=virtual_player_identity_not_decoded`. No actual-player name offsets are applied to it. This fixture has 35 resolved identities and one explicit unresolved identity.
+
+During a paused goal replay the visible clock was **05:05**, while retained statistics already held **05:17, 0–1**. Skipping the replay brought the visible clock to 05:17. Controller candidates +128, +1D8, +344, +354 and +13C/+360 changed, but one paired replay is insufficient to promote a classifier. `timeline=unclassified` and `clock_basis=retained_match_statistics` remain explicit. API clock/score must not be treated as the current replay frame.
+
+Red cards and injuries have no positive validated match cases, so remain null. Extra-time phases, replay/live classification, current opposition formation, generated player names and exact current simulation condition remain undecoded. All validation is within two snapshots of one career and the exact build gate.

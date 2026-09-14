@@ -1,6 +1,6 @@
 # Staff observation
 
-Status: implemented; 87 names observed across Wycombe (20) and Arsenal (67), including senior/youth teams and boards. Restart validation is still pending. Screens: `ui/staff-all-feb11.png` and the four `ui/staff-arsenal-*.png` captures. Runtime output: `staff-observations-feb11.json`; recorded decoder reads: `staff-read-trace.json`.
+Status: implemented; 87 names observed across Wycombe (20) and Arsenal (67), including senior/youth teams and boards. The integrated FM restart 45464 → 5464 reproduced the public model exactly; the second snapshot and final baseline also returned HTTP 200. See observation-expanded-restart-comparison.json and observation-checkpoint-final-baseline.json. This does not extend coverage to undecoded fields. Screens: `ui/staff-all-feb11.png` and the four `ui/staff-arsenal-*.png` captures. Runtime output: `staff-observations-feb11.json`; recorded decoder reads: `staff-read-trace.json`.
 
 | Owner | Offset | Type | Meaning and evidence |
 |---|---|---|---|

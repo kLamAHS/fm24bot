@@ -1,8 +1,8 @@
 """Bounded, read-only observations from the active match viewer.
 
-The simulation and controller's cached statistics are separate objects. Only
-the viewer's decoded frame owns the statistics returned here. The source is
-explicit: replay classification is validated separately from the field layout.
+The simulation and controller's cached statistics are separate objects. Read
+the viewer GAME_MATCH's retained statistics, which can lead a replay and lag
+individual simulation values. Their source and limitations are explicit.
 """
 import math
 import struct
@@ -14,11 +14,28 @@ from .club import direct_string_entry
 from .players import identity
 from .pointers import vector
 from structures.fixture import FixtureTeam
-from structures.match import Match,MatchObservation,TeamMatchStats,MatchPlayer
+from structures.match import Match,MatchObservation,TeamMatchStats,MatchPlayer,MatchFormation,FormationSlot
+from .tactics import POSITIONS
 
 ROOT_PATTERN='48 8B 0D ?? ?? ?? ?? 48 8B 56 18 E8 ?? ?? ?? ?? 84 C0 74 15 48 8B 0D'
 MANAGER_TYPE='.?AVMATCH_CONTROLLER_MANAGER@fmmatchviewer@@'
 LIVE_TYPE='.?AVGAME_LIVE_MATCH_CONTROLLER@@'
+PLAYER_STATS_SIZE=0xF8  # Allocator at RVA 0x3ABF800; 0x100 was the pool stride.
+
+def match_identity(db,person,observed):
+    offset=db.type_offset(person)
+    if offset==0x30:
+        info=type_info(db,person)
+        if info['name']!='.?AVVIRTUAL_PLAYER@db@@' or info['offset']!=0x30:
+            raise MemoryReadError('Unsupported match player type')
+        observed(person,0x20)
+        # Virtual players use generated names, not the actual-player string layout.
+        # Keep their statistics and roster place without fabricating an identity.
+        return None,None,'virtual_player_identity_not_decoded'
+    if offset!=0x278:raise MemoryReadError('Match player type changed')
+    ident=observed(person,0x78);uid,name,_,_=identity(db.fm,person)
+    if uid!=struct.unpack_from('<I',ident,12)[0]:raise MemoryReadError('Match player identity changed')
+    return uid,name,'resolved'
 
 def percentage(numerator,denominator):
     return (200*numerator+denominator)//(2*denominator) if denominator else None
@@ -47,7 +64,7 @@ def decode_clock(raw):
     return minute,second,phase
 
 def decode_match_player(raw):
-    if len(raw)!=0x100:raise MemoryReadError('Incomplete match player statistics')
+    if len(raw)!=PLAYER_STATS_SIZE:raise MemoryReadError('Incomplete match player statistics')
     person_index=struct.unpack_from('<I',raw,0x10)[0]
     if person_index==0xFFFFFFFF:return None
     start=struct.unpack_from('<I',raw,0x64)[0]!=0
@@ -56,23 +73,31 @@ def decode_match_player(raw):
     if raw[0x7B] not in (0,1) or not 0<rating<=1000 or sub_in< -1 or sub_out< -1:
         raise MemoryReadError('Invalid match player statistics')
     if raw[0x85]>raw[0x84] or raw[0x7F]>99 or raw[0x9A]>2:raise MemoryReadError('Invalid match player counters')
+    if raw[0x7D]>100:raise MemoryReadError('Invalid retained match condition')
     appeared=start or sub_in>=0
     return person_index,dict(side='home' if raw[0x7B]==0 else 'away',shirt_number=raw[0x7A],started=start,
         appeared=appeared,substituted_in=sub_in>=0,substituted_out=sub_out>=0,
         rating=((rating+5)//10)/10 if appeared else None,
         rating_may_be_provisional=appeared and previous==0,
-        goals=raw[0x7F],shots=raw[0x84],shots_on_target=raw[0x85],yellow_cards=raw[0x9A])
+        goals=raw[0x7F],shots=raw[0x84],shots_on_target=raw[0x85],yellow_cards=raw[0x9A],
+        condition=raw[0x7D],starting_position=POSITIONS.get(struct.unpack_from('<I',raw,0x64)[0]),
+        last_position=POSITIONS.get(struct.unpack_from('<I',raw,0x68)[0]))
+
+def starting_formation(players,side,team_id):
+    starters=[p for p in players if p.side==side and p.started]
+    if len(starters)!=11:raise MemoryReadError('Incomplete match starting formation')
+    return MatchFormation(team_id,[FormationSlot(p.id,p.name,p.shirt_number,p.starting_position) for p in starters])
 
 class MatchReader:
     def __init__(self,db):
         self.db=db;self.fm=db.fm;self.global_ptr=None;self.manager=None;self.player_index=None
 
     def index_players(self):
-        # This internal index is scoped to the concrete Player registry type;
+        # This internal index is scoped to actual and virtual Player types;
         # it is never returned to API consumers as an FM unique ID.
         result={}
         for person in self.db.person_pointers():
-            if self.db.type_offset(person)!=0x278:continue
+            if self.db.type_offset(person) not in (0x278,0x30):continue
             idx=self.fm.read_uint32(person+8)
             if idx in result:raise MemoryReadError('Duplicate player index')
             result[idx]=person
@@ -168,26 +193,28 @@ class MatchReader:
         hpointer=pointer(stats+0x50);apointer=pointer(stats+0x58)
         hraw=observed(hpointer,0x280);araw=observed(apointer,0x280)
         h=decode_team_stats(hraw);a=decode_team_stats(araw)
-        players=[];seen=set()
+        players=[];seen=set();seen_indexes=set()
         for side,team_pointer,team_raw in [('home',hpointer,hraw),('away',apointer,araw)]:
             begin,end=vector(f,team_pointer+0x240,max_count=64)
             if (begin,end)!=struct.unpack_from('<QQ',team_raw,0x240):raise MemoryReadError('Player statistics list changed')
             addresses=observed(begin,end-begin);count=0
             for (pp,) in struct.iter_unpack('<Q',addresses):
-                require_type(db,pp,'.?AVGAME_MATCH_PLAYER_STATS@@');pr=observed(pp,0x100)
+                require_type(db,pp,'.?AVGAME_MATCH_PLAYER_STATS@@');pr=observed(pp,PLAYER_STATS_SIZE)
                 decoded=decode_match_player(pr)
                 if decoded is None:continue
                 index,fields=decoded;person=self.player_index.get(index)
                 if person not in known or int.from_bytes(observed(person+8,4),'little')!=index:
                     raise MemoryReadError('Match player is not in the supported database registry')
-                if db.type_offset(person)!=0x278:raise MemoryReadError('Match player type changed')
-                ident=observed(person,0x78);uid,name,_,_=identity(f,person)
-                if uid!=struct.unpack_from('<I',ident,12)[0] or uid in seen or fields['side']!=side:
+                uid,name,identity_status=match_identity(db,person,observed)
+                if (uid is not None and uid in seen) or index in seen_indexes or fields['side']!=side:
                     raise MemoryReadError('Match player identity or side mismatch')
-                seen.add(uid);players.append(MatchPlayer(uid,name,**fields));count+=1
+                if uid is not None:seen.add(uid)
+                seen_indexes.add(index);players.append(MatchPlayer(uid,name,**fields,identity_status=identity_status));count+=1
             if count!=team_raw[0] or not 11<=count<=64:raise MemoryReadError('Incomplete match player roster')
         total=h['passes_completed']+a['passes_completed'];hp=percentage(h['passes_completed'],total)
         minute,second,phase=decode_clock(frame)
+        opposition=starting_formation(players,'away' if context.team==home else 'home',at.team_id if context.team==home else ht.team_id)
         model=Match(day.isoformat(),time,cid,cname,ht,at,hs,aws,minute,second,phase,
-                    TeamMatchStats(**h,possession=hp),TeamMatchStats(**a,possession=100-hp if hp is not None else None),players=players)
+                    TeamMatchStats(**h,possession=hp),TeamMatchStats(**a,possession=100-hp if hp is not None else None),
+                    players=players,opposition_formation=opposition)
         finish();return MatchObservation(True,None,model)

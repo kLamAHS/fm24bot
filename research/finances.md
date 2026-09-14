@@ -33,4 +33,4 @@ After closing Arsenal's details with Escape and navigating away, FM displayed **
 
 ## Consistency and lifecycle
 
-The reader checks type, owner, pointer identity, amounts and game timestamp twice, and rejects detected changes. This is not an atomic snapshot. The finance object changed address across the two save loads. Public API and full-process restart checks are pending completion of the observation-layer integration pass.
+The reader checks type, owner, pointer identity, amounts and game timestamp twice, and rejects detected changes. This is not an atomic snapshot. The finance object changed address across the two save loads. The integrated FM restart 45464 → 5464 reproduced the public model exactly; the second snapshot and final baseline also returned HTTP 200. See observation-expanded-restart-comparison.json and observation-checkpoint-final-baseline.json. This does not extend coverage to undecoded fields.

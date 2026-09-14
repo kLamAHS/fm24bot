@@ -12,6 +12,7 @@ class InboxMessage:
     subject:str|None=None
     body:str|None=None
     text_status:str='not_decoded'
+    time_status:str='current'
 
 @dataclass
 class Inbox:
