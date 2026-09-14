@@ -1,0 +1,134 @@
+{
+  "pid": 36240,
+  "date": "2024-02-07",
+  "rows": [
+    {
+      "team_id": 602,
+      "team_address": "0x10f365c68",
+      "detail_address": "0x110b8a088",
+      "club_name": "Arsenal",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 620,
+      "team_address": "0x10f364f78",
+      "detail_address": "0x110b88cd8",
+      "club_name": "Bristol Rovers",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 631,
+      "team_address": "0x10f364790",
+      "detail_address": "0x110b880d0",
+      "club_name": "Cheltenham Town",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 695,
+      "team_address": "0x10f361a48",
+      "detail_address": "0x110b83be8",
+      "club_name": "Oxford United",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 696,
+      "team_address": "0x10f361990",
+      "detail_address": "0x110b83ad0",
+      "club_name": "Peterborough United",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 719,
+      "team_address": "0x10f360908",
+      "detail_address": "0x110b821a8",
+      "club_name": "Stevenage",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff04000000000000000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        }
+      ]
+    },
+    {
+      "team_id": 742,
+      "team_address": "0x10f35f938",
+      "detail_address": "0x110b80998",
+      "club_name": "Wycombe Wanderers",
+      "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000206d761a0100000038f9350f010000009019360f01000000294ae807ffffffffffff010000000000",
+      "entries": [
+        {
+          "unresolved": true,
+          "hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000"
+        },
+        {
+          "competition_id": 13,
+          "competition_name": "Sky Bet League One",
+          "fixture_name_id": 146,
+          "fixture_name_hex": "183b6d45010000009100000092000000920000000000000000248eda00000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000",
+          "self_team": 742,
+          "opponent_team": 696,
+          "opponent_name": "Peterborough United",
+          "date": "2024-02-10",
+          "time_hypothesis": "15:00",
+          "last8": "ffff010000000000",
+          "match_id": -1
+        }
+      ]
+    }
+  ]
+}

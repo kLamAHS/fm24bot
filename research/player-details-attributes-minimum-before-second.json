@@ -1,0 +1,71 @@
+{
+  "pid": 36240,
+  "game": {
+    "date": "2024-02-11",
+    "time": "08:00"
+  },
+  "players": [
+    {
+      "id": 211388,
+      "identity": [
+        211388,
+        "Jamie Mills",
+        "Jamie",
+        "Mills"
+      ],
+      "person": "0x11a11cb30",
+      "attributes_hex": "1b0a010f051e191e0123190a050f0f05051e230f140f1419642819091928130a0a0a50010a3c5014111e3c2033193c1e2d3932501e23",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11a02cf10",
+          "address": "0x11a02cf10",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000030cb111a01000000a08ff30e010000006400000001000b000000000000000000000000000000000002000000ffffffffffffffff9f00e6079800e8079f00e60701006c07030303000000286464ff0000",
+          "owner": "0x11a11cb30",
+          "weekly_wage": 100,
+          "team_id": 2000019862,
+          "club_id": 2000019862,
+          "club_name": "Drumchapel United",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa44918",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 793,
+        "name": "Scotland"
+      }
+    },
+    {
+      "id": 29234746,
+      "identity": [
+        29234746,
+        "Kai Forsyth",
+        "Kai",
+        "Forsyth"
+      ],
+      "person": "0x119590588",
+      "attributes_hex": "1b060220042e0b0b0226040f050f0f050a092f0a1f0a1509641e17040b1106050f05380219262d400b4b111a37322923192832051112",
+      "contracts": [],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    }
+  ]
+}

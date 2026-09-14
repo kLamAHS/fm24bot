@@ -1,0 +1,1393 @@
+{
+  "pid": 36240,
+  "game": {
+    "date": "2024-02-11",
+    "time": "08:00"
+  },
+  "players": [
+    {
+      "id": 14185872,
+      "identity": [
+        14185872,
+        "Franco Ravizzoli",
+        "Franco",
+        "Ravizzoli"
+      ],
+      "person": "0x119fad718",
+      "attributes_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11970c5f0",
+          "address": "0x11970c5f0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000018d7fa190100000038f9350f010000002003000001000b00000000000000000000000000000000001d000000ffffffffffffffffb81ae707b600e807b81ae70701006c0714001400000050c717190020",
+          "owner": "0x119fad718",
+          "weekly_wage": 800,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa42438",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 1649,
+        "name": "Argentina"
+      }
+    },
+    {
+      "id": 28028684,
+      "identity": [
+        28028684,
+        "Ryan Tafazolli",
+        "Ryan",
+        "Tafazolli"
+      ],
+      "person": "0x119ee57e0",
+      "attributes_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x119445608",
+          "address": "0x119445608",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e057ee190100000038f9350f01000000b80b000001000b000080000000000000907fe32001000000e7000000ffffffffffffffff8200e707b600e807f600e40701006c070200020000002838f4060003",
+          "owner": "0x119ee57e0",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa51038",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 114,
+        "name": "Iran"
+      }
+    },
+    {
+      "id": 28084868,
+      "identity": [
+        28084868,
+        "Jason McCarthy",
+        "Jason",
+        "McCarthy"
+      ],
+      "person": "0x119db8570",
+      "attributes_hex": "3c372341283d3c32234132050f0a0f050537320f3d0f37322864283f464b4b0f05053c39413c3c3c5032373c3f46383c2d4641503234",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x119234700",
+          "address": "0x119234700",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c6645010000007085db190100000038f9350f01000000b80b000001000b00000000000000000090bfc32001000000f1000000ffffffffffffffff6700e707b600e807ee00e40701006c070300030000005057441a0000",
+          "owner": "0x119db8570",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28088510,
+      "identity": [
+        28088510,
+        "Kane Vincent-Young",
+        "Kane",
+        "Vincent-Young"
+      ],
+      "person": "0x119dad5a8",
+      "attributes_hex": "2c3b2c2c363227361d38270f0f0f05050a2c2d0a310f273b4164410e3b45190f050f41133640402c2d1e3628342d3b3c145141462c36",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1192320e8",
+          "address": "0x1192320e8",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000a8d5da190100000038f9350f01000000a00f000001000b000000000000000000000000000000000024010000ffffffffffffffffb81ae707b500e907b81ae70701006c070700070000003c3c5e2c0001",
+          "owner": "0x119dad5a8",
+          "weekly_wage": 4000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28117405,
+      "identity": [
+        28117405,
+        "Jack Young",
+        "Jack",
+        "Young"
+      ],
+      "person": "0x119d34fe0",
+      "attributes_hex": "312d1e28322d233223283205050f0a050f33320a2d0537373764232d373c1e0a0a0f372d28372d19190f2d282128321923333c28373c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11911af70",
+          "address": "0x11911af70",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e04fd3190100000038f9350f01000000e803000001000b000000000000000000105bc3200100000038000000ffffffffffffffff5e00e607b500e9075e00e60701006c07070007020003509c080f002a",
+          "owner": "0x119d34fe0",
+          "weekly_wage": 1000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 29000734,
+      "identity": [
+        29000734,
+        "Joe Jacobson",
+        "Joe",
+        "Jacobson"
+      ],
+      "person": "0x1198e6788",
+      "attributes_hex": "50272a3e3934433e5e394305050f0a050f343905430f394d64281e5a4d492f0f0a0a214c302f21345537323c32322e321925463c3439",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x119107610",
+          "address": "0x119107610",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000088678e190100000038f9350f01000000a00f000001000b000000000000000000b039c3200100000024010000ffffffffffffffff5800e707b600e807b600de0701006c0704000400000050535c030000",
+          "owner": "0x1198e6788",
+          "weekly_wage": 4000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa43a58",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 801,
+        "name": "Wales"
+      }
+    },
+    {
+      "id": 29064636,
+      "identity": [
+        29064636,
+        "Josh Scowen",
+        "Josh",
+        "Scowen"
+      ],
+      "person": "0x1198bf688",
+      "attributes_hex": "323b1e372d37373c3241320f14050f050a3c3705370f3c37286428234b552805140a3c32374b3c37374b3c4b3a50374614524b46373c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1190fcf50",
+          "address": "0x1190fcf50",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000088f68b190100000038f9350f010000008813000001000b000000000000000000b021c3200100000092010000ffffffffffffffff5e00e707b600e807b600e50701006c070300030000009ccc9c040018",
+          "owner": "0x1198bf688",
+          "weekly_wage": 5000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 29086854,
+      "identity": [
+        29086854,
+        "Kieran Sadlier",
+        "Kieran",
+        "Sadlier"
+      ],
+      "person": "0x1198a0a58",
+      "attributes_hex": "363a272c3b183b3b3f183b050f0a05051431360f2c0f40455064413c3b2c130f0f053b3627363b2732143b23412d31320f4d3c282c36",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1190f5f30",
+          "address": "0x1190f5f30",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000580a8a190100000038f9350f01000000a00f000001000b00000000000000000000000000000000002c010000ffffffffffffffffb81ae707b600e807b81ae70701006c0707000702000350a30b17000a",
+          "owner": "0x1198a0a58",
+          "weekly_wage": 4000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa45078",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 789,
+        "name": "Republic of Ireland"
+      }
+    },
+    {
+      "id": 29120249,
+      "identity": [
+        29120249,
+        "Brandon Hanlan",
+        "Brandon",
+        "Hanlan"
+      ],
+      "person": "0x11987b898",
+      "attributes_hex": "31403b2c3227363c3e0e37050a0a050f052d270a180f31452d6437272c45180a0a0f452745404f371f233b323e282e23193c4132312d",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118ee6508",
+          "address": "0x118ee6508",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000098b887190100000038f9350f01000000d007000001000b00000000000000000070ecc2200100000092000000ffffffffffffffffee00e507b600e807ee00e50701006c07030003000000c423cb120001",
+          "owner": "0x11987b898",
+          "weekly_wage": 2000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 29141735,
+      "identity": [
+        29141735,
+        "Beryly Lubala",
+        "Beryly",
+        "Lubala"
+      ],
+      "person": "0x11984da38",
+      "attributes_hex": "313c36313b1836312619310a050f0a0f0a36270f270531311e643728363618140a0a3b373c3b3b2c282331372d373b32192d4119362c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118edc070",
+          "address": "0x118edc070",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000038da84190100000038f9350f01000000d007000001000b00000000000000000000000000000000007e000000ffffffffffffffffb81ae707b500ea07b81ae70701006c0707000702000350a50c1e0009",
+          "owner": "0x11984da38",
+          "weekly_wage": 2000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa52480",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 53,
+        "name": "Congo DR"
+      }
+    },
+    {
+      "id": 29141819,
+      "identity": [
+        29141819,
+        "Matt Butcher",
+        "Matt",
+        "Butcher"
+      ],
+      "person": "0x11984ca98",
+      "attributes_hex": "31362d313c34373727343b0a0f0a050f0a383e053f0f383d642328314a4a1d0a050f3231464033383d28403c4d3c32371e5c3741373f",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118edbd90",
+          "address": "0x118edbd90",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000098ca84190100000038f9350f01000000b80b000001000b0000000000000000000000000000000000da000000ffffffffffffffffb81ae707b500ea07b81ae70701006c07070007000000503f5f080000",
+          "owner": "0x11984ca98",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 29214946,
+      "identity": [
+        29214946,
+        "Chris Forino",
+        "Chris",
+        "Forino"
+      ],
+      "person": "0x1195d4f30",
+      "attributes_hex": "142a144714391f2d283c2114050a050a0a2b2d053e053729286411283d3c230a0f05461e3d39464b28283f3832283d28142246373630",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118cb1298",
+          "address": "0x118cb1298",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000304f5d190100000038f9350f01000000e803000001000b000000000000000000000000000000000040000000ffffffffffffffff5901e507b600e8077500e50701006c070700074000003c164e050001",
+          "owner": "0x1195d4f30",
+          "weekly_wage": 1000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa4aad0",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 384,
+        "name": "St. Lucia"
+      }
+    },
+    {
+      "id": 30002284,
+      "identity": [
+        30002284,
+        "Garath McCleary",
+        "Garath",
+        "McCleary"
+      ],
+      "person": "0x11955fc30",
+      "attributes_hex": "3d47382e2e243d383e29330a14050f0514383d0f1a0f47383c644b34423d330f0a05363933323b293c0f3f3c4119363741404b3c3d42",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118c97f60",
+          "address": "0x118c97f60",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000030fc55190100000038f9350f01000000b80b000001000b00008000000000000010af7120010000000f010000ffffffffffffffff1f00e507b600e8073501e40701006c07020002000000c43ed70c0000",
+          "owner": "0x11955fc30",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa4b5e0",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 377,
+        "name": "Jamaica"
+      }
+    },
+    {
+      "id": 30019004,
+      "identity": [
+        30019004,
+        "David Wheeler",
+        "David",
+        "Wheeler"
+      ],
+      "person": "0x11955f078",
+      "attributes_hex": "313b3b4b2c23402d2c28310f050a0a0a0f38400a2d14323732642d2c3b4b0a050f05362d3d3f2b4641283c374c323f3c3c3e505a4046",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118c97100",
+          "address": "0x118c97100",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000078f055190100000038f9350f01000000b80b000001000b000000000000000000b0ae712001000000e6000000ffffffffffffffff5f00e707b600e807d300e307b81ae70707000701050050d836070005",
+          "owner": "0x11955f078",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 61031508,
+      "identity": [
+        61031508,
+        "Jack Grimmer",
+        "Jack",
+        "Grimmer"
+      ],
+      "person": "0x1192cdcb8",
+      "attributes_hex": "3b351d3b1e3631361d40360505050a0f0f36310a3b0f3b3b2d642331454a390a0f0a362231403636321e4032423240322348463c3631",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118757ef0",
+          "address": "0x118757ef0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000b8dc2c190100000038f9350f01000000c409000001000b0000000000000000000000000000000000b6000000ffffffffffffffff5f00e707b600e807cb00e30701006c0707000700000050f24d020002",
+          "owner": "0x1192cdcb8",
+          "weekly_wage": 2500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa44918",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 793,
+        "name": "Scotland"
+      }
+    },
+    {
+      "id": 61057162,
+      "identity": [
+        61057162,
+        "Luke Leahy",
+        "Luke",
+        "Leahy"
+      ],
+      "person": "0x1190790f0",
+      "attributes_hex": "463a3c2d41373c42502d3d050f0a140f0f323d0f280f3c3c6423333a46464b050f053c3f3d41372d462d3c2d42283c4119373c5a323c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11874f718",
+          "address": "0x11874f718",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000f09007190100000038f9350f010000009411000001000b000080000000000000f08a42200100000064010000ffffffffffffffffb81ae707b500ea07b81ae70701006c070200020000006457190a0000",
+          "owner": "0x1190790f0",
+          "weekly_wage": 4500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 96053555,
+      "identity": [
+        96053555,
+        "Maksymilian Stryjek",
+        "Maksymilian",
+        "Stryjek"
+      ],
+      "person": "0x117e0d188",
+      "attributes_hex": "05050f050a050f230f0f19413d47294641373d473846142832640a142d290a2d3c281e27413723482819373c3f46413c283b46372d48",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1176a36b0",
+          "address": "0x1176a36b0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000088d1e0170100000038f9350f01000000dc05000001000b00108004000000000090995321010000007c000000ffffffffffffffffe600e607b600e807e600e60701006c070200020000009cea9c01001f",
+          "owner": "0x117e0d188",
+          "weekly_wage": 1500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa45428",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 787,
+        "name": "Poland"
+      }
+    },
+    {
+      "id": 28127270,
+      "identity": [
+        28127270,
+        "Saxon Earley",
+        "Saxon",
+        "Earley"
+      ],
+      "person": "0x119cf7b68",
+      "attributes_hex": "2c371d1e28313b371d3b2d14050f0a050a362d14320a3131643223273c3d160a0a0f3c272e41403732233838232d361e1e4b41413b31",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11910bb10",
+          "address": "0x11910bb10",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000687bcf1901000000d818360f01000000ac0d000001000b000000000000000000000000000000000006010000ffffffffffffffff0200e707b500e9070200e70701006c070a0a0a000000140014ff0000",
+          "owner": "0x119cf7b68",
+          "weekly_wage": 3500,
+          "team_id": 697,
+          "club_id": 697,
+          "club_name": "Plymouth Argyle",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f6d090",
+          "address": "0x1189e7810",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c74501000000687bcf190100000038f9350f01000000b5090000010000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c070a000a40000050d764100002",
+          "owner": "0x119cf7b68",
+          "weekly_wage": 2485,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28127368,
+      "identity": [
+        28127368,
+        "Chem Campbell",
+        "Chem",
+        "Campbell"
+      ],
+      "person": "0x1198ef040",
+      "attributes_hex": "363b2c223d1d3b3b2c2337050f0a050f0f32310f1f143b3b3c64463c222d1b0f0f0f42362d36403d233c4028323c453c283c3c3c3122",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11910a7a8",
+          "address": "0x11910a7a8",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000040f08e1901000000a8fa350f010000008813000001000b0000000000000000000000000000000000ed010000ffffffffffffffff1e01e607b500ea07b600df0701006c070a0a0a000000200014ff0000",
+          "owner": "0x1198ef040",
+          "weekly_wage": 5000,
+          "team_id": 740,
+          "club_id": 740,
+          "club_name": "Wolverhampton Wanderers",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f6cf30",
+          "address": "0x1189e6e18",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c7450100000040f08e190100000038f9350f01000000c4090000010000000000000000000000b03cc3200100000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c07030003400000b0bb9c0b0004",
+          "owner": "0x1198ef040",
+          "weekly_wage": 2500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa43a58",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 801,
+        "name": "Wales"
+      }
+    },
+    {
+      "id": 37078342,
+      "identity": [
+        37078342,
+        "Nigel Lonwijk",
+        "Nigel",
+        "Lonwijk"
+      ],
+      "person": "0x1193be848",
+      "attributes_hex": "232c233c23363340283637050f05050a0f3b2d0f330f41404164281d3c3b24140f053d1d333c474629233c373746412d28373c3c412d",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11899cc80",
+          "address": "0x11899cc80",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000048e83b1901000000a8fa350f01000000401f000001000b0000000000000000000000000000000000e0020000ffffffffffffffffd200e607b500e9070100e40701006c070d0d0a000000310014ff0000",
+          "owner": "0x1193be848",
+          "weekly_wage": 8000,
+          "team_id": 740,
+          "club_id": 740,
+          "club_name": "Wolverhampton Wanderers",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f64540",
+          "address": "0x118877c40",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c7450100000048e83b190100000038f9350f0100000040060000010000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c070a000a40000050f164160001",
+          "owner": "0x1193be848",
+          "weekly_wage": 1600,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa459b0",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 784,
+        "name": "The Netherlands"
+      }
+    },
+    {
+      "id": 2000008139,
+      "identity": [
+        2000008139,
+        "Dale Taylor",
+        "Dale",
+        "Taylor"
+      ],
+      "person": "0x117df1050",
+      "attributes_hex": "27313b2c221d2c36321e310f05050f0a0a37320a310f36363c64331d3c3b0e05050a3c1d383c3b3628193b3c3c3736320f37384b3c36",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11769d940",
+          "address": "0x11769d940",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c6645010000005010df1701000000701c360f01000000b80b000001000b000000000000000000000000000000000002010000ffffffffffffffffb900e607b500e907cc00e40701006c070d0d0d0000003ce214ff0000",
+          "owner": "0x117df1050",
+          "weekly_wage": 3000,
+          "team_id": 692,
+          "club_id": 692,
+          "club_name": "Nottingham Forest",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x1162e5de0",
+          "address": "0x1176d29e8",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c745010000005010df170100000038f9350f01000000dc050000010000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c070a000a400000289c14140029",
+          "owner": "0x117df1050",
+          "weekly_wage": 1500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa457d8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 785,
+        "name": "Northern Ireland"
+      }
+    },
+    {
+      "id": 2000020024,
+      "identity": [
+        2000020024,
+        "Freddie Potts",
+        "Freddie",
+        "Potts"
+      ],
+      "person": "0x117dcf540",
+      "attributes_hex": "2c2c30323b333c45222c470f0a05050a0f44400a350a4a4146641a204a371d050f0f2b2d2821344141194f313c28383c2337501e4336",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x117696ee0",
+          "address": "0x117696ee0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000040f5dc170100000040fe350f01000000c409000001000b0000800000000000000000000000000000f3000000ffffffffffffffffb81ae707b500ea07b600da0701006c070d0d0a000000500014ff0000",
+          "owner": "0x117dcf540",
+          "weekly_wage": 2500,
+          "team_id": 735,
+          "club_id": 735,
+          "club_name": "West Ham United",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x1162e5940",
+          "address": "0x1176d0c00",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c7450100000040f5dc170100000038f9350f01000000e2040000010000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c070300034000002a3916130000",
+          "owner": "0x117dcf540",
+          "weekly_wage": 1250,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 2000118384,
+      "identity": [
+        2000118384,
+        "Gideon Kodua",
+        "Gideon",
+        "Kodua"
+      ],
+      "person": "0x1177c3d80",
+      "attributes_hex": "363a3c3d3c293b4527273b0a0a0a0a05144023052205344a2d643c36444931050f053a303431441d48413423373c204b1e463750271e",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x116fe7d78",
+          "address": "0x116fe7d78",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000803d7c170100000040fe350f01000000001000000100000000000000000000000000000000000000ae010000ffffffffffffffffd02ae707b500ea07b600e10701006c070b0a0b000000500014ff0000",
+          "owner": "0x1177c3d80",
+          "weekly_wage": 4096,
+          "team_id": 735,
+          "club_id": 735,
+          "club_name": "West Ham United",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x1162e9d80",
+          "address": "0x1137f3a30",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c74501000000803d7c170100000038f9350f01000000e8030000014000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c070a000a4000004e9c621c0007",
+          "owner": "0x1177c3d80",
+          "weekly_wage": 1000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28112991,
+      "identity": [
+        28112991,
+        "Jack Wakely",
+        "Jack",
+        "Wakely"
+      ],
+      "person": "0x119d518e8",
+      "attributes_hex": "18232d2c1e2e2929192d230f0f0f0f0f0a292a0535052e2d5a640b153724220f140f37233441414529234a322323241e190a3d322a2a",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x11921ad50",
+          "address": "0x11921ad50",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e818d5190100000038f9350f01000000dc05000001000b000000000000000000000000000000000049000000ffffffffffffffffae00e707b600e807d100e50701006c07090009000000280014ff0000",
+          "owner": "0x119d518e8",
+          "weekly_wage": 1500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f6d5e0",
+          "address": "0x118e88060",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c74501000000e818d51901000000b82e260f01000000de030000010000000000000000000000000000000000000000000000ffffffffffffffffae00e7079800e807ae00e70701006c07030003400000485f5c050000",
+          "owner": "0x119d518e8",
+          "weekly_wage": 990,
+          "team_id": 5100157,
+          "club_id": 5100157,
+          "club_name": "Ebbsfleet United"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28115830,
+      "identity": [
+        28115830,
+        "D'Mani Mellor",
+        "D'Mani",
+        "Mellor"
+      ],
+      "person": "0x119d48c48",
+      "attributes_hex": "1d273631180e36272723180a140a0f0f0a282c0a220f363132642813454a130f0f054a132c3c4534142836373046360f324d4b37282c",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x119218e68",
+          "address": "0x119218e68",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000488cd4190100000038f9350f01000000c409000001000b00000000000000000000000000000000008c000000ffffffffffffffffb900e607b600e807b900e60701006c07090009000000420014ff0000",
+          "owner": "0x119d48c48",
+          "weekly_wage": 2500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f6d520",
+          "address": "0x118e87af0",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c74501000000488cd419010000008814360f01000000e204000001c000000000000000000000000000000000000000000000ffffffffffffffffb81ae7079800e807b81ae70701006c07030003400000f916e50e0000",
+          "owner": "0x119d48c48",
+          "weekly_wage": 1250,
+          "team_id": 703,
+          "club_id": 703,
+          "club_name": "Rochdale"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 2000102722,
+      "identity": [
+        2000102722,
+        "Wilson Odobert",
+        "Wilson",
+        "Odobert"
+      ],
+      "person": "0x1178647d0",
+      "attributes_hex": "42434243424242434243440a05050f0a0f43420a420a42422a6464424242430f0a05426443424242572842573d6442381e37645f4343",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x117007b10",
+          "address": "0x117007b10",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000d04786170100000038f9350f0100000064000000010000000000000000200000100fa526010000000d000000ffffffffffffffffb81ae707b500ea07b81ae70701006c070100010000004152da1b0000",
+          "owner": "0x1178647d0",
+          "weekly_wage": 100,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47558",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 769,
+        "name": "France"
+      }
+    },
+    {
+      "id": 2000061312,
+      "identity": [
+        2000061312,
+        "Luca Koleosho",
+        "Luca",
+        "Koleosho"
+      ],
+      "person": "0x117b97348",
+      "attributes_hex": "2153530d53085353530d2c0a050a050a052b54051c0553532564642b26532b050505543d2753531c5e1e2d393c285337373c64462623",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1172d3388",
+          "address": "0x1172d3388",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c6645010000004873b9170100000038f9350f0100000064000000010000000000000000200000f0895421010000000e000000ffffffffffffffffb980e707b500ea07b980e70701006c07010001000000fe4eeb150000",
+          "owner": "0x117b97348",
+          "weekly_wage": 100,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa49fc0",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 390,
+        "name": "USA"
+      }
+    },
+    {
+      "id": 49060933,
+      "identity": [
+        49060933,
+        "Maxime Est\u00e8ve",
+        "Maxime",
+        "Est\u00e8ve"
+      ],
+      "person": "0x119356450",
+      "attributes_hex": "191f14412846353e2d46340a0505050a0f47430f430a373c64282319414119140f0a43144c3f504432283d41463c3446324b3e41473e",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x1189870a0",
+          "address": "0x1189870a0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000506435190100000038f9350f01000000aa0a0000010000000000000000200000000000000000000044010000ffffffffffffffffb980e707b500ea07b980e70701006c070100010000006459021d0000",
+          "owner": "0x119356450",
+          "weekly_wage": 2730,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47558",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 769,
+        "name": "France"
+      }
+    },
+    {
+      "id": 29232937,
+      "identity": [
+        29232937,
+        "Jude Bellingham",
+        "Jude",
+        "Bellingham"
+      ],
+      "person": "0x1195a6518",
+      "attributes_hex": "3b544f46403b5554404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x118ca5d78",
+          "address": "0x118ca5d78",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000018655a190100000010aefe0e010000000000000001000b0000000000000000000000000000000000618b0000ffffffffffffffffb600e707b500ed07b600e70701006c070a000a00000050fa14ff0002",
+          "owner": "0x1195a6518",
+          "weekly_wage": 0,
+          "team_id": 67034883,
+          "club_id": 67034883,
+          "club_name": "F.C. M\u00e1laga City",
+          "contract_type_raw": 255
+        },
+        {
+          "kind": "loan",
+          "holder": "0x117f66b30",
+          "address": "0x118960670",
+          "type": {
+            "name": ".?AVLOAN_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 96962104
+          },
+          "hex": "3886c7450100000018655a190100000038f9350f010000001e380500010000000000000000000000000000000000000000000000ffffffffffffffffe04ae707e04aec07e04ae70701006c0703000300000055494a630000",
+          "owner": "0x1195a6518",
+          "weekly_wage": 342046,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28108492,
+      "identity": [
+        28108492,
+        "Arijanet Muri\u0107",
+        "Arijanet",
+        "Muri\u0107"
+      ],
+      "person": "0x119d67c60",
+      "attributes_hex": "0a0a0a130f0f0a3b0a0f383c513b32283c453c463b4b403b1e640f1922360f19463c3b3040314a5924413c5546503b2d2d44464b3c42",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x119222b18",
+          "address": "0x119222b18",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000607cd6190100000038f9350f01000000000000000100000000800000002000007082c3200100000081000000ffffffffffffffffe880e707b500e907e880e70701006c0701000100000014644c220000",
+          "owner": "0x119d67c60",
+          "weekly_wage": 0,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa3e938",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 217945,
+        "name": "Kosovo"
+      }
+    },
+    {
+      "id": 78090138,
+      "identity": [
+        78090138,
+        "Darwin N\u00fa\u00f1ez",
+        "Darwin",
+        "N\u00fa\u00f1ez"
+      ],
+      "person": "0x1185d27e0",
+      "attributes_hex": "3b3c42363d194c314027450f0f0a0a0f0f3c3c051d0536454064500f454a0e0f050f4f2c40404f431c233b3f4750404623374b553636",
+      "contracts": [
+        {
+          "kind": "employment",
+          "holder": "0x117ccdc38",
+          "address": "0x117ccdc38",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e0275d180100000038f9350f01000000031f000001000000000000000820000040de26200100000083000000ffffffffffffffffed12e707b500e907ed12e70701006c07010001000000c451d8240000",
+          "owner": "0x1185d27e0",
+          "weekly_wage": 7939,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers",
+          "contract_type_raw": 255
+        }
+      ],
+      "nation": {
+        "address": "0xdaa41578",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 1657,
+        "name": "Uruguay"
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "raw_sha256": "08b19731db6d852d7eba9826d91d95eb95bb360902416ec1b48bbdb1db1de134",
+  "raw_bytes": 78260107,
+  "sample_count": 598,
+  "elapsed_seconds": 89.87,
+  "first": {
+    "time": 1789354898.109744,
+    "minute": 90,
+    "second": 0,
+    "period_flags": "0x1000004",
+    "home_score": 6,
+    "away_score": 1
+  },
+  "last": {
+    "time": 1789354987.977338,
+    "minute": 90,
+    "second": 0,
+    "period_flags": "0x1000004",
+    "home_score": 6,
+    "away_score": 1
+  },
+  "distinct_clock_score_states": [
+    {
+      "away_score": 1,
+      "home_score": 6,
+      "minute": 90,
+      "period_flags": "0x1000004",
+      "second": 0
+    }
+  ],
+  "interpretation": "The sampled decoded clock and score remained unchanged. This is not evidence of correct replay/live classification.",
+  "raw_location": "work/replay-sampling.json (local scratch evidence, excluded from distribution)"
+}

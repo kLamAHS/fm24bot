@@ -26,7 +26,10 @@ def main():
             db=Database(fm).resolve()
             result={'pid':fm.pid,'resolution':db.info()}
             if args.command=='game':
-                result.update(game={'date':db.current_date().isoformat()},evidence=db.dates.evidence())
+                from bridge.dates import decode_game_date,decode_game_time
+                db.current_date()
+                raw=db.dates.read_raw()
+                result.update(game={'date':decode_game_date(raw).isoformat(),'time':decode_game_time(raw)},evidence=db.dates.evidence())
             if args.command=='validate':
                 result=validate_live(db,Path(__file__).parent/'research')
             if args.command=='squad':

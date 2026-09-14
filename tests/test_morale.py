@@ -62,7 +62,8 @@ class MoraleTests(unittest.TestCase):
         fm.read_uint32.return_value=row['id']
         db=Mock(fm=fm); db.type_offset.return_value=0x278
         db.current_date.return_value=date(2024,2,17)
-        with patch('bridge.players.identity',return_value=(row['id'],row['name'],'Jude','Bellingham')):
+        db.dates.read_raw.return_value=bytes.fromhex('3012e807')
+        with patch('bridge.players.identity',return_value=(row['id'],row['name'],'Jude','Bellingham')), patch('bridge.players.read_primary_nationality',return_value=None), patch('bridge.players.read_contracts',return_value=[]):
             model=decode_player(db,person)
             self.assertEqual(model.morale,'Very Good')
             self.assertEqual(model.morale_rating,15)

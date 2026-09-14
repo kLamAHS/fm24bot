@@ -15,8 +15,17 @@ def ordinal_date(year,ordinal):
 def decode_game_date(raw):
     if len(raw)!=4: raise MemoryReadError('Incomplete game date')
     packed=int.from_bytes(raw,'little')
-    # Bits 9..15 have not been interpreted. In particular, do not expose time.
+    # Bits 9..15 encode time separately from the ordinal day.
     return ordinal_date(packed>>16,packed&0x1FF)
+
+def decode_game_time(raw):
+    decode_game_date(raw)
+    slot=(int.from_bytes(raw,'little')>>9)&0x7F
+    # Zero is the observed midnight sentinel; ordinary slots count quarter-hours
+    # from 06:00, starting at one. Other encodings remain unsupported.
+    if slot>72: raise MemoryReadError('Unvalidated game time encoding')
+    minutes=0 if slot==0 else 360+(slot-1)*15
+    return f'{minutes//60:02}:{minutes%60:02}'
 
 def decode_birth_date(raw):
     if len(raw)!=4: raise MemoryReadError('Incomplete birth date')
@@ -53,14 +62,17 @@ class GameDate:
         return self
 
     def read(self):
+        return decode_game_date(self.read_raw())
+
+    def read_raw(self):
         if self.address is None: raise RuntimeError('Resolve game date first')
         # The date global can retain a value without a loaded save.
         self.db.person_pointers()
         raw=self.fm.read_bytes(self.address,4)
-        result=decode_game_date(raw)
+        decode_game_date(raw)
         if raw!=self.fm.read_bytes(self.address,4):
             raise MemoryReadError('Game date changed during read')
-        return result
+        return raw
 
     def evidence(self):
         value=self.read()

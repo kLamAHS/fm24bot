@@ -1,0 +1,11 @@
+[
+  {
+    "rva": "0x758a8",
+    "root_rva": "0x6364c68",
+    "type": {
+      "name": ".?AVMATCH_CONTROLLER_MANAGER@fmmatchviewer@@",
+      "offset": 0,
+      "vtable_rva": 92494976
+    }
+  }
+]

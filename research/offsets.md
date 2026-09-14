@@ -1,3 +1,5 @@
+> Current expansion: the earlier milestone notes below are historical. The production 47-attribute map is in bridge/attributes.py; conversion is max(1, (raw + 2) // 5). Current contracts/nationality, finances, fixtures, staff, tactics, inbox, training, scouting and match layouts live in their bridge modules and focused research reports. The integrated restart comparison covers all currently returned data; remaining field gaps are explicit in observation-progress.md.
+
 # Verified build: 24.4.2+2081827, Steam 18129188
 
 Addresses in experiment JSON are session evidence only. Field locations below are relative to validated objects.

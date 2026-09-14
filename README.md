@@ -1,120 +1,82 @@
-# FM24 read-only memory bridge
+# FM24 read-only observation bridge
 
-Working prototype for **Football Manager 2024, Windows x64, Steam 24.4.2+2081827 / build 18129188**. No Cheat Engine dependency or third-party Python packages. Tested with Python 3.14.2 x64 on this PC.
+Python objects and a local JSON API for **Football Manager 2024, Windows x64, Steam 24.4.2+2081827 / build 18129188**. Tested with Python 3.14.2 x64. No Cheat Engine dependency or third-party Python packages.
 
-The first milestone is complete: selected players' IDs, names and attributes were read directly from memory and compared with FM's UI. The bridge also retrieves the human manager, current club and all 31 players in the observed Wycombe squad view. These observations passed a full FM exit/relaunch of the same test save.
+The current implementation has **109 passing offline tests**. All 15 observation routes passed an integrated full FM restart with the same API process running. The 14 data responses matched before and after restart, including non-empty shortlists, transfer targets and changed training/tactic settings. This does not establish full decoding of every game subsystem. Remaining work is tracked in [observation progress](research/observation-progress.md).
 
-The bridge also reads **positions, position ratings, condition and match sharpness**. Three full numeric profiles and 30 displayed squad position lists match FM's UI. Two additional fitness profiles were checked after a live save reload. See [readiness validation](research/readiness.md).
+## Run
 
-**Game date, date of birth and age** are now available. Four birth-date profiles and all 31 squad ages match the UI. Christian Eriksen's age correctly changes from 31 to 32 across the February 7 and February 17 test copies. See [date validation](research/dates.md).
+Load a supported save in FM24 and leave the game idle. Double-click `start-api.cmd`, or run `python -m api.server` in this folder. Open [status](http://127.0.0.1:8765/status) to see connection status, implemented capabilities and unresolved fields. The server listens only on **127.0.0.1:8765**. Stop it with Ctrl+C in its terminal. No startup service or scheduled task is installed.
 
-**Player morale** now supports all 20 English labels, validated across 49 distinct Wycombe and Gretna players. The 31 Wycombe players match both test snapshots, including 22 changed values. Eighteen Gretna players supplied the remaining labels and passed a further full FM restart. See [morale validation](research/morale.md).
+Unknown executable hashes are rejected before decoding. The build check must be revalidated after a game update. Only one employed human manager is currently supported.
 
-## Start
+## Available observations
 
-1. Run FM24 and load **FM24 Bridge Test 2026-09-13**. Leave the game idle.
-2. Open a terminal in this folder, or double-click `start-api.cmd`.
-3. Run `python -m api.server` if using a terminal.
-4. Open [status](http://127.0.0.1:8765/status), [squad](http://127.0.0.1:8765/squad) or [Jude Bellingham](http://127.0.0.1:8765/players/29232937).
+| GET route | Data |
+|---|---|
+| `/status` | Connection, PID, build, capabilities and unresolved fields |
+| `/game` | In-game date and time |
+| `/manager` | Human manager ID and name |
+| `/club` | Club identity and current team roster |
+| `/squad` | Current team roster players |
+| `/players/{id}` | Identity, birth date, age, primary nationality, 47 attributes, positions, morale, cached readiness and employment/loan terms |
+| `/finances` | Native GBP balance, transfer budget, weekly wage budget and payroll |
+| `/fixtures` | Current calendar-year club fixtures and results |
+| `/staff` | Owned club staff identities, jobs and supported contracts |
+| `/tactics` | Selected tactic, mentality, validated positions/roles and selected players |
+| `/inbox` | Message IDs, dates/times, sender, event type and unread state |
+| `/training` | Committed weekly calendar and supported individual focus/intensity settings |
+| `/scouting` | Stored player reports, reporting scout, completion date and supported knowledge labels |
+| `/shortlists` | Default and named player shortlists and their members |
+| `/transfer-targets` | Manager-owned target players, added date and supported type/status/priority labels |
+| `/match` | Active live-viewer frame: clock, score, team statistics and player statistics; explicit unavailable state when no supported viewer exists |
 
-The server listens only on **127.0.0.1:8765**. Stop it with Ctrl+C in its terminal. The integration test server was stopped after verification; no background startup task or service is installed. Running FM without a loaded save produces `connected: false`. Unknown executable hashes are rejected before decoded reads. Do not simply disable the build check after an FM update.
+Successful observations have `observed_at` (UTC), `session_id` (connection UUID) and `data`. A session ID changes on reconnect; it is not a save identifier. Names are UTF-8. Missing players return 404, malformed IDs 400, and unavailable or inconsistent reads 503. `/status` returns HTTP 200 with `connected: false` when no supported save is available. Write methods return 405; foreign Host/Origin headers are rejected; responses are not cached. There is no arbitrary-memory endpoint.
 
-## Read from Python
+## Python
 
 ```python
 from bridge.session import FMBridge
 
 with FMBridge() as fm:
-    print(fm.game().date)
-    player = fm.player(29232937)
-    print(player.id, player.name, player.age, player.age_as_of, player.attributes)
-    club = fm.current_club()
-    for player in club.squad:
-        print(player.id, player.name, player.positions, player.condition, player.morale)
+    print(fm.game())
+    for player in fm.squad():
+        print(player.id, player.name, player.attributes, player.morale)
+    print(fm.tactics())
+    print(fm.training())
+    print(fm.scouting())
+    print(fm.shortlists())
+    print(fm.transfer_targets())
+    print(fm.match())
 ```
 
-`fm.manager()`, `fm.squad()` and `fm.player_ids()` are also available. The registry supplies player lookup without repeated address-space scans. `fm.players()` attempts strict decoding of every supported player-type record; it currently raises on an unvalidated attribute elsewhere in this save. Use the validated squad or individual lookups. The 26,223 indexed IDs are not 26,223 UI-validated profiles.
+The other methods correspond to the routes above; use `current_club()` for `/club`. `player_ids()` enumerates supported Player identities from the Person registry. The observed 26,223 IDs are not 26,223 individually UI-validated profiles. `players()` is a strict bulk decoder and may reject records outside the validated model. Player lookup follows the registry instead of repeatedly scanning the entire address space.
 
-The lower-level `bridge.FMProcess` provides attach, modules, bounded byte/string reads, integers, floats, doubles and pointers for further investigation. All process handles use **PROCESS_QUERY_INFORMATION | PROCESS_VM_READ (0x410)**. No writes, remote allocation, injection, patching, hooks, privilege elevation or process suspension are implemented.
+## Interpreting the data
 
-## HTTP contract
+* Unknown fields and unvalidated labels stay null or have an explicit status. Null is not zero, false, absent, or unlimited.
+* Player attributes are actual memory values; scouting visibility restrictions are not applied to the general Player model. Scouting reports represent the manager's stored reports separately.
+* Readiness is a dated cache. Condition and sharpness are withheld unless the cache timestamp exactly matches the game timestamp. A condition percentage does not establish injury status or match eligibility.
+* The squad includes players shown in FM's team roster, including some loaned-out players. It is not a match-eligible selection list.
+* Money uses native GBP and weekly wage units, independently of display preferences. FM may round displayed currency amounts.
+* Match data comes from the decoded viewer frame. Replay/live timeline classification is still unresolved, and the model says so. Player condition, red cards, injuries and opposition formation remain null pending further validation. Possession is inferred from completed-pass share and is identified as an inference in the model.
+* Inbox text/attachments, full scout prose/recommendation grades, transfer target terms/extra enums, shortlist expiry, all tactic roles/team instructions, current training ratings, and some training labels remain undecoded. A stored training week name may omit the UI's Modified suffix.
 
-| GET route | Result |
-|---|---|
-| `/status` | Connection state, PID, build, capabilities and unresolved fields |
-| `/game` | Current in-game calendar date as `YYYY-MM-DD` |
-| `/manager` | Human manager ID and name |
-| `/club` | Club ID, name and squad |
-| `/squad` | List of current team roster players |
-| `/players/{id}` | Player identity, birth date, age, nine attributes, positions, condition, match sharpness and morale |
-| `/fixtures`, `/finances`, `/match` | 501: fields not yet validated |
+## Validation and safety
 
-Successful observation routes return `{"observed_at":"UTC timestamp","session_id":"connection UUID","data":...}`. A new bridge connection gets a new session ID, allowing clients to distinguish reconnects; this is not a save identifier or proof that FM has finished all post-load updates. Names are UTF-8. Missing players return 404; malformed IDs return 400; unavailable or inconsistent memory returns 503. `/status` validates the registry and manager/club context, returning HTTP 200 with `connected: false` when unavailable. Write methods return 405. Foreign Host/Origin headers are rejected; responses are not cached. The API has no arbitrary-memory endpoint and no AI/action controller.
+All process handles use **PROCESS_QUERY_INFORMATION | PROCESS_VM_READ (0x410)**. There are no process writes, remote allocation, injection, patching, hooks, privilege changes or suspension. UI experiments use independent project saves. No AI decision maker or action controller has been built.
 
-`condition` and `match_sharpness` are percentages normalized from FM's numeric 0..10000 fields (divide by 100). `positions` lists familiarity ratings >=15; `position_ratings` includes all 14 mapped positions on FM's 1..20 scale. The legacy sweeper slot is not exposed. Condition does not imply that an injured player is available.
+Testing covers two snapshots of the same Wycombe career, players/staff from other clubs in that career, several UI experiments and multiple full FM restarts. Independent careers and other builds remain unvalidated. Reads are bounded and checked for detected changes, but they are not atomic snapshots. Keep FM idle and allow post-load updates to settle.
 
-`morale` is a confirmed English UI label; `morale_rating` is its ordinal byte value. All 20 byte/label pairs listed in [morale validation](research/morale.md) are confirmed. Values outside 1..20 reject the player and any containing squad/club observation with HTTP 503; no guessed label or partial squad is returned. The model does not apply scouting-visibility restrictions.
-
-`date_of_birth` and `age_as_of` are ISO calendar dates. `age` is calculated from FM's current date, never the computer's date. A squad read uses one reference date and rejects a detected date change during the read. Time of day is unresolved. The specific case of a February 29 birth on February 28 in a non-leap year is rejected until FM's birthday convention is validated.
-
-Selected player fields verified against the UI:
-
-```json
-{
-  "id": 29232937,
-  "name": "Jude Bellingham",
-  "first_name": "Jude",
-  "surname": "Bellingham",
-  "date_of_birth": "2003-06-29",
-  "age": 20,
-  "age_as_of": "2024-02-17",
-  "positions": ["DM", "MC", "AMC"],
-  "condition": 86.32,
-  "match_sharpness": 100.0,
-  "morale": "Very Good",
-  "morale_rating": 15,
-  "attributes": {
-    "acceleration": 15,
-    "pace": 14,
-    "passing": 17,
-    "finishing": 16,
-    "technique": 17,
-    "decisions": 15,
-    "vision": 16,
-    "work_rate": 18,
-    "strength": 13
-  }
-}
-```
-
-## Validation and evidence
-
-* **Three profiles:** Jude Bellingham, Ryan Tafazolli and Franco Ravizzoli. 32 UI assertions passed: six name/ID checks and 26 visible attributes. Goalkeeper finishing was not visible and was excluded.
-* **31 squad members:** every name matched the squad UI. All nine fields decoded for each member, but individual attribute values were directly compared with UI only on the three profiles above.
-* **Two full restarts:** the original identity/attribute model passed PID 28168 -> 21328. The expanded model then passed PID 21328 -> 41840 with the same API process running throughout. All 31 complete player records matched the pre-restart checkpoint; sample heap addresses changed and all three signatures resolved again.
-* **Morale restart:** a third full restart, PID 41840 -> 33644, passed with the final API process continuously running. All 31 morale labels/ratings matched and 85 live API checks passed. Two players' fitness differed from the immediate pre-restart state; all 31 full records after restart matched the initial snapshot. See [morale results](research/morale.md).
-* **36 offline tests passed.** Morale regressions cover 80 independent UI observations across 49 players and reject invalid or changing values. Guard tests include stale registry rejection, unsupported build rejection, invalid readiness/date values, changing dates and a reused-registry/changed-club regression. Three numeric detail profiles provide 51 additional raw-field assertions; 30 squad position lists match.
-* **Complete morale mapping:** a fourth full restart, PID 33644 -> 36240, passed with API PID 19848 unchanged. All 18 Gretna morale readings matched before/after restart and the screen was checked again. After restoring February 17, **121 live API/Python checks** and all **78 lifecycle checks** passed. Thirteen Gretna players had fitness differences across restart; these are preserved in the report and do not establish a settled-state guarantee.
-* **Continuous API reload test:** February 17 test copy -> main menu -> February 7 test copy -> February 17 test copy. The same API process rejected unavailable observations and reconnected. All 31 full player models matched the initial snapshot after post-load values settled. Two players had temporary fitness differences; six additional numeric UI checks confirmed their later values. See [lifecycle results](research/lifecycle.md).
-* Both original saves and both named test copies retain their original SHA-256. No Continue or save command was issued. FM's screen-ID display preference was enabled for validation and remains enabled.
-
-Reports: [morale validation](research/morale.md), [morale API validation](research/api-morale-complete-validation.json), [complete morale lifecycle](research/morale-complete-lifecycle-comparison.json), [date and birthday validation](research/dates.md), [date/restart comparison](research/date-lifecycle-comparison.json), [expanded live API validation](research/api-dates-validation.json), [readiness after reload](research/validation-readiness-after-reload.json), [earlier lifecycle comparison](research/api-lifecycle-comparison.json), [save integrity](research/save-integrity-after-morale-complete.json), and [profile screenshots](research/ui/).
+The latest integrated restart changed FM PID 45464 to 5464 while API PID 42772 stayed running. All 32 comparison checks passed, including relocated manager memory, a new connection UUID and identical public data. `/match` was correctly inactive in this restart test; active-match restart coverage is a separate outstanding check. See [restart comparison](research/observation-expanded-restart-comparison.json) and [disconnection behavior](research/expanded-api-disconnected.json).
 
 ```powershell
 python -m unittest discover -s tests -v
-python main.py validate --output research\validation-latest.json
-python -m tests.live_smoke
 python main.py find 29232937
-python main.py game --output research\game-latest.json
-python main.py squad --output research\squad-latest.json
+python main.py game
+python main.py squad
 ```
 
-The live validation commands compare against this specific test save's UI observations; advancing time or using another save can legitimately change expected values. Research command output includes memory addresses as diagnostic evidence; the public model and successful API responses do not.
+Older opt-in live checks use exact stored UI expectations and require the named February 17 regression copy. Advancing time or using another save legitimately changes expected values. Research output includes diagnostic memory addresses; successful API responses and public models do not.
 
-## Scope and next work
-
-This is a validated starting observation layer, not a complete autonomous manager. **Fixtures, finances, time of day and match state are not implemented.** A suitable next investigation is the cause and visibility of post-load fitness updates, followed by independent-career validation. Fatigue interpretation and additional source offsets remain in the research log. Bulk database attributes are not fully decoded.
-
-Testing covers two snapshots of the same Wycombe career and four full FM restarts, including three with the API continuously running. Morale labels include players from Gretna; this remains one career. Independent careers, other builds, multiple human managers, unemployment and game-time advancement still need validation. The roster includes loaned-out players shown by FM's squad view; it is not a match-eligible selection list. Memory reads are checked for changes but are not an atomic snapshot. Keep FM idle during observations, and allow post-load values to settle; a successful read does not prove the game has stopped updating.
-
-Structure facts and source attribution are documented in [sources](research/sources.md), [offsets](research/offsets.md), [signatures](research/signatures.md), [structures](research/structures.md) and the [experiment log](research/experiments.md). No third-party research code is required or executed by this project.
+Evidence: [environment](research/environment.md), [sources](research/sources.md), [offsets](research/offsets.md), [signatures](research/signatures.md), [structures](research/structures.md), [experiments](research/experiments.md), [morale](research/morale.md), [readiness](research/readiness.md), [finances](research/finances.md), [fixtures](research/fixtures.md), [staff](research/staff.md), [tactics](research/tactics.md), [inbox](research/inbox.md), [training](research/training.md), [scouting](research/scouting.md), and [match](research/live-match.md).

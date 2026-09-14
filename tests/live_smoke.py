@@ -35,8 +35,9 @@ def main():
             checks[str(observed['id'])+' identity'] = player['id']==observed['id'] and player['name']==observed['name']
             checks[str(observed['id'])+' attributes'] = all(player['attributes'][k]==v for k,v in observed['attributes'].items())
             ready=readiness[observed['id']]
-            checks[str(observed['id'])+' condition']=player['condition']==ready['condition_raw']/100
-            checks[str(observed['id'])+' sharpness']=player['match_sharpness']==ready['match_sharpness_raw']/100
+            current=player['readiness']['status']=='current'
+            checks[str(observed['id'])+' condition']=player['condition']==(ready['condition_raw']/100 if current else None)
+            checks[str(observed['id'])+' sharpness']=player['match_sharpness']==(ready['match_sharpness_raw']/100 if current else None)
             checks[str(observed['id'])+' positions']=player['position_ratings']==ready['position_ratings']
         manager = request('/manager')['data']
         club = request('/club')['data']
@@ -79,7 +80,7 @@ def main():
         checks['consistent connection identity'] = all(item['body'].get('session_id')==status['session_id'] for item in responses.values() if item['status']==200 and 'data' in item['body'])
         report = {'captured_at':datetime.now(timezone.utc).isoformat(), 'pid':status.get('pid'),
                   'checks':checks, 'responses':responses, 'passed':all(checks.values())}
-        Path('research/api-morale-complete-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        Path('research/api-observation-validation.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
         print(json.dumps({'passed':report['passed'], 'checks':len(checks), 'pid':report['pid']}))
         if not report['passed']: raise SystemExit(1)
     finally:

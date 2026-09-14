@@ -1,3 +1,5 @@
+> Current expansion: the earlier milestone notes below are historical. The production 47-attribute map is in bridge/attributes.py; conversion is max(1, (raw + 2) // 5). Current contracts/nationality, finances, fixtures, staff, tactics, inbox, training, scouting and match layouts live in their bridge modules and focused research reports. The integrated restart comparison covers all currently returned data; remaining field gaps are explicit in observation-progress.md.
+
 # Signatures and resolution
 
 Scan only readable executable PE sections without the writable flag. Principal section on this executable is `.sdata`, ~89.6 MB. Section locations are obtained from the live PE header.

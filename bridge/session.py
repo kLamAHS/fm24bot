@@ -8,7 +8,7 @@ from structures.game import Game
 
 class FMBridge:
     def __init__(self,pid=None):
-        self.fm=FMProcess(pid); self.db=None; self.context=None; self.index={}; self.session_id=None
+        self.fm=FMProcess(pid); self.db=None; self.context=None; self.index={}; self.session_id=None; self.fixture_reader=None; self.match_reader=None; self.tactics_reader=None; self.training_reader=None
 
     def attach(self):
         self.fm.attach()
@@ -62,12 +62,62 @@ class FMBridge:
         return self.context
 
     def current_club(self): return self._context().model()
-    def game(self): return Game(date=self.db.current_date().isoformat())
+    def game(self):
+        from .dates import decode_game_date,decode_game_time
+        self.db.current_date();raw=self.db.dates.read_raw()
+        return Game(date=decode_game_date(raw).isoformat(),time=decode_game_time(raw))
     def manager(self): return self._context().manager
     def squad(self): return self._context().squad()
+    def finances(self):
+        from .finances import read_finances
+        return read_finances(self._context())
+
+    def staff(self):
+        from .staff import read_staff
+        return read_staff(self._context())
+
+    def inbox(self):
+        from .inbox import read_inbox
+        return read_inbox(self._context())
+
+    def scouting(self):
+        from .scouting import read_scouting
+        return read_scouting(self._context())
+
+    def shortlists(self):
+        from .scouting import read_shortlists
+        return read_shortlists(self._context())
+
+    def transfer_targets(self):
+        from .scouting import read_transfer_targets
+        return read_transfer_targets(self._context())
+
+    def tactics(self):
+        from .tactics import TacticsReader
+        context=self._context()
+        if self.tactics_reader is None:self.tactics_reader=TacticsReader(self.db).resolve()
+        return self.tactics_reader.read(context)
+
+    def training(self):
+        from .training import TrainingReader
+        context=self._context()
+        if self.training_reader is None:self.training_reader=TrainingReader(self.db).resolve()
+        return self.training_reader.read(context)
+
+    def fixtures(self):
+        from .fixtures import FixtureReader
+        context=self._context()
+        if self.fixture_reader is None:self.fixture_reader=FixtureReader(self.db).resolve()
+        return self.fixture_reader.read(context)
 
     def close(self):
-        self.fm.close(); self.db=None; self.context=None; self.index={}; self.session_id=None
+        self.fm.close(); self.db=None; self.context=None; self.index={}; self.session_id=None; self.fixture_reader=None; self.match_reader=None; self.tactics_reader=None; self.training_reader=None
+
+    def match(self):
+        from .match import MatchReader
+        context=self._context()
+        if self.match_reader is None:self.match_reader=MatchReader(self.db).resolve()
+        return self.match_reader.read(context)
 
     def __enter__(self): return self.attach()
     def __exit__(self,*args): self.close()

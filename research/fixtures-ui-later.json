@@ -1,0 +1,220 @@
+{
+  "source": "Independent transcription of Wycombe Senior Squad Schedule, 2024-02-07 00:00; screenshot ui/fixtures-earlier-schedule.png",
+  "club_id": 742,
+  "columns": [
+    "date",
+    "time",
+    "opponent_display",
+    "venue",
+    "goals_for",
+    "goals_against",
+    "competition_display"
+  ],
+  "rows": [
+    [
+      "2024-01-01",
+      "15:00",
+      "Bristol Rovers",
+      "H",
+      0,
+      0,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-01-06",
+      "15:00",
+      "Plymouth",
+      "A",
+      0,
+      3,
+      "FA Cup Third Round"
+    ],
+    [
+      "2024-01-09",
+      "20:00",
+      "Burton",
+      "A",
+      4,
+      2,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-01-13",
+      "15:00",
+      "Lincoln",
+      "H",
+      2,
+      0,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-01-20",
+      "15:00",
+      "Port Vale",
+      "A",
+      2,
+      2,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-01-27",
+      "15:00",
+      "Fleetwood",
+      "H",
+      2,
+      0,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-02-03",
+      "15:00",
+      "Cheltenham",
+      "A",
+      0,
+      0,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-02-10",
+      "15:00",
+      "Peterborough",
+      "H",
+      4,
+      2,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-02-13",
+      "19:45",
+      "Bolton",
+      "A",
+      0,
+      3,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-02-16",
+      "19:45",
+      "Oxford United",
+      "H",
+      3,
+      1,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-02-24",
+      "15:00",
+      "Stevenage",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-02",
+      "15:00",
+      "Barnsley",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-09",
+      "15:00",
+      "Reading",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-12",
+      "19:45",
+      "Wigan",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-16",
+      "15:00",
+      "Northampton",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-23",
+      "15:00",
+      "Cambridge",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-03-29",
+      "15:00",
+      "Portsmouth",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-04-01",
+      "15:00",
+      "Blackpool",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-04-06",
+      "15:00",
+      "Derby",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-04-13",
+      "15:00",
+      "Shrewsbury",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-04-20",
+      "15:00",
+      "Carlisle",
+      "A",
+      null,
+      null,
+      "Sky Bet League One"
+    ],
+    [
+      "2024-04-27",
+      "15:00",
+      "Charlton",
+      "H",
+      null,
+      null,
+      "Sky Bet League One"
+    ]
+  ],
+  "notes": [
+    "Arsenal U21 row displays a penalty-win marker before 0-0; penalties are not transcribed here.",
+    "The last three rows were read from ui/fixtures-earlier-schedule-bottom.png.",
+    "This is the visible middle-to-end segment, not the complete season."
+  ],
+  "game_date": "2024-02-17",
+  "screenshot": "ui/fixtures-later-schedule.png"
+}

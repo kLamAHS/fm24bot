@@ -1,3 +1,5 @@
+> Current expansion: the earlier milestone notes below are historical. The production 47-attribute map is in bridge/attributes.py; conversion is max(1, (raw + 2) // 5). Current contracts/nationality, finances, fixtures, staff, tactics, inbox, training, scouting and match layouts live in their bridge modules and focused research reports. The integrated restart comparison covers all currently returned data; remaining field gaps are explicit in observation-progress.md.
+
 # Runtime structures and public model
 
 The implementation reads an independently opened Windows process handle with access mask 0x410. `FMProcess` owns and closes the handle. It enumerates modules using PSAPI and reads live PE sections. `Database` resolves a signature-derived global and a bounded registry of Person pointers. `FMBridge` indexes supported player UIDs once per session, then follows pointers for observations. It rescans code only when resolving a new session, not for each player request.

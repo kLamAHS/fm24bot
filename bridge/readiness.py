@@ -1,6 +1,7 @@
 """Position familiarity and physical readiness, validated against FM detail UI."""
 import struct
 from .process import MemoryReadError
+from .dates import decode_game_date
 
 # Byte index 1 is the legacy sweeper slot; no UI field was available to validate it.
 POSITION_OFFSETS = {
@@ -9,6 +10,20 @@ POSITION_OFFSETS = {
 }
 READINESS_OFFSET = 0x1F4
 READINESS_SIZE = 0x217 - READINESS_OFFSET
+READINESS_UPDATED_OFFSET = 0x150
+
+def readiness_freshness(updated_raw,game_raw):
+    """FM lazily refreshes cached readiness when a player is observed in its UI.
+
+    Compare all four bytes, including the game's time slot. Date equality alone
+    incorrectly accepts values cached before a match earlier on the same day.
+    """
+    decode_game_date(game_raw)
+    try:
+        updated_on=decode_game_date(updated_raw).isoformat()
+    except MemoryReadError:
+        return {'status':'unknown','updated_on':None}
+    return {'status':'current' if updated_raw==game_raw else 'stale','updated_on':updated_on}
 
 def decode_readiness(raw):
     if len(raw) != READINESS_SIZE:

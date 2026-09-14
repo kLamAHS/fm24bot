@@ -6,17 +6,9 @@ from .pointers import vector
 from .players import identity,decode_player
 from structures.club import Club
 from structures.manager import Manager
+from .strings import direct_string_entry
 
 MANAGER_PATTERN='48 8B 35 ?? ?? ?? ?? 48 8B 56 18 4C 8B 76 20 49 29 D6 B0 01 49 83 FE 10'
-
-def direct_string_entry(fm,entry):
-    length=fm.read_uint32(entry)
-    if not 0<length<=512: raise MemoryReadError('Invalid string entry length')
-    raw=fm.read_bytes(entry+4,length+1)
-    if raw[-1]!=0: raise MemoryReadError('Invalid string terminator')
-    value=raw[:-1].decode('utf-8')
-    if not value.isprintable(): raise MemoryReadError('Invalid string contents')
-    return value
 
 class CurrentClub:
     def __init__(self,db):

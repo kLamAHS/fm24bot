@@ -1,0 +1,31 @@
+{
+  "/status": {
+    "status": 200,
+    "body": {
+      "connected": false,
+      "read_only": true,
+      "reason": "Expected one FM process; found []. Specify PID if needed."
+    }
+  },
+  "/squad": {
+    "status": 503,
+    "body": {
+      "error": "observation_unavailable",
+      "message": "Expected one FM process; found []. Specify PID if needed."
+    }
+  },
+  "/training": {
+    "status": 503,
+    "body": {
+      "error": "observation_unavailable",
+      "message": "Expected one FM process; found []. Specify PID if needed."
+    }
+  },
+  "/transfer-targets": {
+    "status": 503,
+    "body": {
+      "error": "observation_unavailable",
+      "message": "Expected one FM process; found []. Specify PID if needed."
+    }
+  }
+}

@@ -91,9 +91,11 @@ class DateTests(unittest.TestCase):
         person=int(captured['person'],16); base=int(captured['player_base'],16)
         birth=struct.pack('<HH',captured['birth_day_raw'],captured['birth_year_raw'])
         memory={(person+0x44,4):birth,(base+0x1F4,35):bytes.fromhex(captured['readiness_hex']),
-                (base+0x217,54):bytes.fromhex(captured['block_hex']),(base+0x25F,1):bytes([15])}
+                (base+0x217,54):bytes.fromhex(captured['block_hex']),(base+0x25F,1):bytes([15]),
+                (base+0x150,4):bytes.fromhex('3012e807')}
         fm=Mock(); fm.read_bytes.side_effect=lambda a,n:memory[(a,n)]; fm.read_uint32.return_value=29232937
         db=Mock(fm=fm); db.type_offset.return_value=0x278
+        db.dates.read_raw.return_value=bytes.fromhex('3012e807')
         db.current_date.side_effect=[date(2024,2,17),date(2024,2,18)]
         with patch('bridge.players.identity',return_value=(29232937,'Jude Bellingham','Jude','Bellingham')):
             with self.assertRaisesRegex(MemoryReadError,'Game date changed'): decode_player(db,person)

@@ -1,0 +1,11 @@
+# Observation expansion — remaining work
+
+Current checkpoint: 109 passing offline tests. Full restart FM PID 45464 → 5464 passed with API PID 42772 continuously running. All 15 routes returned HTTP 200; all 14 data responses matched exactly (shortlist list order normalized). Manager heap memory relocated and the API connection UUID changed. The disconnected API withheld observations with 503. See observation-expanded-restart-comparison.json and expanded-api-disconnected.json.
+
+Implemented: 47 player attributes, identity/date/positions/readiness/morale, primary nationality, employment/loan contracts, finances, calendar-year fixtures, staff, selected tactics/lineup, inbox metadata, committed training calendars/settings, manager-owned shortlists, stored scouting report metadata/knowledge, transfer targets, and current match viewer statistics/players. Validation details and honest null fields are documented in each subsystem report and README.
+
+Remaining priority: match replay classification, player condition, red cards/injuries and opposition formation; active match checks after restart. Broader fields still undecoded include inbox prose/attachments, scout prose/recommendation grades, transfer terms/extra enum labels, shortlist expiry, staff attributes/responsibilities, team instructions, all tactic roles, current training ratings and effective intensity. Do not treat existing subsystem coverage as decoding all these fields.
+
+A separate project save, work/FM24 Observation Regression.fm, preserves the Feb 7 controlled experiments for reproducible restart tests: goalkeeper swap/personal role fallback, inbox read flags, Feb 19 Physical→Overall, two Quickness/Double Intensity changes, Brad/Sam shortlists, Bridge Watch list, and two transfer targets. Protected originals and named regression copies have not been saved over. Rehash before final delivery. Currency/salary display preferences are temporarily GBP/weekly and still need restoration to USD/yearly.
+
+Next integration tasks: second-save comparison for new subsystems, final baseline restore, protected save integrity report, live-check refresh, documentation consolidation and final packaging. No AI decision maker or action controller is in scope. The bridge remains read-only (0x410).

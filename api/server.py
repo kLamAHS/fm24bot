@@ -39,13 +39,11 @@ class StateService:
                 # Validate the manager/club chain as well before reporting ready.
                 b.manager()
                 game=b.game()
-                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','game_date':game.date,'capabilities':['player_identity','nine_attributes','positions','condition','match_sharpness','morale','date_of_birth','age','game_date','current_manager','current_club','team_roster'],'unresolved':['fixtures','finances','match','time_of_day'],'validation_scope':'see research reports for per-field UI, reload and restart coverage'}
+                return 200,{'connected':True,'pid':b.fm.pid,'session_id':b.session_id,'read_only':True,'build':'24.4.2+2081827','game_date':game.date,'capabilities':['player_identity','player_attributes_47','primary_nationality','employment_contracts','loan_contracts','positions','condition','match_sharpness','readiness_freshness','morale','date_of_birth','age','game_date','current_manager','current_club','team_roster','club_finances','transfer_budget','wage_budget','fixtures','results','time_of_day','match_viewer','match_score','match_clock','match_team_statistics','match_player_identity','match_player_ratings','match_player_goals','match_player_yellow_cards','club_staff','selected_tactic','selected_lineup','inbox_metadata','training_schedule','training_program_settings','player_shortlists','scout_report_metadata','scout_report_knowledge','transfer_targets'],'unresolved':['match_replay_classification','match_player_condition','match_red_cards','match_injuries','opposition_formation','contract_clauses','secondary_nationalities','staff_attributes','team_instructions','all_tactic_role_combinations','inbox_text','inbox_attachments','training_current_ratings','training_positions','all_training_focus_labels','effective_training_intensity','scouting_recommendations','scouting_report_text','world_scouting_knowledge','shortlist_expiry','transfer_target_terms','all_transfer_target_labels','finance_breakdowns','scouting_budget','debts'],'validation_scope':'see research reports for per-field UI, reload and restart coverage; newly expanded observation fields still require restart verification'}
             except Exception as exc:
                 self.close(); self.last_error=str(exc)
                 return 200,{'connected':False,'read_only':True,'reason':str(exc)}
-        if path in ('/fixtures','/finances','/match'):
-            return 501,{'error':'not_implemented','message':'Memory fields for this subsystem have not been validated.'}
-        if path not in ('/game','/manager','/club','/squad') and not path.startswith('/players/'):
+        if path not in ('/game','/manager','/club','/squad','/finances','/fixtures','/match','/staff','/tactics','/inbox','/training','/scouting','/shortlists','/transfer-targets') and not path.startswith('/players/'):
             return 404,{'error':'not_found'}
         try:
             b=self.ready()
@@ -53,6 +51,16 @@ class StateService:
             elif path=='/manager': data=asdict(b.manager())
             elif path=='/club': data=asdict(b.current_club())
             elif path=='/squad': data=[asdict(p) for p in b.squad()]
+            elif path=='/finances': data=asdict(b.finances())
+            elif path=='/fixtures': data=asdict(b.fixtures())
+            elif path=='/match': data=asdict(b.match())
+            elif path=='/staff': data=[asdict(s) for s in b.staff()]
+            elif path=='/tactics': data=asdict(b.tactics())
+            elif path=='/inbox': data=asdict(b.inbox())
+            elif path=='/training': data=asdict(b.training())
+            elif path=='/scouting': data=asdict(b.scouting())
+            elif path=='/shortlists': data=asdict(b.shortlists())
+            elif path=='/transfer-targets': data=asdict(b.transfer_targets())
             else:
                 token=path.removeprefix('/players/')
                 if not token.isascii() or not token.isdecimal() or len(token)>10:

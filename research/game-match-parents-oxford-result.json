@@ -1,0 +1,7057 @@
+[
+  {
+    "target": "0xc6b43e20",
+    "hits": [
+      {
+        "address": "0x4186c0c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4186c040",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4186c208",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4186c040",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4186d940",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4186d8c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4186da88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4186d8c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4186f1c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4186f140",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4186f308",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4186f140",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41870a40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x418709c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41870b88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x418709c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418722c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41872240",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41872408",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41872240",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41873b40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41873ac0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41873c88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41873ac0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418753c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41875340",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41875508",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41875340",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41876c40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41876bc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41876d88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41876bc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418784c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41878440",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41878608",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41878440",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41879d40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41879cc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41879e88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41879cc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187b5c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4187b540",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187b708",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4187b540",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187ce40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4187cdc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187cf88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4187cdc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187e6c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4187e640",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187e808",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4187e640",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4187ff40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4187fec0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41880088",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4187fec0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418817c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41881740",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41881908",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41881740",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41883040",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41882fc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41883188",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41882fc0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418848c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41884840",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41884a08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41884840",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41886140",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x418860c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41886288",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x418860c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x418879c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41887940",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41887b08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41887940",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41889240",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x418891c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41889388",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x418891c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188aac0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4188aa40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188ac08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4188aa40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188c340",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4188c2c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188c488",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4188c2c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188dbc0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4188db40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188dd08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4188db40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188f440",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x4188f3c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x4188f588",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x4188f3c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41890cc0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41890c40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41890e08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41890c40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41892540",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x418924c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41892688",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x418924c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41893dc0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x41893d40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41893f08",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x41893d40",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41895640",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x418955c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x41895788",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x418955c0",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x6e1ca4c8",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x6e1cb5d8",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x6ec8a120",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x6ec8a0a0",
+            "type": {
+              "name": ".?AVMATCH_REFEREE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475080
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x6ec8a268",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x6ec8a0a0",
+            "type": {
+              "name": ".?AVMATCH_REFEREE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475080
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07990",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x71f07910",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07ad8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x71f07910",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07c10",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x71f07b90",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0x71f07910",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07d58",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x71f07b90",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc39ef9b0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xc3d27350",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc3d272d0",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d27498",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc3d272d0",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d27600",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc3d27580",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          },
+          {
+            "offset": "0x330",
+            "address": "0xc3d272d0",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d27748",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc3d27580",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f56f8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f54b0",
+            "type": {
+              "name": ".?AVNATION_NATIONALITY_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986120
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f5490",
+            "type": {
+              "name": ".?AVNATION_DEFAULT_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96985768
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f5470",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f5450",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f5430",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f5410",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_LONG_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964888
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f53f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_DEFAULT_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964696
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f53d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_SHORT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994632
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f53b0",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f5390",
+            "type": {
+              "name": ".?AVCOMP_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967592
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f5370",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f5350",
+            "type": {
+              "name": ".?AVTEAM_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016104
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f5330",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f5310",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f5738",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f5730",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f5710",
+            "type": {
+              "name": ".?AVCOMP_3LETTER_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967416
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f54b0",
+            "type": {
+              "name": ".?AVNATION_NATIONALITY_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986120
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f5490",
+            "type": {
+              "name": ".?AVNATION_DEFAULT_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96985768
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f5470",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f5450",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f5430",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f5410",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_LONG_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964888
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f53f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_DEFAULT_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964696
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f53d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_SHORT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994632
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f53b0",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f5390",
+            "type": {
+              "name": ".?AVCOMP_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967592
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f5370",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f5350",
+            "type": {
+              "name": ".?AVTEAM_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016104
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f5758",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f5750",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f5730",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f5710",
+            "type": {
+              "name": ".?AVCOMP_3LETTER_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967416
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f54b0",
+            "type": {
+              "name": ".?AVNATION_NATIONALITY_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986120
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f5490",
+            "type": {
+              "name": ".?AVNATION_DEFAULT_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96985768
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f5470",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f5450",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f5430",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f5410",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_LONG_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964888
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f53f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_DEFAULT_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96964696
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f53d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_SHORT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994632
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f53b0",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f5390",
+            "type": {
+              "name": ".?AVCOMP_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967592
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f5370",
+            "type": {
+              "name": ".?AVCOMP_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967080
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f5838",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f5830",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f57d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_LETTER_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994808
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f57b0",
+            "type": {
+              "name": ".?AVTEAM_LONG_LIMITED_LENGTH_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016808
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f5770",
+            "type": {
+              "name": ".?AVTEAM_NICKNAME_NO_THE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016456
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f5750",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f5730",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f5710",
+            "type": {
+              "name": ".?AVCOMP_3LETTER_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967416
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f54b0",
+            "type": {
+              "name": ".?AVNATION_NATIONALITY_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986120
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f5490",
+            "type": {
+              "name": ".?AVNATION_DEFAULT_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96985768
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f5470",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f5450",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f5878",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f5870",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f5850",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f5830",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f57d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_LETTER_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994808
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f57b0",
+            "type": {
+              "name": ".?AVTEAM_LONG_LIMITED_LENGTH_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016808
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f5770",
+            "type": {
+              "name": ".?AVTEAM_NICKNAME_NO_THE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016456
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f5750",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f5730",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f5710",
+            "type": {
+              "name": ".?AVCOMP_3LETTER_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967416
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f54b0",
+            "type": {
+              "name": ".?AVNATION_NATIONALITY_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986120
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f5490",
+            "type": {
+              "name": ".?AVNATION_DEFAULT_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96985768
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f58b8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f58b0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f5870",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f5850",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f5830",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f57d0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_LETTER_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994808
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f57b0",
+            "type": {
+              "name": ".?AVTEAM_LONG_LIMITED_LENGTH_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016808
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f5770",
+            "type": {
+              "name": ".?AVTEAM_NICKNAME_NO_THE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016456
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f5750",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f5730",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f5710",
+            "type": {
+              "name": ".?AVCOMP_3LETTER_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967416
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f56f0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f56d0",
+            "type": {
+              "name": ".?AVTEAM_DEFAULT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97015944
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f56b0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f5670",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f5650",
+            "type": {
+              "name": ".?AVSTADIUM_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994296
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f5630",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f5610",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f55f0",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f55d0",
+            "type": {
+              "name": ".?AVCOMP_SHORT_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 96967240
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f55b0",
+            "type": {
+              "name": ".?AVSTAGE_NAME_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 96994472
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f5590",
+            "type": {
+              "name": ".?AVTEAM_UPPER_CASE_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016280
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f5570",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_HIDDEN_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965416
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc42f5550",
+            "type": {
+              "name": ".?AVTEAM_HIDDEN_FORMATTER@@",
+              "offset": 0,
+              "vtable_rva": 97016984
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f5530",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f5510",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965240
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f54f0",
+            "type": {
+              "name": ".?AVTEAM_CONTAINER_NICKNAME_NO_THE_ENGLISH_ONLY_FORMATTER@?A0xB29B27FD@@",
+              "offset": 0,
+              "vtable_rva": 96965064
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f54d0",
+            "type": {
+              "name": ".?AVNATION_6LETTER_FORMATTER@?A0x426889F7@db@@",
+              "offset": 0,
+              "vtable_rva": 96986456
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc492e7f8",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xc4a4b960",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4b8e0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4baa8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4b8e0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4bbe0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4bb60",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xc4a4b8e0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4bd28",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4bb60",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4cd80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4cd00",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4cec8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4cd00",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4d000",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4cf80",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xc4a4cd00",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4d148",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4cf80",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc6b510a0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcbb0c5e0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcbb0c560",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xcbb0c2e0",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c728",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcbb0c560",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c860",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcbb0c7e0",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xcbb0c560",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c9a8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcbb0c7e0",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc130500",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc130480",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc130648",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc130480",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc131d80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc131d00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc131ec8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc131d00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc133600",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc133580",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc133748",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc133580",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc134e80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc134e00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc134fc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc134e00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc136700",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc136680",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc136848",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc136680",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc137f80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc137f00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1380c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc137f00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc139800",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc139780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc139948",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc139780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13b080",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc13b000",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13b1c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc13b000",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13c900",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc13c880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13ca48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc13c880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13e180",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc13e100",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13e2c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc13e100",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13fa00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc13f980",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc13fb48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc13f980",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc141280",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc141200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1413c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc141200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc142b00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc142a80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc142c48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc142a80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc144380",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc144300",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1444c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc144300",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc145c00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc145b80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc145d48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc145b80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc147480",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc147400",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1475c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc147400",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc148d00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc148c80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc148e48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc148c80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14a580",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc14a500",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14a6c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc14a500",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14be00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc14bd80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14bf48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc14bd80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14d680",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc14d600",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14d7c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc14d600",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14ef00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc14ee80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc14f048",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc14ee80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc150780",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc150700",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1508c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc150700",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc152000",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc151f80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc152148",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc151f80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc153880",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc153800",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1539c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc153800",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1a6540",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1a64c0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1a6688",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1a64c0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1a88e0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1a8860",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1a8a28",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1a8860",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1aac80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1aac00",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1aadc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1aac00",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1ad020",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1acfa0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1ad168",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1acfa0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1af3c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1af340",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1af508",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1af340",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc255f90",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcc271480",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x113754920",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x10",
+            "address": "0x113754910",
+            "type": {
+              "name": ".?AVGAME_PAST_MATCH_CONTROLLER@@",
+              "offset": 0,
+              "vtable_rva": 90225736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x113fc55c0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x113fc5ba0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x127b03050",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x127b02fd0",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x127b03198",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x127b02fd0",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x127b03300",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x127b03280",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          },
+          {
+            "offset": "0x330",
+            "address": "0x127b02fd0",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x127b03448",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x127b03280",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0xcc28f080",
+    "hits": [
+      {
+        "address": "0x6e1c4e80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x40",
+            "address": "0x6e1c4e40",
+            "type": {
+              "name": ".?AVGAME_MATCH_SESSION@@",
+              "offset": 0,
+              "vtable_rva": 90197768
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x6e1ca0d8",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x6e1cb728",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0x6ec89aa0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x6ec89a20",
+            "type": {
+              "name": ".?AVMATCH_REFEREE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475080
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x6ec89be8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x6ec89a20",
+            "type": {
+              "name": ".?AVMATCH_REFEREE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475080
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f06f90",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x71f06f10",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f070d8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x71f06f10",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07210",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0x71f07190",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0x71f06f10",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0x71f07358",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0x71f07190",
+            "type": {
+              "name": ".?AVMATCH_PHYSIO@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479480
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d26890",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc3d26810",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d269d8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc3d26810",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d26b40",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc3d26ac0",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          },
+          {
+            "offset": "0x330",
+            "address": "0xc3d26810",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc3d26c88",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc3d26ac0",
+            "type": {
+              "name": ".?AVMATCH_LINESMAN@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96774824
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f4a98",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f4a90",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f4a70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f4a50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f4a30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f4a10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f49f0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f49d0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f4990",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f4970",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f4c78",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f4c70",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f4c30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f4c10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f4bd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f4bb0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f4b90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f4b70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f4b30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f4b10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f4af0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f4ab0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f4a90",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f4a70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f4a50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f4a30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f4a10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f49f0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f49d0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f4990",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f4970",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f4cb8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f4cb0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f4c70",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f4c30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f4c10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f4bd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f4bb0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f4b90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f4b70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f4b30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f4b10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f4af0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f4ab0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f4a90",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f4a70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f4a50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f4a30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f4a10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f49f0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f49d0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f4990",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f4970",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f4e38",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f4e30",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f4db0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f4d90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f4d50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f4d30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f4d10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f4cd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f4cb0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f4c70",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_ATTACKER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793144
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f4c30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f4c10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc42f4bd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f4bb0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f4b90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2c8",
+            "address": "0xc42f4b70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f4b30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f4b10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f4af0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f4ab0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f4a90",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f4a70",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f4a50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f50d8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f50d0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x28",
+            "address": "0xc42f50b0",
+            "type": {
+              "name": ".?AVMATCH_TEXT_RENDERER@simatchviewer@@",
+              "offset": 0,
+              "vtable_rva": 92471112
+            }
+          },
+          {
+            "offset": "0x48",
+            "address": "0xc42f5090",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f5070",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f5050",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f5030",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f5010",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f4ff0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f4fd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f4fb0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f4f90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f4f30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1c8",
+            "address": "0xc42f4f10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1e8",
+            "address": "0xc42f4ef0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f4e90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x288",
+            "address": "0xc42f4e50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f4e30",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x328",
+            "address": "0xc42f4db0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x348",
+            "address": "0xc42f4d90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f4d50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f4d30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xc42f4d10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc42f5138",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x8",
+            "address": "0xc42f5130",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x68",
+            "address": "0xc42f50d0",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_DEFENDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793080
+            }
+          },
+          {
+            "offset": "0x88",
+            "address": "0xc42f50b0",
+            "type": {
+              "name": ".?AVMATCH_TEXT_RENDERER@simatchviewer@@",
+              "offset": 0,
+              "vtable_rva": 92471112
+            }
+          },
+          {
+            "offset": "0xa8",
+            "address": "0xc42f5090",
+            "type": {
+              "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94487128
+            }
+          },
+          {
+            "offset": "0xc8",
+            "address": "0xc42f5070",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0xe8",
+            "address": "0xc42f5050",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x108",
+            "address": "0xc42f5030",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x128",
+            "address": "0xc42f5010",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x148",
+            "address": "0xc42f4ff0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x168",
+            "address": "0xc42f4fd0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x188",
+            "address": "0xc42f4fb0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x1a8",
+            "address": "0xc42f4f90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x208",
+            "address": "0xc42f4f30",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x228",
+            "address": "0xc42f4f10",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x248",
+            "address": "0xc42f4ef0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2a8",
+            "address": "0xc42f4e90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc42f4e50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x308",
+            "address": "0xc42f4e30",
+            "type": {
+              "name": ".?AVMATCH_PRESSING_MANAGER_MIDFIELDER@pressing@simatch@@",
+              "offset": 0,
+              "vtable_rva": 97793112
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xc42f4db0",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3a8",
+            "address": "0xc42f4d90",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc42f4d50",
+            "type": {
+              "name": ".?AVPERSON_DEFAULT_FORMATTER@db@@",
+              "offset": 0,
+              "vtable_rva": 94928216
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc492e098",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xc4a4af60",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4aee0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          },
+          {
+            "offset": "0x120",
+            "address": "0xc4a4ae40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x1a0",
+            "address": "0xc4a4adc0",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x220",
+            "address": "0xc4a4ad40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x2a0",
+            "address": "0xc4a4acc0",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x320",
+            "address": "0xc4a4ac40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x3a0",
+            "address": "0xc4a4abc0",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4b0a8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4aee0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          },
+          {
+            "offset": "0x268",
+            "address": "0xc4a4ae40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x2e8",
+            "address": "0xc4a4adc0",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x368",
+            "address": "0xc4a4ad40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          },
+          {
+            "offset": "0x3e8",
+            "address": "0xc4a4acc0",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4b1e0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4b160",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xc4a4aee0",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          },
+          {
+            "offset": "0x3a0",
+            "address": "0xc4a4ae40",
+            "type": {
+              "name": ".?AVFIXTURE_RESULT@sicomps@@",
+              "offset": 0,
+              "vtable_rva": 90210424
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4b328",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4b160",
+            "type": {
+              "name": ".?AVMATCH_DOCTOR@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479608
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4c380",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4c300",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4c4c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4c300",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4c600",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xc4a4c580",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xc4a4c300",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xc4a4c748",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xc4a4c580",
+            "type": {
+              "name": ".?AVMATCH_ANALYST@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94479736
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c0e0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcbb0c060",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c228",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcbb0c060",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c360",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcbb0c2e0",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          },
+          {
+            "offset": "0x300",
+            "address": "0xcbb0c060",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbb0c4a8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcbb0c2e0",
+            "type": {
+              "name": ".?AVMATCH_STRETCHER_BEARER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94475320
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcbfd8580",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcbfd8b60",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcc091100",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc091080",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          },
+          {
+            "offset": "0x240",
+            "address": "0xcc090ec0",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_12>@?0??set_stencil@RENDER_ENCODER@sigraphics@@QEAAXII@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208936
+            }
+          },
+          {
+            "offset": "0x280",
+            "address": "0xcc090e80",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_11>@?0??set_state@RENDER_ENCODER@sigraphics@@QEAAX_K@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208776
+            }
+          },
+          {
+            "offset": "0x340",
+            "address": "0xcc090dc0",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_14>@?0??set_transform@RENDER_ENCODER@sigraphics@@QEAAXI@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92209256
+            }
+          },
+          {
+            "offset": "0x360",
+            "address": "0xcc090da0",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_12>@?0??set_stencil@RENDER_ENCODER@sigraphics@@QEAAXII@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208936
+            }
+          },
+          {
+            "offset": "0x3a0",
+            "address": "0xcc090d60",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_11>@?0??set_state@RENDER_ENCODER@sigraphics@@QEAAX_K@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208776
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc091248",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc091080",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          },
+          {
+            "offset": "0x388",
+            "address": "0xcc090ec0",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_12>@?0??set_stencil@RENDER_ENCODER@sigraphics@@QEAAXII@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208936
+            }
+          },
+          {
+            "offset": "0x3c8",
+            "address": "0xcc090e80",
+            "type": {
+              "name": ".?AV?$_Func_impl_no_alloc@V<lambda_11>@?0??set_state@RENDER_ENCODER@sigraphics@@QEAAX_K@Z@XPEAUEncoder@bgfx@@@std@@",
+              "offset": 0,
+              "vtable_rva": 92208776
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc092980",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc092900",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc092ac8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc092900",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc094200",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc094180",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc094348",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc094180",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc095a80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc095a00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc095bc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc095a00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc097300",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc097280",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc097448",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc097280",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc098b80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc098b00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc098cc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc098b00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09a400",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc09a380",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09a548",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc09a380",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09bdc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc09bc00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09d648",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc09d480",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09ed80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc09ed00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc09eec8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc09ed00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a0600",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0a0580",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a0748",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a0580",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a1e80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0a1e00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a1fc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a1e00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a3700",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0a3680",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a3848",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a3680",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a50c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a4f00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a6800",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0a6780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a6948",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a6780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a81c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a8000",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a9900",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0a9880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0a9a48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0a9880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ab180",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0ab100",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ab2c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ab100",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0acb48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ac980",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ae280",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0ae200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ae3c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ae200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0afc48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0afa80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b1380",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0b1300",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b14c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b1300",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b2c00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0b2b80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b2d48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b2b80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b4480",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0b4400",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b45c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b4400",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b5e48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b5c80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b76c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b7500",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b8e00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0b8d80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0b8f48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0b8d80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ba680",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0ba600",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ba7c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ba600",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bbf00",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0bbe80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bc048",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0bbe80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bd780",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0bd700",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bd8c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0bd700",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bf000",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0bef80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0bf148",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0bef80",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c0880",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0c0800",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c09c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c0800",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c2100",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0c2080",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c2248",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c2080",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c3ac8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c3900",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c5348",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c5180",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c6a80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0c6a00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c6bc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c6a00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c8300",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0c8280",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c8448",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c8280",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c9b80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0c9b00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0c9cc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0c9b00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0cb400",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0cb380",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0cb548",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0cb380",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ccc80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0ccc00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ccdc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ccc00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ce500",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0ce480",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ce648",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0ce480",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0cfec8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0cfd00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d1748",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d1580",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d2fc8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d2e00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d4848",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d4680",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d5f80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0d5f00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d60c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d5f00",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d7800",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0d7780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d7948",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d7780",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d9080",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0d9000",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0d91c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0d9000",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0da900",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0da880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0daa48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0da880",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0dc2c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0dc100",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0ddb48",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0dd980",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0df280",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc0df200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc0df3c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc0df200",
+            "type": {
+              "name": ".?AVMATCH_PLAYER@simatch@@",
+              "offset": 0,
+              "vtable_rva": 94478408
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc190100",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc190080",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc190248",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc190080",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1924a0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc192420",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1925e8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc192420",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc194840",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc1947c0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc194988",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc1947c0",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc196be0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc196b60",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc196d28",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc196b60",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc198f80",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xcc198f00",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc1990c8",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xcc198f00",
+            "type": {
+              "name": ".?AVGAME_MATCH_MANAGER@@",
+              "offset": 0,
+              "vtable_rva": 95486696
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xcc21f5b0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcc23aaa0",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xcc29c300",
+        "rva": null,
+        "parents": []
+      },
+      {
+        "address": "0xe04d2e10",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xe04d2d90",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xe04d2f58",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xe04d2d90",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xe04d30c0",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x80",
+            "address": "0xe04d3040",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          },
+          {
+            "offset": "0x330",
+            "address": "0xe04d2d90",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      },
+      {
+        "address": "0xe04d3208",
+        "rva": null,
+        "parents": [
+          {
+            "offset": "0x1c8",
+            "address": "0xe04d3040",
+            "type": {
+              "name": ".?AVMATCH_EXTRA_OFFICIAL@simatch@@",
+              "offset": 0,
+              "vtable_rva": 96775960
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
