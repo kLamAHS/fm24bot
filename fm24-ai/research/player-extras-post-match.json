@@ -1,0 +1,364 @@
+{
+  "pid": 36240,
+  "date": {
+    "date": "2024-02-11",
+    "time": "08:00"
+  },
+  "players": [
+    {
+      "id": 29232937,
+      "identity": [
+        29232937,
+        "Jude Bellingham",
+        "Jude",
+        "Bellingham"
+      ],
+      "person": "0x1195a6518",
+      "attributes_hex": "3b544f46403b5554404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+      "contracts": [
+        {
+          "kind": "parent",
+          "address": "0x118ca5d78",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000018655a190100000010aefe0e010000000000000001000b0000000000000000000000000000000000618b0000ffffffffffffffffb600e707b500ed07b600e70701006c070a000a00000050fa14ff0002000200000000000080e07ad900000000a8e07ad900000000a8e07ad900000000b09b8bda00000000509c8bda00000000509c8bda000000000000000000000000506aaa00000000000000000001006c0707000000e807000000000001ff000000887c664501000000",
+          "weekly_wage": 0,
+          "team_id": 67034883,
+          "club_id": 67034883,
+          "club_name": "F.C. M\u00e1laga City"
+        },
+        {
+          "kind": "loan",
+          "address": "0x117f66b30",
+          "type": null,
+          "hex": "7006961801000000000000000000000000000000000000000000000000000000580796180100000000000000000000000000000000000000000000000000000040089618010000000000000000000000000000000000000000000000000000002809961801000000000000000000000000000000000000000000000000000000100a961801000000000000000000000000000000000000000000000000000000f80a961801000000000000000000000000000000000000000000000000000000",
+          "weekly_wage": 0
+        }
+      ],
+      "nation": {
+        "address": "0xdaa47cb8",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 765,
+        "name": "England"
+      }
+    },
+    {
+      "id": 28028684,
+      "identity": [
+        28028684,
+        "Ryan Tafazolli",
+        "Ryan",
+        "Tafazolli"
+      ],
+      "person": "0x119ee57e0",
+      "attributes_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+      "contracts": [
+        {
+          "kind": "parent",
+          "address": "0x119445608",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e057ee190100000038f9350f01000000b80b000001000b000080000000000000907fe32001000000e7000000ffffffffffffffff8200e707b600e807f600e40701006c070200020000002838f40600030008000000000000e084a7d9000000000885a7d9000000000885a7d900000000000000000000000000000000000000000000000000000000000000000000000051350000000000000000000001006c07000000006c07000000000001ff000000887c664501000000",
+          "weekly_wage": 3000,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa51038",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 114,
+        "name": "Iran"
+      }
+    },
+    {
+      "id": 14185872,
+      "identity": [
+        14185872,
+        "Franco Ravizzoli",
+        "Franco",
+        "Ravizzoli"
+      ],
+      "person": "0x119fad718",
+      "attributes_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+      "contracts": [
+        {
+          "kind": "parent",
+          "address": "0x11970c5f0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000018d7fa190100000038f9350f010000002003000001000b00000000000000000000000000000000001d000000ffffffffffffffffb81ae707b600e807b81ae70701006c0714001400000050c717190020002600000000000000eca7d90000000028eca7d90000000028eca7d9000000000000000000000000000000000000000000000000000000000000000000000000dd050000000000000000000001006c07000000006c07000000000001ff000000887c664501000000",
+          "weekly_wage": 800,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa42438",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 1649,
+        "name": "Argentina"
+      }
+    },
+    {
+      "id": 96053555,
+      "identity": [
+        96053555,
+        "Maksymilian Stryjek",
+        "Maksymilian",
+        "Stryjek"
+      ],
+      "person": "0x117e0d188",
+      "attributes_hex": "05050f050a050f230f0f19413d47294641373d473846142832640a142d290a2d3c281e27413723482819373c3f46413c283b46372d48",
+      "contracts": [
+        {
+          "kind": "parent",
+          "address": "0x1176a36b0",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c66450100000088d1e0170100000038f9350f01000000dc05000001000b00108004000000000090995321010000007c000000ffffffffffffffffe600e607b600e807e600e60701006c070200020000009cea9c01001f001f000000000000e0a13fd90000000008a23fd90000000008a23fd9000000000000000000000000000000000000000000000000000000000000000000000000fd2e0000000000000000000001006c07000000006c07000000000001ff000000887c664501000000",
+          "weekly_wage": 1500,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa45428",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 787,
+        "name": "Poland"
+      }
+    },
+    {
+      "id": 78090138,
+      "identity": [
+        78090138,
+        "Darwin N\u00fa\u00f1ez",
+        "Darwin",
+        "N\u00fa\u00f1ez"
+      ],
+      "person": "0x1185d27e0",
+      "attributes_hex": "3b3c42363d194c314027450f0f0a0a0f0f3c3c051d0536454064500f454a0e0f050f4f2c40404f431c233b3f4750404623374b553636",
+      "contracts": [
+        {
+          "kind": "parent",
+          "address": "0x117ccdc38",
+          "type": {
+            "name": ".?AVFULL_CONTRACT@db@@",
+            "offset": 0,
+            "vtable_rva": 90602632
+          },
+          "hex": "887c664501000000e0275d180100000038f9350f01000000031f000001000000000000000820000040de26200100000083000000ffffffffffffffffed12e707b500e907ed12e70701006c07010001000000c451d82400000600000000000000809c3b1e01000000c09c3b1e01000000c09c3b1e010000000000000000000000000000000000000000000000000000000000000000000000383100003831000038310000ed12e70700000000e807000000000001ff000000887c664501000000",
+          "weekly_wage": 7939,
+          "team_id": 742,
+          "club_id": 742,
+          "club_name": "Wycombe Wanderers"
+        }
+      ],
+      "nation": {
+        "address": "0xdaa41578",
+        "type": {
+          "name": ".?AVNATION@db@@",
+          "offset": 0,
+          "vtable_rva": 94816344
+        },
+        "id": 1657,
+        "name": "Uruguay"
+      }
+    }
+  ],
+  "low_attributes": [
+    {
+      "id": 211388,
+      "name": "Jamie Mills",
+      "small": {
+        "finishing": 1
+      },
+      "hex": "1b0a010f051e191e0123190a050f0f05051e230f140f1419642819091928130a0a0a50010a3c5014111e3c2033193c1e2d3932501e23"
+    },
+    {
+      "id": 1510958,
+      "name": "Juampe",
+      "small": {
+        "strength": 2
+      },
+      "hex": "2c3c360f2d29463c0d2e320a0f050f0f0a38460f28052c32642323282d3226050f054527022f48142d191b2332323f3c414e4141322e"
+    },
+    {
+      "id": 12091608,
+      "name": "Tidjane Traor\u00e9",
+      "small": {
+        "finishing": 1
+      },
+      "hex": "05010122024018090142040505050f0f0f2c4005400a1d19642d1906181e010f0f0f4101152c3b371d461f282d462c1e3c462d231923"
+    },
+    {
+      "id": 14110624,
+      "name": "Mariano Fazio",
+      "small": {
+        "finishing": 1
+      },
+      "hex": "150e0123153e141e0e3c150f05050a050a3a37053e0f1e1b64191b0921240d05050f3b023c2e3c463b2d23315a4b2c552d4e3919241b"
+    },
+    {
+      "id": 14169545,
+      "name": "Nacho Velardi",
+      "small": {
+        "strength": 1
+      },
+      "hex": "29363d2438102e4225241a0f0a0a0f0a051f290a1f0f291f642d231c243d1b0a0f143e1001373a060e2828201e323a3228363757240b"
+    },
+    {
+      "id": 28127117,
+      "name": "Liam Higgins",
+      "small": {
+        "strength": 2
+      },
+      "hex": "2a2c2c1d0a223c320227250f0f050a0a0517360a2905242a3764201a22270105050a4a1b021842133d37252955283d2d323c1b32280f"
+    },
+    {
+      "id": 28127533,
+      "name": "Valeriy Kovalev",
+      "small": {
+        "strength": 1
+      },
+      "hex": "31271d0e1e1719220e0e1d0f0a14050f0a181d0a0e14402735641e183d27040505054613012733131a37191d462838551e323c461d1c"
+    },
+    {
+      "id": 29217134,
+      "name": "Rudi Pache",
+      "small": {
+        "technique": 1
+      },
+      "hex": "0101042e032d0f12013b0b0a0f0f0f0f05283d0f1e051201642d190e0e1401050f0f280e2e162e38122d152128283a4137462e371413"
+    },
+    {
+      "id": 29234746,
+      "name": "Kai Forsyth",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "1b060220042e0b0b0226040f050f0f050a092f0a1f0a1509641e17040b1106050f05380219262d400b4b111a37322923192832051112"
+    },
+    {
+      "id": 29236281,
+      "name": "Lewis Edgar",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "2815021814150c10012618050f0f0a0f1417450a230f0f1664231510191811050a053e020d182f0c2e1e1d1019372d3728233843181c"
+    },
+    {
+      "id": 29236910,
+      "name": "Alfie Wotton",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "020a022811391014061b0d0a0f0f0f0a0a37290a2c0f13126423170511170205050f3c0e10102c1a3632151d1e1e3b2d5a411b231113"
+    },
+    {
+      "id": 29241309,
+      "name": "Kyle Dalling",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "040f022e02181513023103140f0f050f0f23400f2e051d0e28641904191e020a0a05451320164246173c1f2432283f142d3c3c3c0f1c"
+    },
+    {
+      "id": 52082423,
+      "name": "Caolan Marron",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "022102390237112a02391c0a0f0f050f053f3905350f1c202d6405022f3e0f1405143902342a2a3f2c0f2934413c2f32050b3437392a"
+    },
+    {
+      "id": 61039620,
+      "name": "James Chalmers",
+      "small": {
+        "finishing": 1
+      },
+      "hex": "2812011e1923140f05140f0f0505050a1432410f19051e1e2d641914191e140a0f0a3f0f0f2d30194532191d3246310f413737320f28"
+    },
+    {
+      "id": 61042901,
+      "name": "Andrew Skinner",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "2016022f0c20161b02341b050a0f05140f253e0f2a0a161c286419131b1b070a050f3b0a2f2f371643281b2546233e37373c4b0f1625"
+    },
+    {
+      "id": 61057940,
+      "name": "Ricky Miller",
+      "small": {
+        "finishing": 1,
+        "technique": 1
+      },
+      "hex": "0201011f063e0b1a06240c0a0f0505050f1a330a43050b0128641910151a020f0f0532021c1c23293c231623493225323732460a1a2e"
+    },
+    {
+      "id": 61064096,
+      "name": "Curtiss Wilson",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "200c02160c25162a022f1605050f050a0a203e0a1b0f251632641916253e11050505210c1846392a3337201f30462e051e2841462025"
+    },
+    {
+      "id": 61064623,
+      "name": "Adam Hodge",
+      "small": {
+        "finishing": 1
+      },
+      "hex": "190d013a012c172b033a120a0f0f050a05231c0a3a0a171723641906171c170505053d0d3f3033270f281d263c28370b3c2a38280d31"
+    },
+    {
+      "id": 61065283,
+      "name": "Shaun Wood",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "1f0b022410341a1f072a1505050a0f050f39430a2f0a1a1b326419101f2517050a0a1a0c1a3b253d1d1e1f27351e32412d482d4b1f2c"
+    },
+    {
+      "id": 61065354,
+      "name": "Kieran Adams",
+      "small": {
+        "finishing": 2
+      },
+      "hex": "1a0b02291533152001291505050f050f0a25420f290a11152864190c151a060a0f0f1f0e1c311c3d233218233719162846334b14161a"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "captured_at": "2026-09-14T00:06:53.388040+00:00",
+  "label": "startup-unloaded",
+  "responses": {
+    "/status": {
+      "http_status": 200,
+      "body": {
+        "connected": false,
+        "read_only": true,
+        "reason": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/game": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/squad": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/5219769": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/29235603": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/29242311": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61038032": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61038325": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61069617": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61085235": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61090013": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/61090322": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000026352": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000088170": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000092779": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000223972": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000226341": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000229207": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000296960": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000296964": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    },
+    "/players/2000297061": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one validated database candidate, found 0. Load a save or investigate build compatibility."
+      }
+    }
+  }
+}

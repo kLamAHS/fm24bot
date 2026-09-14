@@ -1,0 +1,203 @@
+{
+  "captured_at": "2026-09-13T22:22:06.808866+00:00",
+  "pid": 21328,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0x63a9c60",
+    "person_count": 82953
+  },
+  "players": [
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "finishing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 29232937,
+          "name": "Jude Bellingham",
+          "first_name": "Jude",
+          "surname": "Bellingham",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 17,
+            "finishing": 16,
+            "technique": 17,
+            "decisions": 15,
+            "vision": 16,
+            "work_rate": 18,
+            "strength": 13
+          }
+        },
+        "evidence": {
+          "person": "0x116af8bb8",
+          "player_base": "0x116af8940",
+          "uid_address": "0x116af8bc4",
+          "attribute_block": "0x116af8b57",
+          "raw_attributes": {
+            "acceleration": 74,
+            "pace": 70,
+            "passing": 84,
+            "finishing": 79,
+            "technique": 84,
+            "decisions": 74,
+            "vision": 80,
+            "work_rate": 89,
+            "strength": 64
+          },
+          "block_hex": "3b544f46403b5654404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+          "birth_day_raw": 180,
+          "birth_year_raw": 2003
+        }
+      }
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "finishing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 28028684,
+          "name": "Ryan Tafazolli",
+          "first_name": "Ryan",
+          "surname": "Tafazolli",
+          "attributes": {
+            "acceleration": 7,
+            "pace": 7,
+            "passing": 13,
+            "finishing": 5,
+            "technique": 10,
+            "decisions": 11,
+            "vision": 8,
+            "work_rate": 13,
+            "strength": 14
+          }
+        },
+        "evidence": {
+          "person": "0x116502090",
+          "player_base": "0x116501e18",
+          "uid_address": "0x11650209c",
+          "attribute_block": "0x11650202f",
+          "raw_attributes": {
+            "acceleration": 35,
+            "pace": 35,
+            "passing": 66,
+            "finishing": 25,
+            "technique": 50,
+            "decisions": 57,
+            "vision": 40,
+            "work_rate": 65,
+            "strength": 72
+          },
+          "block_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+          "birth_day_raw": 271,
+          "birth_year_raw": 1991
+        }
+      }
+    },
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 14185872,
+          "name": "Franco Ravizzoli",
+          "first_name": "Franco",
+          "surname": "Ravizzoli",
+          "attributes": {
+            "acceleration": 8,
+            "pace": 7,
+            "passing": 5,
+            "finishing": 2,
+            "technique": 6,
+            "decisions": 7,
+            "vision": 7,
+            "work_rate": 7,
+            "strength": 10
+          }
+        },
+        "evidence": {
+          "person": "0x115de9c78",
+          "player_base": "0x115de9a00",
+          "uid_address": "0x115de9c84",
+          "attribute_block": "0x115de9c17",
+          "raw_attributes": {
+            "acceleration": 40,
+            "pace": 35,
+            "passing": 25,
+            "finishing": 10,
+            "technique": 30,
+            "decisions": 35,
+            "vision": 35,
+            "work_rate": 35,
+            "strength": 50
+          },
+          "block_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+          "birth_day_raw": 190,
+          "birth_year_raw": 1997
+        }
+      }
+    }
+  ],
+  "squad": {
+    "count": 31,
+    "expected_count": 31,
+    "missing": [],
+    "extra": [],
+    "passed": true
+  },
+  "context": {
+    "manager_person": "0x11283a650",
+    "manager_base": "0x11283a200",
+    "team": "0xdaa9d388",
+    "club": "0xc2a77790",
+    "roster_begin": "0xd8cdbf80",
+    "roster_end": "0xd8cdc078",
+    "roster_count": 31,
+    "manager_global_rva": "0x6365118"
+  },
+  "passed": true
+}

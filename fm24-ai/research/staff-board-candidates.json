@@ -1,0 +1,1855 @@
+[
+  {
+    "club_offset": "0xb0",
+    "holder": "0x111f84390",
+    "vector_offset": "0x0",
+    "count": 16,
+    "items": [
+      {
+        "ptr": "0x10fa3d428",
+        "known": null,
+        "type": {
+          "name": ".?AVNEXT_SALE_PERCENTAGE_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869448
+        }
+      },
+      {
+        "ptr": "0x110077560",
+        "known": null,
+        "type": {
+          "name": ".?AVCOMPETITION_BONUS_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869272
+        }
+      },
+      {
+        "ptr": "0x10fa3d400",
+        "known": null,
+        "type": {
+          "name": ".?AVNEXT_SALE_PERCENTAGE_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869448
+        }
+      },
+      {
+        "ptr": "0x128cb18f0",
+        "known": null,
+        "type": {
+          "name": ".?AVNUMBER_ESC_PLAYERS_SIGNED_PER_SEASON_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94886008
+        }
+      },
+      {
+        "ptr": "0xd7f28390",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0xd7f28380",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0xd7f28370",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0xd7f28360",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0x41764890",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM_DIVISION_SQUAD_SELECTION_TOTAL_VALUES_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94868552
+        }
+      },
+      {
+        "ptr": "0x6fb88b60",
+        "known": null,
+        "type": {
+          "name": ".?AVSQUAD_REWARD_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94881960
+        }
+      },
+      {
+        "ptr": "0x10fa3d3d8",
+        "known": null,
+        "type": {
+          "name": ".?AVNEXT_SALE_PERCENTAGE_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869448
+        }
+      },
+      {
+        "ptr": "0x10f3db210",
+        "known": null,
+        "type": {
+          "name": ".?AVSTART_OF_SEASON_SETTINGS_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94709496
+        }
+      },
+      {
+        "ptr": "0xcc4428e0",
+        "known": null,
+        "type": {
+          "name": ".?AVEXTRA_TRANSFER_PAYMENT_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94880712
+        }
+      },
+      {
+        "ptr": "0xcbfd3920",
+        "known": null,
+        "type": {
+          "name": ".?AVARRANGED_FRIENDLY_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94872696
+        }
+      },
+      {
+        "ptr": "0xcbdabb48",
+        "known": null,
+        "type": {
+          "name": ".?AVSCOUTED_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94861944
+        }
+      },
+      {
+        "ptr": "0xcbdabaf0",
+        "known": null,
+        "type": {
+          "name": ".?AVSCOUTED_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94861944
+        }
+      }
+    ],
+    "raw": "28d4a30f01000000607507100100000000d4a30f01000000f018cb28010000009083f2d7000000008083f2d7000000007083f2d7000000006083f2d7000000009048764100000000608bb86f00000000d8d3a30f0100000010b23d0f01000000e02844cc000000002039fdcb0000000048bbdacb00000000f0badacb00000000"
+  },
+  {
+    "club_offset": "0xb0",
+    "holder": "0x111f84390",
+    "vector_offset": "0x30",
+    "count": 1,
+    "items": [
+      {
+        "ptr": "0x60619b0",
+        "known": null
+      }
+    ],
+    "raw": "b019060600000000"
+  },
+  {
+    "club_offset": "0xb0",
+    "holder": "0x111f84390",
+    "vector_offset": "0x50",
+    "count": 267,
+    "items": [
+      {
+        "ptr": "0x145b00428",
+        "known": null
+      },
+      {
+        "ptr": "0x145a7ef98",
+        "known": null
+      },
+      {
+        "ptr": "0xd01",
+        "known": null
+      },
+      {
+        "ptr": "0x11a75ebc0",
+        "known": null,
+        "type": {
+          "name": ".?AVFIXTURE_NAME@db@@",
+          "offset": 0,
+          "vtable_rva": 91044632
+        }
+      },
+      {
+        "ptr": "0x10f35f938",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0x10f364848",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0xffffffff07d7000a",
+        "known": null
+      },
+      {
+        "ptr": "0x104ffff",
+        "known": null
+      },
+      {
+        "ptr": "0x2710",
+        "known": null
+      },
+      {
+        "ptr": "0x145a7ef98",
+        "known": null
+      },
+      {
+        "ptr": "0xf01",
+        "known": null
+      },
+      {
+        "ptr": "0x11a766f00",
+        "known": null,
+        "type": {
+          "name": ".?AVFIXTURE_NAME@db@@",
+          "offset": 0,
+          "vtable_rva": 91044632
+        }
+      },
+      {
+        "ptr": "0x10f35f938",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0x10f362ad0",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0xffffffff07c2002b",
+        "known": null
+      },
+      {
+        "ptr": "0x104ffff",
+        "known": null
+      },
+      {
+        "ptr": "0x1a1",
+        "known": null
+      },
+      {
+        "ptr": "0x145a7eff8",
+        "known": null
+      },
+      {
+        "ptr": "0x1101",
+        "known": null
+      },
+      {
+        "ptr": "0x11a7671d0",
+        "known": null,
+        "type": {
+          "name": ".?AVFIXTURE_NAME@db@@",
+          "offset": 0,
+          "vtable_rva": 91044632
+        }
+      },
+      {
+        "ptr": "0x10f35f938",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0x10f270aa8",
+        "known": null,
+        "type": {
+          "name": ".?AVTEAM@db@@",
+          "offset": 0,
+          "vtable_rva": 94865480
+        }
+      },
+      {
+        "ptr": "0x91e07e74ae7",
+        "known": null
+      },
+      {
+        "ptr": "0x1010208",
+        "known": null
+      },
+      {
+        "ptr": "0x145a7eff8",
+        "known": null
+      }
+    ],
+    "raw": "2804b0450100000098efa74501000000010d000000000000c0eb751a0100000038f9350f010000004848360f010000000a00d707ffffffffffff040100000000102700000000000098efa74501000000010f000000000000006f761a0100000038f9350f01000000d02a360f010000002b00c207ffffffffffff040100000000a101000000000000f8efa745010000000111000000000000d071761a0100000038f9350f01000000a80a270f01000000e74ae7071e0900000802010100000000f8efa7450100000001120000000000008071761a0100000038f9350f010000005008360f010000005601d707ffffffff0006040100000000f8efa745010000000113000000000000d071761a0100000038f9350f010000009047360f010000008b00e607ffffffff050504010000000058f0a745010000000015000000000000080000001859e7073b59e7070000000038f9350f0100000058f0a745010000000116000000000000060000004d00d6076b00d6070000000038f9350f0100000058f0a74501000000011700000000000015000000da00d5075801d5070000000038f9350f0100000058f0a7450100000001180000000000000d000000e400d3072301d3070000000038f9350f0100000058f0a74501000000011900000000000005000000e500d8070101d8070000000038f9350f0100000058f0a74501000000001a000000000000030000006b7fe7070658e8070000000038f9350f01000000b8f0a74501000000001d000000000000000000000000000000000000000000000000000000000000ffffffff0000000018f1a74501000000011f000000000000c0eb751a0100000038f9350f010000005824360f010000000800d807ffffffffffff04010000000030d5a61901000000030000000000000078f1a74501000000002100000000000000000000000000000000000000000000ffffffff00000000d8f1a74501000000002300000000000000000000000000000000000000000000000080bfffffff0038f2a74501000000002400000000000000000000000000000000000000000000ffffffff0000000098f2a74501000000002500000000000098ca84190100000038f9350f01000000e707050000000000f8f2a745010000000028000000000000d071761a0100000038f9350f010000006029360f01000000e370e7075208000003020101000000002701d80700000000e8578e1901000000f8f2a745010000000129000000000000c0eb751a0100000038f9350f01000000d818360f010000001e00e007ffffffffffff040100000000d900b10700000000e80b201a01000000f8f2a745010000000032000000000000d071761a0100000038f9350f01000000a80a270f01000000e74ae7071e09000008020101000000002701d80700000000e8578e1901000000f8f2a745010000000133000000000000c0eb751a0100000038f9350f010000005824360f010000003500d507ffffffffffff0401000000006400ae07000000007818221a0100000058f3a745010000000131000000000000c0eb751a0100000038f9350f01000000084e360f010000000201cc07ffffffffffff04010000000000d5a619010000001000000000000000c8fca745010000000101000000000000b0258eda000000000000000000000000e407150000000000c8fca745010000000102000000000000d0686bda000000000000000000000000bb0709000000000098eba74501000000010300000000000038f9350f010000006500c2070000000078eda74501000000011000000000000038f9350f01000000dd190000d107000048fea74501000000000e000000000000d01e731a0100000038f9350f01000000685c360f010000000d71e707cd10000001020101000000004539030000000000f8efa745010000000014000000000000d071761a0100000038f9350f01000000a80a270f01000000e74ae7071e0900000802010100000000b8f0a74501000000011e00000000000090d5a6190100000038f9350f010000000000000000000000d707ff190000000008ffa7450100000001260000000000003096661901000000e801000000000000c8ffa745010000000127000000000000007fc0190100000044000000000000004801a84501000000012b0000000000006900cf07400d030050eea619010000002007b4d80000000000000000000000000802a84501000000002c0000000000001830e807601bb900e8578e190100000080a2b3d80000000000000000000000008803a84501000000002d000000000000ffffffffffff00008803a84501000000002e00000000000000a2ba00000000004804a84501000000002f0000000000000000000000000000ffff000000000000b8eca74501000000002200000000000000000000000000000000000000000000ffffffff0000000098eba74501000000010400000000000038f9350f010000002400c1070000000018f1a745010000000120000000000000c0eb751a0100000038f9350f010000005824360f010000000800d807ffffffffffff04010000000060d5a61901000000030000000000000088fda745010000000107000000000000d0686bda00000000c20767000000000088fda745010000000108000000000000b0258eda00000000e40727000000000018eda74501000000010500000000000038f9350f01000000c20720000000000018eda74501000000010600000000000038f9350f01000000d30706000000000018eda74501000000010900000000000038f9350f01000000db0719000000000018eda74501000000010a00000000000038f9350f01000000b60703000000000018eda74501000000010b00000000000038f9350f01000000d30713000000000018eda74501000000010c00000000000038f9350f01000000c707040000000000"
+  },
+  {
+    "club_offset": "0xb0",
+    "holder": "0x111f84390",
+    "vector_offset": "0x78",
+    "count": 27,
+    "items": [
+      {
+        "ptr": "0x111fc8a10",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc89e8",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc89c0",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8998",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8970",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8948",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8920",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc88f8",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc88d0",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc88a8",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8880",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8858",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8830",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8808",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc87e0",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc87b8",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8790",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8768",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8740",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8718",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc86f0",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc86c8",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc86a0",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8678",
+        "known": null
+      },
+      {
+        "ptr": "0x111fc8650",
+        "known": null
+      }
+    ],
+    "raw": "108afc1101000000e889fc1101000000c089fc11010000009889fc11010000007089fc11010000004889fc11010000002089fc1101000000f888fc1101000000d088fc1101000000a888fc11010000008088fc11010000005888fc11010000003088fc11010000000888fc1101000000e087fc1101000000b887fc11010000009087fc11010000006887fc11010000004087fc11010000001887fc1101000000f086fc1101000000c886fc1101000000a086fc11010000007886fc11010000005086fc11010000002886fc11010000000086fc1101000000"
+  },
+  {
+    "club_offset": "0xb0",
+    "holder": "0x111f84390",
+    "vector_offset": "0xb0",
+    "count": 8,
+    "items": [
+      {
+        "ptr": "0x10fa3d478",
+        "known": null,
+        "type": {
+          "name": ".?AVNEXT_SALE_PERCENTAGE_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869448
+        }
+      },
+      {
+        "ptr": "0x10fa3d450",
+        "known": null,
+        "type": {
+          "name": ".?AVNEXT_SALE_PERCENTAGE_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94869448
+        }
+      },
+      {
+        "ptr": "0x128cb12c0",
+        "known": null,
+        "type": {
+          "name": ".?AVNUMBER_ESC_PLAYERS_SIGNED_PER_SEASON_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94886008
+        }
+      },
+      {
+        "ptr": "0xd7f283c0",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0x6fb88b80",
+        "known": null,
+        "type": {
+          "name": ".?AVSQUAD_REWARD_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94881960
+        }
+      },
+      {
+        "ptr": "0x10f3db220",
+        "known": null,
+        "type": {
+          "name": ".?AVSTART_OF_SEASON_SETTINGS_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94709496
+        }
+      },
+      {
+        "ptr": "0xd7f283b0",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      },
+      {
+        "ptr": "0xd7f283a0",
+        "known": null,
+        "type": {
+          "name": ".?AVMAX_PLAYERS_ON_LOAN_FROM_A_TEAM_INFO@db@@",
+          "offset": 0,
+          "vtable_rva": 94877400
+        }
+      }
+    ],
+    "raw": "78d4a30f0100000050d4a30f01000000c012cb2801000000c083f2d700000000808bb86f0000000020b23d0f01000000b083f2d700000000a083f2d700000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x20",
+    "count": 1,
+    "items": [
+      {
+        "ptr": "0x1293b0530",
+        "known": null
+      }
+    ],
+    "raw": "30053b2901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x28",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0x1293b0550",
+        "known": null
+      },
+      {
+        "ptr": "0x1293b00b0",
+        "known": null
+      },
+      {
+        "ptr": "0x1293b00b0",
+        "known": null
+      }
+    ],
+    "raw": "50053b2901000000b0003b2901000000b0003b2901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x48",
+    "count": 1,
+    "items": [
+      {
+        "ptr": "0xca1cc000",
+        "known": null
+      }
+    ],
+    "raw": "00c01cca00000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x60",
+    "count": 16,
+    "items": [
+      {
+        "ptr": "0x1198bf688",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1198a0a58",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x119cf7b68",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x11955f078",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x117df1050",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x11984da38",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1198e6788",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1195aedd0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x11782f058",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x119d34fe0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x119558ed0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x117138050",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1173cfac8",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x117bccac0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1177c5108",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      }
+    ],
+    "raw": "88f68b1901000000580a8a1901000000687bcf190100000078f05519010000005010df170100000038da84190100000088678e1901000000d0ed5a190100000058f0821701000000e04fd31901000000d08e5519010000005080131701000000c8fa3c1701000000c0cabc170100000008517c17010000006040a01601000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x68",
+    "count": 33,
+    "items": [
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116a04060",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1195aedd0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1195aedd0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x1195aedd0",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x116c55548",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94693720
+        }
+      }
+    ],
+    "raw": "6040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a016010000006040a01601000000d0ed5a1901000000d0ed5a1901000000d0ed5a19010000004855c5160100000048e232170100000030e63217010000006051c51601000000784dc5160100000068a3c51601000000f885c616010000001851c716010000001082c61601000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x78",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0x117421b48",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x119d48c48",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      },
+      {
+        "ptr": "0x119d518e8",
+        "known": null,
+        "type": {
+          "name": ".?AVACTUAL_PLAYER@db@@",
+          "offset": 632,
+          "vtable_rva": 94695032
+        }
+      }
+    ],
+    "raw": "481b421701000000488cd41901000000e818d51901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0x98",
+    "count": 31,
+    "items": [
+      {
+        "ptr": "0x129559290",
+        "known": null
+      },
+      {
+        "ptr": "0x129559fb0",
+        "known": null
+      },
+      {
+        "ptr": "0x12955a010",
+        "known": null
+      },
+      {
+        "ptr": "0x12955a070",
+        "known": null
+      },
+      {
+        "ptr": "0x12955a0d0",
+        "known": null
+      },
+      {
+        "ptr": "0x12955a130",
+        "known": null
+      },
+      {
+        "ptr": "0x129559f50",
+        "known": null
+      },
+      {
+        "ptr": "0x12955a190",
+        "known": null
+      },
+      {
+        "ptr": "0x12954ac50",
+        "known": null
+      },
+      {
+        "ptr": "0x129549750",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c450",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c4b0",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c510",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c570",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c5d0",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c630",
+        "known": null
+      },
+      {
+        "ptr": "0x12954c690",
+        "known": null
+      },
+      {
+        "ptr": "0x1294f9690",
+        "known": null
+      },
+      {
+        "ptr": "0x12954a770",
+        "known": null
+      },
+      {
+        "ptr": "0x12954b850",
+        "known": null
+      },
+      {
+        "ptr": "0x129559b90",
+        "known": null
+      },
+      {
+        "ptr": "0x129559bf0",
+        "known": null
+      },
+      {
+        "ptr": "0x129558f30",
+        "known": null
+      },
+      {
+        "ptr": "0x12955daf0",
+        "known": null
+      },
+      {
+        "ptr": "0x12955db50",
+        "known": null
+      }
+    ],
+    "raw": "9092552901000000b09f55290100000010a055290100000070a0552901000000d0a055290100000030a1552901000000509f55290100000090a155290100000050ac542901000000509754290100000050c4542901000000b0c454290100000010c554290100000070c5542901000000d0c554290100000030c654290100000090c654290100000090964f290100000070a754290100000050b8542901000000909b552901000000f09b552901000000308f552901000000f0da55290100000050db55290100000070a9552901000000d0a955290100000030aa55290100000090aa552901000000f0aa55290100000050ab552901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0xa0",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0x3f80000001020000",
+        "known": null
+      },
+      {
+        "ptr": "0x8000000000000000",
+        "known": null
+      },
+      {
+        "ptr": "0x80000000",
+        "known": null
+      }
+    ],
+    "raw": "000002010000803f00000000000000800000008000000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0xc8",
+    "count": 36,
+    "items": [
+      {
+        "ptr": "0x12955a1f0",
+        "known": null
+      },
+      {
+        "ptr": "0x129562830",
+        "known": null
+      },
+      {
+        "ptr": "0x129562890",
+        "known": null
+      },
+      {
+        "ptr": "0x129560d30",
+        "known": null
+      },
+      {
+        "ptr": "0x12955ff50",
+        "known": null
+      },
+      {
+        "ptr": "0x12955ffb0",
+        "known": null
+      },
+      {
+        "ptr": "0x12955f350",
+        "known": null
+      },
+      {
+        "ptr": "0x12955f3b0",
+        "known": null
+      },
+      {
+        "ptr": "0x12955f410",
+        "known": null
+      },
+      {
+        "ptr": "0x12955f470",
+        "known": null
+      },
+      {
+        "ptr": "0x12955f4d0",
+        "known": null
+      },
+      {
+        "ptr": "0x129562290",
+        "known": null
+      },
+      {
+        "ptr": "0x1295622f0",
+        "known": null
+      },
+      {
+        "ptr": "0x129562350",
+        "known": null
+      },
+      {
+        "ptr": "0x1295623b0",
+        "known": null
+      },
+      {
+        "ptr": "0x129562410",
+        "known": null
+      },
+      {
+        "ptr": "0x129562470",
+        "known": null
+      },
+      {
+        "ptr": "0x1295624d0",
+        "known": null
+      },
+      {
+        "ptr": "0x129562530",
+        "known": null
+      },
+      {
+        "ptr": "0x129562590",
+        "known": null
+      },
+      {
+        "ptr": "0x129561570",
+        "known": null
+      },
+      {
+        "ptr": "0x1295615d0",
+        "known": null
+      },
+      {
+        "ptr": "0x129561630",
+        "known": null
+      },
+      {
+        "ptr": "0x129561690",
+        "known": null
+      },
+      {
+        "ptr": "0x129560a30",
+        "known": null
+      }
+    ],
+    "raw": "f0a155290100000030285629010000009028562901000000300d56290100000050ff552901000000b0ff55290100000050f3552901000000b0f355290100000010f455290100000070f4552901000000d0f45529010000009022562901000000f0225629010000005023562901000000b02356290100000010245629010000007024562901000000d024562901000000302556290100000090255629010000007015562901000000d01556290100000030165629010000009016562901000000300a562901000000900a562901000000b04456290100000010455629010000007045562901000000d045562901000000f0255629010000005026562901000000b02656290100000010275629010000007027562901000000d027562901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0xd0",
+    "count": 6,
+    "items": [
+      {
+        "ptr": "0x129554cd0",
+        "known": null
+      },
+      {
+        "ptr": "0x129554c70",
+        "known": null
+      },
+      {
+        "ptr": "0x129554c10",
+        "known": null
+      },
+      {
+        "ptr": "0x129554bb0",
+        "known": null
+      },
+      {
+        "ptr": "0x129553830",
+        "known": null
+      },
+      {
+        "ptr": "0x129553770",
+        "known": null
+      }
+    ],
+    "raw": "d04c552901000000704c552901000000104c552901000000b04b55290100000030385529010000007037552901000000"
+  },
+  {
+    "club_offset": "0x108",
+    "holder": "0x1294a5538",
+    "vector_offset": "0xe8",
+    "count": 15,
+    "items": [
+      {
+        "ptr": "0x1238170d8",
+        "known": null
+      },
+      {
+        "ptr": "0x1238170a8",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0x123816e20",
+        "known": null
+      },
+      {
+        "ptr": "0xffffff00000000d3",
+        "known": null
+      }
+    ],
+    "raw": "d870812301000000a870812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000206e812301000000d300000000ffffff"
+  },
+  {
+    "club_offset": "0x110",
+    "holder": "0xdfcd4b20",
+    "vector_offset": "0x0",
+    "count": 5,
+    "items": [
+      {
+        "ptr": "0x117a09870",
+        "known": "Trevor Stroud",
+        "type": {
+          "name": ".?AVACTUAL_NON_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94683880
+        }
+      },
+      {
+        "ptr": "0x1179c9028",
+        "known": "Rob Couhig",
+        "type": {
+          "name": ".?AVACTUAL_NON_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94683880
+        }
+      },
+      {
+        "ptr": "0x116567b58",
+        "known": "Pete Couhig",
+        "type": {
+          "name": ".?AVACTUAL_NON_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94683880
+        }
+      },
+      {
+        "ptr": "0x1165678f0",
+        "known": "David Cook",
+        "type": {
+          "name": ".?AVACTUAL_NON_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94683880
+        }
+      },
+      {
+        "ptr": "0x116567688",
+        "known": "Missy Couhig",
+        "type": {
+          "name": ".?AVACTUAL_NON_PLAYER@db@@",
+          "offset": 0,
+          "vtable_rva": 94683880
+        }
+      }
+    ],
+    "raw": "7098a0170100000028909c1701000000587b561601000000f0785616010000008876561601000000"
+  },
+  {
+    "club_offset": "0x110",
+    "holder": "0xdfcd4b20",
+    "vector_offset": "0x40",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0xd8aa63f8",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa63ec",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa63e0",
+        "known": null
+      }
+    ],
+    "raw": "f863aad800000000ec63aad800000000e063aad800000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x0",
+    "count": 9,
+    "items": [
+      {
+        "ptr": "0xd7d6ec98",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec80",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec68",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec50",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec38",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec20",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ec08",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ebf0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ebd8",
+        "known": null
+      }
+    ],
+    "raw": "98ecd6d70000000080ecd6d70000000068ecd6d70000000050ecd6d70000000038ecd6d70000000020ecd6d70000000008ecd6d700000000f0ebd6d700000000d8ebd6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x18",
+    "count": 7,
+    "items": [
+      {
+        "ptr": "0xd7d6ed40",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ed28",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ed10",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ecf8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ece0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ecc8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ecb0",
+        "known": null
+      }
+    ],
+    "raw": "40edd6d70000000028edd6d70000000010edd6d700000000f8ecd6d700000000e0ecd6d700000000c8ecd6d700000000b0ecd6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x30",
+    "count": 9,
+    "items": [
+      {
+        "ptr": "0xd7d6ee18",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ee00",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ede8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6edd0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6edb8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6eda0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ed88",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ed70",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ed58",
+        "known": null
+      }
+    ],
+    "raw": "18eed6d70000000000eed6d700000000e8edd6d700000000d0edd6d700000000b8edd6d700000000a0edd6d70000000088edd6d70000000070edd6d70000000058edd6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x48",
+    "count": 4,
+    "items": [
+      {
+        "ptr": "0xd7d6ee78",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ee60",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ee48",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ee30",
+        "known": null
+      }
+    ],
+    "raw": "78eed6d70000000060eed6d70000000048eed6d70000000030eed6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x60",
+    "count": 5,
+    "items": [
+      {
+        "ptr": "0xd7d6eef0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6eed8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6eec0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6eea8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ee90",
+        "known": null
+      }
+    ],
+    "raw": "f0eed6d700000000d8eed6d700000000c0eed6d700000000a8eed6d70000000090eed6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x78",
+    "count": 17,
+    "items": [
+      {
+        "ptr": "0xd7d6f088",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f070",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f058",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f040",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f028",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f010",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6eff8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6efe0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6efc8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6efb0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef98",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef80",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef68",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef50",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef38",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef20",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6ef08",
+        "known": null
+      }
+    ],
+    "raw": "88f0d6d70000000070f0d6d70000000058f0d6d70000000040f0d6d70000000028f0d6d70000000010f0d6d700000000f8efd6d700000000e0efd6d700000000c8efd6d700000000b0efd6d70000000098efd6d70000000080efd6d70000000068efd6d70000000050efd6d70000000038efd6d70000000020efd6d70000000008efd6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0x90",
+    "count": 6,
+    "items": [
+      {
+        "ptr": "0xd7d6f118",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f100",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f0e8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f0d0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f0b8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f0a0",
+        "known": null
+      }
+    ],
+    "raw": "18f1d6d70000000000f1d6d700000000e8f0d6d700000000d0f0d6d700000000b8f0d6d700000000a0f0d6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0xa8",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0xd7d6f160",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f148",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f130",
+        "known": null
+      }
+    ],
+    "raw": "60f1d6d70000000048f1d6d70000000030f1d6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0xc0",
+    "count": 4,
+    "items": [
+      {
+        "ptr": "0xd7d6f1c0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f1a8",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f190",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f178",
+        "known": null
+      }
+    ],
+    "raw": "c0f1d6d700000000a8f1d6d70000000090f1d6d70000000078f1d6d700000000"
+  },
+  {
+    "club_offset": "0x130",
+    "holder": "0xcbfe3a48",
+    "vector_offset": "0xd8",
+    "count": 8,
+    "items": [
+      {
+        "ptr": "0xd7d6f280",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f268",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f250",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f238",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f220",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f208",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f1f0",
+        "known": null
+      },
+      {
+        "ptr": "0xd7d6f1d8",
+        "known": null
+      }
+    ],
+    "raw": "80f2d6d70000000068f2d6d70000000050f2d6d70000000038f2d6d70000000020f2d6d70000000008f2d6d700000000f0f1d6d700000000d8f1d6d700000000"
+  },
+  {
+    "club_offset": "0x138",
+    "holder": "0xdfcd3f80",
+    "vector_offset": "0x0",
+    "count": 9,
+    "items": [
+      {
+        "ptr": "0xd8aa8ebc",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8eb0",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8ea4",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e98",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e8c",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e80",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e74",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e68",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa8e5c",
+        "known": null
+      }
+    ],
+    "raw": "bc8eaad800000000b08eaad800000000a48eaad800000000988eaad8000000008c8eaad800000000808eaad800000000748eaad800000000688eaad8000000005c8eaad800000000"
+  },
+  {
+    "club_offset": "0x138",
+    "holder": "0xdfcd3f80",
+    "vector_offset": "0x60",
+    "count": 1,
+    "items": [
+      {
+        "ptr": "0xcc9254e0",
+        "known": null
+      }
+    ],
+    "raw": "e05492cc00000000"
+  },
+  {
+    "club_offset": "0x138",
+    "holder": "0xdfcd3f80",
+    "vector_offset": "0x80",
+    "count": 3,
+    "items": [
+      {
+        "ptr": "0xd8aa626c",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa6260",
+        "known": null
+      },
+      {
+        "ptr": "0xd8aa6254",
+        "known": null
+      }
+    ],
+    "raw": "6c62aad8000000006062aad8000000005462aad800000000"
+  }
+]

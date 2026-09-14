@@ -1,0 +1,4751 @@
+{
+  "pid": 36240,
+  "module_base": 5368709120,
+  "size": 494956544,
+  "types": [
+    {
+      "name": ".?AVCLUB_ASSIGN_SCOUT_ACTION_UI@@",
+      "descriptor_rva": 103171680
+    },
+    {
+      "name": ".?AVCOMPETITION_SCOUT_REPORT_ACTION_UI@@",
+      "descriptor_rva": 103172064
+    },
+    {
+      "name": ".?AVSCOUT_TEAM_ACTION_UI@@",
+      "descriptor_rva": 103172448
+    },
+    {
+      "name": ".?AVPERSON_SCOUT_ASSIGNMENTS_LINK_ACTION_UI@@",
+      "descriptor_rva": 103175408
+    },
+    {
+      "name": ".?AVPERSON_SCOUT_REPORTS_LINK_ACTION_UI@@",
+      "descriptor_rva": 103175472
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_LINK_ACTION_UI@@",
+      "descriptor_rva": 103175664
+    },
+    {
+      "name": ".?AVNATION_ASSIGN_SCOUT_ACTION_UI@@",
+      "descriptor_rva": 103175872
+    },
+    {
+      "name": ".?AVADD_NON_PLAYERS_TO_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103176016
+    },
+    {
+      "name": ".?AVCOMMON_SCOUT_ACTION_UI@@",
+      "descriptor_rva": 103176080
+    },
+    {
+      "name": ".?AVADD_PLAYERS_AS_TRANSFER_TARGETS_ACTION_UI@@",
+      "descriptor_rva": 103176512
+    },
+    {
+      "name": ".?AVADD_PLAYERS_TO_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103176864
+    },
+    {
+      "name": ".?AVTRAINING_SCHEDULE_ACTION_UI@@",
+      "descriptor_rva": 103178064
+    },
+    {
+      "name": ".?AVCALL_BACK_FROM_TRAINING_REST_ACTION_UI@@",
+      "descriptor_rva": 103178128
+    },
+    {
+      "name": ".?AVADD_PLAYERS_TO_NATION_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103178304
+    },
+    {
+      "name": ".?AVDOF_SUGGEST_TRANSFER_TARGETS_ACTION_UI@@",
+      "descriptor_rva": 103179424
+    },
+    {
+      "name": ".?AVMOVE_NON_PLAYERS_TO_CLUB_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103180480
+    },
+    {
+      "name": ".?AVMOVE_PLAYERS_TO_CLUB_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103180752
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_ACTION_UI@@",
+      "descriptor_rva": 103181424
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_REST_ACTION_UI@@",
+      "descriptor_rva": 103181488
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_NEW_POSITION_ACTION_UI@@",
+      "descriptor_rva": 103181552
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_PREFERRED_MOVE_ACTION_UI@@",
+      "descriptor_rva": 103181616
+    },
+    {
+      "name": ".?AVREMOVE_NON_PLAYERS_FROM_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103182000
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_TRANSFER_TARGETS_ACTION_UI@@",
+      "descriptor_rva": 103182080
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_NATION_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103182544
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_SHORTLIST_ACTION_UI@@",
+      "descriptor_rva": 103182624
+    },
+    {
+      "name": ".?AVREQUEST_TRAINING_REPORT_ACTION_UI@@",
+      "descriptor_rva": 103182896
+    },
+    {
+      "name": ".?AVREST_PLAYERS_FROM_TRAINING_ACTION_UI@@",
+      "descriptor_rva": 103182960
+    },
+    {
+      "name": ".?AVSCOUT_PLAYER_GET_REPORT_ACTION_UI@@",
+      "descriptor_rva": 103183072
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_CLUB_ACTION_UI@@",
+      "descriptor_rva": 103183136
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_NATIONAL_ACTION_UI@@",
+      "descriptor_rva": 103183200
+    },
+    {
+      "name": ".?AVSTOP_SCOUT_PLAYERS_CLUB_ACTION_UI@@",
+      "descriptor_rva": 103183872
+    },
+    {
+      "name": ".?AVADD_PLAYER_TO_FIRST_TEAM_TRAINING_ACTION_UI@@",
+      "descriptor_rva": 103184304
+    },
+    {
+      "name": ".?AV?$REFERENCE_COUNTED_TYPED_TRAITS@V?$REFERENCE_COUNTER@VCLIENT_TACTIC@@@sicore@@@sicore@@",
+      "descriptor_rva": 103188592
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_INTENSITY_INFO_WIDGET@@@sicore@@",
+      "descriptor_rva": 103191120
+    },
+    {
+      "name": ".?AVADD_ON_TRAINING_SCHEDULE_DIALOG@@",
+      "descriptor_rva": 103191392
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_ON_TRAINING_SCHEDULE_DIALOG@@@sicore@@",
+      "descriptor_rva": 103191648
+    },
+    {
+      "name": ".?AVCHANGE_TRAINING_UNIT_TYPE_DIALOG@@",
+      "descriptor_rva": 103194032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCHANGE_TRAINING_UNIT_TYPE_DIALOG@@@sicore@@",
+      "descriptor_rva": 103194096
+    },
+    {
+      "name": ".?AVCHOOSE_FORMATION_DIALOG@@",
+      "descriptor_rva": 103194192
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCHOOSE_FORMATION_DIALOG@@@sicore@@",
+      "descriptor_rva": 103194240
+    },
+    {
+      "name": ".?AVSCOUT_SEARCH_PERSON_FILTER@@",
+      "descriptor_rva": 103195360
+    },
+    {
+      "name": ".?AVCREATE_SCOUT_ASSIGNMENT_DIALOG@@",
+      "descriptor_rva": 103195424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCREATE_SCOUT_ASSIGNMENT_DIALOG@@@sicore@@",
+      "descriptor_rva": 103195488
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_CREATE_ASSIGNMENT_ATTRIBUTE_WIDGET@@@sicore@@",
+      "descriptor_rva": 103195584
+    },
+    {
+      "name": ".?AVEDIT_SHORTLISTS_DIALOG@@",
+      "descriptor_rva": 103197872
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VEDIT_SHORTLISTS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103197920
+    },
+    {
+      "name": ".?AVINBOX_FILTERS_DIALOG@@",
+      "descriptor_rva": 103198848
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_FILTERS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103198896
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_PLAYER_SELECTION_DIALOG@@",
+      "descriptor_rva": 103199104
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_TRAINING_PLAYER_SELECTION_DIALOG@@@sicore@@",
+      "descriptor_rva": 103199184
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_ADVANCED_FILTERS_DIALOG@@",
+      "descriptor_rva": 103204480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_ADVANCED_FILTERS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103204544
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_DELIVERY_WIDGET@@@sicore@@",
+      "descriptor_rva": 103204640
+    },
+    {
+      "name": ".?AVSET_ACTIVE_SHORTLISTS_DIALOG@@",
+      "descriptor_rva": 103204992
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSET_ACTIVE_SHORTLISTS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103205056
+    },
+    {
+      "name": ".?AVTACTICAL_ROLE_LABEL@@",
+      "descriptor_rva": 103205360
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICAL_ROLE_LABEL@@@sicore@@",
+      "descriptor_rva": 103205792
+    },
+    {
+      "name": ".?AVSUGGEST_SHORTLIST_PLAYERS_DIALOG@@",
+      "descriptor_rva": 103207360
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSUGGEST_SHORTLIST_PLAYERS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103207424
+    },
+    {
+      "name": ".?AVTACTICS_POSITION_INSTRUCTIONS_DIALOG@@",
+      "descriptor_rva": 103207520
+    },
+    {
+      "name": ".?AVCLIENT_TACTIC@@",
+      "descriptor_rva": 103207648
+    },
+    {
+      "name": ".?AVMATCH_CLIENT_TACTIC@@",
+      "descriptor_rva": 103207696
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_POSITION_INSTRUCTIONS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103207744
+    },
+    {
+      "name": ".?AVTACTICS_SHORTCUT_PENALTY_TAKERS_DIALOG@@",
+      "descriptor_rva": 103207840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_SHORTCUT_PENALTY_TAKERS_DIALOG@@@sicore@@",
+      "descriptor_rva": 103207904
+    },
+    {
+      "name": ".?AVTACTICS_SHORTCUT_QUICK_SUB_DIALOG@@",
+      "descriptor_rva": 103208000
+    },
+    {
+      "name": ".?AVGAME_TACTIC_INFO@@",
+      "descriptor_rva": 103208064
+    },
+    {
+      "name": ".?AVTACTIC_INFO@simatch@@",
+      "descriptor_rva": 103208112
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_SHORTCUT_QUICK_SUB_DIALOG@@@sicore@@",
+      "descriptor_rva": 103208160
+    },
+    {
+      "name": ".?AVTACTICS_TEAM_STRATEGIES_DIALOG@@",
+      "descriptor_rva": 103208256
+    },
+    {
+      "name": ".?AVTACTICS_TEAM_STRATEGIES_CONTAINER@@",
+      "descriptor_rva": 103208320
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_TEAM_STRATEGIES_DIALOG@@@sicore@@",
+      "descriptor_rva": 103208384
+    },
+    {
+      "name": ".?AVTACTICAL_INSTRUCTIONS_SLIDER_WIDGET@fm@@",
+      "descriptor_rva": 103208480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_TEAM_STRATEGIES_CONTAINER@@@sicore@@",
+      "descriptor_rva": 103208544
+    },
+    {
+      "name": ".?AVTACTIC_LIST_DIALOG@@",
+      "descriptor_rva": 103208640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_LIST_DIALOG@@@sicore@@",
+      "descriptor_rva": 103208688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMINDSET_INFORMATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103208928
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMINDSET_BALANCE_INFORMATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103209024
+    },
+    {
+      "name": ".?AVTEAM_NEXT_WEEK_TRAINING_SCHEDULE_DIALOG@@",
+      "descriptor_rva": 103209120
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_NEXT_WEEK_TRAINING_SCHEDULE_DIALOG@@@sicore@@",
+      "descriptor_rva": 103209184
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_CUSTOMISATION_DIALOG@@",
+      "descriptor_rva": 103209440
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_CUSTOMISATION_DIALOG@@@sicore@@",
+      "descriptor_rva": 103209520
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_INTENSITY_SCHEDULE_DIALOG@@",
+      "descriptor_rva": 103209632
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_INTENSITY_SCHEDULE_DIALOG@@@sicore@@",
+      "descriptor_rva": 103209696
+    },
+    {
+      "name": ".?AVTRAINING_SCHEDULE_SESSION_SELECTOR_DIALOG@@",
+      "descriptor_rva": 103209792
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_SCHEDULE_SESSION_SELECTOR_DIALOG@@@sicore@@",
+      "descriptor_rva": 103209856
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_PANEL@@@sicore@@",
+      "descriptor_rva": 103214496
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_FEED_PANEL@@@sicore@@",
+      "descriptor_rva": 103214576
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPITCH_WITH_TACTICS@@@sicore@@",
+      "descriptor_rva": 103215456
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPITCH_WITH_SET_PIECE_TACTICS@@@sicore@@",
+      "descriptor_rva": 103215536
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_LEVELS_PANEL@@@sicore@@",
+      "descriptor_rva": 103216000
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_KNOWLEDGE_AND_ASSIGNMENTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103216496
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_BUTTON@@@sicore@@",
+      "descriptor_rva": 103216912
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_ANALYSIS_TACTICS_PANEL@@@sicore@@",
+      "descriptor_rva": 103218816
+    },
+    {
+      "name": ".?AVMATCH_ANALYSIS_TACTICS_PANEL@@",
+      "descriptor_rva": 103218912
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMINI_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103219552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPOPUP_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103219632
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_POSITION_TRAINING_POPUP@@@sicore@@",
+      "descriptor_rva": 103222688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_TRAINING_POPUP@@@sicore@@",
+      "descriptor_rva": 103222784
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_IMPROVEMENT@@@sicore@@",
+      "descriptor_rva": 103222864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSQUAD_PLANNER_ADD_FROM_SHORTLIST_POPUP@@@sicore@@",
+      "descriptor_rva": 103225504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_STARS_LABEL@@@sicore@@",
+      "descriptor_rva": 103225760
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_ICON_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103225840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_KIT_PICTURE@@@sicore@@",
+      "descriptor_rva": 103225920
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_SCOUT_REPORTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103227392
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPERSON_PERSONAL_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103229312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRANSFER_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103229408
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_PANEL@@@sicore@@",
+      "descriptor_rva": 103229504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VNON_PLAYER_TACTICS_COMPARISON_PANEL@@@sicore@@",
+      "descriptor_rva": 103229856
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VNON_PLAYER_TACTICS_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103230480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VOPPOSITION_TACTIC_PERSON_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103231168
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103234288
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_STADIUM_PANEL@@@sicore@@",
+      "descriptor_rva": 103234384
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_STATS_PANEL@@@sicore@@",
+      "descriptor_rva": 103234480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_FACTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103234576
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_FORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103235424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VBOTH_MATCH_FORMATION_PANELS@@@sicore@@",
+      "descriptor_rva": 103235504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_SCOUTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103235680
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_PLAYER_LIST_TABLE@@@sicore@@",
+      "descriptor_rva": 103240016
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VGAME_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103240416
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_TO_SHORTLIST_BUTTON@@@sicore@@",
+      "descriptor_rva": 103240736
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_TO_SHORTLIST_ICON_BUTTON@@@sicore@@",
+      "descriptor_rva": 103240816
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_POOL_PANEL@@@sicore@@",
+      "descriptor_rva": 103241728
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCONTRACT_OFFER_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103243232
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VOPPOSITION_PITCH_TACTICS_COMPONENT_PANEL@@@sicore@@",
+      "descriptor_rva": 103246896
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_PREPARATION_TACTIC_FAMILIARITY_PANEL@@@sicore@@",
+      "descriptor_rva": 103247584
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_MANAGER_TEAM_CONTAINER_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103247936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_HOLIDAY_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103248240
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_OPPOSITION_SCOUT_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103250416
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTIC_ANALYSIS_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103250608
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_OPPOSITION_REPORT_PREDICTED_TACTIC_PANEL@@@sicore@@",
+      "descriptor_rva": 103251312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_OPPOSITION_REPORT_PREDICTED_TACTICAL_STYLE_PANEL@@@sicore@@",
+      "descriptor_rva": 103251424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_OPPOSITION_REPORT_OVERVIEW_SCOUT_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103251536
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VYOUTH_DEVELOPMENT_TEAM_TACTICS_PANEL@@@sicore@@",
+      "descriptor_rva": 103252032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VYOUTH_DEVELOPMENT_TEAM_TRAINING@@@sicore@@",
+      "descriptor_rva": 103252224
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VYOUTH_DEVELOPMENT_TEAM_TRAINING_REVIEW_SUBPANEL@@@sicore@@",
+      "descriptor_rva": 103252320
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103255552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_CAPTAINS_PANEL@@@sicore@@",
+      "descriptor_rva": 103255648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECES_PANEL@@@sicore@@",
+      "descriptor_rva": 103255744
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_TEAM_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103255840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_PLAYER_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103255936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_SQUAD_TACTICS_PANEL@@@sicore@@",
+      "descriptor_rva": 103256288
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_SLOT_TAB_CONTAINER@@@sicore@@",
+      "descriptor_rva": 103256528
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_SLOT_BUTTON@@@sicore@@",
+      "descriptor_rva": 103256608
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103256688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_PLAYER_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103256768
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_CAPTAINS_PANEL@@@sicore@@",
+      "descriptor_rva": 103256864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_SET_PIECES_PANEL@@@sicore@@",
+      "descriptor_rva": 103256944
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_TEAM_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103257120
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_PENALTY_TAKERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103257216
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_TACTICS_PANEL_BASE@@@sicore@@",
+      "descriptor_rva": 103257312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_FACILITIES_STARS_LABEL@@@sicore@@",
+      "descriptor_rva": 103260320
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_OPPOSITION_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103262544
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_OPPOSITION_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103262640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_PLAYER_COUNT_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103264080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_FIXTURE_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103264192
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_SET_PIECE_TAKERS_PICKING_PANEL@@@sicore@@",
+      "descriptor_rva": 103264512
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_SET_PIECE_POSITION_TOOLTIP_PANEL@@@sicore@@",
+      "descriptor_rva": 103264608
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_ALL_SET_PIECE_TAKERS_PICKING_PANEL@@@sicore@@",
+      "descriptor_rva": 103264704
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_ALL_SET_PIECE_TAKERS_PICKING_PANEL@@@sicore@@",
+      "descriptor_rva": 103264816
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_NATIONAL_TEAM_SQUAD_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103264928
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_TACTIC_POPUP_PANEL@@@sicore@@",
+      "descriptor_rva": 103266880
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_FOCUS_UPDATE_FREQUENCY_PANEL@@@sicore@@",
+      "descriptor_rva": 103268736
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_KNOWLEDGE_WIDGET@@@sicore@@",
+      "descriptor_rva": 103269264
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_LOAD_FILTER_PANEL@@@sicore@@",
+      "descriptor_rva": 103271296
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_HAPPINESS_WIDGET@@@sicore@@",
+      "descriptor_rva": 103275200
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103275296
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CONTROL_DIALOG@@@sicore@@",
+      "descriptor_rva": 103275392
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103275472
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_PLAYER_LIST_POPUP@@@sicore@@",
+      "descriptor_rva": 103275552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_WEEK_SCHEDULE_BAR@@@sicore@@",
+      "descriptor_rva": 103275648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_DATE_CALENDAR_BOX@@@sicore@@",
+      "descriptor_rva": 103275744
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_PERSON_TABLE_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103275840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_CALENDAR_PANEL@@@sicore@@",
+      "descriptor_rva": 103275936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_COACHES_PANEL@@@sicore@@",
+      "descriptor_rva": 103276032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_COACHES_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103276128
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_SCHEDULE_PANEL@@@sicore@@",
+      "descriptor_rva": 103276224
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_UNITS_PANEL@@@sicore@@",
+      "descriptor_rva": 103276320
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_MATCH_PREPARATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103276400
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_MENTORING_PANEL@@@sicore@@",
+      "descriptor_rva": 103276496
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_MENTORING_ADD_PLAYER_PANEL@@@sicore@@",
+      "descriptor_rva": 103276592
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_COACH_CHECK_BOX@@@sicore@@",
+      "descriptor_rva": 103276688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CALENDAR_WEEK_SCHEDULE_ROW@@@sicore@@",
+      "descriptor_rva": 103276768
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_TRAINING_CHECKBOX@@@sicore@@",
+      "descriptor_rva": 103277232
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VGENERAL_TRAINING_FOCUS_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103277328
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VGENERAL_TRAINING_INTENSITY_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103277424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_TRAINING_FOCUS_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103277520
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_FACILITIES_DESCRIPTION_TEXT@@@sicore@@",
+      "descriptor_rva": 103280992
+    },
+    {
+      "name": ".?AVTRAINING_FACILITIES_DESCRIPTION_TEXT@@",
+      "descriptor_rva": 103281088
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_ATTRIBUTES_POPUP@@@sicore@@",
+      "descriptor_rva": 103282192
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_SELECTOR_CONTAINER@@@sicore@@",
+      "descriptor_rva": 103282448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_COMBINED_PANEL@@@sicore@@",
+      "descriptor_rva": 103282528
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_INFORMATION_BACKGROUND_PANEL@@@sicore@@",
+      "descriptor_rva": 103282624
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_MATCH_PLANS_PANEL@@@sicore@@",
+      "descriptor_rva": 103283600
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_ICON_RADIAL_MENU_PANEL@@@sicore@@",
+      "descriptor_rva": 103283760
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_TACTICAL_STYLE_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103283952
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_TACTICAL_STYLE_POPUP_PANEL@@@sicore@@",
+      "descriptor_rva": 103284128
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_MATCH_PLANS_PANEL@@@sicore@@",
+      "descriptor_rva": 103284224
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMINI_PLAYER_SCOUT_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103284768
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_PANEL@@@sicore@@",
+      "descriptor_rva": 103284960
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_ITEM_CONTENT_CONTAINER@@@sicore@@",
+      "descriptor_rva": 103285040
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_AGENTS_TOUTING_DEADLINE_DAY_PLAYERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103285136
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PRESS_CONFERENCE_AGENDA_PANEL@@@sicore@@",
+      "descriptor_rva": 103285264
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PRESS_CONFERENCE_QUESTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103285376
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MATCH_FOCUS_PANEL@@@sicore@@",
+      "descriptor_rva": 103285488
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRAINING_FOCUS_PANEL@@@sicore@@",
+      "descriptor_rva": 103285584
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_DEADLINE_DAY_BUILD_UP_PANEL@@@sicore@@",
+      "descriptor_rva": 103285680
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_DEADLINE_DAY_INVITATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103285792
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_PERSON_MINI_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103285904
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_WORK_PERMIT_STATUS@@@sicore@@",
+      "descriptor_rva": 103286016
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_WINDOW_CLOSED_PANEL@@@sicore@@",
+      "descriptor_rva": 103286112
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_WINDOW_ROUND_UP_PANEL@@@sicore@@",
+      "descriptor_rva": 103286224
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_WINDOW_SPECULATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103286336
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_AWARD_WINNERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103286448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_BEST_YOUTH_PRODUCTION@@@sicore@@",
+      "descriptor_rva": 103286544
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_BOARD_CONFIDENCE_PANEL@@@sicore@@",
+      "descriptor_rva": 103286640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CALL_UP_SCOUTING_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103286736
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CAPTAIN_SELECTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103286848
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_ONGOING_TRANSFER_NEGOTIATIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103286960
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_VISION_SUCCESS_OR_FAILURE_PANEL@@@sicore@@",
+      "descriptor_rva": 103287088
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_VISION_UPDATE_PANEL@@@sicore@@",
+      "descriptor_rva": 103287200
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CODE_OF_CONDUCT_PANEL@@@sicore@@",
+      "descriptor_rva": 103287312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_MATCHDAY_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103287408
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_ODDS_PANEL@@@sicore@@",
+      "descriptor_rva": 103287520
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_REVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103287616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_TV_DEAL_PANEL@@@sicore@@",
+      "descriptor_rva": 103287712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CONTRACT_OFFER_PANEL@@@sicore@@",
+      "descriptor_rva": 103287808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CUP_DRAW_FIXTURE_PANEL@@@sicore@@",
+      "descriptor_rva": 103287904
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CUP_DRAW_PANEL@@@sicore@@",
+      "descriptor_rva": 103288000
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_DISCARDED_PLAYERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103288096
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_DYNAMIC_OBJECT_LISTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103288208
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_END_TRAINING_CAMP_PANEL@@@sicore@@",
+      "descriptor_rva": 103288320
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_EXPIRING_CONTRACT_PERSON_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103288432
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FFP_RULES_PANEL@@@sicore@@",
+      "descriptor_rva": 103288544
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FRIENDLY_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103288640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FUTURE_TRANSFERS_CANCELLED_PANEL@@@sicore@@",
+      "descriptor_rva": 103288736
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_HOT_PLAYER_NEWS_PANEL@@@sicore@@",
+      "descriptor_rva": 103288848
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_HUMAN_MINI_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103288944
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_INJURY_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103289056
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_INTERMEDIARY_ULTIMATUM_EXPIRED_PANEL@@@sicore@@",
+      "descriptor_rva": 103289152
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_LOAN_BACK_OFFER_PANEL@@@sicore@@",
+      "descriptor_rva": 103289264
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MANAGER_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103289360
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MATCH_PREP_PANEL@@@sicore@@",
+      "descriptor_rva": 103289456
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MATCH_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103289552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MULTI_PROFILE_GRID_PANEL@@@sicore@@",
+      "descriptor_rva": 103289648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MULTIPLE_NON_PLAYER_OFFERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103289760
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MULTIPLE_TRANSFER_OFFERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103289872
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_OBJECT_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103289984
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_OBJECT_PICTURE_PANEL@@@sicore@@",
+      "descriptor_rva": 103290080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_OPTION_BOXES_PANEL@@@sicore@@",
+      "descriptor_rva": 103290176
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PERSON_MINI_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103290272
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PHYSIO_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103290384
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_FITNESS_PANEL@@@sicore@@",
+      "descriptor_rva": 103290480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_INURY_TIME_PANEL@@@sicore@@",
+      "descriptor_rva": 103290576
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103290688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_PRAISE_PANEL@@@sicore@@",
+      "descriptor_rva": 103290784
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103290880
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_TRANSFER_LIST_REJECTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103290976
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_POINTS_PROGRESS_UPDATE_PANEL@@@sicore@@",
+      "descriptor_rva": 103291088
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PRE_MATCH_FITNESS_TEST_PANEL@@@sicore@@",
+      "descriptor_rva": 103291200
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PRESS_CONFERENCE_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103291312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PROMOTED_PLAYERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103291424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_REMOVED_FROM_SHORTLIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103291520
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SCOUT_CENTRE_PANEL@@@sicore@@",
+      "descriptor_rva": 103291632
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SEASON_EXPECTATIONS_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103291728
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SEASON_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103291840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SIGNING_OF_THE_SEASON_PANEL@@@sicore@@",
+      "descriptor_rva": 103291936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SPORT_SCIENTIST_UPDATE_PANEL@@@sicore@@",
+      "descriptor_rva": 103292048
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SQUAD_RULES_PANEL@@@sicore@@",
+      "descriptor_rva": 103292160
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_START_TRAINING_CAMP_PANEL@@@sicore@@",
+      "descriptor_rva": 103292256
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TEAM_BUYIN_PANEL@@@sicore@@",
+      "descriptor_rva": 103292368
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TEAM_DYNAMICS_PANEL@@@sicore@@",
+      "descriptor_rva": 103292464
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TRANSFER_OFFER_PANEL@@@sicore@@",
+      "descriptor_rva": 103292560
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_WEEKLY_JOB_UPDATES@@@sicore@@",
+      "descriptor_rva": 103292656
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_YOUTH_PLAYER_POACHING_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103292752
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_DYNAMIC_IMAGE_PANEL@@@sicore@@",
+      "descriptor_rva": 103292864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_FIXTURE_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103292944
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_GRID_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103293024
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_INJURY_TREATMENT_RESPONSE_PANEL@@@sicore@@",
+      "descriptor_rva": 103293104
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_ASSISTANT_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103293200
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_COMP_INFO_FAVS_PANEL@@@sicore@@",
+      "descriptor_rva": 103293296
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_COMP_WINNERS_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103293392
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_CONFIDENCE_PANEL@@@sicore@@",
+      "descriptor_rva": 103293504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_CONTRACT_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103293600
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_FAN_REACTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103293696
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_INJURY_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103293792
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_LOAN_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103293888
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_PLAYER_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103293984
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_PLAYER_MATCH_STATS_PANEL@@@sicore@@",
+      "descriptor_rva": 103294080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_COMP_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103294192
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_COMP_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103294288
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103294400
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TRANSFER_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103294496
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_CANCELLED_TRANSFER_PLAYER_PANEL@@@sicore@@",
+      "descriptor_rva": 103294592
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_PERSON_LIST_PANEL@@@sicore@@",
+      "descriptor_rva": 103294704
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_SQUAD_RULE_PANEL@@@sicore@@",
+      "descriptor_rva": 103294784
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VWEEKLY_TRAINING_ROUNDUP_NEWS_CONTENT_PANEL@@@sicore@@",
+      "descriptor_rva": 103295840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_KNOWLEDGE_LABEL@@@sicore@@",
+      "descriptor_rva": 103300288
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSHORTLIST_CONFIRMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103302672
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINTERACTION_PLAYER_CHAT_INFO_TRAINING_PANEL@@@sicore@@",
+      "descriptor_rva": 103306736
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VWELCOME_TO_TEAM_TEAM_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103309136
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPERSON_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103309648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_COACHES_ATTRIBUTE_PANEL@@@sicore@@",
+      "descriptor_rva": 103309728
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_INFORMATION@@@sicore@@",
+      "descriptor_rva": 103309824
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_SLOT@@@sicore@@",
+      "descriptor_rva": 103310080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CATEGORY_COACH_OVERVIEW_WIDGET@@@sicore@@",
+      "descriptor_rva": 103310768
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_ASSIGNMENTS_PANEL@@@sicore@@",
+      "descriptor_rva": 103310864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_STATS_PANEL@@@sicore@@",
+      "descriptor_rva": 103311984
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_PLAN_CREATOR_TACTIC_PANEL@@@sicore@@",
+      "descriptor_rva": 103312752
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_TACTIC_PANEL@@@sicore@@",
+      "descriptor_rva": 103316032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_REPORT_SCOUT_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103320032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VFORMATIONS_DATA_ANALYST_REPORT_PANEL@@@sicore@@",
+      "descriptor_rva": 103320432
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_HAPPINESS_LABEL@@@sicore@@",
+      "descriptor_rva": 103321936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_WORKLOAD_LABEL@@@sicore@@",
+      "descriptor_rva": 103322032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICAL_STYLE_LABEL@@@sicore@@",
+      "descriptor_rva": 103322208
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_SCOUTING_KNOWLEDGE_MAP@@@sicore@@",
+      "descriptor_rva": 103323264
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRANSFER_INFORMATION_SMALL_PANEL@@@sicore@@",
+      "descriptor_rva": 103323456
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_NEW_MANAGER_SPECULATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103324400
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MANAGER_DEPARTURE_NEWS_PANEL@@@sicore@@",
+      "descriptor_rva": 103324512
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_MOM_PANEL@@@sicore@@",
+      "descriptor_rva": 103325808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CUP_FINAL_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103325904
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_REPORT_PRO_CON_WIDGET@@@sicore@@",
+      "descriptor_rva": 103326016
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_REPORT_YET_TO_ASSESS_POPUP_PANEL@@@sicore@@",
+      "descriptor_rva": 103326112
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_PERSON_SEARCH_PANEL@@@sicore@@",
+      "descriptor_rva": 103326288
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCHOOSE_FORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103326960
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCREATE_ASSIGNMENT_SCOUT_PICKER_POPUP_PANEL@@@sicore@@",
+      "descriptor_rva": 103327984
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRANSFER_TARGET_GET_SCOUT_REPORT_WIDGET@@@sicore@@",
+      "descriptor_rva": 103330352
+    },
+    {
+      "name": ".?AVTRANSFER_TARGET_GET_SCOUT_REPORT_WIDGET@@",
+      "descriptor_rva": 103330448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRANSFER_TARGET_DETAILS_PANEL@@@sicore@@",
+      "descriptor_rva": 103331088
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCLUB_TRAINING_PERFORMERS_LIST_WIDGET@@@sicore@@",
+      "descriptor_rva": 103331568
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FAILED_PROMISES_PANEL@@@sicore@@",
+      "descriptor_rva": 103331664
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_SCOUT_RECOMMENDATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103331936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_PREFERENCES_AND_FILTERS_POPUP@@@sicore@@",
+      "descriptor_rva": 103332128
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_MAP_MASK@@@sicore@@",
+      "descriptor_rva": 103332240
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_RECENT_MATCH_ANALYSIS_PANEL@@@sicore@@",
+      "descriptor_rva": 103332480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_INDUCTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103334768
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_INDUCTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103334928
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTUTORIAL_INDUCTION_INFORMATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103335008
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_FINANCIAL_DATA_PANEL@@@sicore@@",
+      "descriptor_rva": 103335456
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_CATEGORY_WIDGET@@@sicore@@",
+      "descriptor_rva": 103335664
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_CATEGORY_WIDGET@@",
+      "descriptor_rva": 103335760
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_TACTICS_TOGGLE_BUTTON@@@sicore@@",
+      "descriptor_rva": 103335824
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_MERCHANDISE_INCREASE_PANEL@@@sicore@@",
+      "descriptor_rva": 103336752
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_HIGHEST_RATED_PLAYERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103340976
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_MINI_PROFILE_TEAM_TRAINING_CAMP_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103341072
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_LOAN_INFORMATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103342528
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSTAFF_NUMBERS_TABLE_INBOX_ITEM@@@sicore@@",
+      "descriptor_rva": 103343536
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TACTICAL_FAMILIARITY_BAR@@@sicore@@",
+      "descriptor_rva": 103343824
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPITCH_WITH_BOTH_TACTICS@@@sicore@@",
+      "descriptor_rva": 103344368
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPITCH_WITH_TACTICS_OUT_OF_POSSESSION@@@sicore@@",
+      "descriptor_rva": 103344448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_TOP_PANEL@@@sicore@@",
+      "descriptor_rva": 103344640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPERSON_TACTICAL_ROLE_LABEL@@@sicore@@",
+      "descriptor_rva": 103345104
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_SHORTLIST_POSITION_FILTER_BUTTON@@@sicore@@",
+      "descriptor_rva": 103345376
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCLUB_TACTICS_CONFIDENCE_PANEL@@@sicore@@",
+      "descriptor_rva": 103345840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_PANEL@@@sicore@@",
+      "descriptor_rva": 103345936
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_SCOUT_RESPONSIBILITY_PANEL@@@sicore@@",
+      "descriptor_rva": 103346016
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_INBOX_PANEL@@@sicore@@",
+      "descriptor_rva": 103346416
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_SCOUTING_CENTRE_ACTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103347616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VASSIGNMENT_SCOUTING_CENTRE_ACTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103347712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCOMPETITION_SCOUTING_CENTRE_ACTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103347808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_CONTAINER_SCOUTING_RANGE_POPUP@@@sicore@@",
+      "descriptor_rva": 103348144
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_CENTRE_MEETING_FMT_INBOX_PANEL@@@sicore@@",
+      "descriptor_rva": 103348240
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_SCOUTING_CENTRE_ACTIONS_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103348336
+    },
+    {
+      "name": ".?AVPLAYER_SCOUTING_CENTRE_ACTIONS_POPUP_BUTTON@@",
+      "descriptor_rva": 103348448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_CONSOLE_QUICK_TACTICS_PANEL@@@sicore@@",
+      "descriptor_rva": 103349072
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_WORK_PERMIT_PERSON_MINI_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103349360
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_POSITION_ROLE_DUTY_LABEL@@@sicore@@",
+      "descriptor_rva": 103349712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_SCHEDULE_WEEK_WIDGET@@@sicore@@",
+      "descriptor_rva": 103349808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_MENTORING_EFFECT_LABEL@@@sicore@@",
+      "descriptor_rva": 103349904
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_REST_PANEL@@@sicore@@",
+      "descriptor_rva": 103350080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VCLUB_TRAINING_PERFORMERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103350256
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_WEEK_PANEL@@@sicore@@",
+      "descriptor_rva": 103350352
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_INTENSITY_REST_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103350432
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TACTICAL_FAMILIARITY_PANEL@@@sicore@@",
+      "descriptor_rva": 103350544
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_PERFORMANCE_PANEL@@@sicore@@",
+      "descriptor_rva": 103350640
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_PROGRESS_TEXT@@@sicore@@",
+      "descriptor_rva": 103351344
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_DURATION_TEXT@@@sicore@@",
+      "descriptor_rva": 103351424
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TEAM_SELECTION_ADVICE_PANEL@@@sicore@@",
+      "descriptor_rva": 103352496
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTIC_POPUP_BUTTON@@@sicore@@",
+      "descriptor_rva": 103353216
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSUGGEST_TRANSFER_TARGET_POSITION_SELECTOR_WIDGET@@@sicore@@",
+      "descriptor_rva": 103354064
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_INTRA_SQUAD_FRIENDLY_SELECTION@@@sicore@@",
+      "descriptor_rva": 103355072
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICS_WITH_EMBEDDED_SECTIONS_TABS_PANEL@@@sicore@@",
+      "descriptor_rva": 103356448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_ADVANCED_FILTER_NEWS_ITEM_POPUP@@@sicore@@",
+      "descriptor_rva": 103356720
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPREMATCH_TACTICAL_ADVICE_PANEL@@@sicore@@",
+      "descriptor_rva": 103360144
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_RECRUITMENT_MEETING_SUMMARY_PANEL@@@sicore@@",
+      "descriptor_rva": 103360240
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_RECRUITMENT_MEETING_INVITE_PANEL@@@sicore@@",
+      "descriptor_rva": 103360352
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_RECRUITMENT_PLANNING_MEETING_FOLLOW_UP_PANEL@@@sicore@@",
+      "descriptor_rva": 103360464
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SCOUTING_FOCUS_SUGGESTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103360592
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SCOUTING_FOCUS_UPDATE_PANEL@@@sicore@@",
+      "descriptor_rva": 103360704
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CHAMPION_STATS_PANEL@@@sicore@@",
+      "descriptor_rva": 103363312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_LAST_MATCH_FOR_CONTRACT_TYPE_PANEL@@@sicore@@",
+      "descriptor_rva": 103363408
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_NEW_UEFA_24_25_RULES@@@sicore@@",
+      "descriptor_rva": 103363520
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_UPDATE_NEW_UEFA_EXTRA_COEFFICIENT_PLACES@@@sicore@@",
+      "descriptor_rva": 103363616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_NEW_UEFA_EXTRA_COEFFICIENT_PLACES_FINAL@@@sicore@@",
+      "descriptor_rva": 103363744
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MOST_LEAGUE_TITLES_PANEL@@@sicore@@",
+      "descriptor_rva": 103363872
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_RIVALRY_LEVEL_CHANGE_PANEL@@@sicore@@",
+      "descriptor_rva": 103363984
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_STADIUM_HOSTING_MAJOR_FINAL_PANEL@@@sicore@@",
+      "descriptor_rva": 103364096
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICAL_INSTRUCTIONS_SLIDER_WIDGET@fm@@@sicore@@",
+      "descriptor_rva": 103368864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_STAFF_RECOMMENDATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103369616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_LOCATION_PICKER_POPUP@@@sicore@@",
+      "descriptor_rva": 103369712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_ANALYST_PICKER_POPUP@@@sicore@@",
+      "descriptor_rva": 103369808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TOP_YOUTH_ACADEMIES_PANEL@@@sicore@@",
+      "descriptor_rva": 103371072
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_ADMINISTRATION_NEWS_PANEL@@@sicore@@",
+      "descriptor_rva": 103371184
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_NEGATIVE_TRANSFER_BUDGET_PANEL@@@sicore@@",
+      "descriptor_rva": 103371392
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_CONTAINER_PANEL@@@sicore@@",
+      "descriptor_rva": 103371600
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_CREATOR_PANEL@@@sicore@@",
+      "descriptor_rva": 103371712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_PANEL@@@sicore@@",
+      "descriptor_rva": 103371824
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_INSTRUCTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103372400
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_PLAYER_POPUP@@@sicore@@",
+      "descriptor_rva": 103372512
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_ROUTINE_SELECTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103372720
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TACTICS_SET_PIECE_TAKER_SELECTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103372832
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPIE_CHART_TACTICAL_SUITABILITY@@@sicore@@",
+      "descriptor_rva": 103373136
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_TARGET_RESULT_PANEL@@@sicore@@",
+      "descriptor_rva": 103373408
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_TRAINING_PLAYER_SELECTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103373504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_INTENSITY_TYPE_LABEL@@@sicore@@",
+      "descriptor_rva": 103373616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_RATING_COLOURED_FMC_WIDGET@@@sicore@@",
+      "descriptor_rva": 103373712
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_INTENSITY_SCHEDULE_PANEL@@@sicore@@",
+      "descriptor_rva": 103373824
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_FOCUS_SELECTION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103373920
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_NEXT_WEEK_TRAINING_SCHEDULE_PANEL@@@sicore@@",
+      "descriptor_rva": 103374016
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VNEXT_WEEK_TRAINING_SCHEDULE_UNIT_WIDGET@@@sicore@@",
+      "descriptor_rva": 103374112
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_RATING_WIDGET@@@sicore@@",
+      "descriptor_rva": 103374576
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_RATING_WIDGET@@@sicore@@",
+      "descriptor_rva": 103374672
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_INFORMATION_WIDGET@@@sicore@@",
+      "descriptor_rva": 103375040
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_FOCUS_PIE_CHART_WIDGET@@@sicore@@",
+      "descriptor_rva": 103375136
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_UPDATED_FEATURES_WIDGET@@@sicore@@",
+      "descriptor_rva": 103375232
+    },
+    {
+      "name": ".?AVANALYSIS_CLIENT_TACTIC@@",
+      "descriptor_rva": 103379616
+    },
+    {
+      "name": ".?AV?$REFERENCE_COUNTED@VCLIENT_TACTIC@@@sicore@@",
+      "descriptor_rva": 103379664
+    },
+    {
+      "name": ".?AVAWARD_CLIENT_TACTIC@@",
+      "descriptor_rva": 103379744
+    },
+    {
+      "name": ".?AVLAST_MATCH_CLIENT_TACTIC@@",
+      "descriptor_rva": 103380144
+    },
+    {
+      "name": ".?AVPREDICTION_CLIENT_TACTIC@@",
+      "descriptor_rva": 103384240
+    },
+    {
+      "name": ".?AVTEAM_OPPOSITION_INSTRUCTIONS_CLIENT_TACTIC@@",
+      "descriptor_rva": 103384288
+    },
+    {
+      "name": ".?AV?$REFERENCE_COUNTED_TYPED_TRAITS@V?$REFERENCE_COUNTER@$$CBVCLIENT_TACTIC@@@sicore@@@sicore@@",
+      "descriptor_rva": 103385680
+    },
+    {
+      "name": ".?AVGAME_MATCH_CONTROLLER_TACTICS@@",
+      "descriptor_rva": 103385808
+    },
+    {
+      "name": ".?AVI_MATCH_CONTROLLER_TACTICS@fmmatchviewer@@",
+      "descriptor_rva": 103385872
+    },
+    {
+      "name": ".?AVMATCH_CONTROLLER_UI_TACTICS@fmmatchviewer@@",
+      "descriptor_rva": 103389232
+    },
+    {
+      "name": ".?AV?$REFERENCE_COUNTED@VMATCH_CONTROLLER_UI_TACTICS@fmmatchviewer@@@sicore@@",
+      "descriptor_rva": 103389296
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_AGENT_FOLLOW_UP_ON_CONTRACT_NEGOTIATIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103391808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_AGENT_FOLLOW_UP_ON_PLAYER_ENQUIRY_PANEL@@@sicore@@",
+      "descriptor_rva": 103391936
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_PANEL@@",
+      "descriptor_rva": 103393040
+    },
+    {
+      "name": ".?AVPLAYER_MISSED_TRAINING_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103395808
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPLAYER_MISSED_TRAINING_NEWS_ITEM@@@news_ui@@",
+      "descriptor_rva": 103395872
+    },
+    {
+      "name": ".?AVBACKROOM_ADVICE_MEETING_INBOX_SUMMARY_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103396288
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VBACKROOM_ADVICE_MEETING_INBOX_SUMMARY_NEWS_ITEM@@@news_ui@@",
+      "descriptor_rva": 103396368
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TEAM_SELECTION_ADVICE_PANEL@@",
+      "descriptor_rva": 103397792
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_VISION_ANNUAL_SUPPORTER_PROFILE_PANEL@@@sicore@@",
+      "descriptor_rva": 103406256
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CLUB_VISION_SUPPORTER_CULTURE_UPDATE_PANEL@@@sicore@@",
+      "descriptor_rva": 103406576
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COACHING_COURSE_PANEL@@@sicore@@",
+      "descriptor_rva": 103406864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_YOUTH_LEAGUE_WINNERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103408512
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_INFO_PANELS@@@sicore@@",
+      "descriptor_rva": 103408624
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMP_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103409344
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_REARRANGED_FIXTURES_PANEL@@@sicore@@",
+      "descriptor_rva": 103409888
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CUP_DRAW_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103410144
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_CUP_DRAW_FIXTURES_PANEL@@@sicore@@",
+      "descriptor_rva": 103412272
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_PROPERTY_PANEL@@@sicore@@",
+      "descriptor_rva": 103418832
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_COMPETITION_RULES_CHANGES@@@sicore@@",
+      "descriptor_rva": 103422240
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MEDAL_WINNERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103423008
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_NEW_UEFA_24_25_FORMAT_DETAILS@@@sicore@@",
+      "descriptor_rva": 103424880
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MULTIPLE_NON_PLAYER_CONTRACTS@@@sicore@@",
+      "descriptor_rva": 103425808
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MULTIPLE_PLAYER_CONTRACTS@@@sicore@@",
+      "descriptor_rva": 103425920
+    },
+    {
+      "name": ".?AVINBOX_ITEM_CONTENT_CONTAINER@@",
+      "descriptor_rva": 103426176
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_YOUTH_PLAYERS_PROMOTED_PANEL@@@sicore@@",
+      "descriptor_rva": 103429776
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_HOME_GROWN_INFO_PANEL@@@sicore@@",
+      "descriptor_rva": 103431840
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SAN_PLAYER_CONTRACTS_UPDATE@@@sicore@@",
+      "descriptor_rva": 103433280
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYERS_REMOVED_FROM_LIST@@@sicore@@",
+      "descriptor_rva": 103446992
+    },
+    {
+      "name": ".?AVINJURY_LIGHT_TRAINING_NEWS_UI@@",
+      "descriptor_rva": 103449152
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VINJURY_LIGHT_TRAINING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103449216
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_REHAB_PANEL@@@sicore@@",
+      "descriptor_rva": 103449312
+    },
+    {
+      "name": ".?AVINJURY_FULL_TRAINING_NEWS_UI@@",
+      "descriptor_rva": 103449408
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VINJURY_FULL_TRAINING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103449472
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_BOARD_REQUEST_PANEL@@@sicore@@",
+      "descriptor_rva": 103453648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FORMER_STAFF_OPINION@@@sicore@@",
+      "descriptor_rva": 103466480
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_EVENTS_SUMMARY_NEWS@@@sicore@@",
+      "descriptor_rva": 103467024
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_MLS_COMBINE_TEST_PANEL@@@sicore@@",
+      "descriptor_rva": 103469776
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_BACKROOM_STAFF_PLAYER_ALERT_PANEL@@@sicore@@",
+      "descriptor_rva": 103491056
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_FACTIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103491344
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_BOARD_AND_SUPPORTERS_EXPECTATIONS_PANEL@@@sicore@@",
+      "descriptor_rva": 103496432
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_YOUTH_INTAKE_PANEL@@@sicore@@",
+      "descriptor_rva": 103498384
+    },
+    {
+      "name": ".?AVSCOUT_TEAM_REPORT_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103500368
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUT_TEAM_REPORT_NEWS@@@news_ui@@",
+      "descriptor_rva": 103500432
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPRE_MATCH_OPPONENT_SCOUT_REPORT_NEWS_PANEL@@@sicore@@",
+      "descriptor_rva": 103500512
+    },
+    {
+      "name": ".?AVPRE_MATCH_OPPONENT_SCOUT_REPORT_NEWS_PANEL@@",
+      "descriptor_rva": 103500624
+    },
+    {
+      "name": ".?AVSCOUT_MATCH_REPORT_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103500704
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUT_MATCH_REPORT_NEWS@@@news_ui@@",
+      "descriptor_rva": 103500768
+    },
+    {
+      "name": ".?AVGENERAL_SCOUT_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103500864
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VGENERAL_SCOUT_NEWS@@@news_ui@@",
+      "descriptor_rva": 103500928
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_INTRODUCTION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103501008
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_CENTRE_INTRODUCTION_NEWS@@@news_ui@@",
+      "descriptor_rva": 103501072
+    },
+    {
+      "name": ".?AVSCOUT_RECOMMENDATIONS_UPDATE_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103501168
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VSCOUT_RECOMMENDATIONS_UPDATE_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103501248
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_RECOMMENDATIONS_UPDATE_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103501376
+    },
+    {
+      "name": ".?AVSCOUT_RECOMMENDATIONS_UPDATE_RESPONSE@@",
+      "descriptor_rva": 103501472
+    },
+    {
+      "name": ".?AV?$SPECIFIC_NEWS_ITEM_RESPONSE_OBJECT@VSCOUTING_CENTRE_INTRODUCTION_NEWS@@@db@@",
+      "descriptor_rva": 103501536
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_MEETING_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103501648
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_CENTRE_MEETING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103501712
+    },
+    {
+      "name": ".?AVSCOUTING_COMPETITION_CALENDAR_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103501808
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_COMPETITION_CALENDAR_NEWS@@@news_ui@@",
+      "descriptor_rva": 103501888
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SCOUTING_CALENDAR_PANEL@@@sicore@@",
+      "descriptor_rva": 103501984
+    },
+    {
+      "name": ".?AVFMT_SCOUT_REPORT_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103502096
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VFMT_SCOUT_REPORT_NEWS@@@news_ui@@",
+      "descriptor_rva": 103502160
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_ENTRY_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103502240
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_CENTRE_ENTRY_NEWS@@@news_ui@@",
+      "descriptor_rva": 103502304
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_ENTRY@db@@",
+      "descriptor_rva": 103502400
+    },
+    {
+      "name": ".?AVSCOUTING_FOCUS_SUGGESTION_NEWS_UI@@",
+      "descriptor_rva": 103503248
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_FOCUS_SUGGESTION_NEWS@@@news_ui@@",
+      "descriptor_rva": 103503312
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_RECRUITMENT_FEEDBACK_MEETING_FOLLOW_UP_PANEL@@@sicore@@",
+      "descriptor_rva": 103503616
+    },
+    {
+      "name": ".?AVSCOUTING_FOCUS_UPDATE_NEWS_UI@@",
+      "descriptor_rva": 103503744
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VSCOUTING_FOCUS_UPDATE_NEWS@@@news_ui@@",
+      "descriptor_rva": 103503808
+    },
+    {
+      "name": ".?AVADD_REMOVE_SHORTLIST_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103504800
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VADD_REMOVE_SHORTLIST_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103504864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_REMOVE_SHORTLIST_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103504976
+    },
+    {
+      "name": ".?AVADD_REMOVE_SHORTLIST_RESPONSE@@",
+      "descriptor_rva": 103505072
+    },
+    {
+      "name": ".?AVADD_REMOVE_TRANSFER_TARGET_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103505488
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VADD_REMOVE_TRANSFER_TARGET_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103505568
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_REMOVE_TRANSFER_TARGET_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103505680
+    },
+    {
+      "name": ".?AVADD_REMOVE_TRANSFER_TARGET_RESPONSE@@",
+      "descriptor_rva": 103505776
+    },
+    {
+      "name": ".?AVADD_TO_TRAINING_CAMP_SQUAD_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103505840
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VADD_TO_TRAINING_CAMP_SQUAD_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103505920
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VADD_TO_TRAINING_CAMP_SQUAD_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103506032
+    },
+    {
+      "name": ".?AVADD_TO_TRAINING_CAMP_SQUAD_RESPONSE@@",
+      "descriptor_rva": 103506128
+    },
+    {
+      "name": ".?AVEXTRA_TRAINING_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103510240
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VEXTRA_TRAINING_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103510304
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VEXTRA_TRAINING_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103510416
+    },
+    {
+      "name": ".?AVEXTRA_TRAINING_RESPONSE@@",
+      "descriptor_rva": 103510496
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103514864
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_RESPONSE_OBJECT_UI_BASE@@",
+      "descriptor_rva": 103514928
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_PLAYERS_RESPONSE_OBJECT@@@sicore@@",
+      "descriptor_rva": 103514992
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_RESPONSE_OBJECT@@",
+      "descriptor_rva": 103515088
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_DEADLINE_DATE_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103515152
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_PLAYERS_DEADLINE_DATE_RESPONSE_OBJECT@@@sicore@@",
+      "descriptor_rva": 103515232
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_DEADLINE_DATE_RESPONSE_OBJECT@@",
+      "descriptor_rva": 103515344
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_NOTIFICATION_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103517328
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VTRAINING_CAMP_NOTIFICATION_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103517408
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CAMP_NOTIFICATION_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103517520
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_NOTIFICATION_RESPONSE@@",
+      "descriptor_rva": 103517616
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_SQUAD_NUMBERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103520880
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_SQUAD_SELECTION_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103522704
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VTRAINING_CAMP_SQUAD_SELECTION_RESPONSE@@VNEWS_ITEM@db@@@news_ui@@",
+      "descriptor_rva": 103522784
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CAMP_SQUAD_SELECTION_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103522912
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_SQUAD_SELECTION_RESPONSE@@",
+      "descriptor_rva": 103523008
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_HOMEGROWN_PLAYERS_PANEL@@@sicore@@",
+      "descriptor_rva": 103523696
+    },
+    {
+      "name": ".?AVREACTION_TO_LAST_MATCH_TACTICS_NEWS_UI@@",
+      "descriptor_rva": 103526464
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VREACTION_TO_LAST_MATCH_TACTICS_NEWS@@@news_ui@@",
+      "descriptor_rva": 103526528
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_HIGHEST_LEAGUE_POS_RECORD@@@sicore@@",
+      "descriptor_rva": 103527552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PLAYER_NEARLY_BREAKING_RECORD@@@sicore@@",
+      "descriptor_rva": 103528368
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_FINANCES_OVERVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103531808
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_DESTINATION_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103532816
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VTRAINING_CAMP_DESTINATION_RESPONSE@@VTRAINING_CAMP_DESTINATION_SELECTION_NEWS@@@news_ui@@",
+      "descriptor_rva": 103532896
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_CAMP_DESTINATION_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103533040
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_DESTINATION_RESPONSE@@",
+      "descriptor_rva": 103533136
+    },
+    {
+      "name": ".?AV?$SPECIFIC_NEWS_ITEM_RESPONSE_OBJECT@VTRAINING_CAMP_DESTINATION_SELECTION_NEWS@@@db@@",
+      "descriptor_rva": 103533200
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_ANNOUNCEMENT_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103533312
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VTRAINING_CAMP_ANNOUNCEMENT_NEWS@@@news_ui@@",
+      "descriptor_rva": 103533376
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_SQUAD_SELECTION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103533472
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VTRAINING_CAMP_SQUAD_SELECTION_NEWS@@@news_ui@@",
+      "descriptor_rva": 103533552
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_START_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103533648
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VTRAINING_CAMP_START_NEWS@@@news_ui@@",
+      "descriptor_rva": 103533712
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_END_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103533808
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VTRAINING_CAMP_END_NEWS@@@news_ui@@",
+      "descriptor_rva": 103533872
+    },
+    {
+      "name": ".?AVPRE_SEASON_TRAINING_PREPARATION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103533952
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPRE_SEASON_TRAINING_PREPARATION_NEWS@@@news_ui@@",
+      "descriptor_rva": 103534032
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_PRE_SEASON_TRAINING_PREPARATION_PANEL@@@sicore@@",
+      "descriptor_rva": 103534128
+    },
+    {
+      "name": ".?AVWEEKLY_TRAINING_PREVIEW_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103534384
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VWEEKLY_TRAINING_PREVIEW_NEWS@@@news_ui@@",
+      "descriptor_rva": 103534448
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_WEEKLY_TRAINING_PREVIEW_PANEL@@@sicore@@",
+      "descriptor_rva": 103534544
+    },
+    {
+      "name": ".?AVPERIODICAL_TRAINING_ROUNDUP_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103534816
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPERIODICAL_TRAINING_ROUNDUP_NEWS@@@news_ui@@",
+      "descriptor_rva": 103534880
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103534976
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPLAYER_TRAINING_FOCUS_NEWS@@@news_ui@@",
+      "descriptor_rva": 103535040
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_NEWS_RESPONSE_OBJECT_UI@@",
+      "descriptor_rva": 103535136
+    },
+    {
+      "name": ".?AV?$NEWS_RESPONSE_UI_SPECIFIC@VPLAYER_TRAINING_FOCUS_NEWS_RESPONSE@@VPLAYER_TRAINING_FOCUS_NEWS@@@news_ui@@",
+      "descriptor_rva": 103535216
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_FOCUS_NEWS_RESPONSE@@@sicore@@",
+      "descriptor_rva": 103535344
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_NEWS_RESPONSE@@",
+      "descriptor_rva": 103535440
+    },
+    {
+      "name": ".?AV?$SPECIFIC_NEWS_ITEM_RESPONSE_OBJECT@VPLAYER_TRAINING_FOCUS_NEWS@@@db@@",
+      "descriptor_rva": 103535504
+    },
+    {
+      "name": ".?AVPLAYER_POSITION_TRAINING_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103535600
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPLAYER_POSITION_TRAINING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103535664
+    },
+    {
+      "name": ".?AVPLAYER_UNHAPPINESS_TRAINING_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103535760
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VPLAYER_UNHAPPINESS_TRAINING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103535824
+    },
+    {
+      "name": ".?AVUNHAPPY_PLAYERS_IN_TRAINING_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103536048
+    },
+    {
+      "name": ".?AV?$NEWS_ITEM_UI_SPECIFIC@VUNHAPPY_PLAYERS_IN_TRAINING_NEWS@@@news_ui@@",
+      "descriptor_rva": 103536112
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_WITH_ASK_FOR_PAY_OFF_NEWS_ITEM@@@sicore@@",
+      "descriptor_rva": 103547024
+    },
+    {
+      "name": ".?AVSCOUTING_INDUCTION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103551408
+    },
+    {
+      "name": ".?AVTRAINING_INDUCTION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103551680
+    },
+    {
+      "name": ".?AVTACTICS_INDUCTION_NEWS_ITEM_UI@@",
+      "descriptor_rva": 103551744
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_INDUCTION_PANEL@@@sicore@@",
+      "descriptor_rva": 103552944
+    },
+    {
+      "name": ".?AVADD_TO_SHORTLIST_BUTTON@@",
+      "descriptor_rva": 103553968
+    },
+    {
+      "name": ".?AVADD_TO_SHORTLIST_ICON_BUTTON@@",
+      "descriptor_rva": 103554016
+    },
+    {
+      "name": ".?AVCLUB_TRAINING_PERFORMERS_LIST_WIDGET@@",
+      "descriptor_rva": 103558992
+    },
+    {
+      "name": ".?AVGENERAL_TRAINING_FOCUS_POPUP_BUTTON@@",
+      "descriptor_rva": 103563824
+    },
+    {
+      "name": ".?AVGENERAL_TRAINING_INTENSITY_POPUP_BUTTON@@",
+      "descriptor_rva": 103563888
+    },
+    {
+      "name": ".?AVINDIVIDUAL_POSITION_TRAINING_POPUP@@",
+      "descriptor_rva": 103565120
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_CHECKBOX@@",
+      "descriptor_rva": 103565184
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_PLAYER_SELECTION_EXPANDED_INFO_WIDGET@@",
+      "descriptor_rva": 103565248
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINDIVIDUAL_TRAINING_PLAYER_SELECTION_EXPANDED_INFO_WIDGET@@@sicore@@",
+      "descriptor_rva": 103565328
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_POPUP@@",
+      "descriptor_rva": 103565440
+    },
+    {
+      "name": ".?AVMATCH_TACTICS_TOGGLE_BUTTON@@",
+      "descriptor_rva": 103567136
+    },
+    {
+      "name": ".?AVMATCH_TRAINING_FOCUS_POPUP_BUTTON@@",
+      "descriptor_rva": 103567312
+    },
+    {
+      "name": ".?AVMINDSET_BALANCE_INFORMATION_WIDGET@@",
+      "descriptor_rva": 103568128
+    },
+    {
+      "name": ".?AVMINDSET_INFORMATION_WIDGET@@",
+      "descriptor_rva": 103568192
+    },
+    {
+      "name": ".?AVNEXT_WEEK_TRAINING_SCHEDULE_UNIT_WIDGET@@",
+      "descriptor_rva": 103569760
+    },
+    {
+      "name": ".?AVPIE_CHART_TACTICAL_SUITABILITY@@",
+      "descriptor_rva": 103570912
+    },
+    {
+      "name": ".?AVPLAYER_SCOUT_RECOMMENDATION_WIDGET@@",
+      "descriptor_rva": 103573280
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_HAPPINESS_LABEL@@",
+      "descriptor_rva": 103574544
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_INFO_WIDGET@@",
+      "descriptor_rva": 103574608
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_REST_POPUP_BUTTON@@",
+      "descriptor_rva": 103574672
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_TYPE_LABEL@@",
+      "descriptor_rva": 103574752
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_RATING_COLOURED_FMC_WIDGET@@",
+      "descriptor_rva": 103574816
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_RATING_WIDGET@@",
+      "descriptor_rva": 103574896
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_WORKLOAD_LABEL@@",
+      "descriptor_rva": 103574960
+    },
+    {
+      "name": ".?AVDIRECT_TACTIC_ADJUSTMENT_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@",
+      "descriptor_rva": 103576464
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_DELIVERY_WIDGET@@",
+      "descriptor_rva": 103577552
+    },
+    {
+      "name": ".?AVSCOUTING_DURATION_TEXT@@",
+      "descriptor_rva": 103577616
+    },
+    {
+      "name": ".?AVSCOUTING_FOCUS_UPDATE_FREQUENCY_PANEL@@",
+      "descriptor_rva": 103577664
+    },
+    {
+      "name": ".?AVSCOUTING_KNOWLEDGE_LABEL@@",
+      "descriptor_rva": 103577728
+    },
+    {
+      "name": ".?AVSCOUTING_KNOWLEDGE_WIDGET@@",
+      "descriptor_rva": 103577776
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUTING_KNOWLEDGE_HINT_PANEL@@@sicore@@",
+      "descriptor_rva": 103577824
+    },
+    {
+      "name": ".?AVSCOUTING_MAP_MASK@@",
+      "descriptor_rva": 103577920
+    },
+    {
+      "name": ".?AVSCOUTING_PITCH_ICON@@",
+      "descriptor_rva": 103577968
+    },
+    {
+      "name": ".?AVSCOUTING_PROGRESS_TEXT@@",
+      "descriptor_rva": 103578112
+    },
+    {
+      "name": ".?AVSCOUT_CREATE_ASSIGNMENT_ATTRIBUTE_WIDGET@@",
+      "descriptor_rva": 103578160
+    },
+    {
+      "name": ".?AVSCOUT_REPORT_PRO_CON_WIDGET@@",
+      "descriptor_rva": 103578224
+    },
+    {
+      "name": ".?AVSCOUT_STARS_LABEL@@",
+      "descriptor_rva": 103578288
+    },
+    {
+      "name": ".?AVSQUAD_PLANNER_ADD_FROM_SHORTLIST_POPUP@@",
+      "descriptor_rva": 103579360
+    },
+    {
+      "name": ".?AVTACTICAL_ROLE@simatchshared@@",
+      "descriptor_rva": 103579424
+    },
+    {
+      "name": ".?AVSTAFF_NUMBERS_TABLE_INBOX_ITEM@@",
+      "descriptor_rva": 103579904
+    },
+    {
+      "name": ".?AVSUGGEST_TRANSFER_TARGET_POSITION_SELECTOR_WIDGET@@",
+      "descriptor_rva": 103580384
+    },
+    {
+      "name": ".?AVPERSON_TACTICAL_ROLE_LABEL@@",
+      "descriptor_rva": 103580560
+    },
+    {
+      "name": ".?AVTACTICAL_STYLE_LABEL@@",
+      "descriptor_rva": 103580624
+    },
+    {
+      "name": ".?AVTACTICAL_STYLE_STRING_CLIENT@@",
+      "descriptor_rva": 103580672
+    },
+    {
+      "name": ".?AVTACTICS_KIT_PICTURE@@",
+      "descriptor_rva": 103580736
+    },
+    {
+      "name": ".?AVTACTIC_BUTTON@@",
+      "descriptor_rva": 103580784
+    },
+    {
+      "name": ".?AVTACTIC_POPUP_BUTTON@@",
+      "descriptor_rva": 103580832
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_SCOUTING_RANGE_POPUP@@",
+      "descriptor_rva": 103581104
+    },
+    {
+      "name": ".?AVTEAM_SHORTLIST_POSITION_FILTER_BUTTON@@",
+      "descriptor_rva": 103582000
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_INFORMATION_WIDGET@@",
+      "descriptor_rva": 103582448
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_RATING_WIDGET@@",
+      "descriptor_rva": 103582512
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_COACH_OVERVIEW_WIDGET@@",
+      "descriptor_rva": 103582896
+    },
+    {
+      "name": ".?AVTRAINING_COACH_CATEGORY_HEADER_WIDGET@@",
+      "descriptor_rva": 103582960
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRAINING_COACH_CATEGORY_HEADER_WIDGET@@@sicore@@",
+      "descriptor_rva": 103583024
+    },
+    {
+      "name": ".?AVTRAINING_COACH_CHECK_BOX@@",
+      "descriptor_rva": 103583120
+    },
+    {
+      "name": ".?AVTRAINING_FACILITIES_STARS_LABEL@@",
+      "descriptor_rva": 103583216
+    },
+    {
+      "name": ".?AVTRAINING_FOCUS_SELECTION_WIDGET@@",
+      "descriptor_rva": 103583280
+    },
+    {
+      "name": ".?AVTRAINING_IMPROVEMENT@@",
+      "descriptor_rva": 103583344
+    },
+    {
+      "name": ".?AVTRAINING_MENTORING_EFFECT_LABEL@@",
+      "descriptor_rva": 103583392
+    },
+    {
+      "name": ".?AVTRAINING_POSITION_ROLE_DUTY_LABEL@@",
+      "descriptor_rva": 103583456
+    },
+    {
+      "name": ".?AVTRAINING_SCHEDULE_WEEK_WIDGET@@",
+      "descriptor_rva": 103583520
+    },
+    {
+      "name": ".?AVTRAINING_UPDATED_FEATURES_WIDGET@@",
+      "descriptor_rva": 103583744
+    },
+    {
+      "name": ".?AVTUTORIAL_INDUCTION_INFORMATION_WIDGET@@",
+      "descriptor_rva": 103589216
+    },
+    {
+      "name": ".?AVINBOX_FEED_PANEL@@",
+      "descriptor_rva": 103594864
+    },
+    {
+      "name": ".?AVINBOX_PANEL@@",
+      "descriptor_rva": 103594912
+    },
+    {
+      "name": ".?AVSCOUT_ANALYST_PICKER_POPUP@@",
+      "descriptor_rva": 103599856
+    },
+    {
+      "name": ".?AVSCOUT_LOCATION_PICKER_POPUP@@",
+      "descriptor_rva": 103599920
+    },
+    {
+      "name": ".?AVSCOUTING_ADVANCED_FILTER_NEWS_ITEM_POPUP@@",
+      "descriptor_rva": 103599984
+    },
+    {
+      "name": ".?AVSCOUTING_STAFF_RECOMMENDATION_WIDGET@@",
+      "descriptor_rva": 103600048
+    },
+    {
+      "name": ".?AVSHORTLIST_CONFIRMATION_PANEL@@",
+      "descriptor_rva": 103600112
+    },
+    {
+      "name": ".?AVWELCOME_TO_TEAM_TEAM_INFORMATION_PANEL@@",
+      "descriptor_rva": 103600704
+    },
+    {
+      "name": ".?AVMATCH_CONSOLE_QUICK_TACTICS_PANEL@@",
+      "descriptor_rva": 103601984
+    },
+    {
+      "name": ".?AVMATCH_FORMATION_PANEL@@",
+      "descriptor_rva": 103602688
+    },
+    {
+      "name": ".?AVBOTH_MATCH_FORMATION_PANELS@@",
+      "descriptor_rva": 103602736
+    },
+    {
+      "name": ".?AVMATCH_PLAN_CREATOR_TACTIC_PANEL@@",
+      "descriptor_rva": 103604224
+    },
+    {
+      "name": ".?AVTACTIC_COMPONENT_PANEL@@",
+      "descriptor_rva": 103604832
+    },
+    {
+      "name": ".?AVMATCH_PREPARATION_TACTIC_FAMILIARITY_PANEL@@",
+      "descriptor_rva": 103604880
+    },
+    {
+      "name": ".?AVPLAYER_TACTICAL_FAMILIARITY_BAR@@",
+      "descriptor_rva": 103604960
+    },
+    {
+      "name": ".?AVTACTIC_PLAYER_LIST_TABLE@@",
+      "descriptor_rva": 103605616
+    },
+    {
+      "name": ".?AVMATCH_TACTIC_POPUP_PANEL@@",
+      "descriptor_rva": 103606128
+    },
+    {
+      "name": ".?AVMATCH_TACTICS_PANEL_BASE@@",
+      "descriptor_rva": 103606176
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_PANEL_BASE@@",
+      "descriptor_rva": 103607408
+    },
+    {
+      "name": ".?AVPREMATCH_TACTICAL_ADVICE_PANEL@@",
+      "descriptor_rva": 103607504
+    },
+    {
+      "name": ".?AVTACTICS_RECENT_MATCH_ANALYSIS_PANEL@@",
+      "descriptor_rva": 103607840
+    },
+    {
+      "name": ".?AVTACTICS_WITH_EMBEDDED_SECTIONS_TABS_PANEL@@",
+      "descriptor_rva": 103607904
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_OBJECT_LIST_PANEL@@",
+      "descriptor_rva": 103610624
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_CUSTOM_DATA_PANEL@@",
+      "descriptor_rva": 103610688
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_PROPERTY_PANEL@@",
+      "descriptor_rva": 103611376
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_ADMINISTRATION_NEWS_PANEL@@",
+      "descriptor_rva": 103611440
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_AGENT_FOLLOW_UP_ON_CONTRACT_NEGOTIATIONS_PANEL@@",
+      "descriptor_rva": 103611520
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_AGENT_FOLLOW_UP_ON_PLAYER_ENQUIRY_PANEL@@",
+      "descriptor_rva": 103611616
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_AGENTS_TOUTING_DEADLINE_DAY_PLAYERS_PANEL@@",
+      "descriptor_rva": 103611712
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_ASK_FOR_PAY_OFF_NEWS_ITEM@@",
+      "descriptor_rva": 103611808
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_AWARD_WINNERS_PANEL@@",
+      "descriptor_rva": 103611888
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_BACKROOM_STAFF_PLAYER_ALERT_PANEL@@",
+      "descriptor_rva": 103611952
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_BEST_YOUTH_PRODUCTION@@",
+      "descriptor_rva": 103612032
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_BOARD_AND_SUPPORTERS_EXPECTATIONS_PANEL@@",
+      "descriptor_rva": 103612096
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_BOARD_CONFIDENCE_PANEL@@",
+      "descriptor_rva": 103612192
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_BOARD_REQUEST_PANEL@@",
+      "descriptor_rva": 103612256
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CALL_UP_SCOUTING_LIST_PANEL@@",
+      "descriptor_rva": 103612320
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CAPTAIN_SELECTION_PANEL@@",
+      "descriptor_rva": 103612400
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CHAMPION_STATS_PANEL@@",
+      "descriptor_rva": 103612480
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_MERCHANDISE_INCREASE_PANEL@@",
+      "descriptor_rva": 103612544
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_ONGOING_TRANSFER_NEGOTIATIONS_PANEL@@",
+      "descriptor_rva": 103612624
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SIZE_VISIBILITY_TRIGGER_PANEL@@",
+      "descriptor_rva": 103612720
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_VISION_ANNUAL_SUPPORTER_PROFILE_PANEL@@",
+      "descriptor_rva": 103612800
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_VISION_SUCCESS_OR_FAILURE_PANEL@@",
+      "descriptor_rva": 103612896
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_VISION_SUPPORTER_CULTURE_UPDATE_PANEL@@",
+      "descriptor_rva": 103612976
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CLUB_VISION_UPDATE_PANEL@@",
+      "descriptor_rva": 103613072
+    },
+    {
+      "name": ".?AV?$_Func_impl_no_alloc@V<lambda_6>@?0???0INBOX_CONTENT_CUSTOM_DATA_PANEL@@QEAA@XZ@_NAEBVTYPED_VALUE@sicore@@IAEAV34@@std@@",
+      "descriptor_rva": 103613616
+    },
+    {
+      "name": ".?AV<lambda_6>@?0???0INBOX_CONTENT_CUSTOM_DATA_PANEL@@QEAA@XZ@",
+      "descriptor_rva": 103613760
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VINBOX_CONTENT_CUSTOM_DATA_PANEL@@@sicore@@",
+      "descriptor_rva": 103613920
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COACHING_COURSE_PANEL@@",
+      "descriptor_rva": 103614016
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CODE_OF_CONDUCT_PANEL@@",
+      "descriptor_rva": 103614080
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_FINANCIAL_DATA_PANEL@@",
+      "descriptor_rva": 103614144
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_MATCHDAY_PREVIEW_PANEL@@",
+      "descriptor_rva": 103614224
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_ODDS_PANEL@@",
+      "descriptor_rva": 103614304
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_PREVIEW_PANEL@@",
+      "descriptor_rva": 103614368
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_REVIEW_PANEL@@",
+      "descriptor_rva": 103614432
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMP_TV_DEAL_PANEL@@",
+      "descriptor_rva": 103614496
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_COMPETITION_RULES_CHANGES@@",
+      "descriptor_rva": 103614560
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CONTRACT_OFFER_PANEL@@",
+      "descriptor_rva": 103614640
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CUP_DRAW_FIXTURE_PANEL@@",
+      "descriptor_rva": 103614704
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CUP_DRAW_FIXTURES_PANEL@@",
+      "descriptor_rva": 103614768
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CUP_DRAW_PANEL@@",
+      "descriptor_rva": 103614848
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CUP_DRAW_PREVIEW_PANEL@@",
+      "descriptor_rva": 103614912
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_CUP_FINAL_PREVIEW_PANEL@@",
+      "descriptor_rva": 103614976
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_DISCARDED_PLAYERS_PANEL@@",
+      "descriptor_rva": 103615056
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_DYNAMIC_OBJECT_LISTS_PANEL@@",
+      "descriptor_rva": 103615136
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_EXPIRING_CONTRACT_PERSON_LIST_PANEL@@",
+      "descriptor_rva": 103615216
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FAILED_PROMISES_PANEL@@",
+      "descriptor_rva": 103615296
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FFP_RULES_PANEL@@",
+      "descriptor_rva": 103615360
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FINANCES_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103615424
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FORMER_STAFF_OPINION@@",
+      "descriptor_rva": 103615504
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FRIENDLY_DETAILS_PANEL@@",
+      "descriptor_rva": 103615568
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_FUTURE_TRANSFERS_CANCELLED_PANEL@@",
+      "descriptor_rva": 103615632
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_HIGHEST_LEAGUE_POS_RECORD@@",
+      "descriptor_rva": 103615712
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_HOME_GROWN_INFO_PANEL@@",
+      "descriptor_rva": 103615792
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_HOMEGROWN_PLAYERS_PANEL@@",
+      "descriptor_rva": 103615856
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_HOT_PLAYER_NEWS_PANEL@@",
+      "descriptor_rva": 103615936
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_HUMAN_MINI_PROFILE_PANEL@@",
+      "descriptor_rva": 103616000
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_INFO_PANELS@@",
+      "descriptor_rva": 103616080
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_INJURY_REPORT_PANEL@@",
+      "descriptor_rva": 103616144
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_INTERMEDIARY_ULTIMATUM_EXPIRED_PANEL@@",
+      "descriptor_rva": 103616208
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_INTRA_SQUAD_FRIENDLY_SELECTION@@",
+      "descriptor_rva": 103616288
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_LAST_MATCH_FOR_CONTRACT_TYPE_PANEL@@",
+      "descriptor_rva": 103616368
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_LOAN_BACK_OFFER_PANEL@@",
+      "descriptor_rva": 103616448
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MANAGER_DEPARTURE_NEWS_PANEL@@",
+      "descriptor_rva": 103616512
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MANAGER_PROFILE_PANEL@@",
+      "descriptor_rva": 103616592
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MATCH_FOCUS_PANEL@@",
+      "descriptor_rva": 103616656
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MATCH_PREP_PANEL@@",
+      "descriptor_rva": 103616720
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MATCH_PREVIEW_PANEL@@",
+      "descriptor_rva": 103616784
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MEDAL_WINNERS_PANEL@@",
+      "descriptor_rva": 103616848
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MLS_COMBINE_TEST_PANEL@@",
+      "descriptor_rva": 103616912
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MOST_LEAGUE_TITLES_PANEL@@",
+      "descriptor_rva": 103616976
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MULTI_PROFILE_GRID_PANEL@@",
+      "descriptor_rva": 103617056
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MULTIPLE_NON_PLAYER_CONTRACTS@@",
+      "descriptor_rva": 103617136
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MULTIPLE_NON_PLAYER_OFFERS_PANEL@@",
+      "descriptor_rva": 103617216
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MULTIPLE_PLAYER_CONTRACTS@@",
+      "descriptor_rva": 103617296
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_MULTIPLE_TRANSFER_OFFERS_PANEL@@",
+      "descriptor_rva": 103617376
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_NEGATIVE_TRANSFER_BUDGET_PANEL@@",
+      "descriptor_rva": 103617456
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_NEW_UEFA_EXTRA_COEFFICIENT_PLACES_FINAL@@",
+      "descriptor_rva": 103617536
+    },
+    {
+      "name": ".?AVTACTICS_TACTICAL_STYLE_POPUP_BUTTON@@",
+      "descriptor_rva": 103617856
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_NEW_MANAGER_SPECULATION_PANEL@@",
+      "descriptor_rva": 103617952
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_NEW_UEFA_24_25_FORMAT_DETAILS@@",
+      "descriptor_rva": 103618032
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_NEW_UEFA_24_25_RULES@@",
+      "descriptor_rva": 103618112
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_OBJECT_PICTURE_PANEL@@",
+      "descriptor_rva": 103618176
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_OPTION_BOXES_PANEL@@",
+      "descriptor_rva": 103618240
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PERSON_MINI_PROFILE_PANEL@@",
+      "descriptor_rva": 103618304
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PHYSIO_REPORT_PANEL@@",
+      "descriptor_rva": 103618384
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_EVENTS_SUMMARY_NEWS@@",
+      "descriptor_rva": 103618448
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_FACTIONS_PANEL@@",
+      "descriptor_rva": 103618528
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_FITNESS_PANEL@@",
+      "descriptor_rva": 103618592
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_INURY_TIME_PANEL@@",
+      "descriptor_rva": 103618656
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_MOM_PANEL@@",
+      "descriptor_rva": 103618736
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_NEARLY_BREAKING_RECORD@@",
+      "descriptor_rva": 103618800
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103618880
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_PRAISE_PANEL@@",
+      "descriptor_rva": 103618944
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_REHAB_PANEL@@",
+      "descriptor_rva": 103619008
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_REPORT_PANEL@@",
+      "descriptor_rva": 103619072
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYER_TRANSFER_LIST_REJECTION_PANEL@@",
+      "descriptor_rva": 103619136
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PLAYERS_REMOVED_FROM_LIST@@",
+      "descriptor_rva": 103619216
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_POINTS_PROGRESS_UPDATE_PANEL@@",
+      "descriptor_rva": 103619296
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PRE_MATCH_FITNESS_TEST_PANEL@@",
+      "descriptor_rva": 103619376
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PRE_SEASON_TRAINING_PREPARATION_PANEL@@",
+      "descriptor_rva": 103619456
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PRESS_CONFERENCE_AGENDA_PANEL@@",
+      "descriptor_rva": 103619536
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PRESS_CONFERENCE_QUESTION_PANEL@@",
+      "descriptor_rva": 103619616
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PRESS_CONFERENCE_SUMMARY_PANEL@@",
+      "descriptor_rva": 103619696
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_PROMOTED_PLAYERS_PANEL@@",
+      "descriptor_rva": 103619776
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_REARRANGED_FIXTURES_PANEL@@",
+      "descriptor_rva": 103619840
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_RECRUITMENT_FEEDBACK_MEETING_FOLLOW_UP_PANEL@@",
+      "descriptor_rva": 103619920
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_RECRUITMENT_MEETING_INVITE_PANEL@@",
+      "descriptor_rva": 103620016
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_RECRUITMENT_MEETING_SUMMARY_PANEL@@",
+      "descriptor_rva": 103620096
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_RECRUITMENT_PLANNING_MEETING_FOLLOW_UP_PANEL@@",
+      "descriptor_rva": 103620176
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_REMOVED_FROM_SHORTLIST_PANEL@@",
+      "descriptor_rva": 103620272
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_RIVALRY_LEVEL_CHANGE_PANEL@@",
+      "descriptor_rva": 103620352
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SAN_PLAYER_CONTRACTS_UPDATE@@",
+      "descriptor_rva": 103620432
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SCOUT_CENTRE_PANEL@@",
+      "descriptor_rva": 103620512
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SCOUTING_CALENDAR_PANEL@@",
+      "descriptor_rva": 103620576
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SCOUTING_FOCUS_SUGGESTION_PANEL@@",
+      "descriptor_rva": 103620656
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SCOUTING_FOCUS_UPDATE_PANEL@@",
+      "descriptor_rva": 103620736
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SEASON_EXPECTATIONS_SUMMARY_PANEL@@",
+      "descriptor_rva": 103620816
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SEASON_SUMMARY_PANEL@@",
+      "descriptor_rva": 103620896
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SIGNING_OF_THE_SEASON_PANEL@@",
+      "descriptor_rva": 103620960
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SPORT_SCIENTIST_UPDATE_PANEL@@",
+      "descriptor_rva": 103621040
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SQUAD_NUMBERS_PANEL@@",
+      "descriptor_rva": 103621120
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_SQUAD_RULES_PANEL@@",
+      "descriptor_rva": 103621184
+    },
+    {
+      "name": ".?AVINBOX_SQUAD_RULE_PANEL@@",
+      "descriptor_rva": 103621248
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_STADIUM_HOSTING_MAJOR_FINAL_PANEL@@",
+      "descriptor_rva": 103621296
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TARGET_RESULT_PANEL@@",
+      "descriptor_rva": 103621376
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TEAM_BUYIN_PANEL@@",
+      "descriptor_rva": 103621440
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TEAM_DYNAMICS_PANEL@@",
+      "descriptor_rva": 103621504
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TOP_YOUTH_ACADEMIES_PANEL@@",
+      "descriptor_rva": 103622048
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_START_TRAINING_CAMP_PANEL@@",
+      "descriptor_rva": 103622128
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_END_TRAINING_CAMP_PANEL@@",
+      "descriptor_rva": 103622208
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRAINING_FOCUS_PANEL@@",
+      "descriptor_rva": 103622288
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_DEADLINE_DAY_BUILD_UP_PANEL@@",
+      "descriptor_rva": 103622352
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_DEADLINE_DAY_INVITATION_PANEL@@",
+      "descriptor_rva": 103622432
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_OFFER_PANEL@@",
+      "descriptor_rva": 103622512
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_PERSON_MINI_PROFILE_PANEL@@",
+      "descriptor_rva": 103622576
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_WINDOW_CLOSED_PANEL@@",
+      "descriptor_rva": 103622656
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_WINDOW_ROUND_UP_PANEL@@",
+      "descriptor_rva": 103622736
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_TRANSFER_WINDOW_SPECULATION_PANEL@@",
+      "descriptor_rva": 103622816
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_UPDATE_NEW_UEFA_EXTRA_COEFFICIENT_PLACES@@",
+      "descriptor_rva": 103622896
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_WEEKLY_JOB_UPDATES@@",
+      "descriptor_rva": 103622992
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_WEEKLY_TRAINING_PREVIEW_PANEL@@",
+      "descriptor_rva": 103623056
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_WORK_PERMIT_PERSON_MINI_PROFILE_PANEL@@",
+      "descriptor_rva": 103623136
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_WORK_PERMIT_STATUS@@",
+      "descriptor_rva": 103623216
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_YOUTH_INTAKE_PANEL@@",
+      "descriptor_rva": 103623280
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_YOUTH_LEAGUE_WINNERS_PANEL@@",
+      "descriptor_rva": 103623344
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_YOUTH_PLAYER_POACHING_INFO_PANEL@@",
+      "descriptor_rva": 103623424
+    },
+    {
+      "name": ".?AVINBOX_CONTENT_WITH_YOUTH_PLAYERS_PROMOTED_PANEL@@",
+      "descriptor_rva": 103623504
+    },
+    {
+      "name": ".?AVINBOX_DYNAMIC_IMAGE_PANEL@@",
+      "descriptor_rva": 103623584
+    },
+    {
+      "name": ".?AVINBOX_FIXTURE_LIST_PANEL@@",
+      "descriptor_rva": 103623632
+    },
+    {
+      "name": ".?AVINBOX_GRID_INFO_PANEL@@",
+      "descriptor_rva": 103623680
+    },
+    {
+      "name": ".?AVINBOX_INJURY_TREATMENT_RESPONSE_PANEL@@",
+      "descriptor_rva": 103623728
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_ASSISTANT_REPORT_PANEL@@",
+      "descriptor_rva": 103623792
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_CANCELLED_TRANSFER_PLAYER_PANEL@@",
+      "descriptor_rva": 103623856
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_COMP_INFO_FAVS_PANEL@@",
+      "descriptor_rva": 103623936
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_COMP_WINNERS_LIST_PANEL@@",
+      "descriptor_rva": 103624000
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_CONFIDENCE_PANEL@@",
+      "descriptor_rva": 103624080
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_CONTRACT_DETAILS_PANEL@@",
+      "descriptor_rva": 103624144
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_FAN_REACTION_PANEL@@",
+      "descriptor_rva": 103624208
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_INJURY_DETAILS_PANEL@@",
+      "descriptor_rva": 103624272
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_LOAN_DETAILS_PANEL@@",
+      "descriptor_rva": 103624336
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_NATIONAL_TEAM_SQUAD_INFO_PANEL@@",
+      "descriptor_rva": 103624400
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_PLAYER_DETAILS_PANEL@@",
+      "descriptor_rva": 103624480
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_PLAYER_MATCH_STATS_PANEL@@",
+      "descriptor_rva": 103624544
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_COMP_INFO_PANEL@@",
+      "descriptor_rva": 103624624
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_COMP_SUMMARY_PANEL@@",
+      "descriptor_rva": 103624688
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_FIXTURE_INFO_PANEL@@",
+      "descriptor_rva": 103624768
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_INFO_PANEL@@",
+      "descriptor_rva": 103624848
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_PLAYER_COUNT_INFO_PANEL@@",
+      "descriptor_rva": 103624912
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TEAM_TRAINING_CAMP_INFO_PANEL@@",
+      "descriptor_rva": 103624992
+    },
+    {
+      "name": ".?AVINBOX_MINI_PROFILE_TRANSFER_DETAILS_PANEL@@",
+      "descriptor_rva": 103625072
+    },
+    {
+      "name": ".?AVINBOX_PERSON_LIST_PANEL@@",
+      "descriptor_rva": 103625136
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_INBOX_PANEL@@",
+      "descriptor_rva": 103625872
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_MEETING_FMT_INBOX_PANEL@@",
+      "descriptor_rva": 103625936
+    },
+    {
+      "name": ".?AVWEEKLY_TRAINING_ROUNDUP_NEWS_CONTENT_PANEL@@",
+      "descriptor_rva": 103626720
+    },
+    {
+      "name": ".?AVNON_PLAYER_TACTICS_COMPARISON_PANEL@@",
+      "descriptor_rva": 103627840
+    },
+    {
+      "name": ".?AVNON_PLAYER_TACTICS_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103627904
+    },
+    {
+      "name": ".?AVSCOUT_KNOWLEDGE_AND_ASSIGNMENTS_PANEL@@",
+      "descriptor_rva": 103628192
+    },
+    {
+      "name": ".?AVCONTRACT_OFFER_INFORMATION_PANEL@@",
+      "descriptor_rva": 103628416
+    },
+    {
+      "name": ".?AVYOUTH_DEVELOPMENT_TEAM_TACTICS_PANEL@@",
+      "descriptor_rva": 103628608
+    },
+    {
+      "name": ".?AVCLUB_TRAINING_PERFORMERS_PANEL@@",
+      "descriptor_rva": 103628672
+    },
+    {
+      "name": ".?AVSCOUTING_ASSIGNMENTS_PANEL@@",
+      "descriptor_rva": 103628736
+    },
+    {
+      "name": ".?AVPERSON_INFORMATION_PANEL@@",
+      "descriptor_rva": 103629600
+    },
+    {
+      "name": ".?AVPERSON_PERSONAL_INFORMATION_PANEL@@",
+      "descriptor_rva": 103629648
+    },
+    {
+      "name": ".?AVSCOUTING_PERSON_SEARCH_PANEL@@",
+      "descriptor_rva": 103630176
+    },
+    {
+      "name": ".?AVMINI_PLAYER_SCOUT_REPORT_PANEL@@",
+      "descriptor_rva": 103630960
+    },
+    {
+      "name": ".?AVCLUB_TACTICS_CONFIDENCE_PANEL@@",
+      "descriptor_rva": 103633280
+    },
+    {
+      "name": ".?AVCREATE_ASSIGNMENT_SCOUT_PICKER_POPUP_PANEL@@",
+      "descriptor_rva": 103634208
+    },
+    {
+      "name": ".?AVPLAYER_LOAN_INFORMATION_PANEL@@",
+      "descriptor_rva": 103636800
+    },
+    {
+      "name": ".?AVPLAYER_SCOUT_REPORTS_PANEL@@",
+      "descriptor_rva": 103637968
+    },
+    {
+      "name": ".?AVPLAYER_SCOUTING_CENTRE_ACTIONS_PANEL@@",
+      "descriptor_rva": 103638032
+    },
+    {
+      "name": ".?AVPLAYER_TACTICAL_FAMILIARITY_PANEL@@",
+      "descriptor_rva": 103638464
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INFORMATION@@",
+      "descriptor_rva": 103638528
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_LEVELS_PANEL@@",
+      "descriptor_rva": 103638720
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_PANEL@@",
+      "descriptor_rva": 103638784
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_PERFORMANCE_PANEL@@",
+      "descriptor_rva": 103638832
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_STATS_PANEL@@",
+      "descriptor_rva": 103638896
+    },
+    {
+      "name": ".?AVPLAYER_TRANSFER_INFORMATION_PANEL@@",
+      "descriptor_rva": 103638960
+    },
+    {
+      "name": ".?AVPLAYER_TRANSFER_INFORMATION_SMALL_PANEL@@",
+      "descriptor_rva": 103639024
+    },
+    {
+      "name": ".?AVPLAYER_TRANSFER_TARGET_DETAILS_PANEL@@",
+      "descriptor_rva": 103639344
+    },
+    {
+      "name": ".?AVSCOUT_REPORT_YET_TO_ASSESS_POPUP_PANEL@@",
+      "descriptor_rva": 103639632
+    },
+    {
+      "name": ".?AVSCOUTING_KNOWLEDGE_HINT_PANEL@@",
+      "descriptor_rva": 103639696
+    },
+    {
+      "name": ".?AVCHOOSE_FORMATION_PANEL@@",
+      "descriptor_rva": 103642048
+    },
+    {
+      "name": ".?AVTACTICS_ICON_INFO_PANEL@@",
+      "descriptor_rva": 103642144
+    },
+    {
+      "name": ".?AVTACTICS_ICON_INFO_PANEL_BASE@@",
+      "descriptor_rva": 103642192
+    },
+    {
+      "name": ".?AVPITCH_WITH_SET_PIECE_TACTICS@@",
+      "descriptor_rva": 103642256
+    },
+    {
+      "name": ".?AVPITCH_WITH_TACTICS@@",
+      "descriptor_rva": 103642320
+    },
+    {
+      "name": ".?AVOPPOSITION_PITCH_TACTICS_COMPONENT_PANEL@@",
+      "descriptor_rva": 103642432
+    },
+    {
+      "name": ".?AVOPPOSITION_TACTIC_PERSON_LIST_PANEL@@",
+      "descriptor_rva": 103642496
+    },
+    {
+      "name": ".?AVPITCH_WITH_BOTH_TACTICS@@",
+      "descriptor_rva": 103642560
+    },
+    {
+      "name": ".?AVPITCH_WITH_TACTICS_OUT_OF_POSSESSION@@",
+      "descriptor_rva": 103642720
+    },
+    {
+      "name": ".?AVTACTIC_PLAYER_DATA_RETRIEVAL_POLICY@@",
+      "descriptor_rva": 103643376
+    },
+    {
+      "name": ".?AVTACTIC_SLOT_BUTTON@@",
+      "descriptor_rva": 103643440
+    },
+    {
+      "name": ".?AVTACTIC_SLOT_TAB_CONTAINER@@",
+      "descriptor_rva": 103643488
+    },
+    {
+      "name": ".?AVTACTICS_ALL_SET_PIECE_TAKERS_PICKING_PANEL@@",
+      "descriptor_rva": 103643536
+    },
+    {
+      "name": ".?AVTACTICS_ATTRIBUTES_POPUP@@",
+      "descriptor_rva": 103643616
+    },
+    {
+      "name": ".?AVTACTICS_CAPTAINS_PANEL@@",
+      "descriptor_rva": 103643664
+    },
+    {
+      "name": ".?AVTACTICS_ICON_RADIAL_MENU_PANEL@@",
+      "descriptor_rva": 103643712
+    },
+    {
+      "name": ".?AVTACTICS_MATCH_PLANS_PANEL@@",
+      "descriptor_rva": 103643776
+    },
+    {
+      "name": ".?AVTACTICS_OPPOSITION_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103643824
+    },
+    {
+      "name": ".?AVTACTICS_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103643888
+    },
+    {
+      "name": ".?AVTACTICS_PLAYER_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103643936
+    },
+    {
+      "name": ".?AVTACTICS_SET_PIECE_POSITION_TOOLTIP_PANEL@@",
+      "descriptor_rva": 103644000
+    },
+    {
+      "name": ".?AVTACTICS_SET_PIECE_TAKERS_PICKING_PANEL@@",
+      "descriptor_rva": 103644064
+    },
+    {
+      "name": ".?AVTACTICS_SET_PIECES_PANEL@@",
+      "descriptor_rva": 103644128
+    },
+    {
+      "name": ".?AVTACTICS_TACTICAL_STYLE_POPUP_PANEL@@",
+      "descriptor_rva": 103644176
+    },
+    {
+      "name": ".?AVTACTICS_TEAM_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103644240
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_ALL_SET_PIECE_TAKERS_PICKING_PANEL@@",
+      "descriptor_rva": 103644352
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_CAPTAINS_PANEL@@",
+      "descriptor_rva": 103644432
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_MATCH_PLANS_PANEL@@",
+      "descriptor_rva": 103644496
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_OPPOSITION_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103644560
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103644640
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_PENALTY_TAKERS_PANEL@@",
+      "descriptor_rva": 103644704
+    },
+    {
+      "name": ".?AVOPPOSITION_TACTIC_POSITION_DATA_RETRIEVAL_POLICY@@",
+      "descriptor_rva": 103644768
+    },
+    {
+      "name": ".?AVOPPOSITION_TACTIC_PLAYER_DATA_RETRIEVAL_POLICY@@",
+      "descriptor_rva": 103644848
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_PLAYER_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103645152
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_CONTAINER_PANEL@@",
+      "descriptor_rva": 103645216
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_CREATOR_PANEL@@",
+      "descriptor_rva": 103645296
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103645376
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_PANEL@@",
+      "descriptor_rva": 103645504
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_PLAYER_POPUP@@",
+      "descriptor_rva": 103645568
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_ROUTINE_SELECTION_PANEL@@",
+      "descriptor_rva": 103645648
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECE_TAKER_SELECTION_PANEL@@",
+      "descriptor_rva": 103645728
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_SET_PIECES_PANEL@@",
+      "descriptor_rva": 103645808
+    },
+    {
+      "name": ".?AVTEAM_TACTICS_TEAM_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103645872
+    },
+    {
+      "name": ".?AVFORMATIONS_DATA_ANALYST_REPORT_PANEL@@",
+      "descriptor_rva": 103646112
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_PLAYER_SELECTION_PANEL@@",
+      "descriptor_rva": 103646288
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_PANEL@@",
+      "descriptor_rva": 103646672
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_PREFERENCES_AND_FILTERS_POPUP@@",
+      "descriptor_rva": 103646720
+    },
+    {
+      "name": ".?AVSCOUTING_TOP_PANEL@@",
+      "descriptor_rva": 103646800
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_BACKGROUND_PANEL@@",
+      "descriptor_rva": 103647728
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_COMBINED_PANEL@@",
+      "descriptor_rva": 103647808
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_FACTS_PANEL@@",
+      "descriptor_rva": 103647872
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103647936
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_STADIUM_PANEL@@",
+      "descriptor_rva": 103648000
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_STATS_PANEL@@",
+      "descriptor_rva": 103648064
+    },
+    {
+      "name": ".?AVSET_PIECE_LIST_DATA_PROVIDER@TEAM_TACTICS_SET_PIECE_ROUTINE_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103648416
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_SCOUT_RESPONSIBILITY_PANEL@@",
+      "descriptor_rva": 103650464
+    },
+    {
+      "name": ".?AVTEAM_NEXT_WEEK_TRAINING_SCHEDULE_PANEL@@",
+      "descriptor_rva": 103652496
+    },
+    {
+      "name": ".?AVTEAM_OPPOSITION_REPORT_OVERVIEW_SCOUT_SUMMARY_PANEL@@",
+      "descriptor_rva": 103652768
+    },
+    {
+      "name": ".?AVTEAM_OPPOSITION_REPORT_PREDICTED_TACTIC_PANEL@@",
+      "descriptor_rva": 103652848
+    },
+    {
+      "name": ".?AVTEAM_OPPOSITION_REPORT_PREDICTED_TACTICAL_STYLE_PANEL@@",
+      "descriptor_rva": 103652928
+    },
+    {
+      "name": ".?AVTEAM_OPPOSITION_SCOUT_REPORT_PANEL@@",
+      "descriptor_rva": 103653248
+    },
+    {
+      "name": ".?AVTEAM_REPORT_SCOUT_REPORT_PANEL@@",
+      "descriptor_rva": 103654816
+    },
+    {
+      "name": ".?AVTACTIC_SELECTOR_CONTAINER@@",
+      "descriptor_rva": 103655008
+    },
+    {
+      "name": ".?AVTEAM_SCOUTS_PANEL@@",
+      "descriptor_rva": 103655488
+    },
+    {
+      "name": ".?AVTEAM_SQUAD_TACTICS_PANEL@@",
+      "descriptor_rva": 103656080
+    },
+    {
+      "name": ".?AVTEAM_TACTIC_ANALYSIS_SUMMARY_PANEL@@",
+      "descriptor_rva": 103656416
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_CALENDAR_PANEL@@",
+      "descriptor_rva": 103656528
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_COACHES_ATTRIBUTE_PANEL@@",
+      "descriptor_rva": 103656592
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_COACHES_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103656656
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_COACHES_PANEL@@",
+      "descriptor_rva": 103656720
+    },
+    {
+      "name": ".?AVSCOUT_ASSIGNMENT_ENTRY@@",
+      "descriptor_rva": 103657424
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_DATE_CALENDAR_BOX@@",
+      "descriptor_rva": 103657472
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_FOCUS_PIE_CHART_WIDGET@@",
+      "descriptor_rva": 103657536
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_HAPPINESS_WIDGET@@",
+      "descriptor_rva": 103657600
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_INTENSITY_SCHEDULE_PANEL@@",
+      "descriptor_rva": 103657664
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_MATCH_PREPARATION_PANEL@@",
+      "descriptor_rva": 103657728
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_MENTORING_PANEL@@",
+      "descriptor_rva": 103657792
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_MENTORING_ADD_PLAYER_PANEL@@",
+      "descriptor_rva": 103657856
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103657920
+    },
+    {
+      "name": ".?AVTRAINING_CONTROL_DIALOG@@",
+      "descriptor_rva": 103657984
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_PERSON_TABLE_INFO_PANEL@@",
+      "descriptor_rva": 103658032
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_REST_PANEL@@",
+      "descriptor_rva": 103658096
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_SCHEDULE_PANEL@@",
+      "descriptor_rva": 103658144
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_TACTIC_PANEL@@",
+      "descriptor_rva": 103658208
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_UNITS_PANEL@@",
+      "descriptor_rva": 103658272
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_WEEK_PANEL@@",
+      "descriptor_rva": 103658320
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_WEEK_SCHEDULE_BAR@@",
+      "descriptor_rva": 103658368
+    },
+    {
+      "name": ".?AVTRAINING_CALENDAR_WEEK_SCHEDULE_ROW@@",
+      "descriptor_rva": 103658560
+    },
+    {
+      "name": ".?AVTRAINING_HOLIDAY_INSTRUCTIONS_PANEL@@",
+      "descriptor_rva": 103658624
+    },
+    {
+      "name": ".?AVTRAINING_OVERVIEW_PANEL@@",
+      "descriptor_rva": 103658688
+    },
+    {
+      "name": ".?AVTRAINING_PLAYER_LIST_POPUP@@",
+      "descriptor_rva": 103658736
+    },
+    {
+      "name": ".?AVTRAINING_SLOT@@",
+      "descriptor_rva": 103658800
+    },
+    {
+      "name": ".?AVYOUTH_DEVELOPMENT_TEAM_TRAINING@@",
+      "descriptor_rva": 103658976
+    },
+    {
+      "name": ".?AVYOUTH_DEVELOPMENT_TEAM_TRAINING_REVIEW_SUBPANEL@@",
+      "descriptor_rva": 103659040
+    },
+    {
+      "name": ".?AVSCOUTING_INDUCTION_PANEL@@",
+      "descriptor_rva": 103659664
+    },
+    {
+      "name": ".?AVTACTICS_INDUCTION_PANEL@@",
+      "descriptor_rva": 103659808
+    },
+    {
+      "name": ".?AVTRAINING_INDUCTION_PANEL@@",
+      "descriptor_rva": 103659856
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_DESCRIPTION@@",
+      "descriptor_rva": 103659984
+    },
+    {
+      "name": ".?AVTRANSFER_TARGET@db@@",
+      "descriptor_rva": 103660208
+    },
+    {
+      "name": ".?AVSCOUTING_HELPER@@",
+      "descriptor_rva": 103660880
+    },
+    {
+      "name": ".?AVSCOUTING_HIGHEST_RATED_PLAYERS_PANEL@@",
+      "descriptor_rva": 103660928
+    },
+    {
+      "name": ".?AVSCOUTING_POOL_PANEL@@",
+      "descriptor_rva": 103660992
+    },
+    {
+      "name": ".?AVTEAM_SCOUTING_KNOWLEDGE_MAP@@",
+      "descriptor_rva": 103661472
+    },
+    {
+      "name": ".?AVCOMPETITION_SCOUTING_CENTRE_ACTIONS_PANEL@@",
+      "descriptor_rva": 103665392
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_LOAD_FILTER_PANEL@@",
+      "descriptor_rva": 103671584
+    },
+    {
+      "name": ".?AV?$FILTER_PANEL_BASE@VPLAYER_TRAINING_LOAD_FILTER_RULE@@@@",
+      "descriptor_rva": 103671648
+    },
+    {
+      "name": ".?AVGAME_INFORMATION_PANEL@@",
+      "descriptor_rva": 103673136
+    },
+    {
+      "name": ".?AVINTERACTION_PLAYER_CHAT_INFO_TRAINING_PANEL@@",
+      "descriptor_rva": 103682224
+    },
+    {
+      "name": ".?AVMINI_INFORMATION_PANEL@@",
+      "descriptor_rva": 103684832
+    },
+    {
+      "name": ".?AVPOPUP_INFORMATION_PANEL@@",
+      "descriptor_rva": 103685184
+    },
+    {
+      "name": ".?AVADD_MANAGER_TEAM_CONTAINER_INFORMATION_PANEL@@",
+      "descriptor_rva": 103686448
+    },
+    {
+      "name": ".?AVASSIGNMENT_SCOUTING_CENTRE_ACTIONS_PANEL@@",
+      "descriptor_rva": 103686528
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VBATTERY_INFORMATION@sicore@@@sicore@@",
+      "descriptor_rva": 103718864
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSYSTEM_INFORMATION_PANEL@sitoolkit@@@sicore@@",
+      "descriptor_rva": 103750208
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTRANSFORMATION_CONTAINER@@@sicore@@",
+      "descriptor_rva": 103750544
+    },
+    {
+      "name": ".?AVTRANSFORMATION_CONTAINER@@",
+      "descriptor_rva": 103750624
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VFORMATION_LABEL@@@sicore@@",
+      "descriptor_rva": 103763472
+    },
+    {
+      "name": ".?AVFORMATION_LABEL@@",
+      "descriptor_rva": 103763552
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VFORMATION_POPUP@@@sicore@@",
+      "descriptor_rva": 103763600
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPERSON_CAN_BE_SCOUTED_FILTER_PANEL@@@sicore@@",
+      "descriptor_rva": 103764336
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_CONDITION_FILTER_PANEL@@@sicore@@",
+      "descriptor_rva": 103766736
+    },
+    {
+      "name": ".?AVCENTRED_TRANSFORMATION_ANIMATION@sitoolkit@@",
+      "descriptor_rva": 103793120
+    },
+    {
+      "name": ".?AVSYSTEM_INFORMATION_PANEL@sitoolkit@@",
+      "descriptor_rva": 103805008
+    },
+    {
+      "name": ".?AVFORMATION_POPUP@@",
+      "descriptor_rva": 103821664
+    },
+    {
+      "name": ".?AVPERSON_CAN_BE_SCOUTED_FILTER_PANEL@@",
+      "descriptor_rva": 103821984
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_CONDITION_FILTER_PANEL@@",
+      "descriptor_rva": 103823264
+    },
+    {
+      "name": ".?AV?$FILTER_PANEL_BASE@VPLAYER_TRAINING_CONDITION_FILTER_RULE@@@@",
+      "descriptor_rva": 103823328
+    },
+    {
+      "name": ".?AVTACTICAL_ROLE_DEFAULT_FORMATTER@simatchshared@@",
+      "descriptor_rva": 103909200
+    },
+    {
+      "name": ".?AVBASIC_TACTIC_TRANSLATABLE@simatchshared@@",
+      "descriptor_rva": 103910720
+    },
+    {
+      "name": ".?AVBASIC_TACTIC_DEFAULT_FORMATTER@?A0x611A1821@@",
+      "descriptor_rva": 103910784
+    },
+    {
+      "name": ".?AVFORMATION_LAYOUT_TRANSLATABLE@simatchshared@@",
+      "descriptor_rva": 103910864
+    },
+    {
+      "name": ".?AVFORMATION_LAYOUT_DEFAULT_FORMATTER@simatchshared@@",
+      "descriptor_rva": 103910944
+    },
+    {
+      "name": ".?AVTACTICS_CREATOR_ARRAY@simatch@@",
+      "descriptor_rva": 103912848
+    },
+    {
+      "name": ".?AV?$MANAGED_ARRAY@VTACTICS_CREATOR@simatch@@@sicore@@",
+      "descriptor_rva": 103912912
+    },
+    {
+      "name": ".?AV?$MANAGED_ARRAY_BASE@VTACTICS_CREATOR@simatch@@V?$DYNAMIC_ARRAY@PEAVTACTICS_CREATOR@simatch@@@sicore@@@sicore@@",
+      "descriptor_rva": 103912992
+    },
+    {
+      "name": ".?AV?$DYNAMIC_ARRAY@PEAVTACTICS_CREATOR@simatch@@@sicore@@",
+      "descriptor_rva": 103913136
+    },
+    {
+      "name": ".?AV?$DYNAMIC_ARRAY_BASE@PEAVTACTICS_CREATOR@simatch@@V?$SMALL_OBJECT_STL_ALLOCATOR@PEAVTACTICS_CREATOR@simatch@@VMULTI_THREADED_LOCKER@sicore@@UMULTI_THREADED_STL_ALLOCATOR_TAG@4@$0BAAA@@sicore@@@sicore@@",
+      "descriptor_rva": 103913216
+    },
+    {
+      "name": ".?AV?$vector@PEAVTACTICS_CREATOR@simatch@@V?$SMALL_OBJECT_STL_ALLOCATOR@PEAVTACTICS_CREATOR@simatch@@VMULTI_THREADED_LOCKER@sicore@@UMULTI_THREADED_STL_ALLOCATOR_TAG@4@$0BAAA@@sicore@@@std@@",
+      "descriptor_rva": 103913440
+    },
+    {
+      "name": ".?AVPREPARED_TACTICS_CREATOR_ARRAY@simatch@@",
+      "descriptor_rva": 103913648
+    },
+    {
+      "name": ".?AVTEST_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103913712
+    },
+    {
+      "name": ".?AVTACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103913776
+    },
+    {
+      "name": ".?AVTACTIC_LOADER@simatch@@",
+      "descriptor_rva": 103913824
+    },
+    {
+      "name": ".?AV?$AUTOMATIC_SINGLETON@VTACTIC_LOADER@simatch@@@sicore@@",
+      "descriptor_rva": 103913872
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VTACTIC_LOADER@simatch@@@sicore@@",
+      "descriptor_rva": 103913952
+    },
+    {
+      "name": ".?AVDUMMY_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103914032
+    },
+    {
+      "name": ".?AVHUMAN_FLAG_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103914144
+    },
+    {
+      "name": ".?AVPLAYER_TACTICS_CREATOR_POSITION_CHANGE@simatch@@",
+      "descriptor_rva": 103914256
+    },
+    {
+      "name": ".?AVSUBSTITUTION_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103914384
+    },
+    {
+      "name": ".?AVTACTICS_CHANGE_OPP_PLAYER_SPECIFIC@simatch@@",
+      "descriptor_rva": 103914496
+    },
+    {
+      "name": ".?AVTACTIC_NAME_CHANGE@simatch@@",
+      "descriptor_rva": 103914576
+    },
+    {
+      "name": ".?AVTACTIC_ROLES_CHANGE@simatch@@",
+      "descriptor_rva": 103914640
+    },
+    {
+      "name": ".?AVTEAM_TACTIC_CREATOR_CHANGE@simatch@@",
+      "descriptor_rva": 103914768
+    },
+    {
+      "name": ".?AVTEAM_TALK_AS_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103914832
+    },
+    {
+      "name": ".?AVTOUCHLINE_TEAM_TALK_AS_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 103914896
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_SEARCH_PERSON_FILTER@@@sicore@@",
+      "descriptor_rva": 103936400
+    },
+    {
+      "name": ".?AVPLAYER_BUYIN_CHANGE_PM_SKILLS_NEGATIVELY_AFFECTING_TRAINING_PERFORMANCE@chemistry@@",
+      "descriptor_rva": 103943600
+    },
+    {
+      "name": ".?AVPLAYER_BUYIN_CHANGE_PM_PLAYER_EXTRA_TRAINING@chemistry@@",
+      "descriptor_rva": 103944048
+    },
+    {
+      "name": ".?AVSCOUTED_TEAM_INFO@db@@",
+      "descriptor_rva": 103948384
+    },
+    {
+      "name": ".?AV<lambda_3>@?0??setup_implementation@SQUAD_PLANNER@@AEAAXAEBVTACTICS_CREATOR@simatch@@W4SQUAD_PLAN_TYPE@@W4TACTIC_SLOT@tactical_training_flags@4@AEBVTEAM@db@@AEBVPLAYER_ARRAY@9@PEBVPAST_TRANSFER_ARRAY@@@Z@",
+      "descriptor_rva": 103949280
+    },
+    {
+      "name": ".?AVPERSON_CAN_BE_SCOUTED_FILTER_RULE@@",
+      "descriptor_rva": 103956880
+    },
+    {
+      "name": ".?AVTACTICAL_STYLE_DEFAULT_FORMATTER@@",
+      "descriptor_rva": 103958816
+    },
+    {
+      "name": ".?AVINDIVIDUAL_TRAINING_DESCRIPTION_DEFAULT_FORMATTER@@",
+      "descriptor_rva": 103960112
+    },
+    {
+      "name": ".?AVCOMPETITION_SCOUT_REPORT_ACTION@@",
+      "descriptor_rva": 103961408
+    },
+    {
+      "name": ".?AVCLUB_ASSIGN_SCOUT_ACTION@@",
+      "descriptor_rva": 103961920
+    },
+    {
+      "name": ".?AVSCOUT_TEAM_ACTION@@",
+      "descriptor_rva": 103962656
+    },
+    {
+      "name": ".?AVTEAM_CONTAINER_INFORMATION_LINK_ACTION@@",
+      "descriptor_rva": 103962960
+    },
+    {
+      "name": ".?AVNATION_ASSIGN_SCOUT_ACTION@@",
+      "descriptor_rva": 103963424
+    },
+    {
+      "name": ".?AVADD_PLAYER_TO_FIRST_TEAM_TRAINING_ACTION@@",
+      "descriptor_rva": 103963488
+    },
+    {
+      "name": ".?AVADD_NON_PLAYERS_TO_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103964544
+    },
+    {
+      "name": ".?AVCOMMON_SCOUT_ACTION@@",
+      "descriptor_rva": 103964608
+    },
+    {
+      "name": ".?AVADD_PLAYERS_AS_TRANSFER_TARGETS_ACTION@@",
+      "descriptor_rva": 103964736
+    },
+    {
+      "name": ".?AVADD_PLAYERS_TO_NATION_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103964928
+    },
+    {
+      "name": ".?AVADD_PLAYERS_TO_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103965120
+    },
+    {
+      "name": ".?AVCALL_BACK_FROM_TRAINING_REST_ACTION@@",
+      "descriptor_rva": 103966496
+    },
+    {
+      "name": ".?AVTRAINING_SCHEDULE_ACTION@@",
+      "descriptor_rva": 103966560
+    },
+    {
+      "name": ".?AVDOF_SUGGEST_TRANSFER_TARGETS_ACTION@@",
+      "descriptor_rva": 103967472
+    },
+    {
+      "name": ".?AVMOVE_NON_PLAYERS_TO_CLUB_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103968672
+    },
+    {
+      "name": ".?AVMOVE_PLAYERS_TO_CLUB_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103968800
+    },
+    {
+      "name": ".?AVPERSON_SCOUT_ASSIGNMENTS_LINK_ACTION@@",
+      "descriptor_rva": 103969488
+    },
+    {
+      "name": ".?AVPERSON_SCOUT_REPORTS_LINK_ACTION@@",
+      "descriptor_rva": 103969552
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_ACTION@@",
+      "descriptor_rva": 103970000
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_REST_ACTION@@",
+      "descriptor_rva": 103970064
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_NEW_POSITION_ACTION@@",
+      "descriptor_rva": 103970128
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_PREFERRED_MOVE_ACTION@@",
+      "descriptor_rva": 103970192
+    },
+    {
+      "name": ".?AVREMOVE_NON_PLAYERS_FROM_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103970768
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_NATION_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103970992
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_SHORTLIST_ACTION@@",
+      "descriptor_rva": 103971152
+    },
+    {
+      "name": ".?AVREMOVE_PLAYERS_FROM_TRANSFER_TARGETS_ACTION@@",
+      "descriptor_rva": 103971216
+    },
+    {
+      "name": ".?AVREQUEST_TRAINING_REPORT_ACTION@@",
+      "descriptor_rva": 103971488
+    },
+    {
+      "name": ".?AVREST_PLAYERS_FROM_TRAINING_ACTION@@",
+      "descriptor_rva": 103971696
+    },
+    {
+      "name": ".?AVSCOUT_PLAYER_GET_REPORT_ACTION@@",
+      "descriptor_rva": 103971856
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_CLUB_ACTION@@",
+      "descriptor_rva": 103971920
+    },
+    {
+      "name": ".?AVSCOUT_PLAYERS_NATIONAL_ACTION@@",
+      "descriptor_rva": 103971968
+    },
+    {
+      "name": ".?AVSTOP_SCOUT_PLAYERS_CLUB_ACTION@@",
+      "descriptor_rva": 103972544
+    },
+    {
+      "name": ".?AVTACTICAL_STYLE_DEVIATION_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@",
+      "descriptor_rva": 103975440
+    },
+    {
+      "name": ".?AVFORMATION_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@",
+      "descriptor_rva": 103975552
+    },
+    {
+      "name": ".?AVNEXT_OPPOSITION_FIXED_TACTICAL_ADJUSTMENT_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@",
+      "descriptor_rva": 103975648
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VFORMATION_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@@sicore@@",
+      "descriptor_rva": 103977728
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTACTICAL_STYLE_DEVIATION_ADVICE_SUGGESTION@backroom_advice_tactical_topics@@@sicore@@",
+      "descriptor_rva": 103979040
+    },
+    {
+      "name": ".?AVTRAINING_NEWS_ITEM@@",
+      "descriptor_rva": 103994080
+    },
+    {
+      "name": ".?AVPLAYER_EXTRA_TRAINING_DYNAMIC_PIVOTAL_MOMENT@chemistry@@",
+      "descriptor_rva": 103996224
+    },
+    {
+      "name": ".?AVSKILLS_NEGATIVELY_AFFECTING_TRAINING_PERFORMANCE_DYNAMIC_PIVOTAL_MOMENT@chemistry@@",
+      "descriptor_rva": 103996304
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VTACTIC_SERVER@@@sicore@@",
+      "descriptor_rva": 104006000
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VTRAINING_CAMP_MANAGER@@@sicore@@",
+      "descriptor_rva": 104006080
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VGAME_SCOUTED_PERSON@@@sicore@@",
+      "descriptor_rva": 104014080
+    },
+    {
+      "name": ".?AVGAME_SCOUTED_PERSON@@",
+      "descriptor_rva": 104014160
+    },
+    {
+      "name": ".?AVEXTERN_SCOUTED_PERSON@db@@",
+      "descriptor_rva": 104014208
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VGAME_SCOUTED_PERSON_TAG@@@sicore@@",
+      "descriptor_rva": 104014256
+    },
+    {
+      "name": ".?AVGAME_SCOUTED_PERSON_TAG@@",
+      "descriptor_rva": 104014336
+    },
+    {
+      "name": ".?AVEXTERN_SCOUTED_PERSON_TAG@db@@",
+      "descriptor_rva": 104014384
+    },
+    {
+      "name": ".?AVBACKROOM_ADVICE_MEETING_INBOX_SUMMARY_NEWS_ITEM@@",
+      "descriptor_rva": 104018608
+    },
+    {
+      "name": ".?AVSCOUTING_INDUCTION_NEWS@@",
+      "descriptor_rva": 104026032
+    },
+    {
+      "name": ".?AVTRAINING_INDUCTION_NEWS@@",
+      "descriptor_rva": 104026176
+    },
+    {
+      "name": ".?AVTACTICS_INDUCTION_NEWS@@",
+      "descriptor_rva": 104026272
+    },
+    {
+      "name": ".?AVSCOUTING_COMPETITION_CALENDAR_NEWS@@",
+      "descriptor_rva": 104027536
+    },
+    {
+      "name": ".?AVINJURY_LIGHT_TRAINING_NEWS@@",
+      "descriptor_rva": 104029168
+    },
+    {
+      "name": ".?AVINJURY_FULL_TRAINING_NEWS@@",
+      "descriptor_rva": 104029232
+    },
+    {
+      "name": ".?AVAT_LEAST_ONE_TRAINING_CATEGORY_WORKLOAD_IS_HEAVY@@",
+      "descriptor_rva": 104033184
+    },
+    {
+      "name": ".?AVMANAGER_ASK_IMPROVE_TRAINING_FACILITIES_RULE@@",
+      "descriptor_rva": 104039936
+    },
+    {
+      "name": ".?AVMANAGER_CRITICISED_PLAYER_TRAINING_PREVIOUSLY@@",
+      "descriptor_rva": 104041968
+    },
+    {
+      "name": ".?AVMANAGER_PRAISED_PLAYER_TRAINING_PREVIOUSLY@@",
+      "descriptor_rva": 104042048
+    },
+    {
+      "name": ".?AVIS_PLAYER_DOING_PPM_TRAINING@@",
+      "descriptor_rva": 104045392
+    },
+    {
+      "name": ".?AVPLAYER_CAN_DISCUSS_TRAINING_NEW_POSITION_PROGRESS_RULE@@",
+      "descriptor_rva": 104055776
+    },
+    {
+      "name": ".?AVPLAYER_CAN_DISCUSS_TRAINING_NEW_ROLE_PROGRESS_RULE@@",
+      "descriptor_rva": 104055856
+    },
+    {
+      "name": ".?AVPLAYER_IS_UNHAPPY_WITH_TRAINING_RULE@@",
+      "descriptor_rva": 104055936
+    },
+    {
+      "name": ".?AVPLAYER_IS_UNHAPPY_WITH_POSITION_TRAINING_RULE@@",
+      "descriptor_rva": 104056000
+    },
+    {
+      "name": ".?AVPLAYER_GIVEN_RESONABLE_AMOUNT_OF_GAMES_IN_NEW_POSITION_TRAINING_RULE@@",
+      "descriptor_rva": 104056144
+    },
+    {
+      "name": ".?AVPLAYER_IS_IN_TRAINING_MENTORING_UNIT_RULE@@",
+      "descriptor_rva": 104056320
+    },
+    {
+      "name": ".?AVPLAYER_PLAYED_IN_POSITION_TRAINING_IN_LAST_MATCH_RULE@@",
+      "descriptor_rva": 104060112
+    },
+    {
+      "name": ".?AVPLAYER_PLAYED_IN_ROLE_TRAINING_IN_LAST_MATCH_RULE@@",
+      "descriptor_rva": 104060192
+    },
+    {
+      "name": ".?AVPLAYER_CAN_BE_REGISTERED_FOR_TRAINING_CAMP@@",
+      "descriptor_rva": 104062928
+    },
+    {
+      "name": ".?AVSCOUT_MANAGER@@",
+      "descriptor_rva": 104084080
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VSCOUT_MANAGER@@@sicore@@",
+      "descriptor_rva": 104084128
+    },
+    {
+      "name": ".?AVFMT_SCOUT_REPORT_NEWS@@",
+      "descriptor_rva": 104085232
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_MEETING_NEWS@@",
+      "descriptor_rva": 104085280
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_NEWS@@",
+      "descriptor_rva": 104085344
+    },
+    {
+      "name": ".?AVSCOUTING_FOCUS_UPDATE_NEWS@@",
+      "descriptor_rva": 104085392
+    },
+    {
+      "name": ".?AVSCOUT_TEAM_REPORT_NEWS@@",
+      "descriptor_rva": 104085648
+    },
+    {
+      "name": ".?AVSCOUT_MATCH_REPORT_NEWS@@",
+      "descriptor_rva": 104085824
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_INTRODUCTION_NEWS@@",
+      "descriptor_rva": 104085872
+    },
+    {
+      "name": ".?AVSHORTLIST_MANAGER@@",
+      "descriptor_rva": 104086128
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VSHORTLIST_MANAGER@@@sicore@@",
+      "descriptor_rva": 104086176
+    },
+    {
+      "name": ".?AVTACTICS_MANAGER@@",
+      "descriptor_rva": 104087920
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VTACTICS_MANAGER@@@sicore@@",
+      "descriptor_rva": 104087968
+    },
+    {
+      "name": ".?AVTRAINING_MANAGER@@",
+      "descriptor_rva": 104093424
+    },
+    {
+      "name": ".?AV?$MANUAL_SINGLETON@VTRAINING_MANAGER@@@sicore@@",
+      "descriptor_rva": 104093472
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_FOCUS_NEWS@@",
+      "descriptor_rva": 104093680
+    },
+    {
+      "name": ".?AVWEEKLY_TRAINING_PREVIEW_NEWS@@",
+      "descriptor_rva": 104093984
+    },
+    {
+      "name": ".?AVTRAINING_FORCED_CONGESTION_FOCUS_NEWS@@",
+      "descriptor_rva": 104094048
+    },
+    {
+      "name": ".?AVPERIODICAL_TRAINING_ROUNDUP_NEWS@@",
+      "descriptor_rva": 104094112
+    },
+    {
+      "name": ".?AVTRAINING_EFFORT_SOCIAL_NEWS@@",
+      "descriptor_rva": 104094240
+    },
+    {
+      "name": ".?AVPRE_SEASON_TRAINING_PREPARATION_NEWS@@",
+      "descriptor_rva": 104094720
+    },
+    {
+      "name": ".?AVPRE_SEASON_RETURN_TO_TRAINING_REPORT_NEWS@@",
+      "descriptor_rva": 104094784
+    },
+    {
+      "name": ".?AVPLAYER_POSITION_TRAINING_NEWS@@",
+      "descriptor_rva": 104095040
+    },
+    {
+      "name": ".?AVPLAYER_UNHAPPINESS_TRAINING_NEWS@@",
+      "descriptor_rva": 104095232
+    },
+    {
+      "name": ".?AVUNHAPPY_PLAYERS_IN_TRAINING_NEWS@@",
+      "descriptor_rva": 104095296
+    },
+    {
+      "name": ".?AV?$_Func_impl_no_alloc@V?$reference_wrapper@VSET_PIECE_COUNTER@@@std@@XPEBVSET_PIECE_PRIORITY_ARRAY@simatch@@W4SET_PIECE_TACTICAL_TYPE@simatchshared@@W4SET_PIECE_SIDE@6@_N@std@@",
+      "descriptor_rva": 104095424
+    },
+    {
+      "name": ".?AV?$_Func_base@XPEBVSET_PIECE_PRIORITY_ARRAY@simatch@@W4SET_PIECE_TACTICAL_TYPE@simatchshared@@W4SET_PIECE_SIDE@4@_N@std@@",
+      "descriptor_rva": 104095632
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_DESCRIPTION@@",
+      "descriptor_rva": 104095856
+    },
+    {
+      "name": ".?AVSCOUTING_FOCUS_SUGGESTION_NEWS@@",
+      "descriptor_rva": 104097328
+    },
+    {
+      "name": ".?AVFORMATION_MENTALITY_TRANSLATABLE@@",
+      "descriptor_rva": 104102528
+    },
+    {
+      "name": ".?AVTRAINING_AND_YOUTH_FACILITIES_DOWNGRADED@@",
+      "descriptor_rva": 104104928
+    },
+    {
+      "name": ".?AVSCOUTING_CENTRE_ENTRY_NEWS@@",
+      "descriptor_rva": 104107792
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VUSE_SUGGESTED_TRAINING_RESPONSE@@@sicore@@",
+      "descriptor_rva": 104107856
+    },
+    {
+      "name": ".?AVUSE_SUGGESTED_TRAINING_RESPONSE@@",
+      "descriptor_rva": 104107952
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VMATCH_PREP_TRAINING_INTRO_NEWS_RESPONSE@@@sicore@@",
+      "descriptor_rva": 104108368
+    },
+    {
+      "name": ".?AVMATCH_PREP_TRAINING_INTRO_NEWS_RESPONSE@@",
+      "descriptor_rva": 104108464
+    },
+    {
+      "name": ".?AV?$SPECIFIC_NEWS_ITEM_RESPONSE_OBJECT@VMATCH_PREP_TRAINING_INTRO_NEWS@@@db@@",
+      "descriptor_rva": 104108528
+    },
+    {
+      "name": ".?AVGENERAL_SCOUT_NEWS@@",
+      "descriptor_rva": 104109312
+    },
+    {
+      "name": ".?AVMATCH_PREP_TRAINING_INTRO_NEWS@@",
+      "descriptor_rva": 104114144
+    },
+    {
+      "name": ".?AVPLAYER_MISSED_TRAINING_NEWS_ITEM@@",
+      "descriptor_rva": 104116880
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_SKILLS_NEGATIVELY_PM_NEWS@@",
+      "descriptor_rva": 104117216
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_ANNOUNCEMENT_NEWS@@",
+      "descriptor_rva": 104119760
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_DESTINATION_SELECTION_NEWS@@",
+      "descriptor_rva": 104119824
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_END_NEWS@@",
+      "descriptor_rva": 104119888
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_SQUAD_SELECTION_NEWS@@",
+      "descriptor_rva": 104119936
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_START_NEWS@@",
+      "descriptor_rva": 104120000
+    },
+    {
+      "name": ".?AVYOUTH_TRAINING_REPORT_NEWS@@",
+      "descriptor_rva": 104120656
+    },
+    {
+      "name": ".?AVBATTERY_INFORMATION@sicore@@",
+      "descriptor_rva": 104141520
+    },
+    {
+      "name": ".?AV?$AUTOMATIC_SINGLETON@VBATTERY_INFORMATION@sicore@@@sicore@@",
+      "descriptor_rva": 104141584
+    },
+    {
+      "name": ".?AVASSISTANT_TEAM_TALK_FLAG_AS_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 104144160
+    },
+    {
+      "name": ".?AVASSISTANT_OPPOSITION_INSTRUCTIONS_FLAG_AS_TACTIC_CHANGE@simatch@@",
+      "descriptor_rva": 104144240
+    },
+    {
+      "name": ".?AVHIGHLIGHT_INFORMATION_THREAD@simatch@@",
+      "descriptor_rva": 104144496
+    },
+    {
+      "name": ".?AVPLAYER_SCOUTED_FILTER_RULE@@",
+      "descriptor_rva": 104158112
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_CONDITION_FILTER_RULE@@",
+      "descriptor_rva": 104159664
+    },
+    {
+      "name": ".?AVTACTIC_SERVER@@",
+      "descriptor_rva": 104161680
+    },
+    {
+      "name": ".?AVTACTIC_EDIT_SESSION@@",
+      "descriptor_rva": 104161792
+    },
+    {
+      "name": ".?AVTRAINING_CAMP_MANAGER@@",
+      "descriptor_rva": 104163824
+    },
+    {
+      "name": ".?AVTRAINING_EDIT_SESSION@@",
+      "descriptor_rva": 104173280
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_HAPPINESS_ADVICE_SUGGESTION@backroom_advice_player_development_topics@@@sicore@@",
+      "descriptor_rva": 104180416
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_HAPPINESS_ADVICE_SUGGESTION@backroom_advice_player_development_topics@@",
+      "descriptor_rva": 104180560
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VSCOUT_TOP_TARGET_ADVICE_SUGGESTION@backroom_advice_recruitment_topics@@@sicore@@",
+      "descriptor_rva": 104184560
+    },
+    {
+      "name": ".?AVSCOUT_TOP_TARGET_ADVICE_SUGGESTION@backroom_advice_recruitment_topics@@",
+      "descriptor_rva": 104184688
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_INDIVIDUAL_WEAKER_FOOT_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@@sicore@@",
+      "descriptor_rva": 104187360
+    },
+    {
+      "name": ".?AVPLAYER_INDIVIDUAL_WEAKER_FOOT_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@",
+      "descriptor_rva": 104187504
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_START_INDIVIDUAL_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@@sicore@@",
+      "descriptor_rva": 104188128
+    },
+    {
+      "name": ".?AVPLAYER_START_INDIVIDUAL_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@",
+      "descriptor_rva": 104188272
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_STOP_INDIVIDUAL_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@@sicore@@",
+      "descriptor_rva": 104188384
+    },
+    {
+      "name": ".?AVPLAYER_STOP_INDIVIDUAL_TRAINING_ADVICE_SUGGESTION@backroom_advice_training_topics@@",
+      "descriptor_rva": 104188528
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VPLAYER_TRAINING_INTENSITY_ADVICE_SUGGESTION@backroom_advice_training_topics@@@sicore@@",
+      "descriptor_rva": 104189152
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_INTENSITY_ADVICE_SUGGESTION@backroom_advice_training_topics@@",
+      "descriptor_rva": 104189296
+    },
+    {
+      "name": ".?AV?$CLASS_INFO_TEMPLATE@VTEAM_TRAINING_MENTORING_UNIT_CHANGE_ADVICE_SUGGESTION@backroom_advice_training_topics@@@sicore@@",
+      "descriptor_rva": 104189632
+    },
+    {
+      "name": ".?AVTEAM_TRAINING_MENTORING_UNIT_CHANGE_ADVICE_SUGGESTION@backroom_advice_training_topics@@",
+      "descriptor_rva": 104189776
+    },
+    {
+      "name": ".?AVTRAINING_HOLIDAY_INST_ES@@",
+      "descriptor_rva": 104190208
+    },
+    {
+      "name": ".?AVREACTION_TO_LAST_MATCH_TACTICS_NEWS@@",
+      "descriptor_rva": 104191424
+    },
+    {
+      "name": ".?AVTRAINING_UNIT_DESCRIPTION@@",
+      "descriptor_rva": 104191600
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_FILTER_RULE@@",
+      "descriptor_rva": 104191648
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_DESCRIPTION_DEFAULT_FORMATTER@@",
+      "descriptor_rva": 104191792
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_DESCRIPTION_TRAINING_FORMATTER@@",
+      "descriptor_rva": 104191872
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_DESCRIPTION_COACH_FORMATTER@@",
+      "descriptor_rva": 104191952
+    },
+    {
+      "name": ".?AVTRAINING_CATEGORY_DESCRIPTION_COACHING_FORMATTER@@",
+      "descriptor_rva": 104192032
+    },
+    {
+      "name": ".?AVFORMATION_MENTALITY_DEFAULT_FORMATTER@@",
+      "descriptor_rva": 104192176
+    },
+    {
+      "name": ".?AVBATTERY_INFORMATION_WINDOWS@sicore@@",
+      "descriptor_rva": 104194960
+    },
+    {
+      "name": ".?AVBATTERY_INFORMATION_BASE@sicore@@",
+      "descriptor_rva": 104195024
+    },
+    {
+      "name": ".?AVPLAYER_TRAINING_LOAD_FILTER_RULE@@",
+      "descriptor_rva": 104199488
+    },
+    {
+      "name": ".?AVTRAINING_UNIT_DESCRIPTION_DEFAULT_FORMATTER@@",
+      "descriptor_rva": 104199696
+    }
+  ]
+}

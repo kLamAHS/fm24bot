@@ -1,0 +1,34 @@
+{
+  "captured_at": "2026-09-13T23:24:17.046234+00:00",
+  "files": [
+    {
+      "name": "Liam Boyd - Wycombe.fm",
+      "bytes": 74274479,
+      "expected_sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "actual_sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "unchanged": true
+    },
+    {
+      "name": "FM24 Bridge Test 2026-09-13.fm",
+      "bytes": 74274479,
+      "expected_sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "actual_sha256": "0770cdd3d8761a98b53a683f03d3c6bafb23c4f2d645bfbf69645ce9b1cd5763",
+      "unchanged": true
+    },
+    {
+      "name": "Liam Boyd - Wycombe (v02).fm",
+      "bytes": 75292275,
+      "expected_sha256": "736684315066a5711d1529e1c3fa36dc73f27db08a0754d16f9a448f3a64512a",
+      "actual_sha256": "736684315066a5711d1529e1c3fa36dc73f27db08a0754d16f9a448f3a64512a",
+      "unchanged": true
+    },
+    {
+      "name": "FM24 Bridge Test Earlier 2026-09-13.fm",
+      "bytes": 75292275,
+      "expected_sha256": "736684315066a5711d1529e1c3fa36dc73f27db08a0754d16f9a448f3a64512a",
+      "actual_sha256": "736684315066a5711d1529e1c3fa36dc73f27db08a0754d16f9a448f3a64512a",
+      "unchanged": true
+    }
+  ],
+  "passed": true
+}

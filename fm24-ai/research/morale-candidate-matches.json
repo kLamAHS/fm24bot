@@ -1,0 +1,38 @@
+[
+  {
+    "format": "<B",
+    "player_offset": "0x25f",
+    "mapping": {
+      "Perfect": 20,
+      "Superb": 18,
+      "Extremely Good": 16,
+      "Very Good": 15,
+      "Really Good": 14,
+      "Extremely Poor": 2,
+      "Fair": 8,
+      "Quite Good": 12,
+      "Fairly Poor": 6,
+      "Good": 13,
+      "Fairly Good": 11,
+      "Okay": 10
+    }
+  },
+  {
+    "format": "<b",
+    "player_offset": "0x25f",
+    "mapping": {
+      "Perfect": 20,
+      "Superb": 18,
+      "Extremely Good": 16,
+      "Very Good": 15,
+      "Really Good": 14,
+      "Extremely Poor": 2,
+      "Fair": 8,
+      "Quite Good": 12,
+      "Fairly Poor": 6,
+      "Good": 13,
+      "Fairly Good": 11,
+      "Okay": 10
+    }
+  }
+]

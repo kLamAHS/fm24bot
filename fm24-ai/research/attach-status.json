@@ -1,0 +1,830 @@
+{
+  "pid": 28168,
+  "access": "read_only",
+  "architecture": "x64",
+  "alive": true,
+  "modules": [
+    {
+      "name": "fm.exe",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\fm.exe",
+      "base": 5368709120,
+      "size": 494956544
+    },
+    {
+      "name": "ntdll.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+      "base": 140728086495232,
+      "size": 2199552
+    },
+    {
+      "name": "KERNEL32.DLL",
+      "path": "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+      "base": 140728055037952,
+      "size": 802816
+    },
+    {
+      "name": "KERNELBASE.dll",
+      "path": "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+      "base": 140728043372544,
+      "size": 3969024
+    },
+    {
+      "name": "USER32.dll",
+      "path": "C:\\WINDOWS\\System32\\USER32.dll",
+      "base": 140728055889920,
+      "size": 1773568
+    },
+    {
+      "name": "win32u.dll",
+      "path": "C:\\WINDOWS\\System32\\win32u.dll",
+      "base": 140728038588416,
+      "size": 155648
+    },
+    {
+      "name": "GDI32.dll",
+      "path": "C:\\WINDOWS\\System32\\GDI32.dll",
+      "base": 140728065327104,
+      "size": 167936
+    },
+    {
+      "name": "gdi32full.dll",
+      "path": "C:\\WINDOWS\\System32\\gdi32full.dll",
+      "base": 140728042192896,
+      "size": 1163264
+    },
+    {
+      "name": "msvcp_win.dll",
+      "path": "C:\\WINDOWS\\System32\\msvcp_win.dll",
+      "base": 140728037408768,
+      "size": 630784
+    },
+    {
+      "name": "ucrtbase.dll",
+      "path": "C:\\WINDOWS\\System32\\ucrtbase.dll",
+      "base": 140728039505920,
+      "size": 1118208
+    },
+    {
+      "name": "ADVAPI32.dll",
+      "path": "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+      "base": 140728052613120,
+      "size": 733184
+    },
+    {
+      "name": "msvcrt.dll",
+      "path": "C:\\WINDOWS\\System32\\msvcrt.dll",
+      "base": 140728053399552,
+      "size": 684032
+    },
+    {
+      "name": "sechost.dll",
+      "path": "C:\\WINDOWS\\System32\\sechost.dll",
+      "base": 140728057724928,
+      "size": 692224
+    },
+    {
+      "name": "bcrypt.dll",
+      "path": "C:\\WINDOWS\\System32\\bcrypt.dll",
+      "base": 140728039309312,
+      "size": 163840
+    },
+    {
+      "name": "RPCRT4.dll",
+      "path": "C:\\WINDOWS\\System32\\RPCRT4.dll",
+      "base": 140728051433472,
+      "size": 1142784
+    },
+    {
+      "name": "WS2_32.dll",
+      "path": "C:\\WINDOWS\\System32\\WS2_32.dll",
+      "base": 140728084594688,
+      "size": 462848
+    },
+    {
+      "name": "SHELL32.dll",
+      "path": "C:\\WINDOWS\\System32\\SHELL32.dll",
+      "base": 140728065523712,
+      "size": 9035776
+    },
+    {
+      "name": "wintypes.dll",
+      "path": "C:\\WINDOWS\\System32\\wintypes.dll",
+      "base": 140728047370240,
+      "size": 1306624
+    },
+    {
+      "name": "combase.dll",
+      "path": "C:\\WINDOWS\\System32\\combase.dll",
+      "base": 140728077975552,
+      "size": 3743744
+    },
+    {
+      "name": "ole32.dll",
+      "path": "C:\\WINDOWS\\System32\\ole32.dll",
+      "base": 140728075943936,
+      "size": 1703936
+    },
+    {
+      "name": "IMM32.dll",
+      "path": "C:\\WINDOWS\\System32\\IMM32.dll",
+      "base": 140728077713408,
+      "size": 200704
+    },
+    {
+      "name": "shcore.dll",
+      "path": "C:\\WINDOWS\\System32\\shcore.dll",
+      "base": 140728082956288,
+      "size": 1064960
+    },
+    {
+      "name": "COMDLG32.dll",
+      "path": "C:\\WINDOWS\\System32\\COMDLG32.dll",
+      "base": 140728085118976,
+      "size": 1060864
+    },
+    {
+      "name": "SHLWAPI.dll",
+      "path": "C:\\WINDOWS\\System32\\SHLWAPI.dll",
+      "base": 140728075419648,
+      "size": 430080
+    },
+    {
+      "name": "CRYPT32.dll",
+      "path": "C:\\WINDOWS\\System32\\CRYPT32.dll",
+      "base": 140728040685568,
+      "size": 1474560
+    },
+    {
+      "name": "WININET.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WININET.dll",
+      "base": 140727433297920,
+      "size": 5238784
+    },
+    {
+      "name": "icuuc65.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icuuc65.dll",
+      "base": 140724045348864,
+      "size": 1912832
+    },
+    {
+      "name": "MSVCP140.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\MSVCP140.dll",
+      "base": 140726103900160,
+      "size": 581632
+    },
+    {
+      "name": "dbghelp.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+      "base": 140727823040512,
+      "size": 2306048
+    },
+    {
+      "name": "OLEAUT32.dll",
+      "path": "C:\\WINDOWS\\System32\\OLEAUT32.dll",
+      "base": 140728054120448,
+      "size": 888832
+    },
+    {
+      "name": "XINPUT9_1_0.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\XINPUT9_1_0.dll",
+      "base": 140727986487296,
+      "size": 32768
+    },
+    {
+      "name": "WTSAPI32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WTSAPI32.dll",
+      "base": 140728017813504,
+      "size": 81920
+    },
+    {
+      "name": "WINMM.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+      "base": 140727834836992,
+      "size": 212992
+    },
+    {
+      "name": "steam_api64.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\steam_api64.dll",
+      "base": 140727103127552,
+      "size": 315392
+    },
+    {
+      "name": "icuin65.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icuin65.dll",
+      "base": 140723901628416,
+      "size": 2654208
+    },
+    {
+      "name": "OpenAL32.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\OpenAL32.dll",
+      "base": 140723223789568,
+      "size": 2179072
+    },
+    {
+      "name": "COMCTL32.dll",
+      "path": "C:\\WINDOWS\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.6931_none_270fd4b77385a2c0\\COMCTL32.dll",
+      "base": 140727460757504,
+      "size": 2736128
+    },
+    {
+      "name": "POWRPROF.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\POWRPROF.dll",
+      "base": 140728035442688,
+      "size": 315392
+    },
+    {
+      "name": "bidstack-cpp-sdk.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\bidstack-cpp-sdk.dll",
+      "base": 140726048849920,
+      "size": 1290240
+    },
+    {
+      "name": "SETUPAPI.dll",
+      "path": "C:\\WINDOWS\\System32\\SETUPAPI.dll",
+      "base": 140728060608512,
+      "size": 4669440
+    },
+    {
+      "name": "EOSSDK-Win64-Shipping.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\EOSSDK-Win64-Shipping.dll",
+      "base": 140722490900480,
+      "size": 20766720
+    },
+    {
+      "name": "WLDAP32.dll",
+      "path": "C:\\WINDOWS\\System32\\WLDAP32.dll",
+      "base": 140728081776640,
+      "size": 397312
+    },
+    {
+      "name": "Normaliz.dll",
+      "path": "C:\\WINDOWS\\System32\\Normaliz.dll",
+      "base": 140728074567680,
+      "size": 32768
+    },
+    {
+      "name": "WINTRUST.dll",
+      "path": "C:\\WINDOWS\\System32\\WINTRUST.dll",
+      "base": 140728038785024,
+      "size": 507904
+    },
+    {
+      "name": "VCRUNTIME140.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\VCRUNTIME140.dll",
+      "base": 140727584096256,
+      "size": 110592
+    },
+    {
+      "name": "icudt65.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icudt65.dll",
+      "base": 6442450944,
+      "size": 12288
+    },
+    {
+      "name": "vpxmt.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\vpxmt.dll",
+      "base": 140723221430272,
+      "size": 2314240
+    },
+    {
+      "name": "IPHLPAPI.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+      "base": 140728014602240,
+      "size": 184320
+    },
+    {
+      "name": "VERSION.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\VERSION.dll",
+      "base": 140727928553472,
+      "size": 40960
+    },
+    {
+      "name": "Secur32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\Secur32.dll",
+      "base": 140728017944576,
+      "size": 49152
+    },
+    {
+      "name": "WINHTTP.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WINHTTP.dll",
+      "base": 140727931961344,
+      "size": 1232896
+    },
+    {
+      "name": "VCRUNTIME140_1.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\VCRUNTIME140_1.dll",
+      "base": 140727679778816,
+      "size": 49152
+    },
+    {
+      "name": "SSPICLI.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\SSPICLI.DLL",
+      "base": 140728022728704,
+      "size": 274432
+    },
+    {
+      "name": "dbgcore.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dbgcore.DLL",
+      "base": 140727165911040,
+      "size": 204800
+    },
+    {
+      "name": "MSASN1.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\MSASN1.dll",
+      "base": 140728032886784,
+      "size": 73728
+    },
+    {
+      "name": "bcryptPrimitives.dll",
+      "path": "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+      "base": 140728038064128,
+      "size": 503808
+    },
+    {
+      "name": "UMPDC.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\UMPDC.dll",
+      "base": 140728035311616,
+      "size": 77824
+    },
+    {
+      "name": "gameoverlayrenderer64.dll",
+      "path": "C:\\Program Files (x86)\\Steam\\gameoverlayrenderer64.dll",
+      "base": 140724975566848,
+      "size": 1798144
+    },
+    {
+      "name": "PSAPI.DLL",
+      "path": "C:\\WINDOWS\\System32\\PSAPI.DLL",
+      "base": 140728075878400,
+      "size": 32768
+    },
+    {
+      "name": "CFGMGR32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\CFGMGR32.dll",
+      "base": 140728033345536,
+      "size": 319488
+    },
+    {
+      "name": "CRYPTSP.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\CRYPTSP.dll",
+      "base": 140728028626944,
+      "size": 110592
+    },
+    {
+      "name": "rsaenh.dll",
+      "path": "C:\\WINDOWS\\system32\\rsaenh.dll",
+      "base": 140728019582976,
+      "size": 225280
+    },
+    {
+      "name": "USERENV.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+      "base": 140728025808896,
+      "size": 163840
+    },
+    {
+      "name": "profapi.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\profapi.dll",
+      "base": 140728036556800,
+      "size": 155648
+    },
+    {
+      "name": "CRYPTBASE.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.dll",
+      "base": 140728028495872,
+      "size": 49152
+    },
+    {
+      "name": "steamclient64.dll",
+      "path": "C:\\Program Files (x86)\\Steam\\steamclient64.dll",
+      "base": 140722650021888,
+      "size": 26726400
+    },
+    {
+      "name": "imagehlp.dll",
+      "path": "C:\\WINDOWS\\System32\\imagehlp.dll",
+      "base": 140728058445824,
+      "size": 126976
+    },
+    {
+      "name": "tier0_s64.dll",
+      "path": "C:\\Program Files (x86)\\Steam\\tier0_s64.dll",
+      "base": 140723800047616,
+      "size": 3203072
+    },
+    {
+      "name": "MSWSOCK.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\MSWSOCK.dll",
+      "base": 140728025153536,
+      "size": 430080
+    },
+    {
+      "name": "vstdlib_s64.dll",
+      "path": "C:\\Program Files (x86)\\Steam\\vstdlib_s64.dll",
+      "base": 140725373894656,
+      "size": 798720
+    },
+    {
+      "name": "iertutil.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\iertutil.dll",
+      "base": 140727803052032,
+      "size": 2875392
+    },
+    {
+      "name": "netutils.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\netutils.dll",
+      "base": 140728014077952,
+      "size": 49152
+    },
+    {
+      "name": "srvcli.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\srvcli.dll",
+      "base": 140727822647296,
+      "size": 163840
+    },
+    {
+      "name": "windows.storage.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\windows.storage.dll",
+      "base": 140728002281472,
+      "size": 9515008
+    },
+    {
+      "name": "ondemandconnroutehelper.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\ondemandconnroutehelper.dll",
+      "base": 140727217291264,
+      "size": 94208
+    },
+    {
+      "name": "kernel.appcore.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\kernel.appcore.dll",
+      "base": 140728019845120,
+      "size": 98304
+    },
+    {
+      "name": "WINNSI.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WINNSI.DLL",
+      "base": 140727990812672,
+      "size": 53248
+    },
+    {
+      "name": "NSI.dll",
+      "path": "C:\\WINDOWS\\System32\\NSI.dll",
+      "base": 140728075354112,
+      "size": 36864
+    },
+    {
+      "name": "urlmon.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\urlmon.dll",
+      "base": 140727805935616,
+      "size": 2052096
+    },
+    {
+      "name": "DNSAPI.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+      "base": 140728014798848,
+      "size": 1019904
+    },
+    {
+      "name": "rasadhlp.dll",
+      "path": "C:\\Windows\\System32\\rasadhlp.dll",
+      "base": 140727575314432,
+      "size": 40960
+    },
+    {
+      "name": "fwpuclnt.dll",
+      "path": "C:\\WINDOWS\\System32\\fwpuclnt.dll",
+      "base": 140727919771648,
+      "size": 540672
+    },
+    {
+      "name": "schannel.DLL",
+      "path": "C:\\WINDOWS\\system32\\schannel.DLL",
+      "base": 140728018468864,
+      "size": 696320
+    },
+    {
+      "name": "DPAPI.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\DPAPI.DLL",
+      "base": 140728033673216,
+      "size": 40960
+    },
+    {
+      "name": "cryptnet.dll",
+      "path": "C:\\Windows\\System32\\cryptnet.dll",
+      "base": 140727926915072,
+      "size": 204800
+    },
+    {
+      "name": "dhcpcsvc6.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+      "base": 140727930322944,
+      "size": 102400
+    },
+    {
+      "name": "dhcpcsvc.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+      "base": 140727929995264,
+      "size": 131072
+    },
+    {
+      "name": "webio.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\webio.dll",
+      "base": 140727529635840,
+      "size": 782336
+    },
+    {
+      "name": "ncrypt.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\ncrypt.dll",
+      "base": 140728029216768,
+      "size": 188416
+    },
+    {
+      "name": "NTASN1.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\NTASN1.dll",
+      "base": 140728028889088,
+      "size": 225280
+    },
+    {
+      "name": "ncryptsslp.dll",
+      "path": "C:\\WINDOWS\\system32\\ncryptsslp.dll",
+      "base": 140727166173184,
+      "size": 159744
+    },
+    {
+      "name": "IconCodecService.dll",
+      "path": "C:\\WINDOWS\\system32\\IconCodecService.dll",
+      "base": 140727544184832,
+      "size": 36864
+    },
+    {
+      "name": "WindowsCodecs.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WindowsCodecs.dll",
+      "base": 140727990878208,
+      "size": 1777664
+    },
+    {
+      "name": "uxtheme.dll",
+      "path": "C:\\WINDOWS\\system32\\uxtheme.dll",
+      "base": 140727993106432,
+      "size": 733184
+    },
+    {
+      "name": "MSCTF.dll",
+      "path": "C:\\WINDOWS\\System32\\MSCTF.dll",
+      "base": 140728058576896,
+      "size": 1441792
+    },
+    {
+      "name": "WINSTA.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\WINSTA.dll",
+      "base": 140728033738752,
+      "size": 442368
+    },
+    {
+      "name": "textinputframework.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\textinputframework.dll",
+      "base": 140727532388352,
+      "size": 1327104
+    },
+    {
+      "name": "gpapi.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\gpapi.dll",
+      "base": 140728025612288,
+      "size": 155648
+    },
+    {
+      "name": "EOSOVH-Win64-Shipping.dll",
+      "path": "C:\\Program Files (x86)\\Epic Games\\Epic Online Services\\managedArtifacts\\98bc04bc842e4906993fd6d6644ffb8d\\EOSOVH-Win64-Shipping.dll",
+      "base": 140725335031808,
+      "size": 774144
+    },
+    {
+      "name": "OPENGL32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\OPENGL32.dll",
+      "base": 140727522754560,
+      "size": 1048576
+    },
+    {
+      "name": "d3d11.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\d3d11.dll",
+      "base": 140727964532736,
+      "size": 2453504
+    },
+    {
+      "name": "GLU32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\GLU32.dll",
+      "base": 140727856791552,
+      "size": 184320
+    },
+    {
+      "name": "dxgi.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dxgi.dll",
+      "base": 140727995400192,
+      "size": 1011712
+    },
+    {
+      "name": "dxcore.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dxcore.dll",
+      "base": 140727994089472,
+      "size": 225280
+    },
+    {
+      "name": "directxdatabasehelper.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\directxdatabasehelper.dll",
+      "base": 140727908302848,
+      "size": 299008
+    },
+    {
+      "name": "wldp.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\wldp.dll",
+      "base": 140728027774976,
+      "size": 327680
+    },
+    {
+      "name": "drvstore.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\drvstore.dll",
+      "base": 140727925473280,
+      "size": 1417216
+    },
+    {
+      "name": "devobj.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\devobj.dll",
+      "base": 140728033017856,
+      "size": 180224
+    },
+    {
+      "name": "nvspcap64.dll",
+      "path": "C:\\WINDOWS\\system32\\nvspcap64.dll",
+      "base": 140726980706304,
+      "size": 1339392
+    },
+    {
+      "name": "ntmarta.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\ntmarta.dll",
+      "base": 140728021352448,
+      "size": 212992
+    },
+    {
+      "name": "nvppex.dll",
+      "path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvppex.dll",
+      "base": 1409286144,
+      "size": 7499776
+    },
+    {
+      "name": "napinsp.dll",
+      "path": "C:\\WINDOWS\\system32\\napinsp.dll",
+      "base": 140727367041024,
+      "size": 94208
+    },
+    {
+      "name": "pnrpnsp.dll",
+      "path": "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+      "base": 140727283875840,
+      "size": 110592
+    },
+    {
+      "name": "nlansp_c.dll",
+      "path": "C:\\WINDOWS\\system32\\nlansp_c.dll",
+      "base": 140727218012160,
+      "size": 135168
+    },
+    {
+      "name": "winrnr.dll",
+      "path": "C:\\WINDOWS\\System32\\winrnr.dll",
+      "base": 140727217750016,
+      "size": 69632
+    },
+    {
+      "name": "wshbth.dll",
+      "path": "C:\\WINDOWS\\system32\\wshbth.dll",
+      "base": 140727928619008,
+      "size": 86016
+    },
+    {
+      "name": "nvapi64.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\nvapi64.dll",
+      "base": 140727818977280,
+      "size": 561152
+    },
+    {
+      "name": "nvapi64_impl.dll",
+      "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvapi64_impl.dll",
+      "base": 140727811702784,
+      "size": 5730304
+    },
+    {
+      "name": "nvldumdx.dll",
+      "path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvldumdx.dll",
+      "base": 140727808032768,
+      "size": 827392
+    },
+    {
+      "name": "nvgpucomp64.dll",
+      "path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvgpucomp64.dll",
+      "base": 140727692820480,
+      "size": 98623488
+    },
+    {
+      "name": "NvMemMapStoragex.dll",
+      "path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\NvMemMapStoragex.dll",
+      "base": 140727689084928,
+      "size": 1290240
+    },
+    {
+      "name": "nvwgf2umx.dll",
+      "path": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvwgf2umx.dll",
+      "base": 140727587700736,
+      "size": 89804800
+    },
+    {
+      "name": "clbcatq.dll",
+      "path": "C:\\WINDOWS\\System32\\clbcatq.dll",
+      "base": 140728074633216,
+      "size": 720896
+    },
+    {
+      "name": "MMDevApi.dll",
+      "path": "C:\\WINDOWS\\System32\\MMDevApi.dll",
+      "base": 140727916167168,
+      "size": 638976
+    },
+    {
+      "name": "AUDIOSES.DLL",
+      "path": "C:\\WINDOWS\\SYSTEM32\\AUDIOSES.DLL",
+      "base": 140727570726912,
+      "size": 2023424
+    },
+    {
+      "name": "Windows.UI.dll",
+      "path": "C:\\Windows\\System32\\Windows.UI.dll",
+      "base": 140727882874880,
+      "size": 1564672
+    },
+    {
+      "name": "resourcepolicyclient.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\resourcepolicyclient.dll",
+      "base": 140727998021632,
+      "size": 86016
+    },
+    {
+      "name": "dwmapi.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\dwmapi.dll",
+      "base": 140727997497344,
+      "size": 172032
+    },
+    {
+      "name": "NvGsa.x64.dll",
+      "path": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\NvGsa.x64.dll",
+      "base": 140726107701248,
+      "size": 212992
+    },
+    {
+      "name": "mscms.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\mscms.dll",
+      "base": 140727802265600,
+      "size": 770048
+    },
+    {
+      "name": "icm32.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\icm32.dll",
+      "base": 140726095773696,
+      "size": 303104
+    },
+    {
+      "name": "CoreMessaging.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\CoreMessaging.dll",
+      "base": 140727976656896,
+      "size": 1257472
+    },
+    {
+      "name": "CoreUIComponents.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\CoreUIComponents.dll",
+      "base": 140727887069184,
+      "size": 3588096
+    },
+    {
+      "name": "uiautomationcore.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\uiautomationcore.dll",
+      "base": 140727332962304,
+      "size": 4497408
+    },
+    {
+      "name": "threadpoolwinrt.dll",
+      "path": "C:\\Windows\\System32\\threadpoolwinrt.dll",
+      "base": 140727899389952,
+      "size": 90112
+    },
+    {
+      "name": "OLEACC.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\OLEACC.dll",
+      "base": 140727907450880,
+      "size": 499712
+    },
+    {
+      "name": "wtdccm.dll",
+      "path": "C:\\WINDOWS\\SYSTEM32\\wtdccm.dll",
+      "base": 140727407476736,
+      "size": 94208
+    }
+  ]
+}

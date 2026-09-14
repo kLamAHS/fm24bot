@@ -1,0 +1,256 @@
+{
+  "pid": 36240,
+  "captured_at": "2026-09-14T01:01:03.335374+00:00",
+  "date": "2024-02-07",
+  "context": {
+    "manager_person": "0xcc34e960",
+    "manager_base": "0xcc34e510",
+    "team": "0x10f35f938",
+    "club": "0xd8b34510",
+    "roster_begin": "0xd8e5d6f0",
+    "roster_end": "0xd8e5d7e8",
+    "roster_count": 31,
+    "manager_global_rva": "0x6365118"
+  },
+  "detail": "0x110b80998",
+  "detail_hex": "00000000000000000000000000000000000000000000000001006c07ffffffffffff040000000000206d761a0100000038f9350f010000009019360f01000000294ae807ffffffffffff01000000000000664b270100000060664b270100000060664b27010000000086df19010000001086df19010000001086df19010000000000000000000000000000000000000000000000000000000000000000000000000000000000000070e65528010000000000000000000000a8cd8c2401000000e05969e00000000010a1b82901000000f0e378db0000000000000000000000002258e8072258e80701006c07d422e70701006c0701006c072413e8037e03b803e707e707e807210008070300020002020102020303030000",
+  "holder": "0x12855e670",
+  "vector_hex": "f0dcfd0f01000000e0dbfd0f01000000d0dafd0f01000000c0d9fd0f01000000b0d8fd0f01000000a0d7fd0f0100000090d6fd0f0100000080d5fd0f0100000070d4fd0f0100000060d3fd0f0100000050d2fd0f0100000040d1fd0f0100000030d0fd0f0100000020cffd0f0100000010cefd0f0100000000cdfd0f01000000f0cbfd0f01000000e0cafd0f01000000d0c9fd0f01000000c0c8fd0f01000000b0c7fd0f01000000a0c6fd0f0100000090c5fd0f0100000080c4fd0f0100000070c3fd0f0100000060c2fd0f0100000050c1fd0f0100000040c0fd0f0100000030bffd0f0100000020befd0f0100000010bdfd0f0100000000bcfd0f01000000f0bafd0f01000000e0b9fd0f01000000d0b8fd0f01000000c0b7fd0f01000000b0b6fd0f01000000a0b5fd0f0100000090b4fd0f0100000080b3fd0f0100000070b2fd0f0100000060b1fd0f0100000050b0fd0f0100000040affd0f0100000030aefd0f0100000020adfd0f0100000010acfd0f01000000",
+  "items": [
+    {
+      "index": 0,
+      "address": "0x10ffddcf0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 1,
+      "address": "0x10ffddbe0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 2,
+      "address": "0x10ffddad0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 3,
+      "address": "0x10ffdd9c0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 4,
+      "address": "0x10ffdd8b0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 5,
+      "address": "0x10ffdd7a0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 6,
+      "address": "0x10ffdd690",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 7,
+      "address": "0x10ffdd580",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 8,
+      "address": "0x10ffdd470",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 9,
+      "address": "0x10ffdd360",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 10,
+      "address": "0x10ffdd250",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 11,
+      "address": "0x10ffdd140",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 12,
+      "address": "0x10ffdd030",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 13,
+      "address": "0x10ffdcf20",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 14,
+      "address": "0x10ffdce10",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 15,
+      "address": "0x10ffdcd00",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 16,
+      "address": "0x10ffdcbf0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 17,
+      "address": "0x10ffdcae0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 18,
+      "address": "0x10ffdc9d0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 19,
+      "address": "0x10ffdc8c0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 20,
+      "address": "0x10ffdc7b0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 21,
+      "address": "0x10ffdc6a0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 22,
+      "address": "0x10ffdc590",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 23,
+      "address": "0x10ffdc480",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 24,
+      "address": "0x10ffdc370",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 25,
+      "address": "0x10ffdc260",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 26,
+      "address": "0x10ffdc150",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 27,
+      "address": "0x10ffdc040",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 28,
+      "address": "0x10ffdbf30",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 29,
+      "address": "0x10ffdbe20",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 30,
+      "address": "0x10ffdbd10",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 31,
+      "address": "0x10ffdbc00",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 32,
+      "address": "0x10ffdbaf0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 33,
+      "address": "0x10ffdb9e0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 34,
+      "address": "0x10ffdb8d0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 35,
+      "address": "0x10ffdb7c0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 36,
+      "address": "0x10ffdb6b0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 37,
+      "address": "0x10ffdb5a0",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 38,
+      "address": "0x10ffdb490",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 39,
+      "address": "0x10ffdb380",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 40,
+      "address": "0x10ffdb270",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 41,
+      "address": "0x10ffdb160",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 42,
+      "address": "0x10ffdb050",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 43,
+      "address": "0x10ffdaf40",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 44,
+      "address": "0x10ffdae30",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 45,
+      "address": "0x10ffdad20",
+      "error": "Object vtable outside the supported FM module"
+    },
+    {
+      "index": 46,
+      "address": "0x10ffdac10",
+      "error": "Object vtable outside the supported FM module"
+    }
+  ]
+}

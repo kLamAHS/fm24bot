@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-09-13T23:44:41.017530+00:00",
+  "label": "process-exited",
+  "responses": {
+    "/status": {
+      "http_status": 200,
+      "body": {
+        "connected": false,
+        "read_only": true,
+        "reason": "Invalid read range: 128, 8"
+      }
+    },
+    "/game": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "VirtualQueryEx 0x144801000: [WinError 5] Access is denied."
+      }
+    },
+    "/squad": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "VirtualQueryEx 0x144801000: [WinError 5] Access is denied."
+      }
+    },
+    "/players/96053555": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "VirtualQueryEx 0x144801000: [WinError 5] Access is denied."
+      }
+    },
+    "/players/29232937": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "VirtualQueryEx 0x144801000: [WinError 5] Access is denied."
+      }
+    }
+  }
+}

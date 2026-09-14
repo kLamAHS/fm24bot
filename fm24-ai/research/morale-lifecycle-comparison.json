@@ -1,0 +1,251 @@
+{
+  "captured_at": "2026-09-13T23:49:18.687759+00:00",
+  "checks": {
+    "earlier connected": true,
+    "earlier date": true,
+    "earlier all 31 morale labels": true,
+    "before-restart connected": true,
+    "before-restart date": true,
+    "before-restart all 31 morale labels": true,
+    "after-restart connected": true,
+    "after-restart date": true,
+    "after-restart all 31 morale labels": true,
+    "process-absent unavailable": true,
+    "startup-unloaded unavailable": true,
+    "process verified absent": true,
+    "new FM PID": true,
+    "new connection UUID": true,
+    "31 morale labels and ratings identical after restart": true,
+    "31 complete models match initial snapshot after restart": true,
+    "31 morale ratings restored after reload": true,
+    "22 morale changes between saves": true,
+    "sample heap addresses changed": true,
+    "same API helper through final reload and restart": true
+  },
+  "passed": true,
+  "before_fm_pid": 41840,
+  "after_fm_pid": 33644,
+  "changed_players": [
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Perfect",
+      "feb17_rating": 20
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "feb7": "Really Good",
+      "feb7_rating": 14,
+      "feb17": "Superb",
+      "feb17_rating": 18
+    },
+    {
+      "id": 28084868,
+      "name": "Jason McCarthy",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Perfect",
+      "feb17_rating": 20
+    },
+    {
+      "id": 28088510,
+      "name": "Kane Vincent-Young",
+      "feb7": "Really Good",
+      "feb7_rating": 14,
+      "feb17": "Extremely Good",
+      "feb17_rating": 16
+    },
+    {
+      "id": 28117405,
+      "name": "Jack Young",
+      "feb7": "Extremely Good",
+      "feb7_rating": 16,
+      "feb17": "Very Good",
+      "feb17_rating": 15
+    },
+    {
+      "id": 29000734,
+      "name": "Joe Jacobson",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Really Good",
+      "feb17_rating": 14
+    },
+    {
+      "id": 29086854,
+      "name": "Kieran Sadlier",
+      "feb7": "Extremely Good",
+      "feb7_rating": 16,
+      "feb17": "Very Good",
+      "feb17_rating": 15
+    },
+    {
+      "id": 29120249,
+      "name": "Brandon Hanlan",
+      "feb7": "Fairly Poor",
+      "feb7_rating": 6,
+      "feb17": "Fair",
+      "feb17_rating": 8
+    },
+    {
+      "id": 29141735,
+      "name": "Beryly Lubala",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Extremely Good",
+      "feb17_rating": 16
+    },
+    {
+      "id": 29214946,
+      "name": "Chris Forino",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Quite Good",
+      "feb17_rating": 12
+    },
+    {
+      "id": 30019004,
+      "name": "David Wheeler",
+      "feb7": "Excellent",
+      "feb7_rating": 17,
+      "feb17": "Perfect",
+      "feb17_rating": 20
+    },
+    {
+      "id": 61031508,
+      "name": "Jack Grimmer",
+      "feb7": "Excellent",
+      "feb7_rating": 17,
+      "feb17": "Good",
+      "feb17_rating": 13
+    },
+    {
+      "id": 28127270,
+      "name": "Saxon Earley",
+      "feb7": "Fairly Good",
+      "feb7_rating": 11,
+      "feb17": "Good",
+      "feb17_rating": 13
+    },
+    {
+      "id": 28127368,
+      "name": "Chem Campbell",
+      "feb7": "Quite Good",
+      "feb7_rating": 12,
+      "feb17": "Fairly Good",
+      "feb17_rating": 11
+    },
+    {
+      "id": 37078342,
+      "name": "Nigel Lonwijk",
+      "feb7": "Good",
+      "feb7_rating": 13,
+      "feb17": "Really Good",
+      "feb17_rating": 14
+    },
+    {
+      "id": 2000008139,
+      "name": "Dale Taylor",
+      "feb7": "Really Good",
+      "feb7_rating": 14,
+      "feb17": "Quite Good",
+      "feb17_rating": 12
+    },
+    {
+      "id": 2000020024,
+      "name": "Freddie Potts",
+      "feb7": "Very Good",
+      "feb7_rating": 15,
+      "feb17": "Extremely Good",
+      "feb17_rating": 16
+    },
+    {
+      "id": 2000118384,
+      "name": "Gideon Kodua",
+      "feb7": "Extremely Good",
+      "feb7_rating": 16,
+      "feb17": "Very Good",
+      "feb17_rating": 15
+    },
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "feb7": "Quite Good",
+      "feb7_rating": 12,
+      "feb17": "Fairly Good",
+      "feb17_rating": 11
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "feb7": "Quite Good",
+      "feb7_rating": 12,
+      "feb17": "Really Good",
+      "feb17_rating": 14
+    },
+    {
+      "id": 2000102722,
+      "name": "Wilson Odobert",
+      "feb7": "Excellent",
+      "feb7_rating": 17,
+      "feb17": "Very Good",
+      "feb17_rating": 15
+    },
+    {
+      "id": 49060933,
+      "name": "Maxime Estève",
+      "feb7": "Excellent",
+      "feb7_rating": 17,
+      "feb17": "Very Good",
+      "feb17_rating": 15
+    }
+  ],
+  "sample_player_addresses": [
+    {
+      "id": 29232937,
+      "before": "0x1173c5490",
+      "after": "0x115073ee0"
+    },
+    {
+      "id": 28028684,
+      "before": "0x116e0aa08",
+      "after": "0x114af3dd8"
+    },
+    {
+      "id": 14185872,
+      "before": "0x11673aa10",
+      "after": "0x1143da480"
+    }
+  ],
+  "full_models_equal_immediately_before_and_after_restart": false,
+  "other_field_differences": [
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "fields": {
+        "condition": {
+          "before": 99.9,
+          "after": 100.0
+        }
+      }
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "fields": {
+        "condition": {
+          "before": 97.06,
+          "after": 97.69
+        },
+        "match_sharpness": {
+          "before": 85.2,
+          "after": 84.23
+        }
+      }
+    }
+  ],
+  "scope": "Final API began on February 7 after adding confirmed value 17. It stayed running through return to February 17 and full FM exit/relaunch."
+}

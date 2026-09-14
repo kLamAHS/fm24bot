@@ -1,0 +1,55 @@
+{
+  "pid": 28168,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0xa4d7ab0",
+    "person_count": 82953
+  },
+  "query": "Ryan Tafazolli",
+  "matches": [
+    {
+      "player": {
+        "id": 28028684,
+        "name": "Ryan Tafazolli",
+        "first_name": "Ryan",
+        "surname": "Tafazolli",
+        "attributes": {
+          "acceleration": 7,
+          "pace": 7,
+          "passing": 13,
+          "finishing": 5,
+          "technique": 10,
+          "decisions": 11,
+          "vision": 8,
+          "work_rate": 13,
+          "strength": 14
+        }
+      },
+      "evidence": {
+        "person": "0x111daf8c0",
+        "player_base": "0x111daf648",
+        "uid_address": "0x111daf8cc",
+        "attribute_block": "0x111daf85f",
+        "raw_attributes": {
+          "acceleration": 35,
+          "pace": 35,
+          "passing": 66,
+          "finishing": 25,
+          "technique": 50,
+          "decisions": 57,
+          "vision": 40,
+          "work_rate": 65,
+          "strength": 72
+        },
+        "block_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+        "birth_day_raw": 271,
+        "birth_year_raw": 1991
+      }
+    }
+  ],
+  "undecodable_records": 0
+}

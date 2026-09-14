@@ -1,0 +1,1784 @@
+{
+  "captured_at": "2026-09-14T00:11:30.726475+00:00",
+  "pid": 36240,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0x632cc50",
+    "person_count": 82953
+  },
+  "players": [
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "finishing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 29232937,
+          "name": "Jude Bellingham",
+          "first_name": "Jude",
+          "surname": "Bellingham",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 17,
+            "finishing": 16,
+            "technique": 17,
+            "decisions": 15,
+            "vision": 16,
+            "work_rate": 18,
+            "strength": 13
+          },
+          "positions": [
+            "DM",
+            "MC",
+            "AMC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 16,
+            "ML": 10,
+            "MC": 20,
+            "MR": 10,
+            "AML": 13,
+            "AMC": 17,
+            "AMR": 12,
+            "ST": 10,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 86.32,
+          "match_sharpness": 100.0,
+          "date_of_birth": "2003-06-29",
+          "age": 20,
+          "age_as_of": "2024-02-17",
+          "morale": "Very Good",
+          "morale_rating": 15
+        },
+        "evidence": {
+          "person": "0x1195a6518",
+          "player_base": "0x1195a62a0",
+          "uid_address": "0x1195a6524",
+          "attribute_block": "0x1195a64b7",
+          "raw_attributes": {
+            "acceleration": 74,
+            "pace": 70,
+            "passing": 84,
+            "finishing": 79,
+            "technique": 84,
+            "decisions": 74,
+            "vision": 80,
+            "work_rate": 89,
+            "strength": 64
+          },
+          "block_hex": "3b544f46403b5654404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+          "birth_day_raw": 180,
+          "birth_year_raw": 2003,
+          "birth_hex": "b400d307",
+          "morale_address": "0x1195a64ff",
+          "morale_hex": "0f",
+          "morale_raw": 15,
+          "readiness_address": "0x1195a6494",
+          "readiness_hex": "1027b401b821df218f222622b100bc00f0ffc0030101010101100a140a0d110c0a0101",
+          "condition_raw": 8632,
+          "match_sharpness_raw": 10000,
+          "fatigue_raw": 436
+        }
+      }
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "finishing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 28028684,
+          "name": "Ryan Tafazolli",
+          "first_name": "Ryan",
+          "surname": "Tafazolli",
+          "attributes": {
+            "acceleration": 7,
+            "pace": 7,
+            "passing": 13,
+            "finishing": 5,
+            "technique": 10,
+            "decisions": 11,
+            "vision": 8,
+            "work_rate": 13,
+            "strength": 14
+          },
+          "positions": [
+            "DC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 20,
+            "DR": 1,
+            "DM": 1,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 75.4,
+          "match_sharpness": 99.0,
+          "date_of_birth": "1991-09-28",
+          "age": 32,
+          "age_as_of": "2024-02-17",
+          "morale": "Superb",
+          "morale_rating": 18
+        },
+        "evidence": {
+          "person": "0x119ee57e0",
+          "player_base": "0x119ee5568",
+          "uid_address": "0x119ee57ec",
+          "attribute_block": "0x119ee577f",
+          "raw_attributes": {
+            "acceleration": 35,
+            "pace": 35,
+            "passing": 66,
+            "finishing": 25,
+            "technique": 50,
+            "decisions": 57,
+            "vision": 40,
+            "work_rate": 65,
+            "strength": 72
+          },
+          "block_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+          "birth_day_raw": 271,
+          "birth_year_raw": 1991,
+          "birth_hex": "0f01c707",
+          "morale_address": "0x119ee57c7",
+          "morale_hex": "12",
+          "morale_raw": 18,
+          "readiness_address": "0x119ee575c",
+          "readiness_hex": "ac26a601741de714b61534106c007b00fb0f0000010101140101010101010101010101",
+          "condition_raw": 7540,
+          "match_sharpness_raw": 9900,
+          "fatigue_raw": 422
+        }
+      }
+    },
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "checks": {
+        "id": true,
+        "name": true,
+        "acceleration": true,
+        "pace": true,
+        "passing": true,
+        "technique": true,
+        "decisions": true,
+        "vision": true,
+        "work_rate": true,
+        "strength": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 14185872,
+          "name": "Franco Ravizzoli",
+          "first_name": "Franco",
+          "surname": "Ravizzoli",
+          "attributes": {
+            "acceleration": 8,
+            "pace": 7,
+            "passing": 5,
+            "finishing": 2,
+            "technique": 6,
+            "decisions": 7,
+            "vision": 7,
+            "work_rate": 7,
+            "strength": 10
+          },
+          "positions": [
+            "GK"
+          ],
+          "position_ratings": {
+            "GK": 20,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 100.0,
+          "match_sharpness": 50.5,
+          "date_of_birth": "1997-07-09",
+          "age": 26,
+          "age_as_of": "2024-02-17",
+          "morale": "Perfect",
+          "morale_rating": 20
+        },
+        "evidence": {
+          "person": "0x119fad718",
+          "player_base": "0x119fad4a0",
+          "uid_address": "0x119fad724",
+          "attribute_block": "0x119fad6b7",
+          "raw_attributes": {
+            "acceleration": 40,
+            "pace": 35,
+            "passing": 25,
+            "finishing": 10,
+            "technique": 30,
+            "decisions": 35,
+            "vision": 35,
+            "work_rate": 35,
+            "strength": 50
+          },
+          "block_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+          "birth_day_raw": 190,
+          "birth_year_raw": 1997,
+          "birth_hex": "be00cd07",
+          "morale_address": "0x119fad6ff",
+          "morale_hex": "14",
+          "morale_raw": 20,
+          "readiness_address": "0x119fad694",
+          "readiness_hex": "ba130cfe1027980fe80ae4033900690000000000140101010101010101010101010101",
+          "condition_raw": 10000,
+          "match_sharpness_raw": 5050,
+          "fatigue_raw": -500
+        }
+      }
+    }
+  ],
+  "squad": {
+    "count": 31,
+    "expected_count": 31,
+    "missing": [],
+    "extra": [],
+    "passed": true
+  },
+  "readiness": [
+    {
+      "id": 28028684,
+      "checks": {
+        "condition_raw": true,
+        "match_sharpness_raw": true,
+        "fatigue_raw": true,
+        "GK": true,
+        "DL": true,
+        "DC": true,
+        "DR": true,
+        "WBL": true,
+        "WBR": true,
+        "DM": true,
+        "ML": true,
+        "MC": true,
+        "MR": true,
+        "AML": true,
+        "AMC": true,
+        "AMR": true,
+        "ST": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 28028684,
+          "name": "Ryan Tafazolli",
+          "first_name": "Ryan",
+          "surname": "Tafazolli",
+          "attributes": {
+            "acceleration": 7,
+            "pace": 7,
+            "passing": 13,
+            "finishing": 5,
+            "technique": 10,
+            "decisions": 11,
+            "vision": 8,
+            "work_rate": 13,
+            "strength": 14
+          },
+          "positions": [
+            "DC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 20,
+            "DR": 1,
+            "DM": 1,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 75.4,
+          "match_sharpness": 99.0,
+          "date_of_birth": "1991-09-28",
+          "age": 32,
+          "age_as_of": "2024-02-17",
+          "morale": "Superb",
+          "morale_rating": 18
+        },
+        "evidence": {
+          "person": "0x119ee57e0",
+          "player_base": "0x119ee5568",
+          "uid_address": "0x119ee57ec",
+          "attribute_block": "0x119ee577f",
+          "raw_attributes": {
+            "acceleration": 35,
+            "pace": 35,
+            "passing": 66,
+            "finishing": 25,
+            "technique": 50,
+            "decisions": 57,
+            "vision": 40,
+            "work_rate": 65,
+            "strength": 72
+          },
+          "block_hex": "191e194b193c28421941280f0514140a0a333914420f3332642823194b41230f050a2323484923504b373b46404b3b373731414b3c3c",
+          "birth_day_raw": 271,
+          "birth_year_raw": 1991,
+          "birth_hex": "0f01c707",
+          "morale_address": "0x119ee57c7",
+          "morale_hex": "12",
+          "morale_raw": 18,
+          "readiness_address": "0x119ee575c",
+          "readiness_hex": "ac26a601741de714b61534106c007b00fb0f0000010101140101010101010101010101",
+          "condition_raw": 7540,
+          "match_sharpness_raw": 9900,
+          "fatigue_raw": 422
+        }
+      }
+    },
+    {
+      "id": 14185872,
+      "checks": {
+        "condition_raw": true,
+        "match_sharpness_raw": true,
+        "fatigue_raw": true,
+        "GK": true,
+        "DL": true,
+        "DC": true,
+        "DR": true,
+        "WBL": true,
+        "WBR": true,
+        "DM": true,
+        "ML": true,
+        "MC": true,
+        "MR": true,
+        "AML": true,
+        "AMC": true,
+        "AMR": true,
+        "ST": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 14185872,
+          "name": "Franco Ravizzoli",
+          "first_name": "Franco",
+          "surname": "Ravizzoli",
+          "attributes": {
+            "acceleration": 8,
+            "pace": 7,
+            "passing": 5,
+            "finishing": 2,
+            "technique": 6,
+            "decisions": 7,
+            "vision": 7,
+            "work_rate": 7,
+            "strength": 10
+          },
+          "positions": [
+            "GK"
+          ],
+          "position_ratings": {
+            "GK": 20,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 100.0,
+          "match_sharpness": 50.5,
+          "date_of_birth": "1997-07-09",
+          "age": 26,
+          "age_as_of": "2024-02-17",
+          "morale": "Perfect",
+          "morale_rating": 20
+        },
+        "evidence": {
+          "person": "0x119fad718",
+          "player_base": "0x119fad4a0",
+          "uid_address": "0x119fad724",
+          "attribute_block": "0x119fad6b7",
+          "raw_attributes": {
+            "acceleration": 40,
+            "pace": 35,
+            "passing": 25,
+            "finishing": 10,
+            "technique": 30,
+            "decisions": 35,
+            "vision": 35,
+            "work_rate": 35,
+            "strength": 50
+          },
+          "block_hex": "0f050a050a0f0519050a232d40233237322d232d282d231e286405081e230f323c3228183228233a14192d3c29193732233a3c322328",
+          "birth_day_raw": 190,
+          "birth_year_raw": 1997,
+          "birth_hex": "be00cd07",
+          "morale_address": "0x119fad6ff",
+          "morale_hex": "14",
+          "morale_raw": 20,
+          "readiness_address": "0x119fad694",
+          "readiness_hex": "ba130cfe1027980fe80ae4033900690000000000140101010101010101010101010101",
+          "condition_raw": 10000,
+          "match_sharpness_raw": 5050,
+          "fatigue_raw": -500
+        }
+      }
+    },
+    {
+      "id": 29232937,
+      "checks": {
+        "condition_raw": true,
+        "match_sharpness_raw": true,
+        "fatigue_raw": true,
+        "GK": true,
+        "DL": true,
+        "DC": true,
+        "DR": true,
+        "WBL": true,
+        "WBR": true,
+        "DM": true,
+        "ML": true,
+        "MC": true,
+        "MR": true,
+        "AML": true,
+        "AMC": true,
+        "AMR": true,
+        "ST": true
+      },
+      "passed": true,
+      "memory": {
+        "player": {
+          "id": 29232937,
+          "name": "Jude Bellingham",
+          "first_name": "Jude",
+          "surname": "Bellingham",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 17,
+            "finishing": 16,
+            "technique": 17,
+            "decisions": 15,
+            "vision": 16,
+            "work_rate": 18,
+            "strength": 13
+          },
+          "positions": [
+            "DM",
+            "MC",
+            "AMC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 16,
+            "ML": 10,
+            "MC": 20,
+            "MR": 10,
+            "AML": 13,
+            "AMC": 17,
+            "AMR": 12,
+            "ST": 10,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 86.32,
+          "match_sharpness": 100.0,
+          "date_of_birth": "2003-06-29",
+          "age": 20,
+          "age_as_of": "2024-02-17",
+          "morale": "Very Good",
+          "morale_rating": 15
+        },
+        "evidence": {
+          "person": "0x1195a6518",
+          "player_base": "0x1195a62a0",
+          "uid_address": "0x1195a6524",
+          "attribute_block": "0x1195a64b7",
+          "raw_attributes": {
+            "acceleration": 74,
+            "pace": 70,
+            "passing": 84,
+            "finishing": 79,
+            "technique": 84,
+            "decisions": 74,
+            "vision": 80,
+            "work_rate": 89,
+            "strength": 64
+          },
+          "block_hex": "3b544f46403b5654404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+          "birth_day_raw": 180,
+          "birth_year_raw": 2003,
+          "birth_hex": "b400d307",
+          "morale_address": "0x1195a64ff",
+          "morale_hex": "0f",
+          "morale_raw": 15,
+          "readiness_address": "0x1195a6494",
+          "readiness_hex": "1027b401b821df218f222622b100bc00f0ffc0030101010101100a140a0d110c0a0101",
+          "condition_raw": 8632,
+          "match_sharpness_raw": 10000,
+          "fatigue_raw": 436
+        }
+      }
+    }
+  ],
+  "squad_positions": [
+    {
+      "id": 14185872,
+      "expected": [
+        "GK"
+      ],
+      "actual": [
+        "GK"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28108492,
+      "expected": [
+        "GK"
+      ],
+      "actual": [
+        "GK"
+      ],
+      "passed": true
+    },
+    {
+      "id": 96053555,
+      "expected": [
+        "GK"
+      ],
+      "actual": [
+        "GK"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28028684,
+      "expected": [
+        "DC"
+      ],
+      "actual": [
+        "DC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28112991,
+      "expected": [
+        "DC"
+      ],
+      "actual": [
+        "DC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29214946,
+      "expected": [
+        "DC"
+      ],
+      "actual": [
+        "DC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 37078342,
+      "expected": [
+        "DR",
+        "DC"
+      ],
+      "actual": [
+        "DC",
+        "DR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29000734,
+      "expected": [
+        "DL",
+        "DC"
+      ],
+      "actual": [
+        "DL",
+        "DC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 49060933,
+      "expected": [
+        "DL",
+        "DC"
+      ],
+      "actual": [
+        "DL",
+        "DC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28084868,
+      "expected": [
+        "DR",
+        "DC",
+        "WBR"
+      ],
+      "actual": [
+        "DC",
+        "DR",
+        "WBR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29141819,
+      "expected": [
+        "DC",
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DC",
+        "DM",
+        "MC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 61031508,
+      "expected": [
+        "DR",
+        "DC",
+        "WBR"
+      ],
+      "actual": [
+        "DC",
+        "DR",
+        "WBR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28088510,
+      "expected": [
+        "DR",
+        "DL",
+        "WBR",
+        "WBL",
+        "MR",
+        "AMR"
+      ],
+      "actual": [
+        "DL",
+        "DR",
+        "MR",
+        "AMR",
+        "WBL",
+        "WBR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28127270,
+      "expected": [
+        "DL",
+        "WBL",
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DL",
+        "DM",
+        "MC",
+        "WBL"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28117405,
+      "expected": [
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DM",
+        "MC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29064636,
+      "expected": [
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DM",
+        "MC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29232937,
+      "expected": [
+        "DM",
+        "MC",
+        "AMC"
+      ],
+      "actual": [
+        "DM",
+        "MC",
+        "AMC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 30019004,
+      "expected": [
+        "DM",
+        "MR",
+        "MC"
+      ],
+      "actual": [
+        "DM",
+        "MC",
+        "MR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 2000020024,
+      "expected": [
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DM",
+        "MC"
+      ],
+      "passed": true
+    },
+    {
+      "id": 61057162,
+      "expected": [
+        "WBL",
+        "DM",
+        "MC"
+      ],
+      "actual": [
+        "DM",
+        "MC",
+        "WBL"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28127368,
+      "expected": [
+        "MR",
+        "ML",
+        "MC",
+        "AMR",
+        "AML",
+        "AMC"
+      ],
+      "actual": [
+        "ML",
+        "MC",
+        "MR",
+        "AML",
+        "AMC",
+        "AMR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 30002284,
+      "expected": [
+        "MR",
+        "AMR",
+        "AML",
+        "AMC"
+      ],
+      "actual": [
+        "MR",
+        "AML",
+        "AMC",
+        "AMR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 78090138,
+      "expected": [
+        "MR",
+        "ML",
+        "MC",
+        "AMR",
+        "AML",
+        "AMC",
+        "ST"
+      ],
+      "actual": [
+        "ML",
+        "MC",
+        "MR",
+        "AML",
+        "AMC",
+        "AMR",
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 2000061312,
+      "expected": [
+        "MR",
+        "ML",
+        "AMR",
+        "AML",
+        "ST"
+      ],
+      "actual": [
+        "ML",
+        "MR",
+        "AML",
+        "AMR",
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 2000102722,
+      "expected": [
+        "MR",
+        "ML",
+        "AMR",
+        "AML",
+        "ST"
+      ],
+      "actual": [
+        "ML",
+        "MR",
+        "AML",
+        "AMR",
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29086854,
+      "expected": [
+        "AMR",
+        "AML"
+      ],
+      "actual": [
+        "AML",
+        "AMR"
+      ],
+      "passed": true
+    },
+    {
+      "id": 2000118384,
+      "expected": [
+        "AMR",
+        "AML",
+        "AMC",
+        "ST"
+      ],
+      "actual": [
+        "AML",
+        "AMC",
+        "AMR",
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 28115830,
+      "expected": [
+        "ST"
+      ],
+      "actual": [
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 29120249,
+      "expected": [
+        "ST"
+      ],
+      "actual": [
+        "ST"
+      ],
+      "passed": true
+    },
+    {
+      "id": 2000008139,
+      "expected": [
+        "ST"
+      ],
+      "actual": [
+        "ST"
+      ],
+      "passed": true
+    }
+  ],
+  "dates": {
+    "checks": {
+      "game_date": true,
+      "squad_names": true,
+      "squad_age_reference_date": true
+    },
+    "players": [
+      {
+        "id": 28115830,
+        "checks": {
+          "id": true,
+          "name": true,
+          "date_of_birth": true,
+          "age": true,
+          "age_as_of": true
+        },
+        "passed": true,
+        "memory": {
+          "player": {
+            "id": 28115830,
+            "name": "D'Mani Mellor",
+            "first_name": "D'Mani",
+            "surname": "Mellor",
+            "attributes": {
+              "acceleration": 15,
+              "pace": 14,
+              "passing": 8,
+              "finishing": 11,
+              "technique": 10,
+              "decisions": 9,
+              "vision": 5,
+              "work_rate": 15,
+              "strength": 9
+            },
+            "positions": [
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 12,
+              "MC": 1,
+              "MR": 13,
+              "AML": 14,
+              "AMC": 10,
+              "AMR": 14,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": 97.69,
+            "match_sharpness": 84.23,
+            "date_of_birth": "2000-09-20",
+            "age": 23,
+            "age_as_of": "2024-02-17",
+            "morale": "Really Good",
+            "morale_rating": 14
+          },
+          "evidence": {
+            "person": "0x119d48c48",
+            "player_base": "0x119d489d0",
+            "uid_address": "0x119d48c54",
+            "attribute_block": "0x119d48be7",
+            "raw_attributes": {
+              "acceleration": 74,
+              "pace": 69,
+              "passing": 39,
+              "finishing": 54,
+              "technique": 49,
+              "decisions": 44,
+              "vision": 24,
+              "work_rate": 74,
+              "strength": 44
+            },
+            "block_hex": "1d273631180e36272723180a140a0f0f0a282c0a220f363132642813454a130f0f054a132c3c4534142836373046360f324d4b37282c",
+            "birth_day_raw": 264,
+            "birth_year_raw": 2000,
+            "birth_hex": "0801d007",
+            "morale_address": "0x119d48c2f",
+            "morale_hex": "0e",
+            "morale_raw": 14,
+            "readiness_address": "0x119d48bc4",
+            "readiness_hex": "e7202cff29264c0faa0fc90953005e00000000000101010101010c010d0e0a0e140101",
+            "condition_raw": 9769,
+            "match_sharpness_raw": 8423,
+            "fatigue_raw": -212
+          }
+        }
+      },
+      {
+        "id": 61031508,
+        "checks": {
+          "id": true,
+          "name": true,
+          "date_of_birth": true,
+          "age": true,
+          "age_as_of": true
+        },
+        "passed": true,
+        "memory": {
+          "player": {
+            "id": 61031508,
+            "name": "Jack Grimmer",
+            "first_name": "Jack",
+            "surname": "Grimmer",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 11,
+              "passing": 11,
+              "finishing": 6,
+              "technique": 12,
+              "decisions": 10,
+              "vision": 11,
+              "work_rate": 15,
+              "strength": 10
+            },
+            "positions": [
+              "DC",
+              "DR",
+              "WBR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 15,
+              "DR": 20,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 15
+            },
+            "condition": 95.89,
+            "match_sharpness": 57.09,
+            "date_of_birth": "1994-01-25",
+            "age": 30,
+            "age_as_of": "2024-02-17",
+            "morale": "Good",
+            "morale_rating": 13
+          },
+          "evidence": {
+            "person": "0x1192cdcb8",
+            "player_base": "0x1192cda40",
+            "uid_address": "0x1192cdcc4",
+            "attribute_block": "0x1192cdc57",
+            "raw_attributes": {
+              "acceleration": 54,
+              "pace": 54,
+              "passing": 54,
+              "finishing": 29,
+              "technique": 59,
+              "decisions": 49,
+              "vision": 54,
+              "work_rate": 74,
+              "strength": 49
+            },
+            "block_hex": "3b351d3b1e3631361d40360505050a0f0f36310a3b0f3b3b2d642331454a380a0f0a362231403636321e4032433240322349463c3631",
+            "birth_day_raw": 25,
+            "birth_year_raw": 1994,
+            "birth_hex": "1900ca07",
+            "morale_address": "0x1192cdc9f",
+            "morale_hex": "0d",
+            "morale_raw": 13,
+            "readiness_address": "0x1192cdc34",
+            "readiness_hex": "4d160aff7525e413b314870965007f00000000000101010f140101010101010101010f",
+            "condition_raw": 9589,
+            "match_sharpness_raw": 5709,
+            "fatigue_raw": -246
+          }
+        }
+      },
+      {
+        "id": 29232937,
+        "checks": {
+          "id": true,
+          "name": true,
+          "date_of_birth": true,
+          "age": true,
+          "age_as_of": true
+        },
+        "passed": true,
+        "memory": {
+          "player": {
+            "id": 29232937,
+            "name": "Jude Bellingham",
+            "first_name": "Jude",
+            "surname": "Bellingham",
+            "attributes": {
+              "acceleration": 15,
+              "pace": 14,
+              "passing": 17,
+              "finishing": 16,
+              "technique": 17,
+              "decisions": 15,
+              "vision": 16,
+              "work_rate": 18,
+              "strength": 13
+            },
+            "positions": [
+              "DM",
+              "MC",
+              "AMC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 16,
+              "ML": 10,
+              "MC": 20,
+              "MR": 10,
+              "AML": 13,
+              "AMC": 17,
+              "AMR": 12,
+              "ST": 10,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": 86.32,
+            "match_sharpness": 100.0,
+            "date_of_birth": "2003-06-29",
+            "age": 20,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15
+          },
+          "evidence": {
+            "person": "0x1195a6518",
+            "player_base": "0x1195a62a0",
+            "uid_address": "0x1195a6524",
+            "attribute_block": "0x1195a64b7",
+            "raw_attributes": {
+              "acceleration": 74,
+              "pace": 70,
+              "passing": 84,
+              "finishing": 79,
+              "technique": 84,
+              "decisions": 74,
+              "vision": 80,
+              "work_rate": 89,
+              "strength": 64
+            },
+            "block_hex": "3b544f46403b5654404a500a0f0f050f05514a053c054f543c645a364f591e0f0a054a364051463c563c455550554a501e4650645446",
+            "birth_day_raw": 180,
+            "birth_year_raw": 2003,
+            "birth_hex": "b400d307",
+            "morale_address": "0x1195a64ff",
+            "morale_hex": "0f",
+            "morale_raw": 15,
+            "readiness_address": "0x1195a6494",
+            "readiness_hex": "1027b401b821df218f222622b100bc00f0ffc0030101010101100a140a0d110c0a0101",
+            "condition_raw": 8632,
+            "match_sharpness_raw": 10000,
+            "fatigue_raw": 436
+          }
+        }
+      },
+      {
+        "id": 27010680,
+        "checks": {
+          "id": true,
+          "name": true,
+          "date_of_birth": true,
+          "age": true,
+          "age_as_of": true
+        },
+        "passed": true,
+        "memory": {
+          "player": {
+            "id": 27010680,
+            "name": "Christian Eriksen",
+            "first_name": "Christian",
+            "surname": "Eriksen",
+            "attributes": {
+              "acceleration": 10,
+              "pace": 11,
+              "passing": 17,
+              "finishing": 14,
+              "technique": 17,
+              "decisions": 16,
+              "vision": 17,
+              "work_rate": 12,
+              "strength": 7
+            },
+            "positions": [
+              "DM",
+              "MC",
+              "AML",
+              "AMC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 16,
+              "ML": 12,
+              "MC": 20,
+              "MR": 12,
+              "AML": 15,
+              "AMC": 19,
+              "AMR": 13,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": 74.0,
+            "match_sharpness": 100.0,
+            "date_of_birth": "1992-02-14",
+            "age": 32,
+            "age_as_of": "2024-02-17",
+            "morale": "Really Good",
+            "morale_rating": 14
+          },
+          "evidence": {
+            "person": "0x119f197e8",
+            "player_base": "0x119f19570",
+            "uid_address": "0x119f197f4",
+            "attribute_block": "0x119f19787",
+            "raw_attributes": {
+              "acceleration": 51,
+              "pace": 56,
+              "passing": 85,
+              "finishing": 70,
+              "technique": 84,
+              "decisions": 79,
+              "vision": 87,
+              "work_rate": 59,
+              "strength": 34
+            },
+            "block_hex": "4c35460d46134055501d570f050f0a0a05454f0a230f5b544b644649553b0e050f0f334a223c3826280f3b1e44233d41143f55504d45",
+            "birth_day_raw": 45,
+            "birth_year_raw": 1992,
+            "birth_hex": "2d00c807",
+            "morale_address": "0x119f197cf",
+            "morale_hex": "0e",
+            "morale_raw": 14,
+            "readiness_address": "0x119f19764",
+            "readiness_hex": "10272e00e81cc01f711dda1b9300aa00ffff00000101010101100c140c0f130d010101",
+            "condition_raw": 7400,
+            "match_sharpness_raw": 10000,
+            "fatigue_raw": 46
+          }
+        }
+      }
+    ],
+    "squad_ages": [
+      {
+        "name": "Franco Ravizzoli",
+        "expected": 26,
+        "actual": 26,
+        "passed": true
+      },
+      {
+        "name": "Arijanet Murić",
+        "expected": 25,
+        "actual": 25,
+        "passed": true
+      },
+      {
+        "name": "Maksymilian Stryjek",
+        "expected": 27,
+        "actual": 27,
+        "passed": true
+      },
+      {
+        "name": "Ryan Tafazolli",
+        "expected": 32,
+        "actual": 32,
+        "passed": true
+      },
+      {
+        "name": "Jack Wakely",
+        "expected": 23,
+        "actual": 23,
+        "passed": true
+      },
+      {
+        "name": "Chris Forino",
+        "expected": 23,
+        "actual": 23,
+        "passed": true
+      },
+      {
+        "name": "Nigel Lonwijk",
+        "expected": 21,
+        "actual": 21,
+        "passed": true
+      },
+      {
+        "name": "Joe Jacobson",
+        "expected": 37,
+        "actual": 37,
+        "passed": true
+      },
+      {
+        "name": "Maxime Estève",
+        "expected": 21,
+        "actual": 21,
+        "passed": true
+      },
+      {
+        "name": "Jason McCarthy",
+        "expected": 28,
+        "actual": 28,
+        "passed": true
+      },
+      {
+        "name": "Matt Butcher",
+        "expected": 26,
+        "actual": 26,
+        "passed": true
+      },
+      {
+        "name": "Jack Grimmer",
+        "expected": 30,
+        "actual": 30,
+        "passed": true
+      },
+      {
+        "name": "Kane Vincent-Young",
+        "expected": 27,
+        "actual": 27,
+        "passed": true
+      },
+      {
+        "name": "Saxon Earley",
+        "expected": 21,
+        "actual": 21,
+        "passed": true
+      },
+      {
+        "name": "Jack Young",
+        "expected": 23,
+        "actual": 23,
+        "passed": true
+      },
+      {
+        "name": "Josh Scowen",
+        "expected": 30,
+        "actual": 30,
+        "passed": true
+      },
+      {
+        "name": "Jude Bellingham",
+        "expected": 20,
+        "actual": 20,
+        "passed": true
+      },
+      {
+        "name": "David Wheeler",
+        "expected": 33,
+        "actual": 33,
+        "passed": true
+      },
+      {
+        "name": "Freddie Potts",
+        "expected": 20,
+        "actual": 20,
+        "passed": true
+      },
+      {
+        "name": "Luke Leahy",
+        "expected": 31,
+        "actual": 31,
+        "passed": true
+      },
+      {
+        "name": "Chem Campbell",
+        "expected": 21,
+        "actual": 21,
+        "passed": true
+      },
+      {
+        "name": "Beryly Lubala",
+        "expected": 26,
+        "actual": 26,
+        "passed": true
+      },
+      {
+        "name": "Garath McCleary",
+        "expected": 36,
+        "actual": 36,
+        "passed": true
+      },
+      {
+        "name": "Darwin Núñez",
+        "expected": 24,
+        "actual": 24,
+        "passed": true
+      },
+      {
+        "name": "Luca Koleosho",
+        "expected": 19,
+        "actual": 19,
+        "passed": true
+      },
+      {
+        "name": "Wilson Odobert",
+        "expected": 19,
+        "actual": 19,
+        "passed": true
+      },
+      {
+        "name": "Kieran Sadlier",
+        "expected": 29,
+        "actual": 29,
+        "passed": true
+      },
+      {
+        "name": "Gideon Kodua",
+        "expected": 19,
+        "actual": 19,
+        "passed": true
+      },
+      {
+        "name": "D'Mani Mellor",
+        "expected": 23,
+        "actual": 23,
+        "passed": true
+      },
+      {
+        "name": "Brandon Hanlan",
+        "expected": 26,
+        "actual": 26,
+        "passed": true
+      },
+      {
+        "name": "Dale Taylor",
+        "expected": 20,
+        "actual": 20,
+        "passed": true
+      }
+    ],
+    "resolution": {
+      "date": "2024-02-17",
+      "address": "0x14631d5bc",
+      "target_rva": "0x631d5bc",
+      "signature_rvas": [
+        "0x20b566b"
+      ],
+      "raw_hex": "3012e807"
+    },
+    "passed": true
+  },
+  "morale": [
+    {
+      "id": 14185872,
+      "name": "Franco Ravizzoli",
+      "actual": "Perfect",
+      "expected": "Perfect",
+      "passed": true
+    },
+    {
+      "id": 28028684,
+      "name": "Ryan Tafazolli",
+      "actual": "Superb",
+      "expected": "Superb",
+      "passed": true
+    },
+    {
+      "id": 28084868,
+      "name": "Jason McCarthy",
+      "actual": "Perfect",
+      "expected": "Perfect",
+      "passed": true
+    },
+    {
+      "id": 28088510,
+      "name": "Kane Vincent-Young",
+      "actual": "Extremely Good",
+      "expected": "Extremely Good",
+      "passed": true
+    },
+    {
+      "id": 28117405,
+      "name": "Jack Young",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 29000734,
+      "name": "Joe Jacobson",
+      "actual": "Really Good",
+      "expected": "Really Good",
+      "passed": true
+    },
+    {
+      "id": 29064636,
+      "name": "Josh Scowen",
+      "actual": "Extremely Poor",
+      "expected": "Extremely Poor",
+      "passed": true
+    },
+    {
+      "id": 29086854,
+      "name": "Kieran Sadlier",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 29120249,
+      "name": "Brandon Hanlan",
+      "actual": "Fair",
+      "expected": "Fair",
+      "passed": true
+    },
+    {
+      "id": 29141735,
+      "name": "Beryly Lubala",
+      "actual": "Extremely Good",
+      "expected": "Extremely Good",
+      "passed": true
+    },
+    {
+      "id": 29141819,
+      "name": "Matt Butcher",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 29214946,
+      "name": "Chris Forino",
+      "actual": "Quite Good",
+      "expected": "Quite Good",
+      "passed": true
+    },
+    {
+      "id": 30002284,
+      "name": "Garath McCleary",
+      "actual": "Fairly Poor",
+      "expected": "Fairly Poor",
+      "passed": true
+    },
+    {
+      "id": 30019004,
+      "name": "David Wheeler",
+      "actual": "Perfect",
+      "expected": "Perfect",
+      "passed": true
+    },
+    {
+      "id": 61031508,
+      "name": "Jack Grimmer",
+      "actual": "Good",
+      "expected": "Good",
+      "passed": true
+    },
+    {
+      "id": 61057162,
+      "name": "Luke Leahy",
+      "actual": "Extremely Good",
+      "expected": "Extremely Good",
+      "passed": true
+    },
+    {
+      "id": 96053555,
+      "name": "Maksymilian Stryjek",
+      "actual": "Extremely Poor",
+      "expected": "Extremely Poor",
+      "passed": true
+    },
+    {
+      "id": 28127270,
+      "name": "Saxon Earley",
+      "actual": "Good",
+      "expected": "Good",
+      "passed": true
+    },
+    {
+      "id": 28127368,
+      "name": "Chem Campbell",
+      "actual": "Fairly Good",
+      "expected": "Fairly Good",
+      "passed": true
+    },
+    {
+      "id": 37078342,
+      "name": "Nigel Lonwijk",
+      "actual": "Really Good",
+      "expected": "Really Good",
+      "passed": true
+    },
+    {
+      "id": 2000008139,
+      "name": "Dale Taylor",
+      "actual": "Quite Good",
+      "expected": "Quite Good",
+      "passed": true
+    },
+    {
+      "id": 2000020024,
+      "name": "Freddie Potts",
+      "actual": "Extremely Good",
+      "expected": "Extremely Good",
+      "passed": true
+    },
+    {
+      "id": 2000118384,
+      "name": "Gideon Kodua",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 28112991,
+      "name": "Jack Wakely",
+      "actual": "Fairly Good",
+      "expected": "Fairly Good",
+      "passed": true
+    },
+    {
+      "id": 28115830,
+      "name": "D'Mani Mellor",
+      "actual": "Really Good",
+      "expected": "Really Good",
+      "passed": true
+    },
+    {
+      "id": 2000102722,
+      "name": "Wilson Odobert",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 2000061312,
+      "name": "Luca Koleosho",
+      "actual": "Okay",
+      "expected": "Okay",
+      "passed": true
+    },
+    {
+      "id": 49060933,
+      "name": "Maxime Estève",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 29232937,
+      "name": "Jude Bellingham",
+      "actual": "Very Good",
+      "expected": "Very Good",
+      "passed": true
+    },
+    {
+      "id": 28108492,
+      "name": "Arijanet Murić",
+      "actual": "Okay",
+      "expected": "Okay",
+      "passed": true
+    },
+    {
+      "id": 78090138,
+      "name": "Darwin Núñez",
+      "actual": "Fairly Poor",
+      "expected": "Fairly Poor",
+      "passed": true
+    }
+  ],
+  "context": {
+    "manager_person": "0xcc34e960",
+    "manager_base": "0xcc34e510",
+    "team": "0x10f35f938",
+    "club": "0xd8b34510",
+    "roster_begin": "0xd8e5ebf0",
+    "roster_end": "0xd8e5ece8",
+    "roster_count": 31,
+    "manager_global_rva": "0x6365118"
+  },
+  "passed": true
+}

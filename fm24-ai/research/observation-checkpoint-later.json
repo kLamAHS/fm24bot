@@ -1,0 +1,2117 @@
+{
+  "captured_at": "2026-09-14T01:34:54.183842+00:00",
+  "routes": {
+    "/status": {
+      "status": 200,
+      "body": {
+        "connected": true,
+        "pid": 36240,
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "read_only": true,
+        "build": "24.4.2+2081827",
+        "game_date": "2024-02-17",
+        "capabilities": [
+          "player_identity",
+          "nine_attributes",
+          "positions",
+          "condition",
+          "match_sharpness",
+          "readiness_freshness",
+          "morale",
+          "date_of_birth",
+          "age",
+          "game_date",
+          "current_manager",
+          "current_club",
+          "team_roster",
+          "club_finances",
+          "transfer_budget",
+          "wage_budget"
+        ],
+        "unresolved": [
+          "fixtures",
+          "match",
+          "time_of_day",
+          "finance_breakdowns",
+          "scouting_budget",
+          "debts"
+        ],
+        "validation_scope": "see research reports for per-field UI, reload and restart coverage"
+      },
+      "seconds": 3.136
+    },
+    "/game": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:57.328574+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": {
+          "date": "2024-02-17",
+          "time": "08:00"
+        }
+      },
+      "seconds": 0.011
+    },
+    "/manager": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:57.355483+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": {
+          "id": 2002077023,
+          "name": "Liam Boyd"
+        }
+      },
+      "seconds": 0.027
+    },
+    "/finances": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:57.398806+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": {
+          "club_id": 742,
+          "currency": "GBP",
+          "balance": 10732008,
+          "transfer_budget": 1720251,
+          "wage_budget_weekly": 78979,
+          "payroll_spending_weekly": 431417,
+          "as_of": "2024-02-17"
+        }
+      },
+      "seconds": 0.043
+    },
+    "/fixtures": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:58.179536+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": {
+          "club_id": 742,
+          "team_id": 742,
+          "calendar_year": 2024,
+          "as_of": "2024-02-17",
+          "fixtures": [
+            {
+              "date": "2024-01-01",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 620,
+                "club_id": 620,
+                "club_name": "Bristol Rovers"
+              },
+              "status": "played",
+              "home_score": 0,
+              "away_score": 0
+            },
+            {
+              "date": "2024-01-06",
+              "time": "15:00",
+              "competition_id": 1301426,
+              "competition_name": "FA Cup",
+              "home": {
+                "team_id": 697,
+                "club_id": 697,
+                "club_name": "Plymouth Argyle"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "played",
+              "home_score": 3,
+              "away_score": 0
+            },
+            {
+              "date": "2024-01-09",
+              "time": "20:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 4001706,
+                "club_id": 4001706,
+                "club_name": "Burton Albion"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "played",
+              "home_score": 2,
+              "away_score": 4
+            },
+            {
+              "date": "2024-01-13",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 675,
+                "club_id": 675,
+                "club_name": "Lincoln City"
+              },
+              "status": "played",
+              "home_score": 2,
+              "away_score": 0
+            },
+            {
+              "date": "2024-01-20",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 698,
+                "club_id": 698,
+                "club_name": "Port Vale"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "played",
+              "home_score": 2,
+              "away_score": 2
+            },
+            {
+              "date": "2024-01-27",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 5103834,
+                "club_id": 5103834,
+                "club_name": "Fleetwood Town"
+              },
+              "status": "played",
+              "home_score": 2,
+              "away_score": 0
+            },
+            {
+              "date": "2024-02-03",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 631,
+                "club_id": 631,
+                "club_name": "Cheltenham Town"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "played",
+              "home_score": 0,
+              "away_score": 0
+            },
+            {
+              "date": "2024-02-10",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 696,
+                "club_id": 696,
+                "club_name": "Peterborough United"
+              },
+              "status": "played",
+              "home_score": 4,
+              "away_score": 2
+            },
+            {
+              "date": "2024-02-13",
+              "time": "19:45",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 614,
+                "club_id": 614,
+                "club_name": "Bolton Wanderers"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "played",
+              "home_score": 3,
+              "away_score": 0
+            },
+            {
+              "date": "2024-02-16",
+              "time": "19:45",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 695,
+                "club_id": 695,
+                "club_name": "Oxford United"
+              },
+              "status": "played",
+              "home_score": 3,
+              "away_score": 1
+            },
+            {
+              "date": "2024-02-24",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 719,
+                "club_id": 719,
+                "club_name": "Stevenage"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-02",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 606,
+                "club_id": 606,
+                "club_name": "Barnsley"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-09",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 702,
+                "club_id": 702,
+                "club_name": "Reading"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-12",
+              "time": "19:45",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 737,
+                "club_id": 737,
+                "club_name": "Wigan Athletic"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-16",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 689,
+                "club_id": 689,
+                "club_name": "Northampton Town"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-23",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 624,
+                "club_id": 624,
+                "club_name": "Cambridge United"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-03-29",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 699,
+                "club_id": 699,
+                "club_name": "Portsmouth"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-04-01",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 613,
+                "club_id": 613,
+                "club_name": "Blackpool F.C."
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-04-06",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 645,
+                "club_id": 645,
+                "club_name": "Derby County"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-04-13",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 710,
+                "club_id": 710,
+                "club_name": "Shrewsbury Town"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-04-20",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 626,
+                "club_id": 626,
+                "club_name": "Carlisle United"
+              },
+              "away": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            },
+            {
+              "date": "2024-04-27",
+              "time": "15:00",
+              "competition_id": 13,
+              "competition_name": "Sky Bet League One",
+              "home": {
+                "team_id": 742,
+                "club_id": 742,
+                "club_name": "Wycombe Wanderers"
+              },
+              "away": {
+                "team_id": 628,
+                "club_id": 628,
+                "club_name": "Charlton Athletic"
+              },
+              "status": "scheduled",
+              "home_score": null,
+              "away_score": null
+            }
+          ]
+        }
+      },
+      "seconds": 0.781
+    },
+    "/squad": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:58.476265+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": [
+          {
+            "id": 14185872,
+            "name": "Franco Ravizzoli",
+            "first_name": "Franco",
+            "surname": "Ravizzoli",
+            "attributes": {
+              "acceleration": 8,
+              "pace": 7,
+              "passing": 5,
+              "finishing": 2,
+              "technique": 6,
+              "decisions": 7,
+              "vision": 7,
+              "work_rate": 7,
+              "strength": 10
+            },
+            "positions": [
+              "GK"
+            ],
+            "position_ratings": {
+              "GK": 20,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1997-07-09",
+            "age": 26,
+            "age_as_of": "2024-02-17",
+            "morale": "Perfect",
+            "morale_rating": 20,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28028684,
+            "name": "Ryan Tafazolli",
+            "first_name": "Ryan",
+            "surname": "Tafazolli",
+            "attributes": {
+              "acceleration": 7,
+              "pace": 7,
+              "passing": 13,
+              "finishing": 5,
+              "technique": 10,
+              "decisions": 11,
+              "vision": 8,
+              "work_rate": 13,
+              "strength": 14
+            },
+            "positions": [
+              "DC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 20,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1991-09-28",
+            "age": 32,
+            "age_as_of": "2024-02-17",
+            "morale": "Superb",
+            "morale_rating": 18,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28084868,
+            "name": "Jason McCarthy",
+            "first_name": "Jason",
+            "surname": "McCarthy",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 12,
+              "passing": 10,
+              "finishing": 7,
+              "technique": 10,
+              "decisions": 10,
+              "vision": 10,
+              "work_rate": 15,
+              "strength": 13
+            },
+            "positions": [
+              "DC",
+              "DR",
+              "WBR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 10,
+              "DC": 15,
+              "DR": 20,
+              "DM": 10,
+              "ML": 1,
+              "MC": 10,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 15
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1995-11-07",
+            "age": 28,
+            "age_as_of": "2024-02-17",
+            "morale": "Perfect",
+            "morale_rating": 20,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28088510,
+            "name": "Kane Vincent-Young",
+            "first_name": "Kane",
+            "surname": "Vincent-Young",
+            "attributes": {
+              "acceleration": 13,
+              "pace": 13,
+              "passing": 11,
+              "finishing": 9,
+              "technique": 12,
+              "decisions": 9,
+              "vision": 8,
+              "work_rate": 14,
+              "strength": 11
+            },
+            "positions": [
+              "DL",
+              "DR",
+              "MR",
+              "AMR",
+              "WBL",
+              "WBR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 18,
+              "DC": 8,
+              "DR": 20,
+              "DM": 4,
+              "ML": 11,
+              "MC": 1,
+              "MR": 15,
+              "AML": 7,
+              "AMC": 1,
+              "AMR": 15,
+              "ST": 1,
+              "WBL": 18,
+              "WBR": 20
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1996-03-15",
+            "age": 27,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Good",
+            "morale_rating": 16,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28117405,
+            "name": "Jack Young",
+            "first_name": "Jack",
+            "surname": "Young",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 9,
+              "passing": 10,
+              "finishing": 6,
+              "technique": 11,
+              "decisions": 10,
+              "vision": 10,
+              "work_rate": 12,
+              "strength": 8
+            },
+            "positions": [
+              "DM",
+              "MC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 20,
+              "ML": 1,
+              "MC": 18,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2000-10-21",
+            "age": 23,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29000734,
+            "name": "Joe Jacobson",
+            "first_name": "Joe",
+            "surname": "Jacobson",
+            "attributes": {
+              "acceleration": 7,
+              "pace": 7,
+              "passing": 12,
+              "finishing": 8,
+              "technique": 15,
+              "decisions": 11,
+              "vision": 13,
+              "work_rate": 15,
+              "strength": 10
+            },
+            "positions": [
+              "DL",
+              "DC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 20,
+              "DC": 15,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 10,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1986-11-17",
+            "age": 37,
+            "age_as_of": "2024-02-17",
+            "morale": "Really Good",
+            "morale_rating": 14,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29064636,
+            "name": "Josh Scowen",
+            "first_name": "Josh",
+            "surname": "Scowen",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 12,
+              "passing": 12,
+              "finishing": 6,
+              "technique": 11,
+              "decisions": 11,
+              "vision": 10,
+              "work_rate": 17,
+              "strength": 11
+            },
+            "positions": [
+              "DM",
+              "MC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 8,
+              "DM": 15,
+              "ML": 1,
+              "MC": 20,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 12,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1993-03-28",
+            "age": 30,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Poor",
+            "morale_rating": 2,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29086854,
+            "name": "Kieran Sadlier",
+            "first_name": "Kieran",
+            "surname": "Sadlier",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 12,
+              "passing": 12,
+              "finishing": 8,
+              "technique": 14,
+              "decisions": 11,
+              "vision": 12,
+              "work_rate": 9,
+              "strength": 8
+            },
+            "positions": [
+              "AML",
+              "AMR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 14,
+              "MC": 12,
+              "MR": 14,
+              "AML": 20,
+              "AMC": 14,
+              "AMR": 15,
+              "ST": 1,
+              "WBL": 12,
+              "WBR": 12
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1994-09-14",
+            "age": 29,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29120249,
+            "name": "Brandon Hanlan",
+            "first_name": "Brandon",
+            "surname": "Hanlan",
+            "attributes": {
+              "acceleration": 14,
+              "pace": 16,
+              "passing": 12,
+              "finishing": 12,
+              "technique": 14,
+              "decisions": 8,
+              "vision": 11,
+              "work_rate": 14,
+              "strength": 14
+            },
+            "positions": [
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 14,
+              "AMC": 1,
+              "AMR": 14,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1997-05-31",
+            "age": 26,
+            "age_as_of": "2024-02-17",
+            "morale": "Fair",
+            "morale_rating": 8,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29141735,
+            "name": "Beryly Lubala",
+            "first_name": "Beryly",
+            "surname": "Lubala",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 12,
+              "passing": 10,
+              "finishing": 11,
+              "technique": 10,
+              "decisions": 8,
+              "vision": 10,
+              "work_rate": 11,
+              "strength": 12
+            },
+            "positions": [
+              "ML",
+              "MR",
+              "AML",
+              "AMC",
+              "AMR",
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 15,
+              "MC": 1,
+              "MR": 15,
+              "AML": 15,
+              "AMC": 15,
+              "AMR": 17,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1998-01-08",
+            "age": 26,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Good",
+            "morale_rating": 16,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29141819,
+            "name": "Matt Butcher",
+            "first_name": "Matt",
+            "surname": "Butcher",
+            "attributes": {
+              "acceleration": 10,
+              "pace": 10,
+              "passing": 11,
+              "finishing": 9,
+              "technique": 12,
+              "decisions": 12,
+              "vision": 12,
+              "work_rate": 15,
+              "strength": 14
+            },
+            "positions": [
+              "DC",
+              "DM",
+              "MC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 12,
+              "DC": 16,
+              "DR": 7,
+              "DM": 20,
+              "ML": 8,
+              "MC": 20,
+              "MR": 1,
+              "AML": 8,
+              "AMC": 14,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 12,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1997-05-14",
+            "age": 26,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29214946,
+            "name": "Chris Forino",
+            "first_name": "Chris",
+            "surname": "Forino",
+            "attributes": {
+              "acceleration": 14,
+              "pace": 14,
+              "passing": 9,
+              "finishing": 4,
+              "technique": 8,
+              "decisions": 9,
+              "vision": 7,
+              "work_rate": 12,
+              "strength": 12
+            },
+            "positions": [
+              "DC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 20,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2000-04-26",
+            "age": 23,
+            "age_as_of": "2024-02-17",
+            "morale": "Quite Good",
+            "morale_rating": 12,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 30002284,
+            "name": "Garath McCleary",
+            "first_name": "Garath",
+            "surname": "McCleary",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 12,
+              "passing": 11,
+              "finishing": 11,
+              "technique": 11,
+              "decisions": 12,
+              "vision": 10,
+              "work_rate": 12,
+              "strength": 10
+            },
+            "positions": [
+              "MR",
+              "AML",
+              "AMC",
+              "AMR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 12,
+              "MC": 1,
+              "MR": 18,
+              "AML": 18,
+              "AMC": 20,
+              "AMR": 16,
+              "ST": 12,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1987-05-15",
+            "age": 36,
+            "age_as_of": "2024-02-17",
+            "morale": "Fairly Poor",
+            "morale_rating": 6,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 30019004,
+            "name": "David Wheeler",
+            "first_name": "David",
+            "surname": "Wheeler",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 9,
+              "passing": 9,
+              "finishing": 12,
+              "technique": 11,
+              "decisions": 13,
+              "vision": 10,
+              "work_rate": 15,
+              "strength": 12
+            },
+            "positions": [
+              "DM",
+              "MC",
+              "MR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 12,
+              "DM": 18,
+              "ML": 1,
+              "MC": 20,
+              "MR": 15,
+              "AML": 1,
+              "AMC": 10,
+              "AMR": 12,
+              "ST": 11,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1990-10-04",
+            "age": 33,
+            "age_as_of": "2024-02-17",
+            "morale": "Perfect",
+            "morale_rating": 20,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 61031508,
+            "name": "Jack Grimmer",
+            "first_name": "Jack",
+            "surname": "Grimmer",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 11,
+              "passing": 11,
+              "finishing": 6,
+              "technique": 12,
+              "decisions": 10,
+              "vision": 11,
+              "work_rate": 15,
+              "strength": 10
+            },
+            "positions": [
+              "DC",
+              "DR",
+              "WBR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 15,
+              "DR": 20,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 15
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1994-01-25",
+            "age": 30,
+            "age_as_of": "2024-02-17",
+            "morale": "Good",
+            "morale_rating": 13,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 61057162,
+            "name": "Luke Leahy",
+            "first_name": "Luke",
+            "surname": "Leahy",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 11,
+              "passing": 13,
+              "finishing": 12,
+              "technique": 12,
+              "decisions": 12,
+              "vision": 12,
+              "work_rate": 14,
+              "strength": 12
+            },
+            "positions": [
+              "DM",
+              "MC",
+              "WBL"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 14,
+              "DC": 14,
+              "DR": 1,
+              "DM": 18,
+              "ML": 10,
+              "MC": 20,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 16,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1992-11-19",
+            "age": 31,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Good",
+            "morale_rating": 16,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 96053555,
+            "name": "Maksymilian Stryjek",
+            "first_name": "Maksymilian",
+            "surname": "Stryjek",
+            "attributes": {
+              "acceleration": 6,
+              "pace": 7,
+              "passing": 7,
+              "finishing": 3,
+              "technique": 8,
+              "decisions": 12,
+              "vision": 5,
+              "work_rate": 8,
+              "strength": 13
+            },
+            "positions": [
+              "GK"
+            ],
+            "position_ratings": {
+              "GK": 20,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1996-07-18",
+            "age": 27,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Poor",
+            "morale_rating": 2,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28127270,
+            "name": "Saxon Earley",
+            "first_name": "Saxon",
+            "surname": "Earley",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 13,
+              "passing": 11,
+              "finishing": 6,
+              "technique": 10,
+              "decisions": 9,
+              "vision": 9,
+              "work_rate": 12,
+              "strength": 9
+            },
+            "positions": [
+              "DL",
+              "DM",
+              "MC",
+              "WBL"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 20,
+              "DC": 11,
+              "DR": 1,
+              "DM": 16,
+              "ML": 12,
+              "MC": 17,
+              "MR": 1,
+              "AML": 12,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 18,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2002-10-11",
+            "age": 21,
+            "age_as_of": "2024-02-17",
+            "morale": "Good",
+            "morale_rating": 13,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28127368,
+            "name": "Chem Campbell",
+            "first_name": "Chem",
+            "surname": "Campbell",
+            "attributes": {
+              "acceleration": 13,
+              "pace": 13,
+              "passing": 12,
+              "finishing": 9,
+              "technique": 12,
+              "decisions": 10,
+              "vision": 11,
+              "work_rate": 9,
+              "strength": 9
+            },
+            "positions": [
+              "ML",
+              "MC",
+              "MR",
+              "AML",
+              "AMC",
+              "AMR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 15,
+              "MC": 15,
+              "MR": 15,
+              "AML": 20,
+              "AMC": 18,
+              "AMR": 18,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 5
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2002-12-30",
+            "age": 21,
+            "age_as_of": "2024-02-17",
+            "morale": "Fairly Good",
+            "morale_rating": 11,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 37078342,
+            "name": "Nigel Lonwijk",
+            "first_name": "Nigel",
+            "surname": "Lonwijk",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 14,
+              "passing": 13,
+              "finishing": 7,
+              "technique": 13,
+              "decisions": 9,
+              "vision": 11,
+              "work_rate": 12,
+              "strength": 10
+            },
+            "positions": [
+              "DC",
+              "DR"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 10,
+              "DC": 20,
+              "DR": 16,
+              "DM": 11,
+              "ML": 1,
+              "MC": 10,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 8,
+              "WBR": 10
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2002-10-27",
+            "age": 21,
+            "age_as_of": "2024-02-17",
+            "morale": "Really Good",
+            "morale_rating": 14,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 2000008139,
+            "name": "Dale Taylor",
+            "first_name": "Dale",
+            "surname": "Taylor",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 12,
+              "passing": 11,
+              "finishing": 12,
+              "technique": 11,
+              "decisions": 10,
+              "vision": 10,
+              "work_rate": 12,
+              "strength": 11
+            },
+            "positions": [
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2003-12-12",
+            "age": 20,
+            "age_as_of": "2024-02-17",
+            "morale": "Quite Good",
+            "morale_rating": 12,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 2000020024,
+            "name": "Freddie Potts",
+            "first_name": "Freddie",
+            "surname": "Potts",
+            "attributes": {
+              "acceleration": 9,
+              "pace": 10,
+              "passing": 14,
+              "finishing": 10,
+              "technique": 13,
+              "decisions": 13,
+              "vision": 14,
+              "work_rate": 11,
+              "strength": 8
+            },
+            "positions": [
+              "DM",
+              "MC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 18,
+              "ML": 1,
+              "MC": 20,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2003-09-12",
+            "age": 20,
+            "age_as_of": "2024-02-17",
+            "morale": "Extremely Good",
+            "morale_rating": 16,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 2000118384,
+            "name": "Gideon Kodua",
+            "first_name": "Gideon",
+            "surname": "Kodua",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 14,
+              "passing": 14,
+              "finishing": 12,
+              "technique": 15,
+              "decisions": 7,
+              "vision": 12,
+              "work_rate": 15,
+              "strength": 10
+            },
+            "positions": [
+              "AML",
+              "AMC",
+              "AMR",
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 16,
+              "AMC": 15,
+              "AMR": 20,
+              "ST": 17,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2004-10-02",
+            "age": 19,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28112991,
+            "name": "Jack Wakely",
+            "first_name": "Jack",
+            "surname": "Wakely",
+            "attributes": {
+              "acceleration": 11,
+              "pace": 13,
+              "passing": 8,
+              "finishing": 9,
+              "technique": 9,
+              "decisions": 8,
+              "vision": 7,
+              "work_rate": 7,
+              "strength": 10
+            },
+            "positions": [
+              "DC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 20,
+              "DR": 1,
+              "DM": 2,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2000-10-25",
+            "age": 23,
+            "age_as_of": "2024-02-17",
+            "morale": "Fairly Good",
+            "morale_rating": 11,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-16"
+            }
+          },
+          {
+            "id": 28115830,
+            "name": "D'Mani Mellor",
+            "first_name": "D'Mani",
+            "surname": "Mellor",
+            "attributes": {
+              "acceleration": 15,
+              "pace": 14,
+              "passing": 8,
+              "finishing": 11,
+              "technique": 10,
+              "decisions": 9,
+              "vision": 5,
+              "work_rate": 15,
+              "strength": 9
+            },
+            "positions": [
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 12,
+              "MC": 1,
+              "MR": 13,
+              "AML": 14,
+              "AMC": 10,
+              "AMR": 14,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2000-09-20",
+            "age": 23,
+            "age_as_of": "2024-02-17",
+            "morale": "Really Good",
+            "morale_rating": 14,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-16"
+            }
+          },
+          {
+            "id": 2000102722,
+            "name": "Wilson Odobert",
+            "first_name": "Wilson",
+            "surname": "Odobert",
+            "attributes": {
+              "acceleration": 13,
+              "pace": 13,
+              "passing": 13,
+              "finishing": 13,
+              "technique": 13,
+              "decisions": 13,
+              "vision": 14,
+              "work_rate": 13,
+              "strength": 13
+            },
+            "positions": [
+              "ML",
+              "MR",
+              "AML",
+              "AMR",
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 20,
+              "MC": 1,
+              "MR": 18,
+              "AML": 20,
+              "AMC": 1,
+              "AMR": 18,
+              "ST": 16,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2004-11-28",
+            "age": 19,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 2000061312,
+            "name": "Luca Koleosho",
+            "first_name": "Luca",
+            "surname": "Koleosho",
+            "attributes": {
+              "acceleration": 17,
+              "pace": 17,
+              "passing": 17,
+              "finishing": 17,
+              "technique": 17,
+              "decisions": 17,
+              "vision": 9,
+              "work_rate": 17,
+              "strength": 8
+            },
+            "positions": [
+              "ML",
+              "MR",
+              "AML",
+              "AMR",
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 18,
+              "MC": 1,
+              "MR": 17,
+              "AML": 20,
+              "AMC": 1,
+              "AMR": 18,
+              "ST": 16,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2004-09-15",
+            "age": 19,
+            "age_as_of": "2024-02-17",
+            "morale": "Okay",
+            "morale_rating": 10,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 49060933,
+            "name": "Maxime Est\u00e8ve",
+            "first_name": "Maxime",
+            "surname": "Est\u00e8ve",
+            "attributes": {
+              "acceleration": 13,
+              "pace": 16,
+              "passing": 12,
+              "finishing": 4,
+              "technique": 12,
+              "decisions": 13,
+              "vision": 10,
+              "work_rate": 13,
+              "strength": 15
+            },
+            "positions": [
+              "DL",
+              "DC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 16,
+              "DC": 20,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2002-05-26",
+            "age": 21,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 29232937,
+            "name": "Jude Bellingham",
+            "first_name": "Jude",
+            "surname": "Bellingham",
+            "attributes": {
+              "acceleration": 15,
+              "pace": 14,
+              "passing": 17,
+              "finishing": 16,
+              "technique": 17,
+              "decisions": 15,
+              "vision": 16,
+              "work_rate": 18,
+              "strength": 13
+            },
+            "positions": [
+              "DM",
+              "MC",
+              "AMC"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 16,
+              "ML": 10,
+              "MC": 20,
+              "MR": 10,
+              "AML": 13,
+              "AMC": 17,
+              "AMR": 12,
+              "ST": 10,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "2003-06-29",
+            "age": 20,
+            "age_as_of": "2024-02-17",
+            "morale": "Very Good",
+            "morale_rating": 15,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 28108492,
+            "name": "Arijanet Muri\u0107",
+            "first_name": "Arijanet",
+            "surname": "Muri\u0107",
+            "attributes": {
+              "acceleration": 12,
+              "pace": 15,
+              "passing": 12,
+              "finishing": 2,
+              "technique": 12,
+              "decisions": 12,
+              "vision": 11,
+              "work_rate": 11,
+              "strength": 13
+            },
+            "positions": [
+              "GK"
+            ],
+            "position_ratings": {
+              "GK": 20,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 1,
+              "MC": 1,
+              "MR": 1,
+              "AML": 1,
+              "AMC": 1,
+              "AMR": 1,
+              "ST": 1,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1998-11-07",
+            "age": 25,
+            "age_as_of": "2024-02-17",
+            "morale": "Okay",
+            "morale_rating": 10,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          },
+          {
+            "id": 78090138,
+            "name": "Darwin N\u00fa\u00f1ez",
+            "first_name": "Darwin",
+            "surname": "N\u00fa\u00f1ez",
+            "attributes": {
+              "acceleration": 16,
+              "pace": 16,
+              "passing": 10,
+              "finishing": 13,
+              "technique": 14,
+              "decisions": 12,
+              "vision": 14,
+              "work_rate": 15,
+              "strength": 13
+            },
+            "positions": [
+              "ML",
+              "MC",
+              "MR",
+              "AML",
+              "AMC",
+              "AMR",
+              "ST"
+            ],
+            "position_ratings": {
+              "GK": 1,
+              "DL": 1,
+              "DC": 1,
+              "DR": 1,
+              "DM": 1,
+              "ML": 20,
+              "MC": 20,
+              "MR": 20,
+              "AML": 20,
+              "AMC": 20,
+              "AMR": 20,
+              "ST": 20,
+              "WBL": 1,
+              "WBR": 1
+            },
+            "condition": null,
+            "match_sharpness": null,
+            "date_of_birth": "1999-06-24",
+            "age": 24,
+            "age_as_of": "2024-02-17",
+            "morale": "Fairly Poor",
+            "morale_rating": 6,
+            "readiness": {
+              "status": "stale",
+              "updated_on": "2024-02-17"
+            }
+          }
+        ]
+      },
+      "seconds": 0.298
+    },
+    "/players/29232937": {
+      "status": 200,
+      "body": {
+        "observed_at": "2026-09-14T01:34:58.506723+00:00",
+        "session_id": "adae9837-4f3e-4e0a-ad5f-7182d9bc2288",
+        "data": {
+          "id": 29232937,
+          "name": "Jude Bellingham",
+          "first_name": "Jude",
+          "surname": "Bellingham",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 17,
+            "finishing": 16,
+            "technique": 17,
+            "decisions": 15,
+            "vision": 16,
+            "work_rate": 18,
+            "strength": 13
+          },
+          "positions": [
+            "DM",
+            "MC",
+            "AMC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 16,
+            "ML": 10,
+            "MC": 20,
+            "MR": 10,
+            "AML": 13,
+            "AMC": 17,
+            "AMR": 12,
+            "ST": 10,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": null,
+          "match_sharpness": null,
+          "date_of_birth": "2003-06-29",
+          "age": 20,
+          "age_as_of": "2024-02-17",
+          "morale": "Very Good",
+          "morale_rating": 15,
+          "readiness": {
+            "status": "stale",
+            "updated_on": "2024-02-17"
+          }
+        }
+      },
+      "seconds": 0.03
+    }
+  },
+  "fixture_resolution": {
+    "pid": 36240,
+    "global_rva": "0x6364cd0",
+    "wrapper": "0x10ac2db0",
+    "manager": "0x11ff58d10"
+  },
+  "finance_address": "0xd7988b10",
+  "context": {
+    "manager_person": "0xcc34e960",
+    "manager_base": "0xcc34e510",
+    "team": "0x10e6ed378",
+    "club": "0xd7877790",
+    "roster_begin": "0x110d6a020",
+    "roster_end": "0x110d6a118",
+    "roster_count": 31,
+    "manager_global_rva": "0x6365118"
+  }
+}

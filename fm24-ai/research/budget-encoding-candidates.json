@@ -1,0 +1,2992 @@
+{
+  "pid": 36240,
+  "date": "2024-02-07",
+  "clubs": [
+    {
+      "id": 573,
+      "name": "Aldershot Town",
+      "budget": 17000,
+      "prefix_float": 0.1303258091211319
+    },
+    {
+      "id": 581,
+      "name": "Newport County",
+      "budget": 1300,
+      "prefix_float": 0.1834622472524643
+    },
+    {
+      "id": 600,
+      "name": "AFC Bournemouth",
+      "budget": 16045758,
+      "prefix_float": 0.6886546611785889
+    },
+    {
+      "id": 601,
+      "name": "Altrincham",
+      "budget": 44463,
+      "prefix_float": 0.12974095344543457
+    },
+    {
+      "id": 602,
+      "name": "Arsenal",
+      "budget": 63785379,
+      "prefix_float": 0.7282967567443848
+    },
+    {
+      "id": 603,
+      "name": "Aston Villa",
+      "budget": 11899276,
+      "prefix_float": 0.738222599029541
+    },
+    {
+      "id": 605,
+      "name": "Barnet",
+      "budget": 0,
+      "prefix_float": 0.1295546591281891
+    },
+    {
+      "id": 606,
+      "name": "Barnsley",
+      "budget": 1191867,
+      "prefix_float": 0.4520254135131836
+    },
+    {
+      "id": 607,
+      "name": "Barrow AFC",
+      "budget": -12793,
+      "prefix_float": 0.2005012482404709
+    },
+    {
+      "id": 609,
+      "name": "Birmingham City",
+      "budget": 4295901,
+      "prefix_float": 0.42380738258361816
+    },
+    {
+      "id": 612,
+      "name": "Blackburn Rovers",
+      "budget": 2989247,
+      "prefix_float": 0.3020656406879425
+    },
+    {
+      "id": 613,
+      "name": "Blackpool F.C.",
+      "budget": 142762,
+      "prefix_float": 0.4432005286216736
+    },
+    {
+      "id": 614,
+      "name": "Bolton Wanderers",
+      "budget": 486716,
+      "prefix_float": 0.6019383072853088
+    },
+    {
+      "id": 616,
+      "name": "Bradford City",
+      "budget": -63580,
+      "prefix_float": 0.630465030670166
+    },
+    {
+      "id": 617,
+      "name": "Brentford",
+      "budget": 51004910,
+      "prefix_float": 0.6779557466506958
+    },
+    {
+      "id": 618,
+      "name": "Brighton & Hove Albion",
+      "budget": 78944606,
+      "prefix_float": 0.7613372802734375
+    },
+    {
+      "id": 619,
+      "name": "Bristol City",
+      "budget": 6003871,
+      "prefix_float": 0.5784347653388977
+    },
+    {
+      "id": 620,
+      "name": "Bristol Rovers",
+      "budget": 17331,
+      "prefix_float": 0.42961061000823975
+    },
+    {
+      "id": 622,
+      "name": "Burnley",
+      "budget": 21736711,
+      "prefix_float": 0.7470108270645142
+    },
+    {
+      "id": 624,
+      "name": "Cambridge United",
+      "budget": 33482,
+      "prefix_float": 0.38130053877830505
+    },
+    {
+      "id": 625,
+      "name": "Cardiff City",
+      "budget": 142448,
+      "prefix_float": 0.4586285352706909
+    },
+    {
+      "id": 626,
+      "name": "Carlisle United",
+      "budget": 372775,
+      "prefix_float": 0.18082444369792938
+    },
+    {
+      "id": 628,
+      "name": "Charlton Athletic",
+      "budget": 4939550,
+      "prefix_float": 0.31061387062072754
+    },
+    {
+      "id": 630,
+      "name": "Chelsea",
+      "budget": 19473503,
+      "prefix_float": 0.6290075778961182
+    },
+    {
+      "id": 631,
+      "name": "Cheltenham Town",
+      "budget": 5182,
+      "prefix_float": 0.28425243496894836
+    },
+    {
+      "id": 634,
+      "name": "Chesterfield",
+      "budget": 200000,
+      "prefix_float": 0.4008498191833496
+    },
+    {
+      "id": 636,
+      "name": "Colchester United",
+      "budget": 47856,
+      "prefix_float": 0.1770879477262497
+    },
+    {
+      "id": 639,
+      "name": "Coventry City",
+      "budget": 423813,
+      "prefix_float": 0.6133276224136353
+    },
+    {
+      "id": 640,
+      "name": "Crawley Town",
+      "budget": 47827,
+      "prefix_float": 0.18876667320728302
+    },
+    {
+      "id": 641,
+      "name": "Crewe Alexandra",
+      "budget": 128,
+      "prefix_float": 0.25919225811958313
+    },
+    {
+      "id": 642,
+      "name": "Crystal Palace",
+      "budget": 5750346,
+      "prefix_float": 0.7434422373771667
+    },
+    {
+      "id": 643,
+      "name": "Dagenham and Redbridge",
+      "budget": 21096,
+      "prefix_float": 0.11690133064985275
+    },
+    {
+      "id": 645,
+      "name": "Derby County",
+      "budget": 2933233,
+      "prefix_float": 0.6266223788261414
+    },
+    {
+      "id": 646,
+      "name": "Doncaster Rovers",
+      "budget": -71136,
+      "prefix_float": 0.3110000789165497
+    },
+    {
+      "id": 650,
+      "name": "Everton",
+      "budget": 169049191,
+      "prefix_float": 0.8645135164260864
+    },
+    {
+      "id": 651,
+      "name": "Exeter City",
+      "budget": 26173,
+      "prefix_float": 0.4179602265357971
+    },
+    {
+      "id": 654,
+      "name": "Fulham",
+      "budget": 36593983,
+      "prefix_float": 0.614376425743103
+    },
+    {
+      "id": 655,
+      "name": "Gateshead",
+      "budget": 58168,
+      "prefix_float": 0.03746654838323593
+    },
+    {
+      "id": 656,
+      "name": "Gillingham",
+      "budget": 17426,
+      "prefix_float": 0.3044652044773102
+    },
+    {
+      "id": 658,
+      "name": "Grimsby Town",
+      "budget": 7426,
+      "prefix_float": 0.6512082815170288
+    },
+    {
+      "id": 661,
+      "name": "Hartlepool United",
+      "budget": 0,
+      "prefix_float": 0.334891676902771
+    },
+    {
+      "id": 664,
+      "name": "Huddersfield Town",
+      "budget": -385422,
+      "prefix_float": 0.6421095728874207
+    },
+    {
+      "id": 665,
+      "name": "Hull City",
+      "budget": 2555375,
+      "prefix_float": 0.6171138286590576
+    },
+    {
+      "id": 667,
+      "name": "Ipswich Town",
+      "budget": 9938105,
+      "prefix_float": 0.7292819023132324
+    },
+    {
+      "id": 669,
+      "name": "Kidderminster Harriers",
+      "budget": 0,
+      "prefix_float": 0.1633506566286087
+    },
+    {
+      "id": 671,
+      "name": "Leeds United",
+      "budget": 33924396,
+      "prefix_float": 0.6667500138282776
+    },
+    {
+      "id": 673,
+      "name": "Leicester City",
+      "budget": 22650602,
+      "prefix_float": 0.7492735385894775
+    },
+    {
+      "id": 674,
+      "name": "Leyton Orient",
+      "budget": 94730,
+      "prefix_float": 0.5087361335754395
+    },
+    {
+      "id": 675,
+      "name": "Lincoln City",
+      "budget": 0,
+      "prefix_float": 0.5327782034873962
+    },
+    {
+      "id": 676,
+      "name": "Liverpool F.C",
+      "budget": 29025022,
+      "prefix_float": 0.6302050948143005
+    },
+    {
+      "id": 677,
+      "name": "Luton Town",
+      "budget": -478499,
+      "prefix_float": 0.6520726680755615
+    },
+    {
+      "id": 679,
+      "name": "Manchester City",
+      "budget": 155686364,
+      "prefix_float": 0.7096392512321472
+    },
+    {
+      "id": 680,
+      "name": "Manchester United",
+      "budget": 12011815,
+      "prefix_float": 0.7820337414741516
+    },
+    {
+      "id": 681,
+      "name": "Mansfield Town",
+      "budget": 0,
+      "prefix_float": 0.5804293155670166
+    },
+    {
+      "id": 685,
+      "name": "Middlesbrough",
+      "budget": 11993384,
+      "prefix_float": 0.6059008836746216
+    },
+    {
+      "id": 686,
+      "name": "Millwall",
+      "budget": 866,
+      "prefix_float": 0.4545763432979584
+    },
+    {
+      "id": 687,
+      "name": "Morecambe",
+      "budget": 0,
+      "prefix_float": 0.373850017786026
+    },
+    {
+      "id": 688,
+      "name": "Newcastle United",
+      "budget": 49551561,
+      "prefix_float": 0.7030399441719055
+    },
+    {
+      "id": 689,
+      "name": "Northampton Town",
+      "budget": -35656,
+      "prefix_float": 0.5197014212608337
+    },
+    {
+      "id": 691,
+      "name": "Norwich City",
+      "budget": 12908640,
+      "prefix_float": 0.7741126418113708
+    },
+    {
+      "id": 692,
+      "name": "Nottingham Forest",
+      "budget": -6022669,
+      "prefix_float": 0.7573879957199097
+    },
+    {
+      "id": 693,
+      "name": "Notts County",
+      "budget": 92972,
+      "prefix_float": 0.29686805605888367
+    },
+    {
+      "id": 694,
+      "name": "Oldham Athletic",
+      "budget": 1849,
+      "prefix_float": 0.30932459235191345
+    },
+    {
+      "id": 695,
+      "name": "Oxford United",
+      "budget": 2545917,
+      "prefix_float": 0.4186079800128937
+    },
+    {
+      "id": 696,
+      "name": "Peterborough United",
+      "budget": 877284,
+      "prefix_float": 0.3438018560409546
+    },
+    {
+      "id": 697,
+      "name": "Plymouth Argyle",
+      "budget": 0,
+      "prefix_float": 0.6468685865402222
+    },
+    {
+      "id": 698,
+      "name": "Port Vale",
+      "budget": 20040,
+      "prefix_float": 0.32984068989753723
+    },
+    {
+      "id": 699,
+      "name": "Portsmouth",
+      "budget": 10857,
+      "prefix_float": 0.744544267654419
+    },
+    {
+      "id": 700,
+      "name": "Preston North End",
+      "budget": 0,
+      "prefix_float": 0.5239770412445068
+    },
+    {
+      "id": 701,
+      "name": "Queens Park Rangers",
+      "budget": 37350,
+      "prefix_float": 0.5776073336601257
+    },
+    {
+      "id": 702,
+      "name": "Reading",
+      "budget": 0,
+      "prefix_float": 0.3915230929851532
+    },
+    {
+      "id": 703,
+      "name": "Rochdale",
+      "budget": 7157,
+      "prefix_float": 0.2681075930595398
+    },
+    {
+      "id": 704,
+      "name": "Rotherham United",
+      "budget": 96576,
+      "prefix_float": 0.6531053185462952
+    },
+    {
+      "id": 708,
+      "name": "Sheffield United",
+      "budget": 25615016,
+      "prefix_float": 0.7424492239952087
+    },
+    {
+      "id": 709,
+      "name": "Sheffield Wednesday F.C.",
+      "budget": -239089,
+      "prefix_float": 0.5288012027740479
+    },
+    {
+      "id": 710,
+      "name": "Shrewsbury Town",
+      "budget": 62135,
+      "prefix_float": 0.31978681683540344
+    },
+    {
+      "id": 713,
+      "name": "Southampton",
+      "budget": 50907543,
+      "prefix_float": 0.6175889372825623
+    },
+    {
+      "id": 714,
+      "name": "Southend United",
+      "budget": 2201,
+      "prefix_float": 0.2718222439289093
+    },
+    {
+      "id": 719,
+      "name": "Stevenage",
+      "budget": 19939,
+      "prefix_float": 0.2159244269132614
+    },
+    {
+      "id": 720,
+      "name": "Stockport County",
+      "budget": 12000,
+      "prefix_float": 0.5680190324783325
+    },
+    {
+      "id": 721,
+      "name": "Stoke City",
+      "budget": 140096,
+      "prefix_float": 0.5166712403297424
+    },
+    {
+      "id": 722,
+      "name": "Sunderland",
+      "budget": 8880861,
+      "prefix_float": 0.7564027309417725
+    },
+    {
+      "id": 723,
+      "name": "Sutton United",
+      "budget": 1514,
+      "prefix_float": 0.2824947237968445
+    },
+    {
+      "id": 724,
+      "name": "Swansea City",
+      "budget": 1093198,
+      "prefix_float": 0.6289433836936951
+    },
+    {
+      "id": 725,
+      "name": "Swindon Town",
+      "budget": 4893,
+      "prefix_float": 0.267708957195282
+    },
+    {
+      "id": 728,
+      "name": "Tottenham Hotspur",
+      "budget": 68472344,
+      "prefix_float": 0.8374157547950745
+    },
+    {
+      "id": 729,
+      "name": "Tranmere Rovers",
+      "budget": 56882,
+      "prefix_float": 0.2412254363298416
+    },
+    {
+      "id": 731,
+      "name": "Walsall",
+      "budget": 37280,
+      "prefix_float": 0.2873687148094177
+    },
+    {
+      "id": 732,
+      "name": "Watford",
+      "budget": 1689586,
+      "prefix_float": 0.6401137709617615
+    },
+    {
+      "id": 734,
+      "name": "West Bromwich Albion",
+      "budget": 8583732,
+      "prefix_float": 0.6705162525177002
+    },
+    {
+      "id": 735,
+      "name": "West Ham United",
+      "budget": 14167773,
+      "prefix_float": 0.9499789476394653
+    },
+    {
+      "id": 737,
+      "name": "Wigan Athletic",
+      "budget": 14501,
+      "prefix_float": 0.2974209785461426
+    },
+    {
+      "id": 739,
+      "name": "Woking",
+      "budget": 0,
+      "prefix_float": 0.24414914846420288
+    },
+    {
+      "id": 740,
+      "name": "Wolverhampton Wanderers",
+      "budget": 14220799,
+      "prefix_float": 0.7459594011306763
+    },
+    {
+      "id": 741,
+      "name": "Wrexham",
+      "budget": 106906,
+      "prefix_float": 0.7017543911933899
+    },
+    {
+      "id": 742,
+      "name": "Wycombe Wanderers",
+      "budget": 1720251,
+      "prefix_float": 0.27690035104751587
+    },
+    {
+      "id": 744,
+      "name": "York City",
+      "budget": 49244,
+      "prefix_float": 0.2844281792640686
+    },
+    {
+      "id": 868,
+      "name": "Paris Saint-Germain",
+      "budget": 54291084,
+      "prefix_float": 0.7906926870346069
+    },
+    {
+      "id": 899,
+      "name": "1. FC N\u00fcrnberg",
+      "budget": 311981,
+      "prefix_float": 0.4000000059604645
+    },
+    {
+      "id": 901,
+      "name": "Bayer 04 Leverkusen",
+      "budget": 2670076,
+      "prefix_float": 0.6794543266296387
+    },
+    {
+      "id": 905,
+      "name": "VfL Bochum 1848",
+      "budget": 1155674,
+      "prefix_float": 0.7287449240684509
+    },
+    {
+      "id": 907,
+      "name": "Borussia Dortmund",
+      "budget": 3291145,
+      "prefix_float": 0.7115435004234314
+    },
+    {
+      "id": 908,
+      "name": "Borussia M\u00f6nchengladbach",
+      "budget": 4382954,
+      "prefix_float": 0.5843408703804016
+    },
+    {
+      "id": 912,
+      "name": "Eintracht Frankfurt",
+      "budget": 3612754,
+      "prefix_float": 0.6352087259292603
+    },
+    {
+      "id": 915,
+      "name": "FC Bayern M\u00fcnchen",
+      "budget": 33250022,
+      "prefix_float": 0.5333333611488342
+    },
+    {
+      "id": 916,
+      "name": "1. FC K\u00f6ln",
+      "budget": 5610115,
+      "prefix_float": 0.5368421077728271
+    },
+    {
+      "id": 918,
+      "name": "1. FSV Mainz 05",
+      "budget": 3750554,
+      "prefix_float": 0.3950726389884949
+    },
+    {
+      "id": 920,
+      "name": "FC Schalke 04",
+      "budget": 1734292,
+      "prefix_float": 0.6761616468429565
+    },
+    {
+      "id": 921,
+      "name": "Fortuna D\u00fcsseldorf",
+      "budget": 1963441,
+      "prefix_float": 0.3209947943687439
+    },
+    {
+      "id": 927,
+      "name": "Hannover 96",
+      "budget": 582258,
+      "prefix_float": 0.40816327929496765
+    },
+    {
+      "id": 928,
+      "name": "F.C. Hansa Rostock",
+      "budget": 148234,
+      "prefix_float": 0.5335752964019775
+    },
+    {
+      "id": 931,
+      "name": "Karlsruher SC",
+      "budget": 33011,
+      "prefix_float": 0.4241948127746582
+    },
+    {
+      "id": 937,
+      "name": "VfL Osnabr\u00fcck",
+      "budget": 74856,
+      "prefix_float": 0.6018476486206055
+    },
+    {
+      "id": 944,
+      "name": "Sport-Club Freiburg",
+      "budget": 8329107,
+      "prefix_float": 0.758380115032196
+    },
+    {
+      "id": 945,
+      "name": "1. FC Kaiserslautern",
+      "budget": 280513,
+      "prefix_float": 0.5205860733985901
+    },
+    {
+      "id": 946,
+      "name": "FC St. Pauli",
+      "budget": 33567,
+      "prefix_float": 0.5522165298461914
+    },
+    {
+      "id": 947,
+      "name": "Hamburger SV",
+      "budget": 4876254,
+      "prefix_float": 0.43444135785102844
+    },
+    {
+      "id": 948,
+      "name": "SV Werder Bremen",
+      "budget": 5503155,
+      "prefix_float": 0.6250781416893005
+    },
+    {
+      "id": 960,
+      "name": "VfB Stuttgart",
+      "budget": 6214147,
+      "prefix_float": 0.578129768371582
+    },
+    {
+      "id": 961,
+      "name": "VfL Wolfsburg",
+      "budget": 5643092,
+      "prefix_float": 0.6188310384750366
+    },
+    {
+      "id": 1535,
+      "name": "Al-Shabab Football Club",
+      "budget": 1955746,
+      "prefix_float": 0.11658991128206253
+    },
+    {
+      "id": 1536,
+      "name": "Aberdeen",
+      "budget": 716212,
+      "prefix_float": 0.6421095132827759
+    },
+    {
+      "id": 1539,
+      "name": "Alloa Athletic",
+      "budget": 84,
+      "prefix_float": 0.07809846848249435
+    },
+    {
+      "id": 1540,
+      "name": "Annan Athletic",
+      "budget": 10000,
+      "prefix_float": 0.06305700540542603
+    },
+    {
+      "id": 1541,
+      "name": "Arbroath",
+      "budget": 56218,
+      "prefix_float": 0.19936203956604004
+    },
+    {
+      "id": 1542,
+      "name": "Ayr United",
+      "budget": 0,
+      "prefix_float": 0.09766684472560883
+    },
+    {
+      "id": 1548,
+      "name": "Clyde",
+      "budget": 15677,
+      "prefix_float": 0.060345277190208435
+    },
+    {
+      "id": 1551,
+      "name": "Cove Rangers",
+      "budget": 35940,
+      "prefix_float": 0.10113678127527237
+    },
+    {
+      "id": 1554,
+      "name": "Dumbarton",
+      "budget": 130,
+      "prefix_float": 0.09900990128517151
+    },
+    {
+      "id": 1555,
+      "name": "Dundee",
+      "budget": 49591,
+      "prefix_float": 0.3109038472175598
+    },
+    {
+      "id": 1556,
+      "name": "Dundee United",
+      "budget": 90836,
+      "prefix_float": 0.38484737277030945
+    },
+    {
+      "id": 1557,
+      "name": "Dunfermline Athletic",
+      "budget": 28976,
+      "prefix_float": 0.22923161089420319
+    },
+    {
+      "id": 1558,
+      "name": "East Fife",
+      "budget": 10000,
+      "prefix_float": 0.13822434842586517
+    },
+    {
+      "id": 1562,
+      "name": "Elgin City",
+      "budget": 5000,
+      "prefix_float": 0.038425710052251816
+    },
+    {
+      "id": 1563,
+      "name": "Falkirk",
+      "budget": 5152,
+      "prefix_float": 0.35751745104789734
+    },
+    {
+      "id": 1564,
+      "name": "Forfar Athletic",
+      "budget": 25110,
+      "prefix_float": 0.03960765153169632
+    },
+    {
+      "id": 1569,
+      "name": "Celtic",
+      "budget": 7131773,
+      "prefix_float": 0.9242330193519592
+    },
+    {
+      "id": 1570,
+      "name": "Rangers",
+      "budget": 2817858,
+      "prefix_float": 0.9499874114990234
+    },
+    {
+      "id": 1571,
+      "name": "Greenock Morton",
+      "budget": 5674,
+      "prefix_float": 0.07902230322360992
+    },
+    {
+      "id": 1572,
+      "name": "Hamilton Academical",
+      "budget": 28393,
+      "prefix_float": 0.12243969738483429
+    },
+    {
+      "id": 1573,
+      "name": "Heart Of Midlothian",
+      "budget": 78952,
+      "prefix_float": 0.821871280670166
+    },
+    {
+      "id": 1575,
+      "name": "Hibernian",
+      "budget": 57905,
+      "prefix_float": 0.5719128847122192
+    },
+    {
+      "id": 1577,
+      "name": "Inverness Caledonian Thistle",
+      "budget": 39789,
+      "prefix_float": 0.14940577745437622
+    },
+    {
+      "id": 1580,
+      "name": "Kilmarnock",
+      "budget": 130,
+      "prefix_float": 0.3345511257648468
+    },
+    {
+      "id": 1581,
+      "name": "Livingston",
+      "budget": 1394,
+      "prefix_float": 0.10891535133123398
+    },
+    {
+      "id": 1583,
+      "name": "Montrose",
+      "budget": 6,
+      "prefix_float": 0.03731980174779892
+    },
+    {
+      "id": 1584,
+      "name": "Motherwell",
+      "budget": 63819,
+      "prefix_float": 0.36110860109329224
+    },
+    {
+      "id": 1586,
+      "name": "Partick Thistle",
+      "budget": 14189,
+      "prefix_float": 0.1588955819606781
+    },
+    {
+      "id": 1588,
+      "name": "Peterhead",
+      "budget": 20000,
+      "prefix_float": 0.0634920671582222
+    },
+    {
+      "id": 1590,
+      "name": "Queen Of The South",
+      "budget": 54384,
+      "prefix_float": 0.10296165943145752
+    },
+    {
+      "id": 1591,
+      "name": "Queen's Park",
+      "budget": 74569,
+      "prefix_float": 0.00811808556318283
+    },
+    {
+      "id": 1592,
+      "name": "Raith Rovers",
+      "budget": 30049,
+      "prefix_float": 0.12108766287565231
+    },
+    {
+      "id": 1593,
+      "name": "Ross County",
+      "budget": 3695,
+      "prefix_float": 0.557732880115509
+    },
+    {
+      "id": 1596,
+      "name": "St Johnstone",
+      "budget": 0,
+      "prefix_float": 0.2755579948425293
+    },
+    {
+      "id": 1597,
+      "name": "St Mirren",
+      "budget": 457851,
+      "prefix_float": 0.4674973487854004
+    },
+    {
+      "id": 1598,
+      "name": "Stenhousemuir",
+      "budget": 0,
+      "prefix_float": 0.04215022549033165
+    },
+    {
+      "id": 1599,
+      "name": "Stirling Albion",
+      "budget": -3217,
+      "prefix_float": 0.06910659372806549
+    },
+    {
+      "id": 1600,
+      "name": "Stranraer",
+      "budget": 0,
+      "prefix_float": 0.056687917560338974
+    },
+    {
+      "id": 1601,
+      "name": "The Spartans",
+      "budget": 8630,
+      "prefix_float": 0.07285656034946442
+    },
+    {
+      "id": 1660,
+      "name": "Albacete",
+      "budget": 507147,
+      "prefix_float": 0.7301490902900696
+    },
+    {
+      "id": 1661,
+      "name": "Almer\u00eda",
+      "budget": 7338683,
+      "prefix_float": 0.6648199558258057
+    },
+    {
+      "id": 1664,
+      "name": "Athletic Club de Bilbao",
+      "budget": 21588500,
+      "prefix_float": 0.8708112835884094
+    },
+    {
+      "id": 1678,
+      "name": "Legan\u00e9s",
+      "budget": 253554,
+      "prefix_float": 0.6586345434188843
+    },
+    {
+      "id": 1680,
+      "name": "Tenerife",
+      "budget": 4590442,
+      "prefix_float": 0.6917926073074341
+    },
+    {
+      "id": 1682,
+      "name": "C\u00e1diz",
+      "budget": 36277995,
+      "prefix_float": 0.7568956613540649
+    },
+    {
+      "id": 1685,
+      "name": "CA Osasuna",
+      "budget": 29056958,
+      "prefix_float": 0.9137303233146667
+    },
+    {
+      "id": 1687,
+      "name": "Atl\u00e9tico de Madrid",
+      "budget": -1007440,
+      "prefix_float": 0.8672493696212769
+    },
+    {
+      "id": 1688,
+      "name": "Alav\u00e9s",
+      "budget": 13109719,
+      "prefix_float": 0.9311332702636719
+    },
+    {
+      "id": 1707,
+      "name": "Elche",
+      "budget": 4349940,
+      "prefix_float": 0.3900715708732605
+    },
+    {
+      "id": 1708,
+      "name": "FC Barcelona",
+      "budget": 7632659,
+      "prefix_float": 0.9398496150970459
+    },
+    {
+      "id": 1709,
+      "name": "Futbol Club Andorra S.A.D.",
+      "budget": 2864579,
+      "prefix_float": 0.17512020468711853
+    },
+    {
+      "id": 1710,
+      "name": "Getafe",
+      "budget": 2696881,
+      "prefix_float": 0.7867653965950012
+    },
+    {
+      "id": 1714,
+      "name": "Granada",
+      "budget": 15278981,
+      "prefix_float": 0.8382723331451416
+    },
+    {
+      "id": 1717,
+      "name": "Levante",
+      "budget": 3361184,
+      "prefix_float": 0.8986951112747192
+    },
+    {
+      "id": 1724,
+      "name": "Vigo",
+      "budget": 16803792,
+      "prefix_float": 0.949999988079071
+    },
+    {
+      "id": 1725,
+      "name": "Reial Club Deportiu Espanyol de Barcelona S.A.D.",
+      "budget": 11860002,
+      "prefix_float": 0.7105262875556946
+    },
+    {
+      "id": 1726,
+      "name": "Mallorca",
+      "budget": 1953151,
+      "prefix_float": 0.8869724273681641
+    },
+    {
+      "id": 1727,
+      "name": "Ferrol",
+      "budget": 0,
+      "prefix_float": 0.29783281683921814
+    },
+    {
+      "id": 1728,
+      "name": "Real Racing Club",
+      "budget": 445046,
+      "prefix_float": 0.5921111702919006
+    },
+    {
+      "id": 1729,
+      "name": "Vallecano",
+      "budget": 2595964,
+      "prefix_float": 0.8946080207824707
+    },
+    {
+      "id": 1733,
+      "name": "Real Betis",
+      "budget": 23061594,
+      "prefix_float": 0.8398342728614807
+    },
+    {
+      "id": 1736,
+      "name": "Real Madrid Club de F\u00fatbol",
+      "budget": 127592534,
+      "prefix_float": 0.8182690143585205
+    },
+    {
+      "id": 1741,
+      "name": "Real Oviedo",
+      "budget": 1696298,
+      "prefix_float": 0.6729939579963684
+    },
+    {
+      "id": 1742,
+      "name": "Real Sociedad",
+      "budget": 59692282,
+      "prefix_float": 0.9327115416526794
+    },
+    {
+      "id": 1744,
+      "name": "Sporting Gij\u00f3n",
+      "budget": 1424161,
+      "prefix_float": 0.7049123048782349
+    },
+    {
+      "id": 1747,
+      "name": "Valladolid",
+      "budget": 8127879,
+      "prefix_float": 0.8766213059425354
+    },
+    {
+      "id": 1749,
+      "name": "Zaragoza",
+      "budget": 5152278,
+      "prefix_float": 0.876984179019928
+    },
+    {
+      "id": 1753,
+      "name": "Eibar",
+      "budget": 865968,
+      "prefix_float": 0.6538084149360657
+    },
+    {
+      "id": 1759,
+      "name": "Sevilla",
+      "budget": 12733773,
+      "prefix_float": 0.949999988079071
+    },
+    {
+      "id": 1772,
+      "name": "Las Palmas",
+      "budget": 14069578,
+      "prefix_float": 0.8057180047035217
+    },
+    {
+      "id": 1775,
+      "name": "Valencia",
+      "budget": 48205002,
+      "prefix_float": 0.7666343450546265
+    },
+    {
+      "id": 1777,
+      "name": "Villarreal",
+      "budget": 57215143,
+      "prefix_float": 0.9382150769233704
+    },
+    {
+      "id": 1895,
+      "name": "Shakhtar Donetsk",
+      "budget": 35017108,
+      "prefix_float": 0.39694294333457947
+    },
+    {
+      "id": 1907,
+      "name": "LA Galaxy",
+      "budget": 21333317,
+      "prefix_float": 0.46783626079559326
+    },
+    {
+      "id": 2233,
+      "name": "1. FC Magdeburg",
+      "budget": 142209,
+      "prefix_float": 0.5318559408187866
+    },
+    {
+      "id": 2237,
+      "name": "Eintracht Braunschweig",
+      "budget": 106892,
+      "prefix_float": 0.631127655506134
+    },
+    {
+      "id": 2238,
+      "name": "FC Augsburg",
+      "budget": 1250491,
+      "prefix_float": 0.5493184924125671
+    },
+    {
+      "id": 2245,
+      "name": "Holstein Kiel",
+      "budget": 108305,
+      "prefix_float": 0.4901171326637268
+    },
+    {
+      "id": 2247,
+      "name": "Hertha BSC",
+      "budget": 1350285,
+      "prefix_float": 0.2679205536842346
+    },
+    {
+      "id": 2253,
+      "name": "SpVgg Greuther F\u00fcrth",
+      "budget": 1398181,
+      "prefix_float": 0.43748852610588074
+    },
+    {
+      "id": 2391,
+      "name": "Futebol Clube de Alverca - SAD",
+      "budget": 341184,
+      "prefix_float": 0.08314263820648193
+    },
+    {
+      "id": 2404,
+      "name": "Lusit\u00e2nia de Lourosa Futebol Clube",
+      "budget": 327017,
+      "prefix_float": 0.01315789483487606
+    },
+    {
+      "id": 102850,
+      "name": "Al-Ahli Saudi Sport Club",
+      "budget": 139926486,
+      "prefix_float": 0.7959064245223999
+    },
+    {
+      "id": 102852,
+      "name": "Al-Hilal Saudi Football Club",
+      "budget": 143670064,
+      "prefix_float": 0.24573448300361633
+    },
+    {
+      "id": 102853,
+      "name": "Al-Sadd Sports Club",
+      "budget": 9205598,
+      "prefix_float": 0.21228070557117462
+    },
+    {
+      "id": 102859,
+      "name": "Al-Arabi Sports Club",
+      "budget": 11260935,
+      "prefix_float": 0.23157894611358643
+    },
+    {
+      "id": 102862,
+      "name": "Al-Nassr Football Club",
+      "budget": 20234915,
+      "prefix_float": 0.5583158135414124
+    },
+    {
+      "id": 106063,
+      "name": "Al-Ittihad Club Jeddah",
+      "budget": 32801016,
+      "prefix_float": 0.5902354121208191
+    },
+    {
+      "id": 106780,
+      "name": "Al-Tai Football Club",
+      "budget": 3001126,
+      "prefix_float": 0.2660287022590637
+    },
+    {
+      "id": 106781,
+      "name": "Al-Wehda Football Club",
+      "budget": 4287323,
+      "prefix_float": 0.14586851000785828
+    },
+    {
+      "id": 108997,
+      "name": "SV Darmstadt 98",
+      "budget": 616952,
+      "prefix_float": 0.6031934022903442
+    },
+    {
+      "id": 109206,
+      "name": "Forest Green Rovers",
+      "budget": 33820,
+      "prefix_float": 0.16997747123241425
+    },
+    {
+      "id": 109210,
+      "name": "Accrington Stanley",
+      "budget": 0,
+      "prefix_float": 0.21938134729862213
+    },
+    {
+      "id": 109212,
+      "name": "Boreham Wood",
+      "budget": 2432,
+      "prefix_float": 0.2116018682718277
+    },
+    {
+      "id": 121182,
+      "name": "1. FC Union Berlin",
+      "budget": 2159660,
+      "prefix_float": 0.5499392747879028
+    },
+    {
+      "id": 121198,
+      "name": "SC Paderborn 07",
+      "budget": 332454,
+      "prefix_float": 0.4140350818634033
+    },
+    {
+      "id": 121200,
+      "name": "SV Elversberg",
+      "budget": 32229,
+      "prefix_float": 0.37526315450668335
+    },
+    {
+      "id": 121208,
+      "name": "SV Wehen Wiesbaden",
+      "budget": 20574,
+      "prefix_float": 0.06882193684577942
+    },
+    {
+      "id": 135423,
+      "name": "Al-Riyadh Saudi Club",
+      "budget": 303950,
+      "prefix_float": 0.0386648066341877
+    },
+    {
+      "id": 135424,
+      "name": "Al-Raed Saudi Football Club",
+      "budget": 3429858,
+      "prefix_float": 0.17915789783000946
+    },
+    {
+      "id": 135427,
+      "name": "Al-Ettifaq Football Club",
+      "budget": 1640439,
+      "prefix_float": 0.25406041741371155
+    },
+    {
+      "id": 135430,
+      "name": "Al-Wahda Football Club",
+      "budget": 3934483,
+      "prefix_float": 0.17657046020030975
+    },
+    {
+      "id": 135450,
+      "name": "Al-Jazira Sports & Culture Club",
+      "budget": 5683958,
+      "prefix_float": 0.20464442670345306
+    },
+    {
+      "id": 151027,
+      "name": "Milton Keynes Dons",
+      "budget": 102206,
+      "prefix_float": 0.10421063005924225
+    },
+    {
+      "id": 810090,
+      "name": "Alcorc\u00f3n",
+      "budget": 29507,
+      "prefix_float": 0.6191950440406799
+    },
+    {
+      "id": 814089,
+      "name": "Girona Futbol Club, S.A.D.",
+      "budget": 12887769,
+      "prefix_float": 0.9058297276496887
+    },
+    {
+      "id": 814712,
+      "name": "C.D. La Oliva",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 879226,
+      "name": "TSG Hoffenheim",
+      "budget": 8340112,
+      "prefix_float": 0.41895782947540283
+    },
+    {
+      "id": 880295,
+      "name": "1. FC Heidenheim 1846",
+      "budget": 562736,
+      "prefix_float": 0.6315789222717285
+    },
+    {
+      "id": 950376,
+      "name": "Al-Ain Football Club",
+      "budget": 1578368,
+      "prefix_float": 0.1996614933013916
+    },
+    {
+      "id": 1026831,
+      "name": "Al-Gharafa Sports Club",
+      "budget": 10554051,
+      "prefix_float": 0.13993661105632782
+    },
+    {
+      "id": 1104149,
+      "name": "Al-Qadsiah Football Club",
+      "budget": 8574646,
+      "prefix_float": 0.20035088062286377
+    },
+    {
+      "id": 1503422,
+      "name": "C.F. Rusadir",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 1503473,
+      "name": "Valvanera",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 4001706,
+      "name": "Burton Albion",
+      "budget": 0,
+      "prefix_float": 0.1848936676979065
+    },
+    {
+      "id": 4200566,
+      "name": "Burgos",
+      "budget": 1946809,
+      "prefix_float": 0.4512943625450134
+    },
+    {
+      "id": 4203003,
+      "name": "Cartagena",
+      "budget": 44882,
+      "prefix_float": 0.29605263471603394
+    },
+    {
+      "id": 4212197,
+      "name": "Mirand\u00e9s",
+      "budget": 2243749,
+      "prefix_float": 0.732948899269104
+    },
+    {
+      "id": 4212207,
+      "name": "Eldense",
+      "budget": 189183,
+      "prefix_float": 0.19649122655391693
+    },
+    {
+      "id": 4212294,
+      "name": "Huesca",
+      "budget": 288201,
+      "prefix_float": 0.9225518107414246
+    },
+    {
+      "id": 5100047,
+      "name": "Harrogate Town",
+      "budget": 10302,
+      "prefix_float": 0.14675207436084747
+    },
+    {
+      "id": 5100153,
+      "name": "Bromley",
+      "budget": 17628,
+      "prefix_float": 0.20619618892669678
+    },
+    {
+      "id": 5100157,
+      "name": "Ebbsfleet United",
+      "budget": 8990,
+      "prefix_float": 0.19865138828754425
+    },
+    {
+      "id": 5100163,
+      "name": "Oxford City",
+      "budget": -208,
+      "prefix_float": 0.14035087823867798
+    },
+    {
+      "id": 5100192,
+      "name": "Maidenhead United",
+      "budget": 0,
+      "prefix_float": 0.1871345043182373
+    },
+    {
+      "id": 5100217,
+      "name": "Wealdstone",
+      "budget": 3174,
+      "prefix_float": 0.11553273350000381
+    },
+    {
+      "id": 5103760,
+      "name": "Eastleigh",
+      "budget": 0,
+      "prefix_float": 0.24007387459278107
+    },
+    {
+      "id": 5103834,
+      "name": "Fleetwood Town",
+      "budget": 2646,
+      "prefix_float": 0.380560964345932
+    },
+    {
+      "id": 5103842,
+      "name": "Salford City",
+      "budget": 0,
+      "prefix_float": 0.26148441433906555
+    },
+    {
+      "id": 5110769,
+      "name": "AFC Wimbledon",
+      "budget": 118035,
+      "prefix_float": 0.5176876783370972
+    },
+    {
+      "id": 5201527,
+      "name": "Bonnyrigg Rose",
+      "budget": -3264,
+      "prefix_float": 0.14035087823867798
+    },
+    {
+      "id": 5201742,
+      "name": "Edinburgh City",
+      "budget": 0,
+      "prefix_float": 0.032894738018512726
+    },
+    {
+      "id": 5201786,
+      "name": "Kelty Hearts",
+      "budget": 6231,
+      "prefix_float": 0.07914523035287857
+    },
+    {
+      "id": 5203872,
+      "name": "Airdrieonians",
+      "budget": 0,
+      "prefix_float": 0.031263187527656555
+    },
+    {
+      "id": 6706354,
+      "name": "Amorebieta",
+      "budget": 42181,
+      "prefix_float": 0.18796992301940918
+    },
+    {
+      "id": 7446396,
+      "name": "A.D. Hurac\u00e1n",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 7920260,
+      "name": "Al-Khaleej Football Club",
+      "budget": 1714929,
+      "prefix_float": 0.22325798869132996
+    },
+    {
+      "id": 7920296,
+      "name": "Hajer Football Club",
+      "budget": 619244,
+      "prefix_float": 0.0643424391746521
+    },
+    {
+      "id": 7920352,
+      "name": "Al-Taawoun Football Club",
+      "budget": 8145914,
+      "prefix_float": 0.19726315140724182
+    },
+    {
+      "id": 7920354,
+      "name": "Ohod Club",
+      "budget": 213532,
+      "prefix_float": 0.032236840575933456
+    },
+    {
+      "id": 7920357,
+      "name": "Al-Orobah Football Club",
+      "budget": 857464,
+      "prefix_float": 0.3546052575111389
+    },
+    {
+      "id": 7920359,
+      "name": "Al-Fateh Football Club",
+      "budget": 7435128,
+      "prefix_float": 0.4162067472934723
+    },
+    {
+      "id": 7920362,
+      "name": "Al-Faisaly Football Club",
+      "budget": 514478,
+      "prefix_float": 0.4710526168346405
+    },
+    {
+      "id": 7920365,
+      "name": "Al-Fayha Club",
+      "budget": 1498770,
+      "prefix_float": 0.36710527539253235
+    },
+    {
+      "id": 7920492,
+      "name": "Al-Batin Football Club",
+      "budget": 1286196,
+      "prefix_float": 0.46052631735801697
+    },
+    {
+      "id": 7920502,
+      "name": "Damac Football Club",
+      "budget": 3858590,
+      "prefix_float": 0.23947368562221527
+    },
+    {
+      "id": 8601358,
+      "name": "AFC Fylde",
+      "budget": 15616,
+      "prefix_float": 0.08157894760370255
+    },
+    {
+      "id": 23292170,
+      "name": "Shanghai Port",
+      "budget": 39453669,
+      "prefix_float": 0.24940182268619537
+    },
+    {
+      "id": 23335643,
+      "name": "Al-Ain Saudi Football Club",
+      "budget": 643098,
+      "prefix_float": 0.1784210503101349
+    },
+    {
+      "id": 23404990,
+      "name": "Al-Duhail Sports Club",
+      "budget": 10871061,
+      "prefix_float": 0.2175438553094864
+    },
+    {
+      "id": 23418694,
+      "name": "Shabab Al-Ahli Dubai Football Club",
+      "budget": 13244555,
+      "prefix_float": 0.2763157784938812
+    },
+    {
+      "id": 29106539,
+      "name": "Dorking Wanderers",
+      "budget": 10970,
+      "prefix_float": 0.12066752463579178
+    },
+    {
+      "id": 30010181,
+      "name": "Solihull Moors",
+      "budget": 68540,
+      "prefix_float": 0.11483253538608551
+    },
+    {
+      "id": 40026653,
+      "name": "Mumbai",
+      "budget": 482614,
+      "prefix_float": 0.42264753580093384
+    },
+    {
+      "id": 67020459,
+      "name": "Club Internacional de la Amistad",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67023757,
+      "name": "C.D. Oriente",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67034883,
+      "name": "F.C. M\u00e1laga City",
+      "budget": 53009178,
+      "prefix_float": 0.4385964870452881
+    },
+    {
+      "id": 67035574,
+      "name": "Club de Futbol Damm",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67035577,
+      "name": "Antiguoko K.E.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67035580,
+      "name": "Atl\u00e9tico Perines",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67035584,
+      "name": "Danok Bat Club de Fika",
+      "budget": 1924912,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67035586,
+      "name": "U.D. Amistad",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67060745,
+      "name": "A.D. Stadium Casablanca",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67060789,
+      "name": "F.C. Puente Castro",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67083529,
+      "name": "S\u00e9neca Club de F\u00fatbol",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67090087,
+      "name": "Cartagena F.C.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67090132,
+      "name": "U.D. Balsas Picarral",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67106065,
+      "name": "Burgos U.D.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67109585,
+      "name": "C.D. Conxo Santiago",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67119624,
+      "name": "A.D. Penya Arrabal",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67128774,
+      "name": "Alc\u00e1zar C.F.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67193438,
+      "name": "C.F. Torre Levante Orriols",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248717,
+      "name": "Marina Sport",
+      "budget": 1929787,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248721,
+      "name": "San Francisco C.D.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248727,
+      "name": "Santo Domingo Juventud",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248738,
+      "name": "C.D. San F\u00e9lix",
+      "budget": 760,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248742,
+      "name": "C.D. Puerto Malague\u00f1o Ciudad Jardin",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248747,
+      "name": "C.D. F\u00fatbol Pe\u00f1a Le\u00f3n",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248753,
+      "name": "Ranero C.F. Murcia",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248756,
+      "name": "Kelme C.F.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248758,
+      "name": "A.D.M. Lorqu\u00ed",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248762,
+      "name": "E.F.U.D. Albacer",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248767,
+      "name": "A. Madrile\u00f1o",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248923,
+      "name": "C.D. Sobradillo Tenerife",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248927,
+      "name": "Acodetti C.F.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67248931,
+      "name": "U.D. Longuera-Toscal",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67258300,
+      "name": "S.D. Llano 2000",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67258315,
+      "name": "C.D. 26 de Febrero",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67258325,
+      "name": "Academia Extremadura",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67258346,
+      "name": "E.F. Torre Pacheco",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67276639,
+      "name": "Club Deportivo Polillas Ceuta",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67276641,
+      "name": "V\u00e1zquez Cultural",
+      "budget": 1974652,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 67276643,
+      "name": "C.D. Tiro Pich\u00f3n",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 72000789,
+      "name": "Toronto FC",
+      "budget": 13245860,
+      "prefix_float": 0.7302629947662354
+    },
+    {
+      "id": 72047296,
+      "name": "Atlanta United FC",
+      "budget": 11971886,
+      "prefix_float": 0.533386766910553
+    },
+    {
+      "id": 72049313,
+      "name": "Los Angeles Football Club",
+      "budget": 14015308,
+      "prefix_float": 0.9090909361839294
+    },
+    {
+      "id": 72052048,
+      "name": "Inter Miami CF",
+      "budget": 30518813,
+      "prefix_float": 0.7326902151107788
+    },
+    {
+      "id": 90002300,
+      "name": "FC Halifax Town",
+      "budget": 0,
+      "prefix_float": 0.03743089362978935
+    },
+    {
+      "id": 91013388,
+      "name": "RB Leipzig",
+      "budget": 10739461,
+      "prefix_float": 0.7156347036361694
+    },
+    {
+      "id": 91201298,
+      "name": "Jugendf\u00f6rdergemeinschaft Saarlouis/Dillingen",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000030636,
+      "name": "Club Football Estrela da Amadora SAD",
+      "budget": 4545686,
+      "prefix_float": 0.10421052575111389
+    },
+    {
+      "id": 2000048681,
+      "name": "C.D. Arenal de Gij\u00f3n",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000048851,
+      "name": "C.D. Llamoro",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000048854,
+      "name": "C.E.F. Puertos LP",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000048880,
+      "name": "Uni\u00f3n Archena F.C.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000099878,
+      "name": "C.F. Inter San Jos\u00e9 Valencia",
+      "budget": 1928578,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000099880,
+      "name": "C.P. Flecha Negra",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000112791,
+      "name": "Sporting At. Ceuta",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000112848,
+      "name": "C.D. Hurac\u00e1n de Melilla",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000112855,
+      "name": "Colegio de la Inmaculada",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000112861,
+      "name": "E.F. Mareo Logro\u00f1o",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000205601,
+      "name": "San Roque Balompi\u00e9",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000213354,
+      "name": "JFV Ahlerstedt/Ottendf./Bargstedt/Harsefeld/Heesl.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000284707,
+      "name": "C.E.F. Gav\u00e1",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000284710,
+      "name": "C.E. Mercantil",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000284711,
+      "name": "E.F.B. Miguelturra",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000284713,
+      "name": "S.D. San Jos\u00e9 (TF)",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000339916,
+      "name": "C.V.C. Valladares",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000339917,
+      "name": "Agrupaci\u00f3n Juvenil De Lerez",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000339918,
+      "name": "E.D. Xuventude Oroso",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000339954,
+      "name": "Juventud Estadio Club de F\u00fatbol",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000339962,
+      "name": "Club Deportivo Quirinal",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000340009,
+      "name": "C.D. Amistad-Sniace",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000340263,
+      "name": "Arrupe Chaminade C.D.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000340507,
+      "name": "Club Esportiu APA Poble Sec",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000340719,
+      "name": "S.C.D. Intangco",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000340721,
+      "name": "Club Deportivo de F\u00fatbol Canet",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000341232,
+      "name": "Uni\u00f3n Deportiva La Mosca",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000341640,
+      "name": "C.D. La Salle de Puerto Real",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000341685,
+      "name": "Club Deportivo Siempre Alegres",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000341802,
+      "name": "S.D. La Salle Palma",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342011,
+      "name": "A.D. Guadalupe",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342012,
+      "name": "Beniaj\u00e1n UCAM C.F.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342013,
+      "name": "E.F. Base Pinatar",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342014,
+      "name": "Lorca Club F\u00fatbol Base",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342015,
+      "name": "Murcia Promesas E.F.",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342016,
+      "name": "Club Deportivo Mediterr\u00e1neo",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342017,
+      "name": "Club de F\u00fatbol Sala El Progreso",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342115,
+      "name": "Universidad Popular Pelayo Moreno Calamonte",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342271,
+      "name": "IPC La Escuela",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342272,
+      "name": "Club de F\u00fatbol Hern\u00e1n Cort\u00e9s Junquera",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342370,
+      "name": "Club Deportivo Escuela Federada de F\u00fatbol Base Ciudad Real",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342371,
+      "name": "Club de F\u00fatbol Odelot Toletum",
+      "budget": 0,
+      "prefix_float": 0.0
+    },
+    {
+      "id": 2000342386,
+      "name": "Club Atl\u00e8tic Segre",
+      "budget": 0,
+      "prefix_float": 0.0
+    }
+  ],
+  "instruction_candidates": [
+    {
+      "rva": "0xe4f73",
+      "hex": "34060f8523010000488d15ae092806e9cc070000488d1552092806488d7c24384889f9e865858901488d4c2478ba206c72754989f8e8d3fe88014889"
+    },
+    {
+      "rva": "0x22398e",
+      "hex": "610f85d50600004c89f1e813c90000e9cc07000081fe6c504d730f84f406000081fe725056730f85b0060000b3014c89f14c89fa41b001e8e6950000"
+    },
+    {
+      "rva": "0x621980",
+      "hex": "00eb734889f14c89c24883c4285f5ee9cc0700004889f14883c4285f5ee91e0b00004c89c1ba6773656de8a13935014889c78b05001cd4058b0d12d5"
+    },
+    {
+      "rva": "0x78029a",
+      "hex": "504889ea4531c0e82adca80084c00f84cc07000048895c2430488b6c2450488b8d00020000b201e82aaf9e00488b8d00020000ba656d616e4531c0e8"
+    },
+    {
+      "rva": "0x8f277a",
+      "hex": "000000c786c807000066736c7066c786cc070000000048c786d80700000000000048c786d007000000000000c786e007000050706d6366c786e40700"
+    },
+    {
+      "rva": "0x93d15e",
+      "hex": "000000c786c807000069744f4366c786cc070000000048c786d80700000000000048c786d007000000000000c786e007000054416d6966c786e40700"
+    },
+    {
+      "rva": "0x9dec5a",
+      "hex": "000000c786c80700006373626166c786cc070000000048c786d80700000000000048c786d007000000000000c786e007000063624c6e66c786e40700"
+    },
+    {
+      "rva": "0x9e0e5d",
+      "hex": "004531f631c048894424604d85e40f85cc070000e9650800004c8d7c24404c89f9e81ddaf4004889f94c89fa41b001e88f45fd00498d6d38488dbc24"
+    },
+    {
+      "rva": "0x9f10b2",
+      "hex": "000000c786c80700006f72706d66c786cc070000000048c786d80700000000000048c786d007000000000000c786e00700006e6f636d66c786e40700"
+    },
+    {
+      "rva": "0xa738e2",
+      "hex": "52630f84f807000081fd686368630f85cc07000041b70180bea9030000030f8443170000bf756c61764c89e1ba756c6176e8c819f00084c0ba74636c"
+    },
+    {
+      "rva": "0xaafd57",
+      "hex": "000000c786c807000074536f5066c786cc070000000048c786d80700000000000048c786d007000000000000c786e007000074536f7066c786e40700"
+    },
+    {
+      "rva": "0xad51f3",
+      "hex": "000000c786c8070000744b626866c786cc070000000048c786d80700000000000048c786d007000000000000c786e0070000656c6f7266c786e40700"
+    },
+    {
+      "rva": "0xaea313",
+      "hex": "000000c786c80700007441766666c786cc070000000048c786d80700000000000048c786d007000000000000c786e00700006350697466c786e40700"
+    },
+    {
+      "rva": "0xbf3de0",
+      "hex": "24644889f10fb65c243389da4531c9e8cc07000080fbfb0f85ab00000048897c2420c6442428004c8d4424344889f1b2fb4d89f1e8a70700004c897c"
+    },
+    {
+      "rva": "0xe3d250",
+      "hex": "dc20ac004889f1e8942000004889f1e8cc070000904883c4505b5f5e415e415fc3cccccccccccccccccccccccccccccc415741564155415456575553"
+    },
+    {
+      "rva": "0xf39167",
+      "hex": "6e690f84e304000081fb6c6c696b0f85cc070000488d6c24284889e931d2e8d640a400b96b4264484889ea4531c0e816c22b004889e9e80e3da40048"
+    },
+    {
+      "rva": "0xfa789c",
+      "hex": "8b8e58010000488b9660010000488988cc070000488990d4070000488b8e68010000488988dc070000488b8e70010000488988e4070000488b8e7801"
+    },
+    {
+      "rva": "0xfaad37",
+      "hex": "2f58010000488b8c2f60010000498987cc07000049898fd4070000488b842f68010000498987dc070000488b842f70010000498987e4070000488b84"
+    },
+    {
+      "rva": "0xfb6f92",
+      "hex": "ba030000004189f9e8016001004c8db6cc070000488d4c24304c89f2e84d219400488b46f8488b88f00100004863892001000031db41b90000000048"
+    },
+    {
+      "rva": "0x104503f",
+      "hex": "c00000004989ccf68118010000010f84cc070000498db424200100004889f1e8ddac9000498b5c24404d8b6c24484c39eb0f843b0600004889b42498"
+    },
+    {
+      "rva": "0x10b0c80",
+      "hex": "74696e694989f8e8648bffff4889f1e8cc070000e9b307000081fd6f6665720f840504000081fd4c436c730f841d04000081fd4f4c6c730f85800700"
+    },
+    {
+      "rva": "0x124d1f7",
+      "hex": "10e00500000fb6816c02000043888410cc0700000fb6816d02000043888410cd070000488b818c010000488b91940100004b898410d00700004b8994"
+    },
+    {
+      "rva": "0x13d0326",
+      "hex": "04488986c40700008b059c48f9048986cc070000c786d00700000000803f488b05a56bf904488986d4070000488b059f6bf904488986dc070000488b"
+    },
+    {
+      "rva": "0x1467080",
+      "hex": "89ea4c8d8424980000004c8d4c2478e8cc07000049ffc5488b4c24604883c15848ffc54983c610488b8424b00000004c39e80f84f8faffff488b4318"
+    },
+    {
+      "rva": "0x1712bde",
+      "hex": "75b0418b9fac07000085db7465498dbfcc070000662e0f1f8400000000000f1f40008b4fec89f2e876f7f0ff4401f089078b4ff089f2e867f7f0ff44"
+    },
+    {
+      "rva": "0x1712d16",
+      "hex": "0f8481000000498dafa80300004d8db7cc07000085ff745966904c89f3662e0f1f8400000000000f1f008b45002b43e489c1f7d90f48c889f2e82cf6"
+    },
+    {
+      "rva": "0x174d84f",
+      "hex": "0f85e3060000ffc30fbf420685c00f85cc070000ffc30fbf421485c00f85b5080000ffc30fbf422285c00f859e090000ffc30fbf423085c00f85870a"
+    },
+    {
+      "rva": "0x1bb6d12",
+      "hex": "415641545657534883ec284839d10f84cc0700004889d74889ce0fb60288014c8d6208488b59084885db0f849d000000488b4e184829d9488b05a8c7"
+    },
+    {
+      "rva": "0x1bb7612",
+      "hex": "415641545657534883ec284839d10f84cc0700004889d74889ce0fb60288014c8d6208488b59084885db0f849d000000488b4e184829d9488b05a8be"
+    },
+    {
+      "rva": "0x1dae80b",
+      "hex": "58000000488b0cca3b81380000000f8fcc070000488d058a846704488905cb4c5b040f29755048c7456000000000450fb78f30020000498b8f200100"
+    },
+    {
+      "rva": "0x2291a42",
+      "hex": "0031d2e806cd2e03b8ffffffff488986cc07000048b80000000064000000488986d407000048c786dc0700000000000048b800000000ffffffff4889"
+    },
+    {
+      "rva": "0x2291d02",
+      "hex": "0031d2e846ca2e03b8ffffffff488986cc07000048b80000000064000000488986d407000048c786dc0700000000000048b800000000ffffffff4889"
+    },
+    {
+      "rva": "0x2292253",
+      "hex": "24d40700004889b5800000004d8db424cc070000488b5d684885db0f84da010000488b0341b8040000004889d94889faff50284c89757048c7457804"
+    },
+    {
+      "rva": "0x22942fb",
+      "hex": "837b10000f851b0b0000488b1e488d97cc070000488b0341b8040000004889d9ff5028837b10000f85f80a0000488b1e488d97d4070000488b0341b8"
+    },
+    {
+      "rva": "0x22978e5",
+      "hex": "4889faff5040898640080000eb548b9ecc070000e882576eff4883c028895df8488945f0488b4e08c644242000488d15fccb7b03488d5df04989d849"
+    },
+    {
+      "rva": "0x2297933",
+      "hex": "5010488b0f488b014889faff50408986cc070000b0014883c4485b5f5e5dc3662e0f1f8400000000000f1f40004889542410555657534883ec28488d"
+    },
+    {
+      "rva": "0x2298e59",
+      "hex": "d00700008d48fe83f9fc771741898424cc07000041898424dc070000b301e9d40300004183bc24cc070000007938488b0d3a471904488b014c89e2ff"
+    },
+    {
+      "rva": "0x2298e70",
+      "hex": "24dc070000b301e9d40300004183bc24cc070000007938488b0d3a471904488b014c89e2ff5038498b4c240884c00f85ee0000004885c90f84e50000"
+    },
+    {
+      "rva": "0x2298ea1",
+      "hex": "0000004885c90f84e50000004181bc24cc0700000bfeffff0f8fd3000000488b0d02471904488b014c89e2ff503884c0751649837c240800740e4181"
+    },
+    {
+      "rva": "0x2298ecf",
+      "hex": "84c0751649837c240800740e4181bc24cc070000f40100007f36488b0dd8461904488b014c89e2ff503884c0751649837c240800740e4181bc24cc07"
+    },
+    {
+      "rva": "0x2298ef9",
+      "hex": "84c0751649837c240800740e4181bc24cc0700000dfeffff7c0c41c78424cc07000000000000488b0da2461904488b014c89e2ff5038418b8c24cc07"
+    },
+    {
+      "rva": "0x2298f07",
+      "hex": "bc24cc0700000dfeffff7c0c41c78424cc07000000000000488b0da2461904488b014c89e2ff5038418b8c24cc0700008d51ff31db81faf30100000f"
+    },
+    {
+      "rva": "0x2298f23",
+      "hex": "461904488b014c89e2ff5038418b8c24cc0700008d51ff31db81faf30100000f42cb49837c2408000f44cb84c00f45cb41898c24d0070000488b0d66"
+    },
+    {
+      "rva": "0x2299107",
+      "hex": "441904488b014c89e2ff5038418b8c24cc0700008d51ff81faf30100000f42cb49837c2408000f44cb84c00f45cb39cf7e12418b8424d00700004189"
+    },
+    {
+      "rva": "0x2299135",
+      "hex": "39cf7e12418b8424d007000041898424cc070000eb3c488b0d76441904488b014c89e2ff5038418b8c24cc0700008d51ff31db81faf30100000f42cb"
+    },
+    {
+      "rva": "0x229914f",
+      "hex": "441904488b014c89e2ff5038418b8c24cc0700008d51ff31db81faf30100000f42cb49837c2408000f44cb84c00f45cb41898c24d0070000488b0d32"
+    },
+    {
+      "rva": "0x229923a",
+      "hex": "4259000041898424d007000041898424cc07000031db498b7d004885ff0f84bc00000080bf6a010000037463488b8718010000488b8f200100004839"
+    },
+    {
+      "rva": "0x22992bd",
+      "hex": "407509817f0cd00dd700751049c78424cc0700000000000031c0eb58488b87d80000004885c0743481780c03030000752b488b4718483b4720742148"
+    },
+    {
+      "rva": "0x229938d",
+      "hex": "048041398424d00700007d1849c78424cc0700000000000041c78424d407000000000000488b4718483b47207412488b084885c97411440fb7b9a800"
+    },
+    {
+      "rva": "0x229eed1",
+      "hex": "a424f001000041898738080000418bb7cc0700004584ed740e31c085f60f4ef04189b7cc0700008b9c24c00100004183fcff755a488b8424c8010000"
+    },
+    {
+      "rva": "0x229eee4",
+      "hex": "004584ed740e31c085f60f4ef04189b7cc0700008b9c24c00100004183fcff755a488b8424c8010000488b0db4e61804488b290fb69424d001000088"
+    },
+    {
+      "rva": "0x229ef70",
+      "hex": "0f846b1600004589a7d00700004589a7cc070000488b0d35e61804488b014c89fa4531c0ff50288907e9431600004c89b424a0000000498b4f084531"
+    },
+    {
+      "rva": "0x229fc2b",
+      "hex": "410f4cc6807c246700440f49e04183bfcc070000007874418b9fd4070000418b8fe0070000410fb687b108000001d97e673c017463498b4f084885c9"
+    },
+    {
+      "rva": "0x229fc9f",
+      "hex": "4989f5eb25448bb424800000004183bfcc07000000798c4989f5410fb687b1080000eb034989f54489e3488bb424980000004c8ba424880000003c02"
+    },
+    {
+      "rva": "0x22a05b3",
+      "hex": "0100000074284589a7d00700004589a7cc070000488b0df2cf1804488b014c89fa4531c0ff50288906448b6424684489e00f28b424b00000000f28bc"
+    },
+    {
+      "rva": "0x22a06ab",
+      "hex": "534883ec584989cf4584c0740c418bbfcc070000e9300300004489cb4189d4488b0df7ce1804488b014c89faff503831ff84c00f8510030000498b6f"
+    },
+    {
+      "rva": "0x22a0924",
+      "hex": "c1300200004889c8e989feffff458bb7cc070000803d72491904000f84a00000004584e40f8497000000498b4f08488b4118483b41200f8485000000"
+    },
+    {
+      "rva": "0x22bd11f",
+      "hex": "cc5657534883ec204889d64889cf8b99cc070000b2014531c04531c9e86035feff39d80f4fd88b0601d83d01ca9a3b7c15b800ca9a3b29d8890681fb"
+    },
+    {
+      "rva": "0x22c2210",
+      "hex": "f346210aa40facd30183fbfe7f6f8b96cc0700004189f885d27e0701fa4189d0795b4429c3d1c381f346210aa4d3cb81f334a0413e8919488b887003"
+    },
+    {
+      "rva": "0x22c2284",
+      "hex": "040074054584c075054084ed74688b86cc07000085c0785e01f831c985c00f4fc8e97f000000660f1f44000048ffcd7440498b87b0000000488b0048"
+    },
+    {
+      "rva": "0x22c22f6",
+      "hex": "29f77e35486346144863cf4801c8038ecc070000483dffffff7fb8003333730f4ec131c985c00f49c8803d8b2f1704000f44c8898ecc0700000f2874"
+    },
+    {
+      "rva": "0x22c231b",
+      "hex": "c00f49c8803d8b2f1704000f44c8898ecc0700000f287424504883c4685b5d5f5e415e415fc3cccccccccccccccccccccccccccccc8b810c080000c3"
+    },
+    {
+      "rva": "0x22c41ac",
+      "hex": "a9610000b9a86100000f4dc8890e018fcc070000018fd007000040b501e931fcffffcccc8b81d0070000c3cccccccccccccccccc0191cc0700000191"
+    },
+    {
+      "rva": "0x22c41d2",
+      "hex": "d0070000c3cccccccccccccccccc0191cc0700000191d0070000c3cccccc5657534883ec204885d20f84cf0000004489c34889d7488b4218483b4220"
+    },
+    {
+      "rva": "0x22c7655",
+      "hex": "dc07000041898424d007000041898424cc070000488b0d505f1604488b014c89e24531c0ff5028488b4df0890140b601eb0231f6498b074885c00f84"
+    },
+    {
+      "rva": "0x22c7713",
+      "hex": "5e1604488b014c89e2ff5038418b8c24cc0700008d51ff31db81faf30100000f42cb49837c2408000f44cb84c00f45cb01f941898c24cc0700004084"
+    },
+    {
+      "rva": "0x22c7739",
+      "hex": "08000f44cb84c00f45cb01f941898c24cc0700004084f60f856609000049837c2408000f845a0900004180bc24b0080000000f854b0900004c89e1b2"
+    },
+    {
+      "rva": "0x22c7c98",
+      "hex": "591604488b014c89e2ff5038418b8c24cc070000f30f2ac1ffc9f30f5905b6602c03f30f2cd081faa0252600bea02526000f4cf231db81f9f3010000"
+    },
+    {
+      "rva": "0x22c7ce9",
+      "hex": "581604488b014c89e2ff5038418b8c24cc0700008d51ff81faf30100000f42cb49837c2408000f44cb84c00f45cb29f141898c24cc0700004863c648"
+    },
+    {
+      "rva": "0x22c7d0d",
+      "hex": "08000f44cb84c00f45cb29f141898c24cc0700004863c64869c04fecc44e4889c148c1e93f48c1f82401c801f84189842410080000e922030000488b"
+    },
+    {
+      "rva": "0x22c8051",
+      "hex": "1008000081f9f30100007faa4189bc24cc0700004c8b6d48418b84241008000085c07e2f4183bc2414080000007e24f20f100580d04d03f2410f5fc0"
+    },
+    {
+      "rva": "0x22cb68a",
+      "hex": "f20f59055e3c2c03f20f2cc041018424cc070000488b0d1b1f1604488b014c89e24189d8ff9090010000488b0d0d1f1604488b01c644244000c64424"
+    },
+    {
+      "rva": "0x22cb79f",
+      "hex": "0081fdffffff3f771941891f418b8424cc0700004189470441c6470805e9d20100008b0509370c0465488b0c2558000000488b04c180b83c00000000"
+    },
+    {
+      "rva": "0x22cb86a",
+      "hex": "03f20f2cc039c37d1941891f418b8424cc0700004189470441c6470806e907010000488b810001000080b829010000020f84c9000000488b5118483b"
+    },
+    {
+      "rva": "0x22cb960",
+      "hex": "81780c08030000754b41891f418b8424cc0700004189470441c6470801eb1441891f418b8424cc0700004189470441c647080340b7014180bc24b108"
+    },
+    {
+      "rva": "0x22cb976",
+      "hex": "470441c6470801eb1441891f418b8424cc0700004189470441c647080340b7014180bc24b1080000010f84b6fcffff4c89e131d2e8d16cfdffe9a7fc"
+    },
+    {
+      "rva": "0x22cb9ab",
+      "hex": "d16cfdffe9a7fcffff41891f418b8424cc0700004189470441c6470807498b442408488b8000010000c6802901000002ebb6cccccc41574156565755"
+    },
+    {
+      "rva": "0x22cbcad",
+      "hex": "2ac1f20f590539362c03f20f2cc00386cc07000031c985c00f4fc8898ecc0700004889f189dae808d1feff891f8b86cc070000894704c647080340b7"
+    },
+    {
+      "rva": "0x22cbcba",
+      "hex": "c00386cc07000031c985c00f4fc8898ecc0700004889f189dae808d1feff891f8b86cc070000894704c647080340b70180beb1080000010f8474ffff"
+    },
+    {
+      "rva": "0x22cbccc",
+      "hex": "00004889f189dae808d1feff891f8b86cc070000894704c647080340b70180beb1080000010f8474ffffff4889f131d2e87f69fdffe965ffffffcccc"
+    },
+    {
+      "rva": "0x22d4b29",
+      "hex": "4889d9e83f2f2a00e9130100004489a6cc0700008bbed007000085ff0f89db010000e9cc010000488b8b70030000b834a0413e33811c0500004881c1"
+    },
+    {
+      "rva": "0x22d4c6c",
+      "hex": "0aa4410facc60141ffc64501e64489b6cc07000083be10080000008b8614080000f20f1005ebf64a037e1485c07e104889f1b201e88b95fcff8b8614"
+    },
+    {
+      "rva": "0x22d4e31",
+      "hex": "0000baf0110000480f44d1891c1089afcc0700004883c4205b5d5f5e415ec3e9ab29e1104b98424f633e0de669e97ed82601c10f8c4041c401e90a87"
+    },
+    {
+      "rva": "0x2311b7d",
+      "hex": "000000410f4fd6488b89500100008991cc070000807e2f007504488b4630488b8050010000c680ae08000001e911feffffcccc56574883ec28803d9b"
+    },
+    {
+      "rva": "0x25de4f5",
+      "hex": "8443090000410fbfd129f26639d10f85cc070000e9c9070000440fb7a1d60000000fb789d400000081e1ff0100004181fc6c070000750a6683f9010f"
+    },
+    {
+      "rva": "0x263e4fb",
+      "hex": "4fd203000f84870700004c3b7d300f84cc0700004531f631ff31c048894560eb270f1f40008b40304829c34889d9ff15712971034989f64983c7084c"
+    },
+    {
+      "rva": "0x26c5bc7",
+      "hex": "c00f8e61050000418d46ff4839da0f84cc07000083f8030f83f7080000488d5dd84889da41b833ee0500e97a0d0000488b07483b87e80000000f8451"
+    },
+    {
+      "rva": "0x2786220",
+      "hex": "ff80fabe0f87940600000fb6c2488d0dcc070000486304814801c8ffe048c745a800000000488d1503cae1024c8d75a84c89f141b8ffffffffe8e28c"
+    },
+    {
+      "rva": "0x2a2b82f",
+      "hex": "488d7424404889d94889f283f8020f84cc07000083f8010f84ae04000085c00f85c607000041b8b8300800e9170b0000410fbec0488d7424404889d9"
+    },
+    {
+      "rva": "0x2b22d70",
+      "hex": "58000000488b0cca3b81380000000f8fcc070000488d0d253f900348890d66078403ba02000000e894c1ddfe4889c666c7000103488b0d4d078403ba"
+    },
+    {
+      "rva": "0x2b4402d",
+      "hex": "688b861c0800004189819800000083becc0700000078158b8ee0070000038ed407000031c085c90f4fc1eb0231c04189819c0000008b868008000085"
+    },
+    {
+      "rva": "0x2bade30",
+      "hex": "8c787801e90affffff41807e28010f85cc070000488d75084c89e14889f241b86ebc0600eb254c89ef4c8d7d084c89e14c89fa41b889b80600eb4148"
+    },
+    {
+      "rva": "0x2c00505",
+      "hex": "f20f5905f3ed9802f20f2cc041898424cc07000041898424d0070000488b0d98d08203488b014c89e2ff90e801000041898424d4070000498b85d800"
+    },
+    {
+      "rva": "0x2c6f123",
+      "hex": "00000f85d80700008b457883e0080f85cc070000488975304c89e1e80d745dff4885c00f84a10700004889c6488b4e10c644242800c64424200131d2"
+    },
+    {
+      "rva": "0x2cd2f27",
+      "hex": "83fe02b801000000480f42f0b0018985cc0700004531e448899d380800004c8bbd50080000eb3b31c084c00f85a9fbffff807e61000f849ffbffff48"
+    },
+    {
+      "rva": "0x2cd3253",
+      "hex": "f9e8d7bd49ff84c00f844e010000f685cc070000010f841b010000c644242001488d4dd04889fa4c8b85600800004c8b8d30080000e8630c220184c0"
+    },
+    {
+      "rva": "0x2cd3371",
+      "hex": "85c9740a488b01ba01000000ff10c785cc07000000000000488d4dd0e81eb3feff4c8bad60080000488b9d380800004c8bbd500800004c89f6e9cefb"
+    },
+    {
+      "rva": "0x2f9fba5",
+      "hex": "752048837f08007419488b4424708b80cc0700008d50ff31c981faf30100000f43c8807c246a000f8489010000c744246c00000000488b4424703b88"
+    },
+    {
+      "rva": "0x2f9fc01",
+      "hex": "00000084c0751f48837f080074188b87cc0700008d48ff31d281f9f30100000f43d08954246c8b44246c2b87d00700008944246c498b4608498b4e10"
+    },
+    {
+      "rva": "0x2f9fd1a",
+      "hex": "752048837b0800b90000000074148b83cc0700008d50ff31c981faf30100000f43c829ce85f6440f4ff6e96f0f0000488b74247072296639c8722489"
+    },
+    {
+      "rva": "0x2f9fd52",
+      "hex": "c8722489ef89ddeb25488b4424708988cc0700008988d0070000c744246c00000000e93a010000ba93feffff89df0fb7df0fb7ed29eb0fafda29c801"
+    },
+    {
+      "rva": "0x2f9fdbb",
+      "hex": "7e0800b9000000000f84de0000008b86cc0700008d50ff31c981faf30100000f43c8e9c5000000c744246c000000004889f1b2014531c04531c9e8a6"
+    },
+    {
+      "rva": "0x2f9fe17",
+      "hex": "00000084c0751f48837e080074188b86cc0700008d48ff31d281f9f30100000f43d08954246c8b44246c2b86d00700008944246c31db4889f1b20145"
+    },
+    {
+      "rva": "0x2f9fe74",
+      "hex": "ff503884c0751b48837e080074148b86cc0700008d48ff31db81f9f30100000f43d829df31c085ff0f4fc78b8ed007000029c1898ecc070000898ed0"
+    },
+    {
+      "rva": "0x2f9fe99",
+      "hex": "c085ff0f4fc78b8ed007000029c1898ecc070000898ed0070000498b5d00498b75084839f30f84000d000031c04889d9eb0e0f1f4400004883c10848"
+    },
+    {
+      "rva": "0x2fa0046",
+      "hex": "3831ff84c0751d48837b080074168bbbcc0700008d47ff3df3010000b8000000000f42f8498b8700020000492b87f80100000f8462fffffff20f2af6"
+    },
+    {
+      "rva": "0x2fa0651",
+      "hex": "837b0800488b94249800000074168b8bcc0700008d41ff3df3010000b8000000000f42c839cf0f4ef985d289bc24e8000000781b4c89f941807f2f00"
+    },
+    {
+      "rva": "0x2fa0911",
+      "hex": "837b0800488b94249800000074168b8bcc0700008d41ff3df3010000b8000000000f42c84139cd440f4ee94585ed7f0f85d2740b4189d5eb26660f1f"
+    },
+    {
+      "rva": "0x2fa0bc5",
+      "hex": "44246c488b4c24700381d00700008981cc0700008981d00700000f28b424b00300000f28bc24c0030000440f288424d0030000440f288c24e0030000"
+    },
+    {
+      "rva": "0x2fa0e42",
+      "hex": "c1c1f91f21c14429f039c10f4ec8898ecc070000898ed0070000488b9424000100004885d274174c8b8424100100004929d0488b0d7d263c03e8b0e4"
+    },
+    {
+      "rva": "0x30fed4f",
+      "hex": "0000003ddc0b00000f855501000083becc07000000781e8b86e00700000386d407000031ed85c00f4ec53d0065cd1d0f874701000048837e08000f95"
+    },
+    {
+      "rva": "0x30fee65",
+      "hex": "5fe73203488b014889f2ff5038448b86cc070000418d48ff81f9f3010000440f42c548837e0800440f44c584c0440f45c544897c24204889f94889f2"
+    },
+    {
+      "rva": "0x3112354",
+      "hex": "f60f84c003000089ac248000000083bbcc070000000f882a0900008b83e00700000383d407000031c985c00f4fc848894c2478e914090000e88fd72b"
+    },
+    {
+      "rva": "0x31124c1",
+      "hex": "07000048837b08000f84d10700008b83cc0700008d48ff31d281f9f30100000f43d04889542478e9b30700004c89742420488d9424000300004c8d84"
+    },
+    {
+      "rva": "0x3112725",
+      "hex": "0084c00f8501080000408874245f83bbcc070000000f88cd0700008b83e00700000383d407000031f685c00f4ff0e9b70700004584f67e11410fb6ce"
+    },
+    {
+      "rva": "0x31127f7",
+      "hex": "488b6c2460752048837b080074198b83cc0700008d48ff31d281f9f30100000f43d048895424788b842480000000894424204889f94889da4c8b4424"
+    },
+    {
+      "rva": "0x3113eef",
+      "hex": "503884c0751c49837e08007415418b86cc0700008d48ff31db81f9f30100000f43d8498b4d1866b8dc05493b4d200f84db060000488b094885c90f84"
+    },
+    {
+      "rva": "0x31343f7",
+      "hex": "cd912f03488b01ff50384c8b46088b9ecc070000488b6f1866badc05483b6f20744f488b6d004885ed74460fb795a8000000488baf500100004885ed"
+    },
+    {
+      "rva": "0x31e4145",
+      "hex": "89bd000900000f8460010000440fb785cc07000048898510090000f0ff4008488d4dc8488d9510090000e8ac9effff89c3488b8d100900004885c974"
+    },
+    {
+      "rva": "0x32e634c",
+      "hex": "31ff84c0751e49837d08007417418b85cc0700008d48ff4531ff81f9f3010000440f43f84084ed0f95c080f30120c3488b0d46721403488b01448864"
+    },
+    {
+      "rva": "0x32e6472",
+      "hex": "ff5528418985d00700004429f0418985cc07000049c7855c0800000000000041c78564080000000000000fb7052b7103030fb70d5696030381f9e807"
+    },
+    {
+      "rva": "0x32e6579",
+      "hex": "31c984c0751c49837d08007415418b85cc0700008d50ff31c981faf30100000f43c8418b85d007000039c17e21418985cc070000488b0d0c70140348"
+    },
+    {
+      "rva": "0x32e6599",
+      "hex": "43c8418b85d007000039c17e21418985cc070000488b0d0c701403488b014c89eaff90e8010000418985d4070000b0014584ff741a488b4c24604103"
+    },
+    {
+      "rva": "0x3315896",
+      "hex": "ff503884c0751448837e0800740d83becc070000000f884533000048833d3fdc04030075338b052f1411038b0d0996070365488b142558000000488b"
+    },
+    {
+      "rva": "0x33bc66a",
+      "hex": "00004889d94889fae8e94253ff41c787cc07000000000000488b8dd00000004889da4989f0e83cfa0000488b8548010000448b78086641bc9813e9ba"
+    },
+    {
+      "rva": "0x33bcb3a",
+      "hex": "8b8540010000e88b32010089c64183bfcc070000000f8881060000418b87d4070000418b8fe00700008d3c0131d285ff0f4efa01c64189b7d4070000"
+    },
+    {
+      "rva": "0x33bcc23",
+      "hex": "89d94889c2e8333d53ff4129fc4589a7cc070000488b8dd00000004889da4989f041b101e824fa0000488b8548010000448b78086641bc9913e90206"
+    },
+    {
+      "rva": "0x33bcfbf",
+      "hex": "00004889d94889fae8943953ff41c787cc07000000000000488b8dd00000004889da4989f041b101e874fb0000c744243801000000c7442430000000"
+    },
+    {
+      "rva": "0x33cfdd2",
+      "hex": "534883ec204c89c74889d64889ca83b9cc0700000078158b82e00700000382d407000031db85c00f4fd8eb0231db488b0db9d70503488b01ff90e801"
+    },
+    {
+      "rva": "0x33dffef",
+      "hex": "2ac0f30f5905b7442a02f30f2cc08986cc0700008986d0070000e914030000498b46084939060f8407030000488b58f84885db0f84fa020000488d4b"
+    },
+    {
+      "rva": "0x3443239",
+      "hex": "204889faff158dc89002807b48000f84cc070000f0ff4b400f95c0e9c20700008b40304829c74889f9ff1538dc9002488b85d0000000488930488b85"
+    },
+    {
+      "rva": "0x34a7b85",
+      "hex": "58000000488b0cca3b81380000000f8fcc070000488d0510f1f70248890551b9eb02488b5d0048897df04531e44839de4889da0f849601000041be00"
+    },
+    {
+      "rva": "0x34ac90d",
+      "hex": "010f84d9070000488b04c64885c00f84cc0700008088b000000040e9c0070000488b15b4d1f7020fb705910ce70225ff0100000fb78a2c01000081e1"
+    },
+    {
+      "rva": "0x34dd240",
+      "hex": "2420004889f14c89f24989f84531c9e8cc07000083f8057cb74c89e14889fae8cc1c0000ebaa488975b8488b75c0488b45c84829f0488975f80f8480"
+    },
+    {
+      "rva": "0x386e2fd",
+      "hex": "dc0700000fb65f3b0fbec383f80f0f87cc070000b921e000000fa3c10f83be07000048833dd151af020075338b05c189bb028b0d9b0bb20265488b14"
+    },
+    {
+      "rva": "0x394955c",
+      "hex": "c04531c9e83b7195fe39f80f4ff889becc070000c7442430000000004c8974242848c74424380000000048c744244000000000c64424480066c74424"
+    },
+    {
+      "rva": "0x39497f9",
+      "hex": "c04531c9e89e6e95fe39f80f4ff889becc070000c7442430000000004c8974242848c74424380000000048c744244000000000c64424480066c74424"
+    },
+    {
+      "rva": "0x3949a96",
+      "hex": "c04531c9e8016c95fe39f80f4ff889becc070000c7442430000000004c8974242848c74424380000000048c744244000000000c64424480066c74424"
+    },
+    {
+      "rva": "0x3949dd8",
+      "hex": "c04531c9e8bf6895fe39f80f4ff889becc070000c7442430000000004c8974242848c74424380000000048c744244000000000c64424480066c74424"
+    },
+    {
+      "rva": "0x394a072",
+      "hex": "c04531c9e8256695fe39f80f4ff889becc070000c7442430000000004c8974242848c74424380000000048c744244000000000c64424480066c74424"
+    },
+    {
+      "rva": "0x3991563",
+      "hex": "b2014531c04531c9e830f190fe4183bfcc070000007815418b8fe007000041038fd407000031f685c90f4ff139c60f4fc6808f8400000020eb104c89"
+    },
+    {
+      "rva": "0x39a67eb",
+      "hex": "970231d2e84c7ebd014885c0740601b0cc070000498b463880782f007510488b4830eb0c4883c4285b5f5e415ec331c94883c4285b5f5e415ee96775"
+    },
+    {
+      "rva": "0x3a8d070",
+      "hex": "84c0751e49837c2408007416418b8424cc0700008d50ff31c981faf30100000f43c801f141898c24cc070000f20f2af34c89e1b201e8861181fef20f"
+    },
+    {
+      "rva": "0x3a8d088",
+      "hex": "c981faf30100000f43c801f141898c24cc070000f20f2af34c89e1b201e8861181fef20f59c6f20f2cc041898424140800008b050c05890241898424"
+    },
+    {
+      "rva": "0x3a8d0be",
+      "hex": "89024189842484080000eb1045019424cc07000045019424d00700000f2875204881c4b80000005b5f5e415c415d415e415f5dc3498b3e498b76080f"
+    },
+    {
+      "rva": "0x3af0015",
+      "hex": "488d5dc04889f14889da4180fd020f85cc07000041b8afaf0600e90621000080fb020f8ce60000003c010f85de000000488d5dc04889f14889da4180"
+    },
+    {
+      "rva": "0x3b75278",
+      "hex": "8d75e04c89f14889f241b87a880400e9cc070000488d75e04c89f14889f241b81a5a0400e9b7070000488d75e04c89f14889f241b8bb590400e9a207"
+    },
+    {
+      "rva": "0x3c03ab4",
+      "hex": "80bc24cd00000000750a488b45a08990cc0700004180bc24c900000000410fb68424ca000000742f410fbe4d10c1e102410fbe55118d0c5184c07440"
+    },
+    {
+      "rva": "0x3c5e7b5",
+      "hex": "7424484c89e14889f241b80e890600e9cc07000048c744244000000000488d15fd93ed01488d7424404889f141b8ffffffffe85407cdfd488d7c2448"
+    },
+    {
+      "rva": "0x3d8e1a9",
+      "hex": "4183f8040f84be0000004183f8030f85cc0700008b81a8000000488b4f08488b15d2936902483b5140b90a000000bb030000000f44d999f7fb83fa08"
+    },
+    {
+      "rva": "0x3e804ea",
+      "hex": "8400000000004983c4104c3b65d00f84cc0700004d8b2c244d85ed74e9498b45004c89e9ff90300200004885c074d7803d8f4d5b02007418498b4d18"
+    },
+    {
+      "rva": "0x40625c7",
+      "hex": "8b8c24d4000000488b9508020000898acc070000898ad0070000418b8c24d0000000898a10080000eb5a488b8d00020000488b01ff90d80600004885"
+    },
+    {
+      "rva": "0x4062621",
+      "hex": "8b8424d4000000488b8d080200008981cc0700008981d0070000418b8424d000000089811008000031c04881c4980200005b5f5e415c415d415e415f"
+    },
+    {
+      "rva": "0x407ea96",
+      "hex": "89fa83f8030f84ca07000083f8020f85cc07000041b842ac0300e9250a00000fb687c001000083f8030f848700000083f8020f85b3070000488d7c24"
+    },
+    {
+      "rva": "0x40e49b0",
+      "hex": "8d75f04c89e14889f241b8cbe40600e9cc07000041f685b0000000020f85580200004983bdd8000000000f84b9050000488d75f04c89e14889f241b8"
+    },
+    {
+      "rva": "0x417f21c",
+      "hex": "1000e86d6dc8fe498b06493946080f84cc07000048899d300100004531ed31c948898d6801000031c948898d500100004531ff31c948898d60010000"
+    },
+    {
+      "rva": "0x4421d9f",
+      "hex": "000f84ce0100000d70040000418903e9cc0700008d487041898d9c050000f3410f1085bc050000410f2e85cc05000076080d70010000418903498b86"
+    },
+    {
+      "rva": "0x4600daf",
+      "hex": "0049ffc248ffc74883c3184939f90f84cc070000498b7770664439041e76e54c39d774dd488d4c1ef04b8d2c52488b4110488944ee10488b01488b49"
+    },
+    {
+      "rva": "0x4627f72",
+      "hex": "48ffc14489e24839ce75e34584e40f88cc0700000f57f64531f6eb0e669041fec64538e60f8fb607000080bde0010000ff7409443ab5e001000075e2"
+    },
+    {
+      "rva": "0x46a2e5c",
+      "hex": "24608d48f54489e083f905777d488d05cc070000486314884801c24489e0ffe2410fb6563180faff756d410fb64626410fb6562e38c289d50f4de841"
+    },
+    {
+      "rva": "0x475ab7b",
+      "hex": "e8e0b6ecffeb0d803dcf46cd01000f84cc070000488b3dc242cd014c8b2dc342cd014c39ef0f85a70300004c89f9b20141b001e8fd0700004c89f9b2"
+    },
+    {
+      "rva": "0x484a4c3",
+      "hex": "80500100004885c00f8479feffff83b8cc070000000f88750300008b88e00700000388d407000031c085c90f4fc1e95f030000c744247c0000000048"
+    },
+    {
+      "rva": "0x48948e5",
+      "hex": "8b5c24284885db0f84d10700008b13e9cc07000081fa535365570f8f8402000081fa4c4d65570f84f903000081fa524d65570f857b250000488b0f48"
+    },
+    {
+      "rva": "0x4951d7f",
+      "hex": "04000081fe6f6a50420f84e4010000e9cc07000081fe6c5346500f84a701000081fe6c6346500f849b01000081fe736346500f848f010000e9a30700"
+    },
+    {
+      "rva": "0x49fe94d",
+      "hex": "7830000f84d707000048837850000f84cc070000498b442408486340084a8bb420a8000000488b064889f1ff5050488b4e10488b41304885c0740448"
+    },
+    {
+      "rva": "0x4a6d97a",
+      "hex": "80c514e9da07000048837c2450000f84cc070000488b742450488b064889f1ff503883f8010f85d6040000488b064889f1ff503883f8010f84f40400"
+    },
+    {
+      "rva": "0x4bb38a6",
+      "hex": "204889f2ff1520c21901807b48000f84cc070000f0ff4b400f95c0e9c20700004c89e1e892f7cdfd3c050f8d3d0100004c8bb560180000e9b2f3ffff"
+    },
+    {
+      "rva": "0x4bbf99b",
+      "hex": "0080bc2494010000000f8564090000e9cc0700008b0523d57b018b0d15f57c0165488b142558000000488b0cca3b81380000000f8fe73f0000ba1000"
+    },
+    {
+      "rva": "0x4bf47f1",
+      "hex": "be6afd85c07e11488b85c0010000c780cc070000000000004d85f67413488b85c0010000486380780800004939c57d0e488b85c00100004489a87808"
+    },
+    {
+      "rva": "0x4bf5097",
+      "hex": "4c89f2ff50384531ed84c07519458baecc070000418d45ff3df3010000b800000000440f42e8498b5e080fb68b6b0100004189c841c0f80741f6d041"
+    },
+    {
+      "rva": "0x4bf5422",
+      "hex": "2c4489e84429f0488bb5c00100008986cc070000488b0d83818301488b014889f2ff90e80100008986d4070000488b057afd76014889852001000048"
+    },
+    {
+      "rva": "0x4bf55de",
+      "hex": "0831d284c0751d488b85c00100008b90cc0700008d42ff3df3010000b8000000000f42d048898da80000004489b5c00000008995b8000000899dc400"
+    },
+    {
+      "rva": "0x4ced52b",
+      "hex": "a61300000fb74424723d0b0600000f85cc0700004c89e1e8d9e464fd498b4c24104885c90f84640c000080792f00488b5c24600f85a70c00004c8b41"
+    },
+    {
+      "rva": "0x4cf481f",
+      "hex": "be0200004c89e14c89f2e8c2cd0200e9cc0700004885ff7417488b074889f9ff503883f8187509803d0baa730100750231ff4c89e14c89f24989f8e8"
+    },
+    {
+      "rva": "0x4d6dd0b",
+      "hex": "0000c7841d64a9000000000000c7841dcc07000000000000c7841d8ca9000000000000c7841df407000000000000c7841db4a9000000000000c7841d"
+    },
+    {
+      "rva": "0x4e5d2a3",
+      "hex": "48c745f800000000488d15c4aae700e9cc07000083f9030f85120800008d4fff83f9020f83e1010000488b0d35625001488b4908488b15c2a25c0148"
+    },
+    {
+      "rva": "0x4ea1d03",
+      "hex": "a4140800e9d707000041b89e730700e9cc0700004c89f14889faa8010f85bf03000041b897140800e9b307000084c90f84cd0300004c89f14889faa8"
+    },
+    {
+      "rva": "0x4ec5e5c",
+      "hex": "2b488b95180200008b8a9c0000008988cc0700008b8aa00000008988100800008b0d4a774501898884080000488b85180200004c8b7058488b406048"
+    },
+    {
+      "rva": "0x4fa4613",
+      "hex": "1d060000488339000f8413060000c786cc07000000000000c786d80700000f000000c78680080000000000008b0d878f3701898e90080000488b8000"
+    },
+    {
+      "rva": "0x4fa7b8b",
+      "hex": "590d7fd98a00f20f59c8f20f2cc183becc07000000780a8b8ed407000085c97f068b8ed00700000f57c0f20f2ac00f57c9f20f2ac9f20f590d98aa8d"
+    },
+    {
+      "rva": "0x4fb2e21",
+      "hex": "f2ff503831c984c075038b4f2c41898ecc0700008b47348d48ff81f90afeffff76128b472c8d48ff81f90afeffff0f871a010000418986d0070000e9"
+    },
+    {
+      "rva": "0x4fb9a3d",
+      "hex": "397d0875ddebcc4183fc1f7c22418b85cc07000085c07e170f57c0f30f2ac0f30f59050c435d00f30f2cc041014624458b86b40000004c89f9b20945"
+    },
+    {
+      "rva": "0x4fbb122",
+      "hex": "addc07000085ed0f8e620c00004139adcc0700000f8d550c0000488b442470488b38488b4718483b47200f8486000000488b004885c0747e48837830"
+    },
+    {
+      "rva": "0x4fbb1cb",
+      "hex": "d84189c1e8ac392efd39c57d214189adcc0700004189add0070000488b0dd3234701488b014c89ea4531c0ff50284c89eae8af0b0000418985d40700"
+    },
+    {
+      "rva": "0x4fbb241",
+      "hex": "ff5038498b5d0831d284c07515418b85cc0700008d48ff31d281f9f30100000f43d08954246c418b75144889d9e8cd7a27fd440fb6836b010000488b"
+    },
+    {
+      "rva": "0x4fbb487",
+      "hex": "0f49d8c1fb02418b85d0070000412b85cc07000031d285c0b90000000048898c24800000000f4ec2498b4d0880b96a01000003be000000000f84c200"
+    },
+    {
+      "rva": "0x4fbb818",
+      "hex": "f64c89f1740e8b44246c4429e0418985cc070000488b194885db0f84bb0100004889d9e8301328fd4885c00f84aa0100004889842480000000488b05"
+    },
+    {
+      "rva": "0x4fbb91e",
+      "hex": "ff503884c0751b49833e007415418b85cc0700008d48ff31f681f9f30100000f43f048899c24700100004489a4248801000089b424800100008b8424"
+    },
+    {
+      "rva": "0x4fbbbc5",
+      "hex": "c0e8b55c2efd41899d400800004101b5cc0700004101b5d00700004c89e9b2014531c04531c9e8b04a2efd85c00f8e990100004c8b35d1953a01488d"
+    },
+    {
+      "rva": "0x4fbffc5",
+      "hex": "83f8597f0841c687b0080000014183bfcc070000007819418b87e0070000410387d40700004531f685c0440f4ff0eb034531f6498b7f08803d6e5247"
+    },
+    {
+      "rva": "0x4fc06a1",
+      "hex": "31c984c0751e49837f08007417418b87cc0700008d48ff4531c981f9f3010000440f43c8458b87100800004489742420488d8c24300100004889fae8"
+    },
+    {
+      "rva": "0x4fc1479",
+      "hex": "00000000c7442428000000004183bc24cc070000007819418b8424e007000041038424d407000031f685c00f4ff0eb0231f6488d5424284c8d44242c"
+    },
+    {
+      "rva": "0x4fc14b5",
+      "hex": "4c89e1e8d30631fd8b44242841898424cc07000041898424d00700004c89e2e8d7a8ffff41898424d40700008b44242c418984241008000041898424"
+    },
+    {
+      "rva": "0x4fcd2c3",
+      "hex": "0f848c00000085ed0f898400000083becc070000007e7b488b4818483b48207471488b014885c07469488bb0800000004885f6745d488b4608486340"
+    },
+    {
+      "rva": "0x50263ab",
+      "hex": "00004839d10f84d3070000488b4108e9cc07000031d24885d2488d05e5144001480f44d0488b0a488b01ff50400fbec001f08985b0000000488d8d80"
+    },
+    {
+      "rva": "0x519b3d6",
+      "hex": "467f46fd4839f7488bbdc00800000f84cc0700004885db0f84c307000049c1fe03660feff648899d78080000488b85a80800004c89b5700800004e8b"
+    },
+    {
+      "rva": "0x51ab260",
+      "hex": "4d85f60f842407000041b848f50600e9cc0700003c030f851f0100004d85f60f858a0d0000e9412100000fb75f366683fa1e0f85040200006683fb1c"
+    },
+    {
+      "rva": "0x51e443f",
+      "hex": "83c6090000488d7820eb4780fb020f82cc07000083f9340f87230d000048bb20000000007e0000480fa3cb0f825607000048b80e00000000001e0048"
+    },
+    {
+      "rva": "0x52109bd",
+      "hex": "89d9e89c7b74fc488b55e04885d20f84cc0700004c8b45f04929d0488b0d192b1501e84ce96efce9b4070000488d8fa0000000e8db86eefc89c3488d"
+    },
+    {
+      "rva": "0x53c08cb",
+      "hex": "8b75484883c6084889754849ffc60f84cc070000483b75500f84970000004b8b44f530488906488b4548488b7d504883c008488945484839f80f84c1"
+    }
+  ]
+}

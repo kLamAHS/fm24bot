@@ -1,0 +1,281 @@
+{
+  "captured_at": "2026-09-14T00:11:52.675630+00:00",
+  "passed": true,
+  "checks": {
+    "earlier-before-restart connected": true,
+    "earlier-before-restart date": true,
+    "earlier-before-restart 18 Gretna observations": true,
+    "earlier-before-restart 5219769 morale": true,
+    "earlier-before-restart 29235603 morale": true,
+    "earlier-before-restart 29242311 morale": true,
+    "earlier-before-restart 61038032 morale": true,
+    "earlier-before-restart 61038325 morale": true,
+    "earlier-before-restart 61069617 morale": true,
+    "earlier-before-restart 61085235 morale": true,
+    "earlier-before-restart 61090013 morale": true,
+    "earlier-before-restart 61090322 morale": true,
+    "earlier-before-restart 2000026352 morale": true,
+    "earlier-before-restart 2000088170 morale": true,
+    "earlier-before-restart 2000092779 morale": true,
+    "earlier-before-restart 2000223972 morale": true,
+    "earlier-before-restart 2000226341 morale": true,
+    "earlier-before-restart 2000229207 morale": true,
+    "earlier-before-restart 2000296960 morale": true,
+    "earlier-before-restart 2000296964 morale": true,
+    "earlier-before-restart 2000297061 morale": true,
+    "earlier-before-restart 31 Wycombe morale labels": true,
+    "earlier-before-restart consistent connection UUID": true,
+    "earlier-after-restart connected": true,
+    "earlier-after-restart date": true,
+    "earlier-after-restart 18 Gretna observations": true,
+    "earlier-after-restart 5219769 morale": true,
+    "earlier-after-restart 29235603 morale": true,
+    "earlier-after-restart 29242311 morale": true,
+    "earlier-after-restart 61038032 morale": true,
+    "earlier-after-restart 61038325 morale": true,
+    "earlier-after-restart 61069617 morale": true,
+    "earlier-after-restart 61085235 morale": true,
+    "earlier-after-restart 61090013 morale": true,
+    "earlier-after-restart 61090322 morale": true,
+    "earlier-after-restart 2000026352 morale": true,
+    "earlier-after-restart 2000088170 morale": true,
+    "earlier-after-restart 2000092779 morale": true,
+    "earlier-after-restart 2000223972 morale": true,
+    "earlier-after-restart 2000226341 morale": true,
+    "earlier-after-restart 2000229207 morale": true,
+    "earlier-after-restart 2000296960 morale": true,
+    "earlier-after-restart 2000296964 morale": true,
+    "earlier-after-restart 2000297061 morale": true,
+    "earlier-after-restart 31 Wycombe morale labels": true,
+    "earlier-after-restart consistent connection UUID": true,
+    "later-final connected": true,
+    "later-final date": true,
+    "later-final 18 Gretna observations": true,
+    "later-final 5219769 morale": true,
+    "later-final 29235603 morale": true,
+    "later-final 29242311 morale": true,
+    "later-final 61038032 morale": true,
+    "later-final 61038325 morale": true,
+    "later-final 61069617 morale": true,
+    "later-final 61085235 morale": true,
+    "later-final 61090013 morale": true,
+    "later-final 61090322 morale": true,
+    "later-final 2000026352 morale": true,
+    "later-final 2000088170 morale": true,
+    "later-final 2000092779 morale": true,
+    "later-final 2000223972 morale": true,
+    "later-final 2000226341 morale": true,
+    "later-final 2000229207 morale": true,
+    "later-final 2000296960 morale": true,
+    "later-final 2000296964 morale": true,
+    "later-final 2000297061 morale": true,
+    "later-final 31 Wycombe morale labels": true,
+    "later-final consistent connection UUID": true,
+    "process-absent unavailable": true,
+    "startup-unloaded unavailable": true,
+    "FM process verified absent": true,
+    "new FM process": true,
+    "new connection UUID after restart": true,
+    "new connection UUID after later reload": true,
+    "all 18 Gretna addresses changed": true,
+    "same API helper": true,
+    "18 morale labels and ratings identical after restart": true
+  },
+  "before_fm_pid": 33644,
+  "after_fm_pid": 36240,
+  "gretna_complete_models_equal_across_restart": false,
+  "gretna_other_field_differences": [
+    {
+      "id": 5219769,
+      "name": "David Cox",
+      "fields": {
+        "condition": {
+          "before": 99.0,
+          "after": 93.0
+        },
+        "match_sharpness": {
+          "before": 76.75,
+          "after": 77.0
+        }
+      }
+    },
+    {
+      "id": 29235603,
+      "name": "Lewis Bell",
+      "fields": {
+        "condition": {
+          "before": 96.1,
+          "after": 65.0
+        },
+        "match_sharpness": {
+          "before": 85.5,
+          "after": 91.0
+        }
+      }
+    },
+    {
+      "id": 29242311,
+      "name": "Connor Austin",
+      "fields": {
+        "condition": {
+          "before": 96.8,
+          "after": 69.0
+        },
+        "match_sharpness": {
+          "before": 85.5,
+          "after": 90.0
+        }
+      }
+    },
+    {
+      "id": 61038032,
+      "name": "Jonny Jamieson",
+      "fields": {
+        "condition": {
+          "before": 96.3,
+          "after": 86.0
+        },
+        "match_sharpness": {
+          "before": 84.5,
+          "after": 87.0
+        }
+      }
+    },
+    {
+      "id": 61038325,
+      "name": "Dan Carmichael",
+      "fields": {
+        "condition": {
+          "before": 96.1,
+          "after": 69.0
+        },
+        "match_sharpness": {
+          "before": 84.25,
+          "after": 88.0
+        }
+      }
+    },
+    {
+      "id": 61069617,
+      "name": "Dean Brotherston",
+      "fields": {
+        "condition": {
+          "before": 95.8,
+          "after": 71.0
+        },
+        "match_sharpness": {
+          "before": 85.0,
+          "after": 90.0
+        }
+      }
+    },
+    {
+      "id": 61090013,
+      "name": "Robbie Ivison",
+      "fields": {
+        "condition": {
+          "before": 96.1,
+          "after": 61.0
+        },
+        "match_sharpness": {
+          "before": 85.5,
+          "after": 90.0
+        }
+      }
+    },
+    {
+      "id": 61090322,
+      "name": "Vinnie Parker",
+      "fields": {
+        "match_sharpness": {
+          "before": 54.75,
+          "after": 64.75
+        }
+      }
+    },
+    {
+      "id": 2000026352,
+      "name": "Iain Anderson",
+      "fields": {
+        "condition": {
+          "before": 95.7,
+          "after": 65.0
+        },
+        "match_sharpness": {
+          "before": 85.75,
+          "after": 90.0
+        }
+      }
+    },
+    {
+      "id": 2000092779,
+      "name": "Julien Kouamé",
+      "fields": {
+        "match_sharpness": {
+          "before": 86.0,
+          "after": 90.7
+        }
+      }
+    },
+    {
+      "id": 2000226341,
+      "name": "Scott McLellan",
+      "fields": {
+        "condition": {
+          "before": 63.2,
+          "after": 4.0
+        },
+        "match_sharpness": {
+          "before": 79.93,
+          "after": 80.0
+        }
+      }
+    },
+    {
+      "id": 2000229207,
+      "name": "Liam Short",
+      "fields": {
+        "condition": {
+          "before": 97.7,
+          "after": 61.0
+        },
+        "match_sharpness": {
+          "before": 82.5,
+          "after": 88.0
+        }
+      }
+    },
+    {
+      "id": 2000297061,
+      "name": "Dylan Neill",
+      "fields": {
+        "condition": {
+          "before": 99.2,
+          "after": 84.0
+        },
+        "match_sharpness": {
+          "before": 77.75,
+          "after": 80.0
+        }
+      }
+    }
+  ],
+  "sample_player_addresses": [
+    {
+      "id": 61090013,
+      "before": "0x11788dd08",
+      "after": "0x116efc968"
+    },
+    {
+      "id": 2000296960,
+      "before": "0x1153081e0",
+      "after": "0x119563450"
+    },
+    {
+      "id": 2000296964,
+      "before": "0x115307df8",
+      "after": "0x119563838"
+    }
+  ],
+  "scope": "One continuously running localhost API through full FM exit/relaunch of February 7 test copy and return load of February 17 copy. The latter Gretna labels were hidden in UI; their bytes matched the earlier independently observed labels."
+}

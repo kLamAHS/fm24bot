@@ -1,0 +1,133 @@
+{
+  "captured_at": "2026-09-13T23:40:17.779600+00:00",
+  "label": "earlier-first",
+  "responses": {
+    "/status": {
+      "http_status": 200,
+      "body": {
+        "connected": false,
+        "read_only": true,
+        "reason": "Current club changed; reconnect"
+      }
+    },
+    "/game": {
+      "http_status": 200,
+      "body": {
+        "observed_at": "2026-09-13T23:40:14.540862+00:00",
+        "session_id": "210aa5ef-c5bb-4a4f-ab1c-af75217285f3",
+        "data": {
+          "date": "2024-02-07"
+        }
+      }
+    },
+    "/squad": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Morale value 17 has no validated UI label"
+      }
+    },
+    "/players/96053555": {
+      "http_status": 200,
+      "body": {
+        "observed_at": "2026-09-13T23:40:17.735788+00:00",
+        "session_id": "1903b41d-b29b-498a-b5d7-f3de68b20d77",
+        "data": {
+          "id": 96053555,
+          "name": "Maksymilian Stryjek",
+          "first_name": "Maksymilian",
+          "surname": "Stryjek",
+          "attributes": {
+            "acceleration": 6,
+            "pace": 7,
+            "passing": 7,
+            "finishing": 3,
+            "technique": 8,
+            "decisions": 12,
+            "vision": 5,
+            "work_rate": 8,
+            "strength": 13
+          },
+          "positions": [
+            "GK"
+          ],
+          "position_ratings": {
+            "GK": 20,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 1,
+            "ML": 1,
+            "MC": 1,
+            "MR": 1,
+            "AML": 1,
+            "AMC": 1,
+            "AMR": 1,
+            "ST": 1,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 100.0,
+          "match_sharpness": 52.0,
+          "date_of_birth": "1996-07-18",
+          "age": 27,
+          "age_as_of": "2024-02-07",
+          "morale": "Extremely Poor",
+          "morale_rating": 2
+        }
+      }
+    },
+    "/players/29232937": {
+      "http_status": 200,
+      "body": {
+        "observed_at": "2026-09-13T23:40:17.777445+00:00",
+        "session_id": "1903b41d-b29b-498a-b5d7-f3de68b20d77",
+        "data": {
+          "id": 29232937,
+          "name": "Jude Bellingham",
+          "first_name": "Jude",
+          "surname": "Bellingham",
+          "attributes": {
+            "acceleration": 15,
+            "pace": 14,
+            "passing": 17,
+            "finishing": 16,
+            "technique": 17,
+            "decisions": 15,
+            "vision": 16,
+            "work_rate": 18,
+            "strength": 13
+          },
+          "positions": [
+            "DM",
+            "MC",
+            "AMC"
+          ],
+          "position_ratings": {
+            "GK": 1,
+            "DL": 1,
+            "DC": 1,
+            "DR": 1,
+            "DM": 16,
+            "ML": 10,
+            "MC": 20,
+            "MR": 10,
+            "AML": 13,
+            "AMC": 17,
+            "AMR": 12,
+            "ST": 10,
+            "WBL": 1,
+            "WBR": 1
+          },
+          "condition": 84.28,
+          "match_sharpness": 100.0,
+          "date_of_birth": "2003-06-29",
+          "age": 20,
+          "age_as_of": "2024-02-07",
+          "morale": "Very Good",
+          "morale_rating": 15
+        }
+      }
+    }
+  }
+}

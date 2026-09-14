@@ -1,0 +1,24 @@
+{
+  "pid": 21328,
+  "resolution": {
+    "module_base": "0x140000000",
+    "signature": "0x140091dcc",
+    "signature_rva": "0x91dcc",
+    "root": "0x14642ecd0",
+    "root_rva": "0x642ecd0",
+    "registry": "0x63a9c60",
+    "person_count": 82953
+  },
+  "game": {
+    "date": "2024-02-17"
+  },
+  "evidence": {
+    "date": "2024-02-17",
+    "address": "0x14631d5bc",
+    "target_rva": "0x631d5bc",
+    "signature_rvas": [
+      "0x20b566b"
+    ],
+    "raw_hex": "3012e807"
+  }
+}

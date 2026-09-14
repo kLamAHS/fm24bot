@@ -1,0 +1,235 @@
+{
+  "pid": 41840,
+  "counts": {
+    "1": 189,
+    "2": 134,
+    "3": 175,
+    "4": 284,
+    "5": 474,
+    "6": 1017,
+    "7": 1515,
+    "8": 1626,
+    "9": 1887,
+    "10": 3260,
+    "11": 3280,
+    "12": 3152,
+    "13": 2003,
+    "14": 1854,
+    "15": 1462,
+    "16": 1194,
+    "17": 833,
+    "18": 660,
+    "19": 431,
+    "20": 793
+  },
+  "examples": {
+    "9": [
+      {
+        "id": 12315,
+        "name": "Toni Micevski"
+      },
+      {
+        "id": 103607,
+        "name": "James Henry"
+      },
+      {
+        "id": 148754,
+        "name": "Ali Ashfaq"
+      },
+      {
+        "id": 156538,
+        "name": "Warren Burrell"
+      },
+      {
+        "id": 210541,
+        "name": "Ercan Kara"
+      },
+      {
+        "id": 217909,
+        "name": "Kyle Turner"
+      }
+    ],
+    "5": [
+      {
+        "id": 120550,
+        "name": "Roque Santa Cruz"
+      },
+      {
+        "id": 151499,
+        "name": "Michael Morrison"
+      },
+      {
+        "id": 215471,
+        "name": "Calum Macdonald"
+      },
+      {
+        "id": 859209,
+        "name": "Remko Pasveer"
+      },
+      {
+        "id": 859596,
+        "name": "Tim Krul"
+      },
+      {
+        "id": 1509453,
+        "name": "David Añón"
+      }
+    ],
+    "1": [
+      {
+        "id": 138469,
+        "name": "Roderick Briffa"
+      },
+      {
+        "id": 7459738,
+        "name": "Jon Irazusta"
+      },
+      {
+        "id": 12088462,
+        "name": "Dorgéles Néné"
+      },
+      {
+        "id": 16010163,
+        "name": "Aleksandar Dragović"
+      },
+      {
+        "id": 16096422,
+        "name": "Alexander Schlager"
+      },
+      {
+        "id": 16337073,
+        "name": "Samson Baidoo"
+      }
+    ],
+    "7": [
+      {
+        "id": 142318,
+        "name": "Steven Anderson"
+      },
+      {
+        "id": 146840,
+        "name": "Jamie Stevenson"
+      },
+      {
+        "id": 151741,
+        "name": "Matt Ritchie"
+      },
+      {
+        "id": 155126,
+        "name": "Kevin Cawley"
+      },
+      {
+        "id": 225123,
+        "name": "Alfie Lloyd"
+      },
+      {
+        "id": 250420,
+        "name": "Joe Thomas"
+      }
+    ],
+    "4": [
+      {
+        "id": 155125,
+        "name": "Graham Carey"
+      },
+      {
+        "id": 813076,
+        "name": "Lucas Pérez"
+      },
+      {
+        "id": 1510602,
+        "name": "Vicente Guaita"
+      },
+      {
+        "id": 5251774,
+        "name": "Claudio Bravo"
+      },
+      {
+        "id": 7988458,
+        "name": "Kevin Koffi"
+      },
+      {
+        "id": 12079003,
+        "name": "Dion Lopy"
+      }
+    ],
+    "19": [
+      {
+        "id": 168252,
+        "name": "Janik Jesgarzewski"
+      },
+      {
+        "id": 217414,
+        "name": "Matthew Knox"
+      },
+      {
+        "id": 217630,
+        "name": "Liam Brown"
+      },
+      {
+        "id": 1504124,
+        "name": "Emilio Nsué"
+      },
+      {
+        "id": 1509609,
+        "name": "Alberto Noguera"
+      },
+      {
+        "id": 7444150,
+        "name": "Dani Martí"
+      }
+    ],
+    "17": [
+      {
+        "id": 211232,
+        "name": "Djéné Dakonam"
+      },
+      {
+        "id": 222731,
+        "name": "Thelo Aasgaard"
+      },
+      {
+        "id": 315109,
+        "name": "Felipe Melo"
+      },
+      {
+        "id": 862068,
+        "name": "Haris Medunjanin"
+      },
+      {
+        "id": 864168,
+        "name": "Patrick van Aanholt"
+      },
+      {
+        "id": 955655,
+        "name": "José Sosa"
+      }
+    ],
+    "3": [
+      {
+        "id": 815158,
+        "name": "Miguel Martínez de Corta"
+      },
+      {
+        "id": 1510305,
+        "name": "Pedro"
+      },
+      {
+        "id": 5118010,
+        "name": "Lee Peltier"
+      },
+      {
+        "id": 5124381,
+        "name": "Chris Martin"
+      },
+      {
+        "id": 5207451,
+        "name": "Steven Fletcher"
+      },
+      {
+        "id": 7450142,
+        "name": "David González"
+      }
+    ]
+  }
+}

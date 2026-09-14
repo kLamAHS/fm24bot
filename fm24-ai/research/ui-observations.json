@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-09-13",
+  "game_date": "2024-02-17",
+  "save": "FM24 Bridge Test 2026-09-13",
+  "players": [
+    {"id":29232937,"name":"Jude Bellingham","screenshot":"ui/jude-bellingham.png","attributes":{"acceleration":15,"pace":14,"passing":17,"finishing":16,"technique":17,"decisions":15,"vision":16,"work_rate":18,"strength":13}},
+    {"id":28028684,"name":"Ryan Tafazolli","screenshot":"ui/ryan-tafazolli.png","attributes":{"acceleration":7,"pace":7,"passing":13,"finishing":5,"technique":10,"decisions":11,"vision":8,"work_rate":13,"strength":14}},
+    {"id":14185872,"name":"Franco Ravizzoli","screenshot":"ui/franco-ravizzoli.png","attributes":{"acceleration":8,"pace":7,"passing":5,"technique":6,"decisions":7,"vision":7,"work_rate":7,"strength":10},"not_visible":["finishing"]}
+  ]
+}

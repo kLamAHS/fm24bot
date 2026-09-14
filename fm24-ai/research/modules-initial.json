@@ -1,0 +1,818 @@
+[
+  {
+    "ModuleName": "fm.exe",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\fm.exe",
+    "BaseAddress": "0x140000000",
+    "ModuleMemorySize": 494956544
+  },
+  {
+    "ModuleName": "ntdll.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "BaseAddress": "0x7FFDCF9B0000",
+    "ModuleMemorySize": 2199552
+  },
+  {
+    "ModuleName": "KERNEL32.DLL",
+    "FileName": "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "BaseAddress": "0x7FFDCDBB0000",
+    "ModuleMemorySize": 802816
+  },
+  {
+    "ModuleName": "KERNELBASE.dll",
+    "FileName": "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "BaseAddress": "0x7FFDCD090000",
+    "ModuleMemorySize": 3969024
+  },
+  {
+    "ModuleName": "USER32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\USER32.dll",
+    "BaseAddress": "0x7FFDCDC80000",
+    "ModuleMemorySize": 1773568
+  },
+  {
+    "ModuleName": "win32u.dll",
+    "FileName": "C:\\WINDOWS\\System32\\win32u.dll",
+    "BaseAddress": "0x7FFDCCC00000",
+    "ModuleMemorySize": 155648
+  },
+  {
+    "ModuleName": "GDI32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\GDI32.dll",
+    "BaseAddress": "0x7FFDCE580000",
+    "ModuleMemorySize": 167936
+  },
+  {
+    "ModuleName": "gdi32full.dll",
+    "FileName": "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "BaseAddress": "0x7FFDCCF70000",
+    "ModuleMemorySize": 1163264
+  },
+  {
+    "ModuleName": "msvcp_win.dll",
+    "FileName": "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "BaseAddress": "0x7FFDCCAE0000",
+    "ModuleMemorySize": 630784
+  },
+  {
+    "ModuleName": "ucrtbase.dll",
+    "FileName": "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "BaseAddress": "0x7FFDCCCE0000",
+    "ModuleMemorySize": 1118208
+  },
+  {
+    "ModuleName": "ADVAPI32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "BaseAddress": "0x7FFDCD960000",
+    "ModuleMemorySize": 733184
+  },
+  {
+    "ModuleName": "msvcrt.dll",
+    "FileName": "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "BaseAddress": "0x7FFDCDA20000",
+    "ModuleMemorySize": 684032
+  },
+  {
+    "ModuleName": "sechost.dll",
+    "FileName": "C:\\WINDOWS\\System32\\sechost.dll",
+    "BaseAddress": "0x7FFDCDE40000",
+    "ModuleMemorySize": 692224
+  },
+  {
+    "ModuleName": "bcrypt.dll",
+    "FileName": "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "BaseAddress": "0x7FFDCCCB0000",
+    "ModuleMemorySize": 163840
+  },
+  {
+    "ModuleName": "RPCRT4.dll",
+    "FileName": "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "BaseAddress": "0x7FFDCD840000",
+    "ModuleMemorySize": 1142784
+  },
+  {
+    "ModuleName": "WS2_32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "BaseAddress": "0x7FFDCF7E0000",
+    "ModuleMemorySize": 462848
+  },
+  {
+    "ModuleName": "SHELL32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\SHELL32.dll",
+    "BaseAddress": "0x7FFDCE5B0000",
+    "ModuleMemorySize": 9035776
+  },
+  {
+    "ModuleName": "wintypes.dll",
+    "FileName": "C:\\WINDOWS\\System32\\wintypes.dll",
+    "BaseAddress": "0x7FFDCD460000",
+    "ModuleMemorySize": 1306624
+  },
+  {
+    "ModuleName": "combase.dll",
+    "FileName": "C:\\WINDOWS\\System32\\combase.dll",
+    "BaseAddress": "0x7FFDCF190000",
+    "ModuleMemorySize": 3743744
+  },
+  {
+    "ModuleName": "ole32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\ole32.dll",
+    "BaseAddress": "0x7FFDCEFA0000",
+    "ModuleMemorySize": 1703936
+  },
+  {
+    "ModuleName": "IMM32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\IMM32.dll",
+    "BaseAddress": "0x7FFDCF150000",
+    "ModuleMemorySize": 200704
+  },
+  {
+    "ModuleName": "shcore.dll",
+    "FileName": "C:\\WINDOWS\\System32\\shcore.dll",
+    "BaseAddress": "0x7FFDCF650000",
+    "ModuleMemorySize": 1064960
+  },
+  {
+    "ModuleName": "COMDLG32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\COMDLG32.dll",
+    "BaseAddress": "0x7FFDCF860000",
+    "ModuleMemorySize": 1060864
+  },
+  {
+    "ModuleName": "SHLWAPI.dll",
+    "FileName": "C:\\WINDOWS\\System32\\SHLWAPI.dll",
+    "BaseAddress": "0x7FFDCEF20000",
+    "ModuleMemorySize": 430080
+  },
+  {
+    "ModuleName": "CRYPT32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "BaseAddress": "0x7FFDCCE00000",
+    "ModuleMemorySize": 1474560
+  },
+  {
+    "ModuleName": "WININET.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WININET.dll",
+    "BaseAddress": "0x7FFDA8AC0000",
+    "ModuleMemorySize": 5238784
+  },
+  {
+    "ModuleName": "icuuc65.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icuuc65.dll",
+    "BaseAddress": "0x7FFCDEBC0000",
+    "ModuleMemorySize": 1912832
+  },
+  {
+    "ModuleName": "MSVCP140.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\MSVCP140.dll",
+    "BaseAddress": "0x7FFD596F0000",
+    "ModuleMemorySize": 581632
+  },
+  {
+    "ModuleName": "dbghelp.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "BaseAddress": "0x7FFDBFE70000",
+    "ModuleMemorySize": 2306048
+  },
+  {
+    "ModuleName": "OLEAUT32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\OLEAUT32.dll",
+    "BaseAddress": "0x7FFDCDAD0000",
+    "ModuleMemorySize": 888832
+  },
+  {
+    "ModuleName": "XINPUT9_1_0.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\XINPUT9_1_0.dll",
+    "BaseAddress": "0x7FFDC9A50000",
+    "ModuleMemorySize": 32768
+  },
+  {
+    "ModuleName": "WTSAPI32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WTSAPI32.dll",
+    "BaseAddress": "0x7FFDCB830000",
+    "ModuleMemorySize": 81920
+  },
+  {
+    "ModuleName": "WINMM.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "BaseAddress": "0x7FFDC09B0000",
+    "ModuleMemorySize": 212992
+  },
+  {
+    "ModuleName": "steam_api64.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\steam_api64.dll",
+    "BaseAddress": "0x7FFD94FE0000",
+    "ModuleMemorySize": 315392
+  },
+  {
+    "ModuleName": "icuin65.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icuin65.dll",
+    "BaseAddress": "0x7FFCD62B0000",
+    "ModuleMemorySize": 2654208
+  },
+  {
+    "ModuleName": "OpenAL32.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\OpenAL32.dll",
+    "BaseAddress": "0x7FFCADC40000",
+    "ModuleMemorySize": 2179072
+  },
+  {
+    "ModuleName": "COMCTL32.dll",
+    "FileName": "C:\\WINDOWS\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.6931_none_270fd4b77385a2c0\\COMCTL32.dll",
+    "BaseAddress": "0x7FFDAA4F0000",
+    "ModuleMemorySize": 2736128
+  },
+  {
+    "ModuleName": "POWRPROF.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\POWRPROF.dll",
+    "BaseAddress": "0x7FFDCC900000",
+    "ModuleMemorySize": 315392
+  },
+  {
+    "ModuleName": "bidstack-cpp-sdk.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\bidstack-cpp-sdk.dll",
+    "BaseAddress": "0x7FFD56270000",
+    "ModuleMemorySize": 1290240
+  },
+  {
+    "ModuleName": "SETUPAPI.dll",
+    "FileName": "C:\\WINDOWS\\System32\\SETUPAPI.dll",
+    "BaseAddress": "0x7FFDCE100000",
+    "ModuleMemorySize": 4669440
+  },
+  {
+    "ModuleName": "EOSSDK-Win64-Shipping.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\EOSSDK-Win64-Shipping.dll",
+    "BaseAddress": "0x7FFC82150000",
+    "ModuleMemorySize": 20766720
+  },
+  {
+    "ModuleName": "WLDAP32.dll",
+    "FileName": "C:\\WINDOWS\\System32\\WLDAP32.dll",
+    "BaseAddress": "0x7FFDCF530000",
+    "ModuleMemorySize": 397312
+  },
+  {
+    "ModuleName": "Normaliz.dll",
+    "FileName": "C:\\WINDOWS\\System32\\Normaliz.dll",
+    "BaseAddress": "0x7FFDCEE50000",
+    "ModuleMemorySize": 32768
+  },
+  {
+    "ModuleName": "WINTRUST.dll",
+    "FileName": "C:\\WINDOWS\\System32\\WINTRUST.dll",
+    "BaseAddress": "0x7FFDCCC30000",
+    "ModuleMemorySize": 507904
+  },
+  {
+    "ModuleName": "VCRUNTIME140.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\VCRUNTIME140.dll",
+    "BaseAddress": "0x7FFDB1A90000",
+    "ModuleMemorySize": 110592
+  },
+  {
+    "ModuleName": "icudt65.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\icudt65.dll",
+    "BaseAddress": "0x180000000",
+    "ModuleMemorySize": 12288
+  },
+  {
+    "ModuleName": "vpxmt.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\vpxmt.dll",
+    "BaseAddress": "0x7FFCADA00000",
+    "ModuleMemorySize": 2314240
+  },
+  {
+    "ModuleName": "IPHLPAPI.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "BaseAddress": "0x7FFDCB520000",
+    "ModuleMemorySize": 184320
+  },
+  {
+    "ModuleName": "VERSION.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\VERSION.dll",
+    "BaseAddress": "0x7FFDC6310000",
+    "ModuleMemorySize": 40960
+  },
+  {
+    "ModuleName": "Secur32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\Secur32.dll",
+    "BaseAddress": "0x7FFDCB850000",
+    "ModuleMemorySize": 49152
+  },
+  {
+    "ModuleName": "WINHTTP.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WINHTTP.dll",
+    "BaseAddress": "0x7FFDC6650000",
+    "ModuleMemorySize": 1232896
+  },
+  {
+    "ModuleName": "VCRUNTIME140_1.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\VCRUNTIME140_1.dll",
+    "BaseAddress": "0x7FFDB75D0000",
+    "ModuleMemorySize": 49152
+  },
+  {
+    "ModuleName": "SSPICLI.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\SSPICLI.DLL",
+    "BaseAddress": "0x7FFDCBCE0000",
+    "ModuleMemorySize": 274432
+  },
+  {
+    "ModuleName": "dbgcore.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dbgcore.DLL",
+    "BaseAddress": "0x7FFD98BC0000",
+    "ModuleMemorySize": 204800
+  },
+  {
+    "ModuleName": "MSASN1.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\MSASN1.dll",
+    "BaseAddress": "0x7FFDCC690000",
+    "ModuleMemorySize": 73728
+  },
+  {
+    "ModuleName": "bcryptPrimitives.dll",
+    "FileName": "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "BaseAddress": "0x7FFDCCB80000",
+    "ModuleMemorySize": 503808
+  },
+  {
+    "ModuleName": "UMPDC.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\UMPDC.dll",
+    "BaseAddress": "0x7FFDCC8E0000",
+    "ModuleMemorySize": 77824
+  },
+  {
+    "ModuleName": "gameoverlayrenderer64.dll",
+    "FileName": "C:\\Program Files (x86)\\Steam\\gameoverlayrenderer64.dll",
+    "BaseAddress": "0x7FFD162E0000",
+    "ModuleMemorySize": 1798144
+  },
+  {
+    "ModuleName": "PSAPI.DLL",
+    "FileName": "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "BaseAddress": "0x7FFDCEF90000",
+    "ModuleMemorySize": 32768
+  },
+  {
+    "ModuleName": "CFGMGR32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\CFGMGR32.dll",
+    "BaseAddress": "0x7FFDCC700000",
+    "ModuleMemorySize": 319488
+  },
+  {
+    "ModuleName": "CRYPTSP.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\CRYPTSP.dll",
+    "BaseAddress": "0x7FFDCC280000",
+    "ModuleMemorySize": 110592
+  },
+  {
+    "ModuleName": "rsaenh.dll",
+    "FileName": "C:\\WINDOWS\\system32\\rsaenh.dll",
+    "BaseAddress": "0x7FFDCB9E0000",
+    "ModuleMemorySize": 225280
+  },
+  {
+    "ModuleName": "USERENV.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "BaseAddress": "0x7FFDCBFD0000",
+    "ModuleMemorySize": 163840
+  },
+  {
+    "ModuleName": "profapi.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\profapi.dll",
+    "BaseAddress": "0x7FFDCCA10000",
+    "ModuleMemorySize": 155648
+  },
+  {
+    "ModuleName": "CRYPTBASE.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.dll",
+    "BaseAddress": "0x7FFDCC260000",
+    "ModuleMemorySize": 49152
+  },
+  {
+    "ModuleName": "steamclient64.dll",
+    "FileName": "C:\\Program Files (x86)\\Steam\\steamclient64.dll",
+    "BaseAddress": "0x7FFC8B910000",
+    "ModuleMemorySize": 26726400
+  },
+  {
+    "ModuleName": "imagehlp.dll",
+    "FileName": "C:\\WINDOWS\\System32\\imagehlp.dll",
+    "BaseAddress": "0x7FFDCDEF0000",
+    "ModuleMemorySize": 126976
+  },
+  {
+    "ModuleName": "tier0_s64.dll",
+    "FileName": "C:\\Program Files (x86)\\Steam\\tier0_s64.dll",
+    "BaseAddress": "0x7FFCD01D0000",
+    "ModuleMemorySize": 3203072
+  },
+  {
+    "ModuleName": "MSWSOCK.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\MSWSOCK.dll",
+    "BaseAddress": "0x7FFDCBF30000",
+    "ModuleMemorySize": 430080
+  },
+  {
+    "ModuleName": "vstdlib_s64.dll",
+    "FileName": "C:\\Program Files (x86)\\Steam\\vstdlib_s64.dll",
+    "BaseAddress": "0x7FFD2DEC0000",
+    "ModuleMemorySize": 798720
+  },
+  {
+    "ModuleName": "iertutil.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\iertutil.dll",
+    "BaseAddress": "0x7FFDBEB60000",
+    "ModuleMemorySize": 2875392
+  },
+  {
+    "ModuleName": "netutils.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\netutils.dll",
+    "BaseAddress": "0x7FFDCB4A0000",
+    "ModuleMemorySize": 49152
+  },
+  {
+    "ModuleName": "srvcli.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\srvcli.dll",
+    "BaseAddress": "0x7FFDBFE10000",
+    "ModuleMemorySize": 163840
+  },
+  {
+    "ModuleName": "windows.storage.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\windows.storage.dll",
+    "BaseAddress": "0x7FFDCA960000",
+    "ModuleMemorySize": 9515008
+  },
+  {
+    "ModuleName": "ondemandconnroutehelper.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\ondemandconnroutehelper.dll",
+    "BaseAddress": "0x7FFD9BCC0000",
+    "ModuleMemorySize": 94208
+  },
+  {
+    "ModuleName": "kernel.appcore.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\kernel.appcore.dll",
+    "BaseAddress": "0x7FFDCBA20000",
+    "ModuleMemorySize": 98304
+  },
+  {
+    "ModuleName": "WINNSI.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WINNSI.DLL",
+    "BaseAddress": "0x7FFDC9E70000",
+    "ModuleMemorySize": 53248
+  },
+  {
+    "ModuleName": "NSI.dll",
+    "FileName": "C:\\WINDOWS\\System32\\NSI.dll",
+    "BaseAddress": "0x7FFDCEF10000",
+    "ModuleMemorySize": 36864
+  },
+  {
+    "ModuleName": "urlmon.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\urlmon.dll",
+    "BaseAddress": "0x7FFDBEE20000",
+    "ModuleMemorySize": 2052096
+  },
+  {
+    "ModuleName": "DNSAPI.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "BaseAddress": "0x7FFDCB550000",
+    "ModuleMemorySize": 1019904
+  },
+  {
+    "ModuleName": "rasadhlp.dll",
+    "FileName": "C:\\Windows\\System32\\rasadhlp.dll",
+    "BaseAddress": "0x7FFDB1230000",
+    "ModuleMemorySize": 40960
+  },
+  {
+    "ModuleName": "fwpuclnt.dll",
+    "FileName": "C:\\WINDOWS\\System32\\fwpuclnt.dll",
+    "BaseAddress": "0x7FFDC5AB0000",
+    "ModuleMemorySize": 540672
+  },
+  {
+    "ModuleName": "schannel.DLL",
+    "FileName": "C:\\WINDOWS\\system32\\schannel.DLL",
+    "BaseAddress": "0x7FFDCB8D0000",
+    "ModuleMemorySize": 696320
+  },
+  {
+    "ModuleName": "DPAPI.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\DPAPI.DLL",
+    "BaseAddress": "0x7FFDCC750000",
+    "ModuleMemorySize": 40960
+  },
+  {
+    "ModuleName": "cryptnet.dll",
+    "FileName": "C:\\Windows\\System32\\cryptnet.dll",
+    "BaseAddress": "0x7FFDC6180000",
+    "ModuleMemorySize": 204800
+  },
+  {
+    "ModuleName": "dhcpcsvc6.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "BaseAddress": "0x7FFDC64C0000",
+    "ModuleMemorySize": 102400
+  },
+  {
+    "ModuleName": "dhcpcsvc.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "BaseAddress": "0x7FFDC6470000",
+    "ModuleMemorySize": 131072
+  },
+  {
+    "ModuleName": "webio.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\webio.dll",
+    "BaseAddress": "0x7FFDAE6A0000",
+    "ModuleMemorySize": 782336
+  },
+  {
+    "ModuleName": "ncrypt.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\ncrypt.dll",
+    "BaseAddress": "0x7FFDCC310000",
+    "ModuleMemorySize": 188416
+  },
+  {
+    "ModuleName": "NTASN1.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\NTASN1.dll",
+    "BaseAddress": "0x7FFDCC2C0000",
+    "ModuleMemorySize": 225280
+  },
+  {
+    "ModuleName": "ncryptsslp.dll",
+    "FileName": "C:\\WINDOWS\\system32\\ncryptsslp.dll",
+    "BaseAddress": "0x7FFD98C00000",
+    "ModuleMemorySize": 159744
+  },
+  {
+    "ModuleName": "IconCodecService.dll",
+    "FileName": "C:\\WINDOWS\\system32\\IconCodecService.dll",
+    "BaseAddress": "0x7FFDAF480000",
+    "ModuleMemorySize": 36864
+  },
+  {
+    "ModuleName": "WindowsCodecs.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WindowsCodecs.dll",
+    "BaseAddress": "0x7FFDC9E80000",
+    "ModuleMemorySize": 1777664
+  },
+  {
+    "ModuleName": "uxtheme.dll",
+    "FileName": "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "BaseAddress": "0x7FFDCA0A0000",
+    "ModuleMemorySize": 733184
+  },
+  {
+    "ModuleName": "MSCTF.dll",
+    "FileName": "C:\\WINDOWS\\System32\\MSCTF.dll",
+    "BaseAddress": "0x7FFDCDF10000",
+    "ModuleMemorySize": 1441792
+  },
+  {
+    "ModuleName": "WINSTA.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\WINSTA.dll",
+    "BaseAddress": "0x7FFDCC760000",
+    "ModuleMemorySize": 442368
+  },
+  {
+    "ModuleName": "textinputframework.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\textinputframework.dll",
+    "BaseAddress": "0x7FFDAE940000",
+    "ModuleMemorySize": 1327104
+  },
+  {
+    "ModuleName": "gpapi.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\gpapi.dll",
+    "BaseAddress": "0x7FFDCBFA0000",
+    "ModuleMemorySize": 155648
+  },
+  {
+    "ModuleName": "EOSOVH-Win64-Shipping.dll",
+    "FileName": "C:\\Program Files (x86)\\Epic Games\\Epic Online Services\\managedArtifacts\\98bc04bc842e4906993fd6d6644ffb8d\\EOSOVH-Win64-Shipping.dll",
+    "BaseAddress": "0x7FFD2B9B0000",
+    "ModuleMemorySize": 774144
+  },
+  {
+    "ModuleName": "OPENGL32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\OPENGL32.dll",
+    "BaseAddress": "0x7FFDAE010000",
+    "ModuleMemorySize": 1048576
+  },
+  {
+    "ModuleName": "d3d11.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\d3d11.dll",
+    "BaseAddress": "0x7FFDC8560000",
+    "ModuleMemorySize": 2453504
+  },
+  {
+    "ModuleName": "GLU32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\GLU32.dll",
+    "BaseAddress": "0x7FFDC1EA0000",
+    "ModuleMemorySize": 184320
+  },
+  {
+    "ModuleName": "dxgi.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dxgi.dll",
+    "BaseAddress": "0x7FFDCA2D0000",
+    "ModuleMemorySize": 1011712
+  },
+  {
+    "ModuleName": "dxcore.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dxcore.dll",
+    "BaseAddress": "0x7FFDCA190000",
+    "ModuleMemorySize": 225280
+  },
+  {
+    "ModuleName": "directxdatabasehelper.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\directxdatabasehelper.dll",
+    "BaseAddress": "0x7FFDC4FC0000",
+    "ModuleMemorySize": 299008
+  },
+  {
+    "ModuleName": "wldp.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\wldp.dll",
+    "BaseAddress": "0x7FFDCC1B0000",
+    "ModuleMemorySize": 327680
+  },
+  {
+    "ModuleName": "drvstore.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\drvstore.dll",
+    "BaseAddress": "0x7FFDC6020000",
+    "ModuleMemorySize": 1417216
+  },
+  {
+    "ModuleName": "devobj.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\devobj.dll",
+    "BaseAddress": "0x7FFDCC6B0000",
+    "ModuleMemorySize": 180224
+  },
+  {
+    "ModuleName": "nvspcap64.dll",
+    "FileName": "C:\\WINDOWS\\system32\\nvspcap64.dll",
+    "BaseAddress": "0x7FFD8DB20000",
+    "ModuleMemorySize": 1339392
+  },
+  {
+    "ModuleName": "ntmarta.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\ntmarta.dll",
+    "BaseAddress": "0x7FFDCBB90000",
+    "ModuleMemorySize": 212992
+  },
+  {
+    "ModuleName": "nvppex.dll",
+    "FileName": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvppex.dll",
+    "BaseAddress": "0x54000000",
+    "ModuleMemorySize": 7499776
+  },
+  {
+    "ModuleName": "napinsp.dll",
+    "FileName": "C:\\WINDOWS\\system32\\napinsp.dll",
+    "BaseAddress": "0x7FFDA4B90000",
+    "ModuleMemorySize": 94208
+  },
+  {
+    "ModuleName": "pnrpnsp.dll",
+    "FileName": "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "BaseAddress": "0x7FFD9FC40000",
+    "ModuleMemorySize": 110592
+  },
+  {
+    "ModuleName": "nlansp_c.dll",
+    "FileName": "C:\\WINDOWS\\system32\\nlansp_c.dll",
+    "BaseAddress": "0x7FFD9BD70000",
+    "ModuleMemorySize": 135168
+  },
+  {
+    "ModuleName": "winrnr.dll",
+    "FileName": "C:\\WINDOWS\\System32\\winrnr.dll",
+    "BaseAddress": "0x7FFD9BD30000",
+    "ModuleMemorySize": 69632
+  },
+  {
+    "ModuleName": "wshbth.dll",
+    "FileName": "C:\\WINDOWS\\system32\\wshbth.dll",
+    "BaseAddress": "0x7FFDC6320000",
+    "ModuleMemorySize": 86016
+  },
+  {
+    "ModuleName": "nvapi64.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\nvapi64.dll",
+    "BaseAddress": "0x7FFDBFA90000",
+    "ModuleMemorySize": 561152
+  },
+  {
+    "ModuleName": "nvapi64_impl.dll",
+    "FileName": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvapi64_impl.dll",
+    "BaseAddress": "0x7FFDBF3A0000",
+    "ModuleMemorySize": 5730304
+  },
+  {
+    "ModuleName": "nvldumdx.dll",
+    "FileName": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvldumdx.dll",
+    "BaseAddress": "0x7FFDBF020000",
+    "ModuleMemorySize": 827392
+  },
+  {
+    "ModuleName": "nvgpucomp64.dll",
+    "FileName": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvgpucomp64.dll",
+    "BaseAddress": "0x7FFDB8240000",
+    "ModuleMemorySize": 98623488
+  },
+  {
+    "ModuleName": "NvMemMapStoragex.dll",
+    "FileName": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\NvMemMapStoragex.dll",
+    "BaseAddress": "0x7FFDB7EB0000",
+    "ModuleMemorySize": 1290240
+  },
+  {
+    "ModuleName": "nvwgf2umx.dll",
+    "FileName": "C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\nv_dispi.inf_amd64_0373d825005116d0\\nvwgf2umx.dll",
+    "BaseAddress": "0x7FFDB1E00000",
+    "ModuleMemorySize": 89804800
+  },
+  {
+    "ModuleName": "clbcatq.dll",
+    "FileName": "C:\\WINDOWS\\System32\\clbcatq.dll",
+    "BaseAddress": "0x7FFDCEE60000",
+    "ModuleMemorySize": 720896
+  },
+  {
+    "ModuleName": "MMDevApi.dll",
+    "FileName": "C:\\WINDOWS\\System32\\MMDevApi.dll",
+    "BaseAddress": "0x7FFDC5740000",
+    "ModuleMemorySize": 638976
+  },
+  {
+    "ModuleName": "AUDIOSES.DLL",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\AUDIOSES.DLL",
+    "BaseAddress": "0x7FFDB0DD0000",
+    "ModuleMemorySize": 2023424
+  },
+  {
+    "ModuleName": "Windows.UI.dll",
+    "FileName": "C:\\Windows\\System32\\Windows.UI.dll",
+    "BaseAddress": "0x7FFDC3780000",
+    "ModuleMemorySize": 1564672
+  },
+  {
+    "ModuleName": "resourcepolicyclient.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\resourcepolicyclient.dll",
+    "BaseAddress": "0x7FFDCA550000",
+    "ModuleMemorySize": 86016
+  },
+  {
+    "ModuleName": "dwmapi.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\dwmapi.dll",
+    "BaseAddress": "0x7FFDCA4D0000",
+    "ModuleMemorySize": 172032
+  },
+  {
+    "ModuleName": "NvGsa.x64.dll",
+    "FileName": "D:\\SteamLibrary\\steamapps\\common\\Football Manager 2024\\NvGsa.x64.dll",
+    "BaseAddress": "0x7FFD59A90000",
+    "ModuleMemorySize": 212992
+  },
+  {
+    "ModuleName": "mscms.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\mscms.dll",
+    "BaseAddress": "0x7FFDBEAA0000",
+    "ModuleMemorySize": 770048
+  },
+  {
+    "ModuleName": "icm32.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\icm32.dll",
+    "BaseAddress": "0x7FFD58F30000",
+    "ModuleMemorySize": 303104
+  },
+  {
+    "ModuleName": "CoreMessaging.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\CoreMessaging.dll",
+    "BaseAddress": "0x7FFDC90F0000",
+    "ModuleMemorySize": 1257472
+  },
+  {
+    "ModuleName": "CoreUIComponents.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\CoreUIComponents.dll",
+    "BaseAddress": "0x7FFDC3B80000",
+    "ModuleMemorySize": 3588096
+  },
+  {
+    "ModuleName": "uiautomationcore.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\uiautomationcore.dll",
+    "BaseAddress": "0x7FFDA2B10000",
+    "ModuleMemorySize": 4497408
+  },
+  {
+    "ModuleName": "threadpoolwinrt.dll",
+    "FileName": "C:\\Windows\\System32\\threadpoolwinrt.dll",
+    "BaseAddress": "0x7FFDC4740000",
+    "ModuleMemorySize": 90112
+  },
+  {
+    "ModuleName": "OLEACC.dll",
+    "FileName": "C:\\WINDOWS\\SYSTEM32\\OLEACC.dll",
+    "BaseAddress": "0x7FFDC4EF0000",
+    "ModuleMemorySize": 499712
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-09-13T23:18:36.656695+00:00",
+  "label": "fm-exited",
+  "responses": {
+    "/status": {
+      "http_status": 200,
+      "body": {
+        "connected": false,
+        "read_only": true,
+        "reason": "Expected one FM process; found []. Specify PID if needed."
+      }
+    },
+    "/game": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one FM process; found []. Specify PID if needed."
+      }
+    },
+    "/squad": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one FM process; found []. Specify PID if needed."
+      }
+    },
+    "/players/27010680": {
+      "http_status": 503,
+      "body": {
+        "error": "observation_unavailable",
+        "message": "Expected one FM process; found []. Specify PID if needed."
+      }
+    }
+  }
+}
