@@ -51,7 +51,7 @@ from ..state.views import FinanceView, FixtureView
 from . import finance as fin
 from .lineup import LineupPlan, LineupRequest, RoleSlot, solve
 from .minutes import INFEASIBLE_FIXTURE_PENALTY, MinutesPlan, MinutesRequest, Restriction, plan, plan_value
-from .roles import UNFAMILIAR_LABEL, explain_role_score
+from .roles import UNFAMILIAR_LABEL, base_position, explain_role_score
 
 RECRUITMENT_VERSION = "recruitment-baseline-0.1"
 
@@ -763,7 +763,7 @@ def succession_gaps(players: list[PlayerState], slots: list[RoleSlot], game_date
     gaps: list[SuccessionGap] = []
     seen_positions: set[str] = set()
     for slot in slots:
-        base = slot.position
+        base = base_position(slot.position) or slot.position   # DCR/DCL are one succession question: DC
         if base in seen_positions:
             continue
         seen_positions.add(base)

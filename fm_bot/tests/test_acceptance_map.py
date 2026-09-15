@@ -1,0 +1,230 @@
+"""The acceptance-test map for specification section 14.
+
+Every acceptance ID in the spec's table (OBS 01 ... AUD 01) must be claimed
+by at least one bot test, and the claim must be visible in that test's own
+docstring or name (or its class's), not only in a file's module docstring.
+:data:`ACCEPTANCE_MAP` is the reviewed map: it is what ``fm_bot/README.md``
+lists, and these tests keep it honest against the spec and the test files.
+"""
+from __future__ import annotations
+
+import ast
+import re
+import unittest
+from os import path
+
+TESTS_DIR = path.dirname(path.abspath(__file__))
+REPO_ROOT = path.dirname(path.dirname(TESTS_DIR))
+SPEC_PATH = path.join(REPO_ROOT, "docs", "FM24_Bot_Design_Specification.md")
+
+# ID -> "test_file.py::TestClass::test_method" entries. Reviewed by hand; verified by the tests below.
+ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
+    "OBS 01": (
+        "test_bridge_client.py::ConnectionStateTests::test_http_200_with_connected_false_is_disconnected",
+        "test_bridge_client.py::ConnectionStateTests::test_unsupported_build_is_reported",
+        "test_snapshot.py::ConnectionTests::test_disconnected_stops_without_retry_loops",
+        "test_snapshot.py::ConnectionTests::test_unsupported_build_stops_without_retry",
+    ),
+    "OBS 02": (
+        "test_views.py::ReadinessTests::test_stale_readiness_is_stale_not_a_number",
+        "test_views.py::FinanceViewTests::test_null_money_stays_null",
+        "test_views.py::PlayerStateTests::test_default_eligibility_is_missing",
+        "test_status.py::ObservedInvariantTests::test_require_raises_unavailable_with_status_and_reason",
+    ),
+    "OBS 03": (
+        "test_snapshot.py::InjectedChangeTests::test_time_change_between_reads_is_retried_then_accepted",
+        "test_snapshot.py::InjectedChangeTests::test_session_change_during_collection_is_rejected",
+        "test_snapshot.py::InjectedChangeTests::test_identity_change_on_reread_stops_immediately",
+        "test_snapshot.py::InjectedChangeTests::test_action_critical_field_change_is_retried",
+    ),
+    "ID 01": (
+        "test_identity.py::RegistryTests::test_reloading_earlier_and_later_checkpoints_are_distinct",
+        "test_identity.py::RegistryTests::test_no_cross_branch_history_merge",
+        "test_identity.py::RegistryTests::test_laboratory_fork_records_parent_and_checkpoint",
+    ),
+    "VIS 01": (
+        "test_visibility.py::ApplyModeTests::test_manager_visible_removes_attributes_and_records_lineage",
+        "test_visibility.py::FeatureGuardTests::test_privileged_features_are_refused_in_manager_visible_mode",
+        "test_visibility.py::ModelModeTests::test_privileged_model_cannot_be_relabeled_manager_visible",
+    ),
+    "FIN 01": (
+        "test_units.py::MoneyArithmeticTests::test_mixed_currency_raises",
+        "test_units.py::MoneyArithmeticTests::test_mixed_period_raises",
+        "test_units.py::TotalOverTests::test_weekly_wage_over_a_month_is_calendar_exact",
+        "test_units.py::TotalOverTests::test_weekly_and_monthly_only_combine_after_expansion",
+        "test_units.py::TotalOverTests::test_double_counting_is_visible_through_counts",
+        "test_finance.py::MoneyTimingTests::test_monthly_instalments_follow_calendar_month_ends",
+    ),
+    "FIN 02": (
+        "test_finance.py::PackageFeasibilityTests::test_deal_inside_transfer_budget_but_below_cash_reserve_is_rejected",
+        "test_negotiation.py::AcceptanceTests::test_deal_within_budget_but_outside_cash_reserve_cannot_be_accepted",
+    ),
+    "SEL 01": (
+        "test_planning_lineup.py::EligibilityGateTests::test_sel01_observed_ineligible_player_is_never_assigned_in_either_mode",
+        "test_rules_eligibility.py::VerifiedEligibleTests::test_sel01_confirmed_ineligible_players_are_false_with_reason",
+        "test_rules_eligibility.py::VerifiedEligibleTests::test_sel01_loaned_out_player_detected_from_bridge_contracts",
+    ),
+    "SEL 02": (
+        "test_planning_lineup.py::InfeasibilityTests::test_sel02_two_goalkeeper_slots_but_one_goalkeeper",
+    ),
+    "ACT 01": (
+        "test_execution_executor.py::PreflightTests::test_act01_changed_tactic_expires_queued_action_without_input",
+        "test_narrow_loop.py::FreshContextTests::test_act01_tactic_changed_between_snapshot_and_execution_expires_the_intent",
+    ),
+    "ACT 02": (
+        "test_execution_reconciliation.py::Act02Tests::test_timeout_after_acceptance_reconciles_without_second_dispatch",
+        "test_narrow_loop.py::InterruptionTests::test_rec01_act02_process_dies_after_executing_and_restart_reconciles_without_a_second_dispatch",
+        "test_narrow_loop.py::InterruptionTests::test_act02_absent_effect_after_timeout_is_failed_with_evidence_and_never_retried",
+        "test_narrow_loop.py::InterruptionTests::test_act02_unreadable_readback_keeps_the_intent_uncertain_across_a_restart",
+    ),
+    "ACT 03": (
+        "test_execution_executor.py::HumanControlTests::test_act03_stop_cancels_queue_and_blocks_input",
+        "test_orchestrator.py::ExecutionTests::test_act03_stop_cancels_queued_work_and_prevents_input",
+        "test_narrow_loop.py::HumanControlTests::test_act03_stop_pressed_before_execution_sends_no_input",
+        "test_narrow_loop.py::HumanControlTests::test_act03_focus_loss_pauses_before_the_first_input",
+    ),
+    "REC 01": (
+        "test_execution_reconciliation.py::RestartTests::test_rec01_in_flight_intent_is_reconciled_never_requeued",
+        "test_orchestrator.py::ConnectionTests::test_rec01_in_flight_intent_is_reconciled_on_connect_without_input",
+        "test_narrow_loop.py::InterruptionTests::test_rec01_act02_process_dies_after_executing_and_restart_reconciles_without_a_second_dispatch",
+    ),
+    "MAT 01": (
+        "test_orchestrator.py::MatchLevelTests::test_mat01_live_match_only_records_observations",
+    ),
+    "MAT 02": (
+        "test_capabilities.py::MatchParticipantTests::test_mat02_retained_remnants_and_unknown_substitution_rules_block_match_actions_only",
+        "test_planning_lineup.py::MatchRulesTests::test_mat02_unknown_substitution_rules_block_submission_and_name_the_capability",
+    ),
+    "CAL 01": (
+        "test_rules_deadlines.py::ContinueGateTests::test_cal01_unread_required_decision_blocks_continue_until_resolved",
+        "test_rules_deadlines.py::ContinueGateTests::test_cal01_read_but_unconfirmed_messages_stay_visible",
+    ),
+    "EXP 01": (
+        "test_experiments_manifests.py::TrialManifestTests::test_trial_maps_to_checkpoint_build_policy_treatment_and_outcomes",
+    ),
+    "EXP 02": (
+        "test_experiments_leakage.py::DetectLeakageTests::test_deliberately_contaminated_dataset_fails",
+    ),
+    "MOD 01": (
+        "test_models_registry.py::ResolutionTests::test_failed_calibration_falls_back",
+        "test_models_registry.py::ResolutionTests::test_unsupported_feature_schema_in_context_falls_back",
+    ),
+    "AUD 01": (
+        "test_interface.py::ExplainActionTests::test_aud01_executed_action_resolves_to_inputs_limits_decision_and_evidence",
+        "test_narrow_loop.py::HappyPathTests::test_identify_collect_propose_authorise_apply_verify",
+    ),
+}
+
+
+def spec_acceptance_ids(spec_text: str) -> list[str]:
+    """The IDs in the first column of the section 14 table, in spec order."""
+    start = spec_text.index("\n## 14 ")
+    end = spec_text.index("\n## 15 ", start)
+    return re.findall(r"^\| ([A-Z]{2,3} \d{2}) \|", spec_text[start:end], flags=re.M)
+
+
+def _pattern(acceptance_id: str) -> re.Pattern[str]:
+    prefix, number = acceptance_id.split(" ")
+    return re.compile(rf"{prefix}[ _-]?{number}", re.I)
+
+
+def _names(acceptance_id: str, *texts: str | None) -> bool:
+    pattern = _pattern(acceptance_id)
+    return any(pattern.search(text) for text in texts if text)
+
+
+class _TestFile:
+    """The classes, test functions and docstrings of one test module."""
+
+    def __init__(self, filename: str):
+        self.filename = filename
+        with open(path.join(TESTS_DIR, filename), encoding="utf-8") as handle:
+            self.tree = ast.parse(handle.read())
+        self.module_doc = ast.get_docstring(self.tree) or ""
+        self.classes = {node.name: node for node in self.tree.body if isinstance(node, ast.ClassDef)}
+
+    def function(self, class_name: str, function_name: str) -> ast.FunctionDef | None:
+        cls = self.classes.get(class_name)
+        if cls is None:
+            return None
+        return next((n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == function_name), None)
+
+    def specific_hits(self, acceptance_id: str) -> list[str]:
+        """Test functions that name the ID in their own or their class's docstring or name."""
+        hits = []
+        for cls in self.classes.values():
+            class_doc = ast.get_docstring(cls) or ""
+            for fn in (n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")):
+                if _names(acceptance_id, fn.name, ast.get_docstring(fn), cls.name, class_doc):
+                    hits.append(f"{self.filename}::{cls.name}::{fn.name}")
+        return hits
+
+    def any_docstring_names(self, acceptance_id: str) -> bool:
+        docs = [self.module_doc]
+        for node in ast.walk(self.tree):
+            if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
+                docs.append(ast.get_docstring(node) or "")
+        return _names(acceptance_id, *docs)
+
+
+def _test_files() -> dict[str, _TestFile]:
+    import glob
+    return {path.basename(p): _TestFile(path.basename(p)) for p in sorted(glob.glob(path.join(TESTS_DIR, "test_*.py")))}
+
+
+def render_map() -> str:
+    """The map as a Markdown table (what the README shows)."""
+    lines = ["| ID | Tests |", "| --- | --- |"]
+    for acceptance_id, entries in ACCEPTANCE_MAP.items():
+        lines.append(f"| {acceptance_id} | " + "<br>".join(f"`{e}`" for e in entries) + " |")
+    return "\n".join(lines)
+
+
+class SpecTableTests(unittest.TestCase):
+    def test_map_covers_exactly_the_spec_section_14_ids(self):
+        with open(SPEC_PATH, encoding="utf-8") as handle:
+            ids = spec_acceptance_ids(handle.read())
+        self.assertEqual(len(ids), 20, ids)
+        self.assertEqual(list(ACCEPTANCE_MAP), ids, "the map must list every section 14 ID, in spec order, and nothing else")
+        for acceptance_id, entries in ACCEPTANCE_MAP.items():
+            self.assertTrue(entries, f"{acceptance_id} has no test")
+
+
+class MapAgainstTestFilesTests(unittest.TestCase):
+    def setUp(self):
+        self.files = _test_files()
+
+    def test_every_mapped_test_exists_and_names_its_id(self):
+        for acceptance_id, entries in ACCEPTANCE_MAP.items():
+            for entry in entries:
+                filename, class_name, function_name = entry.split("::")
+                test_file = self.files.get(filename)
+                self.assertIsNotNone(test_file, f"{acceptance_id}: {filename} is not under fm_bot/tests")
+                fn = test_file.function(class_name, function_name)
+                self.assertIsNotNone(fn, f"{acceptance_id}: {entry} does not exist")
+                cls = test_file.classes[class_name]
+                self.assertTrue(
+                    _names(acceptance_id, fn.name, ast.get_docstring(fn), cls.name, ast.get_docstring(cls), test_file.module_doc),
+                    f"{acceptance_id}: {entry} does not name the ID in its docstring, its class or its module",
+                )
+
+    def test_every_id_is_named_by_a_specific_test_not_only_a_module_docstring(self):
+        for acceptance_id in ACCEPTANCE_MAP:
+            hits = [hit for test_file in self.files.values() for hit in test_file.specific_hits(acceptance_id)]
+            self.assertTrue(hits, f"{acceptance_id} is only mentioned at module level; add a focused test naming it")
+            self.assertTrue(set(ACCEPTANCE_MAP[acceptance_id]) & set(hits), f"{acceptance_id}: none of the mapped tests names the ID specifically; candidates: {hits}")
+
+    def test_every_id_appears_in_at_least_one_test_docstring(self):
+        """The literal section 14 requirement: every acceptance ID appears in a test docstring under fm_bot/tests."""
+        for acceptance_id in ACCEPTANCE_MAP:
+            self.assertTrue(any(f.any_docstring_names(acceptance_id) for f in self.files.values()), acceptance_id)
+
+    def test_rendered_map_lists_every_id(self):
+        table = render_map()
+        for acceptance_id in ACCEPTANCE_MAP:
+            self.assertIn(f"| {acceptance_id} |", table)
+
+
+if __name__ == "__main__":
+    print(render_map())
+    unittest.main()

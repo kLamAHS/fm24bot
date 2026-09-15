@@ -29,6 +29,12 @@ Honesty rules enforced here
   only for kinds whose capability check passes; otherwise the report says why.
 * Every gated action family gets a :class:`MissingCapabilityReport`; a
   missing subsystem blocks only the actions that need it.
+* ``reconcile`` produces one :class:`SharedPlan`: wage headroom and the
+  transfer budget are drawn down across renewals and recruits in one order,
+  promised minutes are reserved inside the minutes plan, squad places are
+  counted against the observed limit, deadlines are listed once, and the
+  immediate fixture's eligibility is one shared fact every next-decision
+  candidate depends on (unverified is never treated as eligible).
 * Forecasts come from :mod:`fm_bot.models.baselines` (or a released model
   resolved through the registry) and stay ``unavailable`` when their inputs
   are missing; objective components are reported separately and a missing
@@ -44,8 +50,8 @@ unless the model registry resolves a released one.
 from __future__ import annotations
 
 import datetime as dt
-from dataclasses import dataclass, field
-from typing import Any, Iterable
+from dataclasses import dataclass, field, replace
+from typing import Any
 
 from ..execution.lifecycle import IntentFactory, LifecycleError, validate
 from ..models.baselines import BASELINE_VERSION, Forecast, readiness_forecast, result_forecast, unavailable_forecast
@@ -211,10 +217,11 @@ class SharedPlan:
     priorities: dict[str, Any]
     allocations: dict[str, dict[str, Any]]
     conflicts: list[str] = field(default_factory=list)
+    eligibility: dict[str, Any] = field(default_factory=dict)
     version: str = PLANNER_VERSION
 
     def to_json(self) -> dict[str, Any]:
-        return {"money": self.money, "minutes": self.minutes, "squad_places": self.squad_places, "deadlines": list(self.deadlines), "priorities": self.priorities, "allocations": self.allocations, "conflicts": list(self.conflicts), "version": self.version}
+        return {"money": self.money, "minutes": self.minutes, "squad_places": self.squad_places, "deadlines": list(self.deadlines), "priorities": self.priorities, "allocations": self.allocations, "conflicts": list(self.conflicts), "eligibility": dict(self.eligibility), "version": self.version}
 
 
 @dataclass
@@ -519,7 +526,8 @@ class Planner:
         for package in self.providers.candidates:
             kind = "commit.contract" if package.kind == "renewal" else "commit.transfer_offer"
             if not package.registration.available and ctx.rules_contexts and ctx.rules_contexts[0] is not None:
-                package.registration = registration_feasibility(ctx.rules_contexts[0], len(ctx.players), ctx.snapshot.game_date)
+                # the caller's package is left untouched; the planner's copy carries the rules-derived answer
+                package = replace(package, registration=registration_feasibility(ctx.rules_contexts[0], len(ctx.players), ctx.snapshot.game_date))
             claims = ResourceClaims(package.weekly_wage(), package.guaranteed_fees(start, end), squad_places=0 if package.kind == "renewal" else 1)
             reasons = ["negotiation must produce a confirmed executable offer before any commitment (spec 8.3)"]
             if ctx.evaluator is None:
@@ -539,7 +547,7 @@ class Planner:
         """The Phase 1 'partial finance model': observed aggregates, contract ledger, committed-only projection, unknowns."""
         ctx = self.context(snapshot)
         view = ctx.finance
-        view_json = {k: getattr(view, k).to_json() for k in ("balance", "transfer_budget", "wage_budget_weekly", "payroll_spending_weekly")}
+        view_json = {k: _observed_json(getattr(view, k)) for k in ("balance", "transfer_budget", "wage_budget_weekly", "payroll_spending_weekly")}
         unresolved = [u for u in (snapshot.unresolved or []) if u in ("contract_clauses", "debts", "finance_breakdowns", "scouting_budget", "transfer_target_terms")]
         notes = [f"bridge does not decode: {', '.join(unresolved)}" if unresolved else "no finance-related capability reported unresolved"]
         payroll = ctx.ledger.weekly_payroll(snapshot.game_date).to_json() if ctx.ledger is not None else None
@@ -598,9 +606,10 @@ class Planner:
         return ForecastAndConstraintReport(candidate.candidate_id, [], [ConstraintRecord(r, "unknown", r, False) for r in candidate.reasons] if candidate.status == STATUS_BLOCKED else [], [], None, None if candidate.status == STATUS_BLOCKED else True, notes=[f"{candidate.kind}: no quantitative forecast in this baseline"])
 
     def _snapshot_for(self, candidate: CandidateDecision) -> DecisionSnapshot | None:
-        for ctx in self._contexts.values():
-            return ctx.snapshot if len(self._contexts) == 1 else None
-        return None
+        """The snapshot a candidate was proposed from, when this planner has seen exactly one (else pass it explicitly)."""
+        if len(self._contexts) != 1:
+            return None
+        return next(iter(self._contexts.values())).snapshot
 
     def _result_forecasts(self, ctx: _Context, fixtures: list[FixtureView]) -> tuple[list[Forecast], dict[str, str]]:
         build = self.providers.build or ctx.registry.build
@@ -770,7 +779,35 @@ class Planner:
         places = self._reconcile_places(ctx, candidates, allocations, conflicts)
         deadlines = self._deadlines(ctx)
         priorities = {f.identity: {"competition_id": f.competition_id, "priority": self.profile.priority(f.competition_id), "note": None if self.profile.priority(f.competition_id) is not None else "priority not set in the objective profile"} for f in (ctx.fixtures if ctx else [])}
-        return SharedPlan(money, minutes, places, deadlines, priorities, allocations, conflicts)
+        eligibility = self._reconcile_eligibility(ctx, candidates, conflicts)
+        return SharedPlan(money, minutes, places, deadlines, priorities, allocations, conflicts, eligibility)
+
+    @staticmethod
+    def _reconcile_eligibility(ctx: _Context | None, candidates: list[CandidateDecision], conflicts: list[str]) -> dict[str, Any]:
+        """Eligibility for the immediate fixture is one shared fact: every candidate that fields a player depends on it.
+
+        Counts come from the verified-eligibility map (``True`` verified,
+        ``False`` ineligible, anything else unverified); nothing unverified
+        is assumed clear. Candidates whose eleven includes an unverified or
+        ineligible player are listed so the operator sees what a verification
+        pass would unblock.
+        """
+        if ctx is None or not ctx.fixtures:
+            return {"status": "unavailable", "reason": "no fixture to verify eligibility for"}
+        current = ctx.eligibility[0] if ctx.eligibility else {}
+        verified = sorted(pid for pid, o in current.items() if o.available and o.value is True)
+        ineligible = sorted(pid for pid, o in current.items() if o.available and o.value is False)
+        unverified = sorted(p.player_id for p in ctx.players if p.player_id not in verified and p.player_id not in ineligible)
+        depending = []
+        for candidate in candidates:
+            fielded = candidate.claims.minutes.keys() if candidate.horizon == HORIZON_NEXT_DECISION else ()
+            unresolved = sorted(pid for pid in fielded if pid not in verified)
+            if unresolved:
+                depending.append({"candidate_id": candidate.candidate_id, "kind": candidate.kind, "unverified_or_ineligible": unresolved})
+        fielded_ineligible = sorted({pid for row in depending for pid in row["unverified_or_ineligible"] if pid in ineligible})
+        if fielded_ineligible:
+            conflicts.append(f"players observed ineligible are fielded in a next-decision candidate: {fielded_ineligible}")
+        return {"fixture": ctx.fixtures[0].identity, "verified": verified, "ineligible": ineligible, "unverified": unverified, "candidates_depending_on_unverified": depending, "lineup_status": ctx.lineup_status.status, "note": "unverified is not eligible: a submit needs every starter verified by a verifying source at snapshot time"}
 
     def _reconcile_money(self, ctx: _Context | None, candidates: list[CandidateDecision], evaluations: dict[str, ForecastAndConstraintReport], allocations: dict[str, dict[str, Any]], conflicts: list[str]) -> dict[str, Any]:
         headroom = ctx.finance.headroom_weekly() if ctx else Observed.unavailable(ValueStatus.MISSING, "wage_headroom_weekly", "no snapshot")
@@ -1031,6 +1068,14 @@ def _money_json(text: str | dict[str, Any]) -> dict[str, Any]:
     amount = rest.split("/")[0].replace(",", "")
     pounds, _, pence = amount.partition(".")
     return {"minor": int(pounds) * 100 + int((pence or "0").ljust(2, "0")[:2]), "currency": currency, "period": Period.ONCE.value}
+
+
+def _observed_json(observed: Observed) -> dict[str, Any]:
+    """``Observed.to_json()`` with a Money value rendered as Money JSON (exact minor units, currency, period)."""
+    data = observed.to_json()
+    if isinstance(data.get("value"), Money):
+        data["value"] = data["value"].to_json()
+    return data
 
 
 def _observed_constraint(name: str, observed: Observed, source: str) -> ConstraintRecord:

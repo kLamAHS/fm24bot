@@ -44,7 +44,6 @@ from .interactions.inbox import InboxBlocker, InboxTextProvider, continue_blocke
 from .interface.controls import Settings
 from .interface.notify import Notifier
 from .interface.status import JOURNAL_CONNECTION, JOURNAL_STOP, JOURNAL_STOP_CLEARED, OperatorView, build_view
-from .rules.authority import AuthorityMode
 from .rules.capabilities import CapabilityRegistry
 from .rules.deadlines import EXECUTION_MODES, ContinueGate, LineupStatus, PendingAction, continue_gate, pending_actions
 from .state.identity import BranchIdentity, CareerIdentity, CareerRegistry, new_id, utc_now
@@ -68,6 +67,12 @@ RULES_HORIZON_FIXTURES = 3
 MATCH_LIVE_ACTIONS_REFUSED = "the /match feed's timeline is unclassified and no verified intervention point exists; live actions are refused and only observations are recorded (MAT 01)"
 CONTINUE_ACTION_KIND = "progress.continue"
 INBOX_RESPONSE_KIND = "respond.inbox"
+# Candidate kinds the orchestrator may hand to the single UI writer when the planner marks them proposed.
+# Continue is deliberately absent: it goes through the Continue gate (``maybe_continue``), never as a plain action.
+EXECUTABLE_KINDS: tuple[str, ...] = ("submit.lineup", "respond.inbox", "commit.contract", "commit.transfer_offer", "select_validated_tactic", "set.training")
+# Fallbacks when the planner module does not export its own scope/verification tables.
+DEFAULT_AUTHORITY_SCOPES: dict[str, str] = {"submit.lineup": "selection.submit_lineup", "progress.continue": "progression.continue", "commit.transfer_offer": "transfers.offer", "commit.contract": "contracts.commit", "respond.inbox": "inbox.respond", "select_validated_tactic": "tactics.select", "set.training": "training.set"}
+DEFAULT_VERIFICATION_PLANS: dict[str, str] = {"submit.lineup": "lineup_matches_selection", "progress.continue": "navigation_only", "commit.contract": "contract_accepted_with_obligations", "commit.transfer_offer": "contract_accepted_with_obligations", "respond.inbox": "navigation_only", "select_validated_tactic": "selected_tactic_matches_catalog", "set.training": "training_settings_reread"}
 
 JOURNAL_PASS = "orchestrator.pass"
 JOURNAL_PLAN = "orchestrator.plan"
@@ -270,13 +275,15 @@ class ConnectResult:
     reconciled: list[dict[str, Any]] = field(default_factory=list)
     snapshot_id: str | None = None
     capabilities: dict[str, list[str]] = field(default_factory=dict)
+    game_date: str | None = None
+    game_time: str | None = None
 
     @property
     def ok(self) -> bool:
         return self.connected and self.build_supported and self.career_matched is True
 
     def to_json(self) -> dict[str, Any]:
-        return {"status": self.status.value if isinstance(self.status, PassStatus) else self.status, "connected": self.connected, "build_supported": self.build_supported, "career_matched": self.career_matched, "problems": list(self.problems), "settle": self.settle.to_json() if self.settle else None, "reconciled": list(self.reconciled), "snapshot_id": self.snapshot_id, "capabilities": self.capabilities}
+        return {"status": self.status.value if isinstance(self.status, PassStatus) else self.status, "connected": self.connected, "build_supported": self.build_supported, "career_matched": self.career_matched, "problems": list(self.problems), "settle": self.settle.to_json() if self.settle else None, "reconciled": list(self.reconciled), "snapshot_id": self.snapshot_id, "capabilities": self.capabilities, "game_date": self.game_date, "game_time": self.game_time}
 
 
 @dataclass
@@ -357,19 +364,127 @@ def plan_due(last_plan_date: str | None, game_date: str | None) -> bool:
     return (previous[0], previous[1]) != (current[0], current[1])
 
 
+def _candidates(report: Any) -> list[Any]:
+    return list(getattr(report, "candidates", []) or [])
+
+
 def lineup_status_of(report: Any) -> LineupStatus:
-    """Translate the planner's lineup into the Continue gate's vocabulary without inventing verification."""
-    lineup = getattr(report, "lineup", None)
-    if lineup is None:
+    """Translate the planner's lineup candidates into the Continue gate's vocabulary without inventing verification.
+
+    A ``submit.lineup`` candidate the planner marked proposed and submittable
+    is the only thing that counts as verified; an advisory eleven with
+    unverified starters stays unverified, an infeasible one infeasible, and
+    no eleven at all is missing (or not required when there is no fixture).
+    """
+    candidates = _candidates(report)
+    if not candidates and getattr(report, "lineup", None) is None:
         return LineupStatus("missing", reasons=["the planner produced no lineup"])
-    status = getattr(lineup, "status", None)
-    pending = list(getattr(lineup, "verification_required", []) or [])
-    identity = getattr(lineup, "fixture_identity", None)
-    if status == "legal" and not pending:
+    submit = next((c for c in candidates if getattr(c, "kind", None) == "submit.lineup"), None)
+    advisory = next((c for c in candidates if getattr(c, "kind", None) == "advise.lineup"), None)
+    identity = None
+    for candidate in (submit, advisory):
+        fixture = (getattr(candidate, "payload", None) or {}).get("fixture") if candidate is not None else None
+        if fixture and fixture.get("identity"):
+            identity = fixture["identity"]
+            break
+    if submit is not None and getattr(submit, "status", None) == "proposed" and getattr(submit, "submittable", False):
         return LineupStatus("verified", identity)
-    if status == "infeasible":
-        return LineupStatus("infeasible", identity, reasons=[getattr(c, "message", str(c)) for c in getattr(lineup, "conflicts", [])])
-    return LineupStatus("unverified", identity, reasons=pending or [f"lineup status {status}"])
+    if advisory is None:
+        return LineupStatus("missing", identity, reasons=["no lineup candidate was produced"])
+    reasons = list(getattr(advisory, "reasons", []) or [])
+    if getattr(advisory, "status", None) == "blocked":
+        if any("no upcoming fixture" in r for r in reasons):
+            return LineupStatus("not_required", identity, reasons=reasons)
+        return LineupStatus("missing", identity, reasons=reasons or ["lineup blocked"])
+    if getattr(advisory, "status", None) == "infeasible":
+        return LineupStatus("infeasible", identity, reasons=reasons or ["no legal eleven"])
+    if getattr(advisory, "unverified", True):
+        return LineupStatus("unverified", identity, reasons=reasons or ["eligibility not verified for every starter"])
+    return LineupStatus("verified", identity)
+
+
+def _planner_tables() -> tuple[dict[str, str], dict[str, str]]:
+    try:
+        from .planning import planner as module
+    except ImportError:
+        return dict(DEFAULT_AUTHORITY_SCOPES), dict(DEFAULT_VERIFICATION_PLANS)
+    return {**DEFAULT_AUTHORITY_SCOPES, **getattr(module, "AUTHORITY_SCOPES", {})}, {**DEFAULT_VERIFICATION_PLANS, **getattr(module, "VERIFICATION_PLANS", {})}
+
+
+def next_action_of(report: Any, decisions: list[Decision]) -> dict[str, Any] | None:
+    """The first candidate the planner marked proposed that the UI writer could carry out, as an action dict.
+
+    Returns ``None`` when nothing is proposed (advice-only plans, blocked
+    candidates). The action carries the decision id of its horizon so the
+    audit chain (intent -> decision -> snapshot) is intact.
+    """
+    explicit = getattr(report, "next_action", None)
+    if isinstance(explicit, dict):
+        return dict(explicit)
+    scopes, plans = _planner_tables()
+    by_horizon = {d.kind.removeprefix("plan."): d.decision_id for d in decisions}
+    for candidate in _candidates(report):
+        kind = getattr(candidate, "kind", None)
+        if kind not in EXECUTABLE_KINDS or getattr(candidate, "status", None) != "proposed":
+            continue
+        if kind == "submit.lineup" and (getattr(candidate, "unverified", True) or not getattr(candidate, "submittable", False)):
+            continue
+        return {"kind": kind, "authority_scope": scopes.get(kind, kind), "targets": dict(getattr(candidate, "targets", {}) or {}), "parameters": dict(getattr(candidate, "parameters", {}) or {}), "verification": plans.get(kind, "navigation_only"), "required_capabilities": list(getattr(candidate, "requires", []) or []), "description": getattr(candidate, "description", kind), "candidate_id": getattr(candidate, "candidate_id", None), "decision_id": by_horizon.get(getattr(candidate, "horizon", ""))}
+    return None
+
+
+def plan_outcome_of(report: Any) -> PlanOutcome:
+    """Read a planner report (``planning.planner.PlanReport`` or a test double) into a :class:`PlanOutcome`.
+
+    Missing-capability reports are kept only when they block, one per gated
+    action, so the operator sees exactly which prerequisites are unresolved.
+    """
+    decisions = list(getattr(report, "decisions", []) or [])
+    summary = list(getattr(report, "summaries", None) or getattr(report, "summary_lines", None) or [])
+    reports_attr = getattr(report, "capability_reports", None)
+    if isinstance(reports_attr, dict):
+        raw_reports = list(reports_attr.values())
+    else:
+        raw_reports = list(getattr(report, "missing_capabilities", None) or [])
+    seen: set[str] = set()
+    missing: list[MissingCapabilityReport] = []
+    for item in raw_reports:
+        if item.blocked and item.blocked_action not in seen:
+            seen.add(item.blocked_action)
+            missing.append(item)
+    status = "planned" if getattr(report, "status", "planned") != "blocked" else "blocked"
+    return PlanOutcome(status, decisions, next_action_of(report, decisions), missing, summary, lineup_status_of(report), reason="; ".join(getattr(report, "reasons", []) or []) or None, report=report)
+
+
+def run_planner(snapshot: DecisionSnapshot, *, store, settings: Settings, capabilities: CapabilityRegistry | None, eligibility=None, rules=None, promises=None, inbox_text=None, build: str | None = None, planner: Callable[..., Any] | None = None) -> PlanOutcome:
+    """Run the shared planner for one snapshot and persist its decisions with the setting versions they were made under.
+
+    The planner is asked not to persist anything itself so that every stored
+    decision carries the operator's setting versions (spec 15.1). A missing
+    planner module is reported as an unavailable plan, never as an empty one.
+    """
+    plan_once = planner
+    if plan_once is None:
+        try:
+            from .planning import planner as module
+        except ImportError as exc:
+            report = MissingCapabilityReport("plan.weekly")
+            report.add("planning.planner", f"shared planner not importable ({exc.__class__.__name__}: {exc})")
+            return PlanOutcome("unavailable", missing=[report], reason=str(exc))
+        plan_once = module.plan_once
+        providers = module.Providers(rules=rules, promises=promises, inbox_text=inbox_text, build=build)
+        if eligibility is not None:
+            providers.eligibility = eligibility
+    else:
+        providers = {"eligibility": eligibility, "rules": rules, "promises": promises, "inbox_text": inbox_text, "build": build}
+    report = plan_once(snapshot, store=None, objective_profile=settings.club_objective(), authority=settings.authority_profile(), capabilities=capabilities, providers=providers)
+    outcome = plan_outcome_of(report)
+    if store is not None:
+        for decision in outcome.decisions:
+            if store.get_decision(decision.decision_id) is None:
+                settings.stamp_decision(decision)
+                store.insert_decision(decision)
+    return outcome
 
 
 class Orchestrator:
@@ -410,15 +525,18 @@ class Orchestrator:
         self.last_plan_date: str | None = None
         self.last_decision_by_kind: dict[str, Decision] = {}
         self.last_pass: PassResult | None = None
+        self.last_decided: PassResult | None = None        # the most recent pass that reached a decision point
         self.last_connection: ConnectResult | None = None
         self._anchor = None
         self._sequence = 0
         self._bot_progressed = False
         self._executor: SingleWriterExecutor | None = None
-        self._planner_missing: str | None = None
         if not store.acquire_lock(MANAGER_LOCK, self.owner_id, stale_after_seconds=lock_stale_seconds):
             raise ManagerLockHeld(f"manager lock is held by {store.lock_owner(MANAGER_LOCK)!r}; one bot instance per game")
         self.lock_held = True
+        self._connect_snapshot: DecisionSnapshot | None = None
+        if settings.authority_profile_version == 0:
+            settings.save()          # defaults become explicit, versioned rows so decisions and audits cite real versions
         store.journal("orchestrator.started", {"owner_id": self.owner_id, "career_id": career.career_id, "branch_id": branch.branch_id, "adapter": getattr(adapter, "name", "?"), "version": ORCHESTRATOR_VERSION}, self.owner_id)
 
     # ----- lifecycle -----
@@ -536,9 +654,13 @@ class Orchestrator:
         reconciled = []
         if snapshot.valid:
             reconciled = [d.to_json() for d in reconcile_on_restart(self.store, self.adapter, snapshot, branch_id=self.branch.branch_id)]
-        self.connected = True
         self.execution_enabled = snapshot.valid and settled.settled
-        result = ConnectResult(PassStatus.PLANNED if self.execution_enabled else PassStatus.INCONSISTENT, True, True, True, [] if self.execution_enabled else ["snapshot inconsistent or clock unsettled; execution stays disabled"], settled, reconciled, snapshot.snapshot_id, registry.summary())
+        self.connected = self.execution_enabled            # an unsettled clock or an inconsistent snapshot means: try again next pass
+        self._connect_snapshot = snapshot if self.connected else None
+        problems = [] if self.execution_enabled else [("snapshot " + snapshot.consistency.value + ": " + "; ".join(snapshot.consistency_reasons)) if not snapshot.valid else "clock unsettled: " + "; ".join(settled.reasons)]
+        if (snapshot.continuity or {}).get("requires_lineage_confirmation"):
+            problems.append("the operator must confirm this save is the registered career (register --confirm-lineage) before the bot trusts it")
+        result = ConnectResult(PassStatus.PLANNED if self.execution_enabled else PassStatus.INCONSISTENT, True, True, True, problems, settled, reconciled, snapshot.snapshot_id, registry.summary(), snapshot.game_date, snapshot.game_time)
         return self._finish_connect(result)
 
     def _finish_connect(self, result: ConnectResult) -> ConnectResult:
@@ -554,7 +676,7 @@ class Orchestrator:
 
     # ----- collection -----
     def collect(self, label: str = "pass") -> DecisionSnapshot:
-        requirements = SnapshotRequirements(routes=list(self.routes), optional=list(self.optional_routes), label=label)
+        requirements = SnapshotRequirements(routes=[*self.routes, *self.optional_routes], optional=list(self.optional_routes), label=label)
         context = CollectionContext(self.career.career_id, self.branch.branch_id, self.settings.information_mode(), self._anchor, self.lineage_confirmed, self._bot_progressed, self.stable_point, self._sequence)
         snapshot = self.collector.collect(requirements, context)
         self._sequence = context.sequence
@@ -608,33 +730,26 @@ class Orchestrator:
         return DecisionPointResult(pending, blockers, gate, reports, proposals)
 
     # ----- level 3: weekly or material event -----
-    def _plan_once(self) -> Callable[..., Any] | None:
-        if self.planner is not None:
-            return self.planner
-        try:
-            from .planning import planner as module
-        except ImportError as exc:
-            self._planner_missing = f"{exc.__class__.__name__}: {exc}"
-            return None
-        return module.plan_once
+    def _bridge_build(self) -> str | None:
+        status = getattr(self.client, "last_status", None) or {}
+        return status.get("build") if isinstance(status, dict) else None
 
     def plan(self, snapshot: DecisionSnapshot) -> PlanOutcome:
-        """Level 3: refresh squad, minutes, contracts, scouting and finance plans through the shared planner."""
-        plan_once = self._plan_once()
-        if plan_once is None:
-            report = MissingCapabilityReport("plan.weekly")
-            report.add("planning.planner", f"shared planner not importable ({self._planner_missing})")
-            self.last_plan_date = snapshot.game_date          # do not re-plan every poll; the next week or a trigger retries
-            self.notifier.unsupported_workflow(report, ref_id=self.branch.branch_id)
-            return PlanOutcome("unavailable", missing=[report], reason=self._planner_missing)
-        report = plan_once(snapshot, store=self.store, settings=self.settings, eligibility=self.eligibility, rules=self.rules, promises=self.promises, capabilities=self.capabilities, adapter_capabilities=tuple(self.adapter.capabilities()))
-        decisions = list(getattr(report, "decisions", []) or [])
-        for decision in decisions:
+        """Level 3: refresh squad, minutes, contracts, scouting and finance plans through the shared planner.
+
+        Decisions are persisted with the setting versions they were made
+        under; a material change from the previous decision of the same kind
+        is reported through the notifier. Blocked capability reports from
+        the planner are listed as unresolved prerequisites (they are not
+        mandatory workflows, so they do not notify).
+        """
+        outcome = run_planner(snapshot, store=self.store, settings=self.settings, capabilities=self.capabilities, eligibility=self.eligibility, rules=self.rules, promises=self.promises, inbox_text=self._deadline_text_provider(), build=self._bridge_build(), planner=self.planner)
+        self.last_plan_date = snapshot.game_date          # do not re-plan every poll; the next week or a trigger retries
+        if outcome.status == "unavailable":
+            for report in outcome.missing:
+                self.notifier.unsupported_workflow(report, ref_id=self.branch.branch_id)
+        for decision in outcome.decisions:
             self._record_decision(decision)
-        self.last_plan_date = snapshot.game_date
-        outcome = PlanOutcome("planned", decisions, getattr(report, "next_action", None), list(getattr(report, "missing_capabilities", []) or []), list(getattr(report, "summary_lines", []) or []), lineup_status_of(report), report=report)
-        for missing in outcome.missing:
-            self.notifier.unsupported_workflow(missing, ref_id=self.branch.branch_id)
         self.store.journal(JOURNAL_PLAN, {**outcome.to_json(), "settings": self.settings.stamp(), "snapshot_id": snapshot.snapshot_id}, snapshot.snapshot_id)
         return outcome
 
@@ -689,7 +804,9 @@ class Orchestrator:
         if report.blocked:
             self.notifier.unsupported_workflow(report, ref_id=snapshot.snapshot_id)
             return report
-        decision_id = decision_id or self._wrap_decision(action, snapshot, reasons=reasons or [action.get("description", "proposed by the planner")]).decision_id
+        decision_id = decision_id or action.get("decision_id")
+        if decision_id is None or self.store.get_decision(decision_id) is None:
+            decision_id = self._wrap_decision(action, snapshot, reasons=reasons or [action.get("description", "proposed by the planner")]).decision_id
         try:
             intent = self.factory.create(kind, action["authority_scope"], snapshot, dict(action.get("targets", {})), dict(action.get("parameters", {})), required_capabilities=action.get("required_capabilities"), verification=action.get("verification", "navigation_only"), decision_id=decision_id)
         except (LifecycleError, StoreError) as exc:
@@ -726,11 +843,13 @@ class Orchestrator:
         boundary = gate.next_boundary.to_json() if gate.next_boundary else None
         return {"kind": CONTINUE_ACTION_KIND, "authority_scope": "progression.continue", "targets": {"routes": ["/inbox", "/fixtures"]}, "parameters": {"expected_boundary": boundary}, "verification": "navigation_only", "required_capabilities": list(self.capabilities.requirements(CONTINUE_ACTION_KIND)), "description": f"move the calendar on to {boundary['description'] if boundary else 'the next decision point'}"}
 
-    def maybe_continue(self, snapshot: DecisionSnapshot, gate: ContinueGate) -> ExecutionReport | MissingCapabilityReport | str:
-        """Before Continue, the gate must allow it and the profile must permit pressing it (spec 12.4)."""
+    def maybe_continue(self, snapshot: DecisionSnapshot, gate: ContinueGate, point: DecisionPointResult | None = None) -> ExecutionReport | MissingCapabilityReport | str:
+        """Before Continue, the gate must allow it, every mandatory item must be clear and the profile must permit pressing it (spec 12.4)."""
         profile = self.settings.authority_profile()
         if profile.mode not in EXECUTION_MODES or not profile.limits.allow_continue:
             return "Continue is not permitted by the authority profile"
+        if point is not None and not point.mandatory_clear:
+            return "calendar blocked: " + "; ".join([b.description for b in point.blockers] + [p.description for p in point.pending if p.blocks_continue and not p.resolved])
         if not gate.allowed:
             return "calendar blocked: " + "; ".join(gate.blockers or [f"missing {', '.join(gate.missing_capabilities.missing)}"])
         action = self.continue_action(gate)
@@ -767,8 +886,8 @@ class Orchestrator:
             if not connection.ok or connection.status is PassStatus.INCONSISTENT:
                 self.consecutive_errors += 1
                 status = connection.status if isinstance(connection.status, PassStatus) else PassStatus.INCONSISTENT
-                return PassResult(RunLevel.CONNECT, status, connection.snapshot_id, notes=list(connection.problems), next_poll_seconds=self.next_interval())
-        snapshot = self.collect()
+                return PassResult(RunLevel.CONNECT, status, connection.snapshot_id, connection.game_date, connection.game_time, notes=list(connection.problems), next_poll_seconds=self.next_interval())
+        snapshot, self._connect_snapshot = (self._connect_snapshot or self.collect()), None
         if not snapshot.valid:
             self.consecutive_errors += 1
             status = {ConsistencyStatus.DISCONNECTED: PassStatus.DISCONNECTED, ConsistencyStatus.BUILD_UNSUPPORTED: PassStatus.BUILD_UNSUPPORTED}.get(snapshot.consistency, PassStatus.INCONSISTENT)
@@ -786,6 +905,7 @@ class Orchestrator:
             return PassResult(RunLevel.DECISION_POINT, PassStatus.UNCHANGED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, False, [], next_poll_seconds=self.next_interval())
         result = self._decide_and_act(snapshot, triggers)
         self.previous_snapshot = snapshot
+        self.last_decided = result
         result.next_poll_seconds = self.next_interval()
         return result
 
@@ -793,15 +913,16 @@ class Orchestrator:
         point = self.decision_point(snapshot)                       # mandatory first
         plan = self.plan(snapshot)                                  # optional optimisation second
         gate = continue_gate(snapshot, point.pending, self._rules_contexts(snapshot), plan.lineup_status, authority_mode=self.settings.authority_mode(), capabilities=self.capabilities)
-        blocked = [*point.reports, *plan.missing]
+        blocked = list(point.reports)
+        blocked.extend(m for m in plan.missing if m.blocked_action not in {b.blocked_action for b in blocked})
         next_action = point.proposals[0] if point.proposals else plan.next_action
         level = RunLevel.WEEKLY if plan.status == "planned" else RunLevel.DECISION_POINT
         result = PassResult(level, PassStatus.PLANNED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, True, triggers, point, plan, next_action, None, gate, blocked)
         executed: ExecutionReport | MissingCapabilityReport | str | None = None
         if next_action is not None:
             executed = self.execute(next_action, snapshot)
-        elif point.mandatory_clear:
-            executed = self.maybe_continue(snapshot, gate)
+        else:
+            executed = self.maybe_continue(snapshot, gate, point)
         if isinstance(executed, ExecutionReport):
             result.executed, result.status = executed, PassStatus.ACTED
         elif isinstance(executed, MissingCapabilityReport):
@@ -826,12 +947,15 @@ class Orchestrator:
 
     # ----- operator surface -----
     def status_view(self) -> OperatorView:
-        last = self.last_pass
+        """The operator screen: what was decided last (next action, prerequisites, gate) plus the latest pass's notes."""
+        last, decided = self.last_pass, self.last_decided
         connection = None
         if self.last_connection is not None:
             connection = {"connected": self.last_connection.connected, "build_supported": self.last_connection.build_supported, "reason": "; ".join(self.last_connection.problems) or None, "career_matched": self.last_connection.career_matched}
-        prerequisites = list(last.blocked) if last else []
-        gate = last.continue_gate.to_json() if last and last.continue_gate else None
-        pending = [p.to_json() for p in last.decision_point.pending if p.blocks_continue and not p.resolved] if last and last.decision_point else []
+        prerequisites = list(decided.blocked) if decided else []
+        gate = decided.continue_gate.to_json() if decided and decided.continue_gate else None
+        pending = [p.to_json() for p in decided.decision_point.pending if p.blocks_continue and not p.resolved] if decided and decided.decision_point else []
         notes = list(last.notes) if last else []
-        return build_view(self.store, settings=self.settings, snapshot=self.previous_snapshot, career=self.career, branch=self.branch, lineage_confirmed=self.lineage_confirmed, connection=connection, next_action=last.next_action if last else None, prerequisites=prerequisites, continue_gate=gate, stop=self.stop_control.to_json(), pending=pending, notes=notes)
+        if last is not None and last.status is PassStatus.UNCHANGED:
+            notes.append("nothing has changed since the last decision")
+        return build_view(self.store, settings=self.settings, snapshot=self.previous_snapshot, career=self.career, branch=self.branch, lineage_confirmed=self.lineage_confirmed, connection=connection, next_action=decided.next_action if decided else None, prerequisites=prerequisites, continue_gate=gate, stop=self.stop_control.to_json(), pending=pending, notes=notes)

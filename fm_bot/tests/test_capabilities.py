@@ -130,3 +130,24 @@ class ProvideWithdrawTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MatchParticipantTests(unittest.TestCase):
+    def test_mat02_retained_remnants_and_unknown_substitution_rules_block_match_actions_only(self):
+        """MAT 02: the fixture bridge exposes only retained match remnants (last positions, retained condition) and no verified
+        event order or substitution rules, so a substitution is blocked naming match_event_order and competition_rules, while
+        observing the match and advising a lineup are not. Supplying the UI adapter alone does not unblock it."""
+        reg = registry()
+        self.assertTrue(reg.supported("match_player_positions"))
+        self.assertTrue(reg.supported("match_retained_condition"))
+        self.assertTrue(reg.supported("match_viewer"))
+        report = reg.check("match.substitute")
+        self.assertTrue(report.blocked)
+        self.assertEqual(report.blocked_action, "match.substitute")
+        for name in ("match_event_order", "competition_rules"):
+            self.assertIn(name, report.missing)
+        self.assertNotIn("match_viewer", report.missing)
+        self.assertFalse(reg.check("advise.lineup").blocked)
+        self.assertFalse(reg.check("observe").blocked)
+        reg.provide("ui_action_adapter", "ui_adapter:fake")
+        self.assertEqual(sorted(reg.check("match.substitute").missing), ["competition_rules", "match_event_order"])

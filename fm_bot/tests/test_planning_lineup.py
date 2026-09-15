@@ -338,3 +338,16 @@ class SerialisationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MatchRulesTests(unittest.TestCase):
+    def test_mat02_unknown_substitution_rules_block_submission_and_name_the_capability(self):
+        """MAT 02: with no verified substitution rules the substitutes are unknown, the eleven is legal only as advice, and
+        submission is blocked naming competition_rules; no bench is fabricated."""
+        plan = lu.solve(request(mode="submit"))
+        self.assertEqual(plan.status, "legal")
+        self.assertFalse(plan.submittable)
+        self.assertEqual(plan.bench, [])
+        self.assertEqual(plan.bench_status, "unknown_rules")
+        self.assertIs(plan.substitutes_allowed.status, ValueStatus.MISSING)
+        self.assertTrue(any("substitution allowance unknown" in v and "competition_rules" in v for v in plan.verification_required))
