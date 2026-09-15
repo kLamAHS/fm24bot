@@ -5,6 +5,7 @@ executing authority mode and a UI adapter that reports validated workflows:
 
 * ``status``     the operator view (career, information mode, authority, bridge, game day, next action, prerequisites, Stop)
 * ``register``   register the loaded save as a career (manifest from the bridge; ``--confirm-lineage`` when the operator vouches for it)
+* ``confirm-lineage``  vouch that the loaded save is the *registered* career, clearing an identity-resolution stop without forking the history (ID 01)
 * ``snapshot``   collect one consistent snapshot and report its consistency
 * ``plan``       plan once and print the football-language report (``--json`` for the full record)
 * ``explain``    a decision or an executed action resolved to its inputs, limits, versions and evidence (AUD 01)
@@ -40,7 +41,7 @@ from .interface.controls import AUTHORITY_MODE_ALIASES, Settings, SettingsError,
 from .interface.explain import ExplanationError, explain_action, explain_decision, render_action, render_decision, render_decision_evidence
 from .interface.notify import LogSink, Notifier
 from .interface.status import active_career, build_view, render_evidence, render_text, set_active_career
-from .orchestrator import DEFAULT_ROUTES, OPTIONAL_ROUTES, ManagerLockHeld, Orchestrator, PassResult, PassStatus, run_planner
+from .orchestrator import DEFAULT_ROUTES, JOURNAL_LINEAGE_CONFIRMED, OPTIONAL_ROUTES, ManagerLockHeld, Orchestrator, PassResult, PassStatus, run_planner
 from .rules.capabilities import CapabilityRegistry
 from .state.identity import CareerRegistry, SaveManifest, file_sha256
 from .state.records import DecisionSnapshot
@@ -53,6 +54,9 @@ ADAPTER_NAMES = ("fake", "windows")
 AUTHORITY_CHOICES = ("observe", "advise", "scoped", "autonomy", "scoped_execution", "club_autonomy")
 
 EXIT_OK, EXIT_GAME_STATE, EXIT_SETUP, EXIT_LOCK = 0, 1, 2, 3
+# Pass outcomes in which the game or bridge state prevented the command, so ``run`` exits EXIT_GAME_STATE
+# (an inconsistent snapshot or an unsettled clock is such a state, and so is a stop for identity resolution).
+PREVENTED_BY_GAME_STATE: tuple[PassStatus, ...] = (PassStatus.DISCONNECTED, PassStatus.BUILD_UNSUPPORTED, PassStatus.IDENTITY_MISMATCH, PassStatus.IDENTITY_RESOLUTION_REQUIRED, PassStatus.INCONSISTENT, PassStatus.LOCK_LOST)
 
 # Test hooks: replace the loopback HTTP transport / the UI adapter without touching the command line.
 TRANSPORT_FACTORY: Callable[[str], Transport] | None = None
@@ -191,11 +195,43 @@ def cmd_register(args: argparse.Namespace, store: Store, out: TextIO) -> int:
     saved = Settings.load(store).save()
     print(f"Registered career {career.career_id} ({args.label}): club {club.data.get('name', club.data['id'])}, manager {manager.data.get('name', manager.data['id'])}, build {state['build']}", file=out)
     print(f"Branch {branch.branch_id} (production), checkpoint {checkpoint.checkpoint_id} at {manifest.game_date} {manifest.game_time or ''}".rstrip(), file=out)
-    print("Lineage: confirmed by the operator" if args.confirm_lineage else "Lineage: not confirmed - a session change will need `--confirm-lineage` before the bot trusts it", file=out)
+    print("Lineage: confirmed by the operator" if args.confirm_lineage else "Lineage: not confirmed - run `confirm-lineage` (not `register` again, which would start a second career) before the bot trusts this save", file=out)
     if checksum is None and args.save_path:
         print(f"Save file not found at {args.save_path}; checksum not recorded", file=out)
     if saved:
         print(f"Settings saved with defaults: {', '.join(sorted(saved))}", file=out)
+    return EXIT_OK
+
+
+def cmd_confirm_lineage(args: argparse.Namespace, store: Store, out: TextIO) -> int:
+    """Vouch that the loaded save is the registered career (spec 5.1, ID 01).
+
+    This is the only way to clear an identity-resolution stop: it confirms the
+    lineage of the career and branch already registered, and refuses when the
+    loaded save's manager, club or build is not the registered one (that is a
+    different career, which must be registered as its own). Nothing new is
+    created, so the production history stays linear.
+    """
+    career, branch, confirmed = _require_career(store)
+    client = _client(args, store, career, branch)
+    state = client.connection_state()
+    if not state["connected"]:
+        raise CliError(f"cannot confirm lineage: the bridge is not connected to a save ({state.get('reason')})", EXIT_GAME_STATE)
+    if not state["build_supported"]:
+        raise CliError(f"cannot confirm lineage: {state.get('reason')}", EXIT_GAME_STATE)
+    manager, club, game = client.manager(), client.club(), client.game()
+    for name, response in (("/manager", manager), ("/club", club), ("/game", game)):
+        if not response.ok:
+            raise CliError(f"cannot confirm lineage: {name} unavailable ({response.error})", EXIT_GAME_STATE)
+    matched, problems = CareerRegistry(store).matches_registration(career, state["status"], int(manager.data["id"]), int(club.data["id"]))
+    if not matched:
+        raise CliError("cannot confirm lineage: the loaded save is not the registered career (" + "; ".join(problems) + "); register it as its own career instead of confirming this one", EXIT_GAME_STATE)
+    set_active_career(store, career.career_id, branch.branch_id, lineage_confirmed=True)
+    reason = args.reason or "operator confirmed the loaded save is the registered career"
+    store.journal(JOURNAL_LINEAGE_CONFIRMED, {"reason": reason, "career_id": career.career_id, "branch_id": branch.branch_id, "game_date": game.data.get("date"), "game_time": game.data.get("time"), "build": state["build"], "by": "cli", "was_confirmed": confirmed}, branch.branch_id)
+    print(f"Lineage confirmed for career {career.career_id} ({career.label}), branch {branch.branch_id}: {reason}", file=out)
+    print(f"Loaded save: club {club.data.get('name', club.data['id'])}, manager {manager.data.get('name', manager.data['id'])}, build {state['build']}, game day {game.data.get('date')} {game.data.get('time') or ''}".rstrip(), file=out)
+    print("No new career, branch or checkpoint was created; the next run reconnects, settles and reconciles from this save.", file=out)
     return EXIT_OK
 
 
@@ -324,7 +360,7 @@ def cmd_run(args: argparse.Namespace, store: Store, out: TextIO) -> int:
     finally:
         orchestrator.close()
     last = results[-1] if results else None
-    return EXIT_GAME_STATE if last is not None and last.status in (PassStatus.DISCONNECTED, PassStatus.BUILD_UNSUPPORTED, PassStatus.IDENTITY_MISMATCH, PassStatus.LOCK_LOST) else EXIT_OK
+    return EXIT_GAME_STATE if last is not None and last.status in PREVENTED_BY_GAME_STATE else EXIT_OK
 
 
 def cmd_reconcile(args: argparse.Namespace, store: Store, out: TextIO) -> int:
@@ -369,6 +405,9 @@ def build_parser() -> argparse.ArgumentParser:
     register.add_argument("--save-path", default=None, help="path of the save file (checksum recorded when the file exists)")
     register.add_argument("--confirm-lineage", action="store_true", help="the operator vouches that this save is the registered career")
 
+    confirm = sub.add_parser("confirm-lineage", help="vouch that the loaded save is the registered career (clears an identity-resolution stop)")
+    confirm.add_argument("--reason", default="", help="why the operator vouches for this save (journaled)")
+
     snapshot = sub.add_parser("snapshot", help="collect one snapshot and report its consistency")
     snapshot.add_argument("--json", action="store_true")
 
@@ -400,8 +439,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 HANDLERS: dict[str, Callable[[argparse.Namespace, Store, TextIO], int]] = {
-    "status": cmd_status, "register": cmd_register, "snapshot": cmd_snapshot, "plan": cmd_plan,
-    "explain": cmd_explain, "config": cmd_config, "run": cmd_run, "reconcile": cmd_reconcile,
+    "status": cmd_status, "register": cmd_register, "confirm-lineage": cmd_confirm_lineage, "snapshot": cmd_snapshot,
+    "plan": cmd_plan, "explain": cmd_explain, "config": cmd_config, "run": cmd_run, "reconcile": cmd_reconcile,
 }
 
 

@@ -8,7 +8,16 @@ Four run levels, in the order the spec gives them:
    by an earlier process before any new work.
 2. **Stable decision point** - mandatory deadlines and inbox decisions come
    before any optional optimisation; anything the bot cannot read blocks
-   Continue and names the missing capability.
+   Continue and names the missing capability. A read message that looks like
+   a decision keeps blocking until a ``pending_actions`` observation at this
+   snapshot's own game time reports it answered (CAL 01). Where the words of
+   a message and the answers it offers *are* observed, the answer is chosen
+   from those legal option ids by :mod:`fm_bot.interactions.choices` (club
+   policy, open promises and, if one is configured, a language model that may
+   only rank the same ids); nothing is ever invented and no prose is composed.
+   The Continue gate needs the plan's lineup verdict, so exactly one gate is
+   evaluated per decision point, after the plan, and that is the gate the
+   operator is notified about (spec 12.4, 15.1).
 3. **Weekly or material event** - the shared planner refreshes squad,
    minutes, contracts, scouting and finance plans.
 4. **Supported match** - only verified state changes at permitted
@@ -50,19 +59,21 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Protocol
+from typing import Any, Callable, Protocol, Sequence
 
 from .bridge_client.client import BridgeClient
 from .execution.adapter import FAKE_WORKFLOWS
 from .execution.executor import ExecutionReport, SingleWriterExecutor, WriterLockHeld, unsettled_twin
 from .execution.lifecycle import IntentFactory, LifecycleError, enqueue, validate
 from .execution.reconciliation import IN_FLIGHT_OR_UNCERTAIN, RecoveryDecision, reconcile_on_restart, reconcile_uncertain
-from .interactions.inbox import InboxBlocker, InboxTextProvider, continue_blocked_by_inbox, inbox_items, unresolved_mandatory
+from .interactions.choices import DEFAULT_CLUB_POLICY, ClubPolicy, decide
+from .interactions.inbox import InboxBlocker, InboxText, InboxTextProvider, NoInboxTextProvider, continue_blocked_by_inbox, inbox_items, unresolved_mandatory
+from .interactions.language_model import Evidence, LanguageModel, NoLanguageModel
 from .interface.controls import Settings
 from .interface.notify import Notifier
-from .interface.status import JOURNAL_CONNECTION, JOURNAL_STOP, JOURNAL_STOP_CLEARED, OperatorView, build_view
+from .interface.status import CONFIRM_LINEAGE_COMMAND, JOURNAL_CONNECTION, JOURNAL_STOP, JOURNAL_STOP_CLEARED, OperatorView, active_career, build_view, set_active_career
 from .rules.capabilities import CapabilityRegistry, CapabilityStatus
-from .rules.deadlines import EXECUTION_MODES, ContinueGate, LineupStatus, PendingAction, continue_gate, pending_actions
+from .rules.deadlines import EXECUTION_MODES, ContinueGate, LineupStatus, PendingAction, PendingActionsObservation, continue_gate, pending_actions, resolve_read_actions
 from .state.identity import BranchIdentity, CareerIdentity, CareerRegistry, ContinuityStatus, new_id, utc_now
 from .state.records import ActionState, ConsistencyStatus, Decision, DecisionSnapshot
 from .state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements, anchor_of
@@ -86,9 +97,14 @@ MATCH_TIMELINE_CLASSIFIED = "classified"
 MATCH_EVENT_ORDER_CAPABILITY = "match_event_order"
 # Continuity outcomes that stop the bot for identity resolution (spec 5.1, ID 01).
 IDENTITY_STOP_STATUSES: tuple[ContinuityStatus, ...] = (ContinuityStatus.DATE_REVERSED, ContinuityStatus.IDENTITY_CHANGED, ContinuityStatus.BUILD_CHANGED)
-LINEAGE_CONFIRMATION_REQUIRED = "the operator must confirm this save is the registered career (confirm_lineage / register --confirm-lineage) before any decision, intent or input"
+LINEAGE_CONFIRMATION_REQUIRED = f"the operator must confirm this save is the registered career (`{CONFIRM_LINEAGE_COMMAND} --reason '...'`, or Orchestrator.confirm_lineage in process) before any decision, intent or input; registering again would fork the history into a second career"
 CONTINUE_ACTION_KIND = "progress.continue"
 INBOX_RESPONSE_KIND = "respond.inbox"
+INBOX_ROUTE = "/inbox"
+# Dialogue kind recorded for an inbox answer (``dialogue.inbox`` decisions, spec 11.3).
+INBOX_DIALOGUE_KIND = "inbox"
+# Subject of the "a person is needed before the calendar moves" notification (spec 15.1).
+CALENDAR_BLOCKED_SUBJECT = "the calendar cannot move on"
 # Candidate kinds the orchestrator may hand to the single UI writer when the planner marks them proposed.
 # Continue is deliberately absent: it goes through the Continue gate (``maybe_continue``), never as a plain action.
 EXECUTABLE_KINDS: tuple[str, ...] = ("submit.lineup", "respond.inbox", "commit.contract", "commit.transfer_offer", "select_validated_tactic", "set.training")
@@ -106,6 +122,8 @@ JOURNAL_RECONCILE = "orchestrator.reconciled"
 JOURNAL_IDENTITY = "orchestrator.identity_resolution_required"
 JOURNAL_LINEAGE_CONFIRMED = "orchestrator.lineage_confirmed"
 JOURNAL_NOT_EXECUTED = "orchestrator.not_executed"
+JOURNAL_PENDING_ACTIONS = "orchestrator.pending_actions_observed"
+JOURNAL_INBOX_CHOICE = "orchestrator.inbox_choice"
 
 
 class OrchestratorError(RuntimeError):
@@ -315,18 +333,27 @@ class ConnectResult:
 
 @dataclass
 class DecisionPointResult:
+    """What level 2 established, plus the one Continue gate that decided (``None`` while it is still deferred).
+
+    The gate needs the plan's lineup verdict, so a decision point reached
+    through the run loop carries it only after :meth:`Orchestrator.close_decision_point`
+    has evaluated it: there is exactly one gate per decision point and it is
+    the one the operator is told about (spec 12.4, 15.1).
+    """
+
     pending: list[PendingAction]
     blockers: list[InboxBlocker]
-    gate: ContinueGate
-    reports: list[MissingCapabilityReport]
-    proposals: list[dict[str, Any]]           # respond.inbox proposals for blockers that can be answered now
+    gate: ContinueGate | None = None
+    reports: list[MissingCapabilityReport] = field(default_factory=list)
+    proposals: list[dict[str, Any]] = field(default_factory=list)   # respond.inbox proposals, each with the option that was chosen
+    notes: list[str] = field(default_factory=list)                  # e.g. why a pending-actions observation was not counted
 
     @property
     def mandatory_clear(self) -> bool:
         return not self.blockers and not any(p.blocks_continue and not p.resolved for p in self.pending)
 
     def to_json(self) -> dict[str, Any]:
-        return {"pending": [p.to_json() for p in self.pending], "blockers": [b.to_json() for b in self.blockers], "gate": self.gate.to_json(), "reports": [r.to_json() for r in self.reports], "proposals": list(self.proposals), "mandatory_clear": self.mandatory_clear}
+        return {"pending": [p.to_json() for p in self.pending], "blockers": [b.to_json() for b in self.blockers], "gate": self.gate.to_json() if self.gate else None, "reports": [r.to_json() for r in self.reports], "proposals": list(self.proposals), "notes": list(self.notes), "mandatory_clear": self.mandatory_clear}
 
 
 @dataclass
@@ -533,14 +560,27 @@ class Orchestrator:
     ``inbox_text_provider`` are optional providers handed to the planner and
     the gates; ``provisions`` lists capability names those providers supply.
     ``planner`` overrides the lazily imported ``planning.planner.plan_once``.
+
+    ``pending_actions_provider`` is consulted at every decision point for a
+    :class:`PendingActionsObservation` (the operator may declare one instead,
+    through :meth:`declare_pending_actions`); it only ever *resolves* a read
+    decision when the ``pending_actions`` capability is supported and the
+    observation is at the snapshot's own game date and time (CAL 01).
+    ``language_model`` ranks observed legal dialogue options and is
+    :class:`NoLanguageModel` unless one is configured; ``club_policy``
+    overrides the policy derived from the operator's settings.
     """
 
-    def __init__(self, store, client: BridgeClient, adapter, settings: Settings, *, career: CareerIdentity, branch: BranchIdentity, lineage_confirmed: bool = False, eligibility=None, rules=None, promises=None, inbox_text_provider: InboxTextProvider | None = None, provisions: dict[str, str] | None = None, notifier: Notifier | None = None, clock: Clock | None = None, sleep: Callable[[float], None] | None = None, owner_id: str | None = None, planner: Callable[..., Any] | None = None, workflows: dict[str, Any] | None = None, routes: tuple[str, ...] = DEFAULT_ROUTES, optional_routes: tuple[str, ...] = OPTIONAL_ROUTES, stable_point: Callable[[], bool] | None = None, lock_stale_seconds: float = MANAGER_LOCK_STALE_SECONDS):
+    def __init__(self, store, client: BridgeClient, adapter, settings: Settings, *, career: CareerIdentity, branch: BranchIdentity, lineage_confirmed: bool = False, eligibility=None, rules=None, promises=None, inbox_text_provider: InboxTextProvider | None = None, pending_actions_provider: Callable[[], PendingActionsObservation | None] | None = None, language_model: LanguageModel | None = None, club_policy: ClubPolicy | None = None, provisions: dict[str, str] | None = None, notifier: Notifier | None = None, clock: Clock | None = None, sleep: Callable[[float], None] | None = None, owner_id: str | None = None, planner: Callable[..., Any] | None = None, workflows: dict[str, Any] | None = None, routes: tuple[str, ...] = DEFAULT_ROUTES, optional_routes: tuple[str, ...] = OPTIONAL_ROUTES, stable_point: Callable[[], bool] | None = None, lock_stale_seconds: float = MANAGER_LOCK_STALE_SECONDS):
         self.store, self.client, self.adapter, self.settings = store, client, adapter, settings
         self.career, self.branch = career, branch
         self.lineage_confirmed = lineage_confirmed
         self.eligibility, self.rules, self.promises = eligibility, rules, promises
         self.inbox_text_provider = inbox_text_provider
+        self.pending_actions_provider = pending_actions_provider
+        self.language_model: LanguageModel = language_model if language_model is not None else NoLanguageModel()
+        self._club_policy = club_policy
+        self._pending_observation: PendingActionsObservation | None = None
         self.provisions = dict(provisions or {})
         self.notifier = notifier or Notifier(store=store)
         self.clock: Clock = clock or SystemClock()
@@ -570,7 +610,9 @@ class Orchestrator:
         self._sequence = 0
         self._bot_progressed = False
         self._executor: SingleWriterExecutor | None = None
-        if not store.acquire_lock(MANAGER_LOCK, self.owner_id, stale_after_seconds=lock_stale_seconds):
+        # One manager per game (spec 4.2): a foreign lock is taken over only once its heartbeat is
+        # ``lock_stale_seconds`` old, judged by this instance's own clock (spec 12.4).
+        if not store.acquire_lock(MANAGER_LOCK, self.owner_id, stale_after_seconds=lock_stale_seconds, now=self.clock.utc_now()):
             raise ManagerLockHeld(f"manager lock is held by {store.lock_owner(MANAGER_LOCK)!r}; one bot instance per game")
         self.lock_held = True
         self._connect_snapshot: DecisionSnapshot | None = None
@@ -589,7 +631,7 @@ class Orchestrator:
             self.store.journal("orchestrator.closed", {"owner_id": self.owner_id}, self.owner_id)
 
     def heartbeat(self) -> bool:
-        ok = self.store.heartbeat_lock(MANAGER_LOCK, self.owner_id)
+        ok = self.store.heartbeat_lock(MANAGER_LOCK, self.owner_id, now=self.clock.utc_now())
         if self._executor is not None:
             self._executor.heartbeat()
         return ok
@@ -700,7 +742,7 @@ class Orchestrator:
         self._connect_snapshot = snapshot if self.connected else None
         problems = [] if self.execution_enabled else [("snapshot " + snapshot.consistency.value + ": " + "; ".join(snapshot.consistency_reasons)) if not snapshot.valid else "clock unsettled: " + "; ".join(settled.reasons)]
         if (snapshot.continuity or {}).get("requires_lineage_confirmation"):
-            problems.append("the operator must confirm this save is the registered career (register --confirm-lineage) before the bot trusts it")
+            problems.append(f"the operator must confirm this save is the registered career (`{CONFIRM_LINEAGE_COMMAND}`) before the bot trusts it; registering again would fork the history into a second career")
         result = ConnectResult(PassStatus.PLANNED if self.execution_enabled else PassStatus.INCONSISTENT, True, True, True, problems, settled, reconciled, snapshot.snapshot_id, registry.summary(), snapshot.game_date, snapshot.game_time)
         return self._finish_connect(result)
 
@@ -716,8 +758,18 @@ class Orchestrator:
         self.store.journal(JOURNAL_UNAVAILABLE, {"status": status.value, "reason": reason, "snapshot_id": snapshot.snapshot_id if snapshot else None, "observation_ids": list(snapshot.observation_ids) if snapshot else [], "execution": "disabled"}, self.owner_id)
 
     # ----- collection -----
-    def collect(self, label: str = "pass") -> DecisionSnapshot:
-        requirements = SnapshotRequirements(routes=[*self.routes, *self.optional_routes], optional=list(self.optional_routes), label=label)
+    def collect(self, label: str = "pass", *, action_critical: Sequence[str] = ()) -> DecisionSnapshot:
+        """Collect one snapshot. ``action_critical`` names routes needing a second stable read.
+
+        The executor passes the target routes of the intent it is about to
+        execute, so the pre-execution read proves the state the input is
+        about did not move on the same tick (spec 5.2, 12.2, OBS 03). Such a
+        route is collected even when it is not in the pass's own route set.
+        """
+        critical = [route for route in action_critical if route]
+        routes = [*self.routes, *self.optional_routes]
+        routes += [route for route in critical if route not in routes]
+        requirements = SnapshotRequirements(routes=routes, optional=list(self.optional_routes), action_critical=critical, label=label)
         context = CollectionContext(self.career.career_id, self.branch.branch_id, self.settings.information_mode(), self._anchor, self.lineage_confirmed, self._bot_progressed, self.stable_point, self._sequence)
         snapshot = self.collector.collect(requirements, context)
         self._sequence = context.sequence
@@ -760,8 +812,18 @@ class Orchestrator:
         self.notifier.required_action("the loaded save is not the continuation of the registered career", [self.identity_resolution_reason, LINEAGE_CONFIRMATION_REQUIRED], ref_id=self.branch.branch_id)
 
     def confirm_lineage(self, reason: str = "operator confirmed the loaded save is the registered career") -> None:
-        """The operator vouches for the loaded save. Continuity restarts from it; the next pass reconnects, settles and reconciles."""
-        self.store.journal(JOURNAL_LINEAGE_CONFIRMED, {"reason": reason, "previous": self.identity_resolution_reason, "branch_id": self.branch.branch_id}, self.branch.branch_id)
+        """The operator vouches for the loaded save. Continuity restarts from it; the next pass reconnects, settles and reconciles.
+
+        The confirmation is persisted against the *registered* career and
+        branch (never by registering a second career, which would fork the
+        history), so a restarted process does not ask again.
+        """
+        persisted = False
+        active = active_career(self.store)
+        if active is not None and (active[0].career_id, active[1].branch_id) == (self.career.career_id, self.branch.branch_id):
+            set_active_career(self.store, self.career.career_id, self.branch.branch_id, lineage_confirmed=True)
+            persisted = True
+        self.store.journal(JOURNAL_LINEAGE_CONFIRMED, {"reason": reason, "previous": self.identity_resolution_reason, "branch_id": self.branch.branch_id, "career_id": self.career.career_id, "persisted": persisted, "by": "orchestrator"}, self.branch.branch_id)
         self.identity_resolution_required = False
         self.identity_resolution_reason = None
         self.lineage_confirmed = True
@@ -802,26 +864,158 @@ class Orchestrator:
             return []
         return list(self.rules.contexts_for(upcoming_fixtures(snapshot, RULES_HORIZON_FIXTURES)))
 
-    def _inbox_proposal(self, blocker: InboxBlocker, snapshot: DecisionSnapshot) -> dict[str, Any]:
-        return {"kind": INBOX_RESPONSE_KIND, "authority_scope": "inbox.respond", "targets": {"routes": ["/inbox"], "message_id": blocker.item.message_id}, "parameters": {"message_id": blocker.item.message_id, "legal_option_ids": list(blocker.legal_option_ids)}, "verification": "navigation_only", "required_capabilities": list(self.capabilities.requirements(INBOX_RESPONSE_KIND)), "description": blocker.description}
+    # ----- pending actions observed by a provider or declared by the operator (spec 12.4, CAL 01) -----
+    def declare_pending_actions(self, observation: PendingActionsObservation) -> None:
+        """Record what a ``pending_actions`` provider or the operator observed at one in-game moment.
+
+        The declaration only ever *resolves* a read decision-looking message
+        where :func:`rules.deadlines.resolve_read_actions` accepts it: the
+        ``pending_actions`` capability must be supported and the observation
+        must be at the snapshot's own game date and time, because in-game time
+        is the only clock and a reading from another moment proves nothing
+        about this one (CAL 01).
+        """
+        self._pending_observation = observation
+        self.store.journal(JOURNAL_PENDING_ACTIONS, {**observation.to_json(), "declared_by": "operator", "capability": self.capabilities.status("pending_actions").value}, self.branch.branch_id)
+
+    def pending_observation(self) -> PendingActionsObservation | None:
+        """The pending-actions observation to judge this decision point by: the provider's, else the operator's declaration."""
+        if self.pending_actions_provider is not None:
+            observed = self.pending_actions_provider()
+            if observed is not None:
+                return observed
+        return self._pending_observation
+
+    def _resolved_pending(self, snapshot: DecisionSnapshot) -> tuple[list[PendingAction], list[str]]:
+        """Pending actions with read decisions marked resolved only on a current, capability-backed observation."""
+        pending = pending_actions(snapshot, self._deadline_text_provider(snapshot))
+        return resolve_read_actions(snapshot, pending, self.pending_observation(), capabilities=self.capabilities)
+
+    # ----- inbox answers: the game's own legal options, ranked (spec 11.3, 4.3, AUD 01) -----
+    def club_policy(self) -> ClubPolicy:
+        """The dialogue policy: the versioned baseline tag weights narrowed by the operator's authority limits.
+
+        The operator's limits are the club's stance here, so while the profile
+        forbids selling or releasing a player an option whose visible words
+        offer one is never chosen automatically (it stays legal; the bot just
+        will not pick it). The version names both halves so a recorded answer
+        can be replayed.
+        """
+        if self._club_policy is not None:
+            return self._club_policy
+        limits = self.settings.authority_profile().limits
+        forbidden = set(DEFAULT_CLUB_POLICY.forbidden_tags)
+        if not (limits.allow_player_sale and limits.allow_player_release):
+            forbidden.add("sell_player")
+        version = f"{DEFAULT_CLUB_POLICY.version}+settings:authority_profile/{self.settings.authority_profile_version}"
+        return ClubPolicy(version, dict(DEFAULT_CLUB_POLICY.weights), frozenset(forbidden), f"{DEFAULT_CLUB_POLICY.label}+operator-limits")
+
+    def _open_promises(self) -> tuple[list[Any], Callable[[Any], Any] | None]:
+        """Open promises on this branch and how to read their exact observed terms; nothing is assumed without a ledger."""
+        ledger = self.promises
+        if ledger is None:
+            return [], None
+        return list(ledger.open()), (lambda promise: ledger.terms(promise.promise_id))
+
+    def _inbox_observation_id(self, snapshot: DecisionSnapshot) -> str:
+        """The observation the inbox metadata of this snapshot came from (the snapshot route itself when it cannot be resolved)."""
+        for observation_id in reversed(snapshot.observation_ids):
+            observation = self.store.get_observation(observation_id, with_payload=False)
+            if observation is not None and observation.source == f"bridge:{INBOX_ROUTE}":
+                return observation_id
+        return f"snapshot:{snapshot.snapshot_id}:{INBOX_ROUTE}"
+
+    def _inbox_evidence(self, snapshot: DecisionSnapshot, text: InboxText) -> list[Evidence]:
+        """The observed message and the answers visible with it, quoted as data (never as instructions)."""
+        lines = [f"subject: {text.subject}", f"body: {text.body}"]
+        lines.extend(f"option {option.option_id} ({option.kind}): {option.label}" + (f" -> {option.consequences_text}" if option.consequences_text else "") for option in text.options)
+        return [Evidence(self._inbox_observation_id(snapshot), "inbox_text", "\n".join(lines), entity="inbox")]
+
+    def _inbox_proposal(self, blocker: InboxBlocker, snapshot: DecisionSnapshot) -> dict[str, Any] | None:
+        """A ``respond.inbox`` proposal carrying the option that was chosen among the observed legal ids.
+
+        The choice is made by :func:`fm_bot.interactions.choices.decide`: the
+        club policy scores the visible options, open promises an option would
+        break are penalised, and the configured language model may only rank
+        the same legal ids from mode-filtered evidence (with
+        :class:`NoLanguageModel` it contributes nothing). Nothing is proposed
+        unless an option was actually chosen and its meaning was established
+        (from its visible words, or by a model that cited evidence for it):
+        the bot never invents an option and never composes free text
+        (spec 11.3, 4.3). The :class:`DialogueDecision` is recorded either
+        way, so a refusal to answer is auditable too (AUD 01).
+        """
+        item = blocker.item
+        observed = (self.inbox_text_provider or NoInboxTextProvider()).get_text(item.message_id, game_time=self._game_time_of(snapshot))
+        if not observed.available:
+            return None                       # no text, no options: the blocker keeps naming the missing capability
+        text = observed.require()
+        policy = self.club_policy()
+        promises, terms_lookup = self._open_promises()
+        decision = decide(text.options, policy, self._inbox_evidence(snapshot, text), promises, self.language_model, kind=INBOX_DIALOGUE_KIND, context_id=f"inbox:{item.message_id}", snapshot_id=snapshot.snapshot_id, information_mode=snapshot.information_mode, terms_lookup=terms_lookup)
+        self._record_decision(decision.to_decision())
+        self.store.journal(JOURNAL_INBOX_CHOICE, {**decision.to_json(), "message_id": item.message_id, "text_source": observed.source, "text_status": observed.status.value, "policy": policy.to_json()}, snapshot.snapshot_id)
+        chosen = next((r for r in decision.ranking.get("ranked", []) if r.get("option_id") == decision.chosen_option_id), {})
+        grounded = bool(chosen.get("tags")) or bool(chosen.get("lm_selected"))
+        if not decision.available or not grounded:
+            reason = "; ".join(decision.reasons) if not decision.available else f"option {decision.chosen_option_id!r} matched no policy tag and no language model ranked it: what it would do is unknown, so a person must answer"
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": INBOX_RESPONSE_KIND, "message_id": item.message_id, "decision_id": decision.decision_id, "status": decision.status, "legal_option_ids": list(decision.legal_option_ids), "reason": f"no answer proposed for inbox:{item.message_id}: {reason}"}, snapshot.snapshot_id)
+            return None
+        parameters = {"message_id": item.message_id, "option_id": decision.chosen_option_id, "legal_option_ids": list(decision.legal_option_ids), "cited_observation_ids": list(decision.cited_observation_ids), "choice_policy_version": decision.policy_version, "dialogue_decision_id": decision.decision_id, "language_model": {"status": decision.lm_status, "request_id": decision.lm_request_id}}
+        return {"kind": INBOX_RESPONSE_KIND, "authority_scope": "inbox.respond", "targets": {"routes": [INBOX_ROUTE], "message_id": item.message_id}, "parameters": parameters, "verification": "navigation_only", "required_capabilities": list(self.capabilities.requirements(INBOX_RESPONSE_KIND)), "description": f"{blocker.description}: answer {decision.chosen_option_id!r}", "decision_id": decision.decision_id}
+
+    def continue_gate_for(self, snapshot: DecisionSnapshot, pending: list[PendingAction], lineup_status: LineupStatus | None) -> ContinueGate:
+        """The Continue gate for this decision point, judged with the lineup verdict and the pending-actions observation."""
+        return continue_gate(snapshot, pending, self._rules_contexts(snapshot), lineup_status, authority_mode=self.settings.authority_mode(), capabilities=self.capabilities, pending_observation=self.pending_observation())
+
+    @staticmethod
+    def _mandatory_blockers(pending: list[PendingAction]) -> list[str]:
+        """Calendar blockers level 2 establishes on its own, worded exactly as the Continue gate words them."""
+        return [f"{action.action_id}: {action.description}" for action in pending if action.blocks_continue and not action.resolved]
 
     def decision_point(self, snapshot: DecisionSnapshot, lineup_status: LineupStatus | None = None) -> DecisionPointResult:
-        """Level 2: mandatory deadlines and inbox decisions, before any optional work."""
+        """Level 2: mandatory deadlines and inbox decisions, before any optional work.
+
+        The Continue gate cannot be judged without the plan's lineup verdict,
+        so it is evaluated here only when that verdict is supplied; otherwise
+        it stays deferred and :meth:`close_decision_point` evaluates it once,
+        after the plan. What is notified from here is only what this level
+        established by itself (the mandatory items that block the calendar);
+        the gate that decides notifies its own blockers, so the operator is
+        never told the calendar is stuck on something the deciding gate does
+        not name (spec 12.4, 15.1).
+        """
         game_time = self._game_time_of(snapshot)
-        pending = pending_actions(snapshot, self._deadline_text_provider(snapshot))
+        pending, notes = self._resolved_pending(snapshot)
         blockers = unresolved_mandatory(inbox_items(snapshot), self.inbox_text_provider, game_time=game_time, pending_actions_supported=self.capabilities.supported("pending_actions"))
-        gate = continue_gate(snapshot, pending, self._rules_contexts(snapshot), lineup_status, authority_mode=self.settings.authority_mode(), capabilities=self.capabilities)
+        proposals = [proposal for proposal in (self._inbox_proposal(b, snapshot) for b in blockers if b.resolvable_now) if proposal is not None]
+        point = DecisionPointResult(pending, blockers, None, [], proposals, notes)
+        mandatory = self._mandatory_blockers(pending)
+        if mandatory:
+            self.notifier.required_action(CALENDAR_BLOCKED_SUBJECT, mandatory, ref_id=self.branch.branch_id)
+        if lineup_status is not None:
+            self.close_decision_point(point, snapshot, lineup_status)
+        return point
+
+    def close_decision_point(self, point: DecisionPointResult, snapshot: DecisionSnapshot, lineup_status: LineupStatus | None) -> ContinueGate:
+        """Evaluate the one gate that decides whether the calendar may move on, and report exactly what it names.
+
+        A repeat of the notification level 2 already sent is suppressed by the
+        notifier (same subject, same blockers), so the operator hears about a
+        blocker once, worded by the gate that decides it (spec 15.1).
+        """
+        gate = self.continue_gate_for(snapshot, point.pending, lineup_status)
+        point.gate = gate
         merged = MissingCapabilityReport(CONTINUE_ACTION_KIND)
-        for source in (gate.missing_capabilities, continue_blocked_by_inbox(blockers)):
+        for source in (gate.missing_capabilities, continue_blocked_by_inbox(point.blockers)):
             for name in source.missing:
                 merged.add(name, "; ".join(r for r in (merged.reasons.get(name), source.reasons.get(name)) if r))
-        reports = [merged] if merged.blocked else []
-        proposals = [self._inbox_proposal(b, snapshot) for b in blockers if b.resolvable_now]
+        point.reports = [merged] if merged.blocked else []
         if gate.blockers:
-            self.notifier.required_action("the calendar cannot move on", gate.blockers, ref_id=self.branch.branch_id)
-        for report in reports:
+            self.notifier.required_action(CALENDAR_BLOCKED_SUBJECT, gate.blockers, ref_id=self.branch.branch_id)
+        for report in point.reports:
             self.notifier.unsupported_workflow(report, ref_id=self.branch.branch_id)
-        return DecisionPointResult(pending, blockers, gate, reports, proposals)
+        return gate
 
     # ----- level 3: weekly or material event -----
     def _bridge_build(self) -> str | None:
@@ -908,6 +1102,14 @@ class Orchestrator:
         if report.blocked:
             self.notifier.unsupported_workflow(report, ref_id=snapshot.snapshot_id)
             return report
+        if kind not in self.workflows:
+            # No validated UI workflow exists for this kind on this adapter, so the work is an unsupported
+            # mandatory workflow, not a failed action: nothing is minted, sent or reported as a failure (spec 14, 15.1).
+            missing = MissingCapabilityReport(kind)
+            missing.add(f"ui_workflow:{kind}", f"the {getattr(self.adapter, 'name', 'adapter')!r} UI adapter reports no validated workflow for {kind}; it must be validated before the bot can carry this out")
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": kind, "reason": f"no validated UI workflow for {kind} on adapter {getattr(self.adapter, 'name', 'adapter')!r}; no intent minted", "missing": missing.to_json(), "workflows": sorted(self.workflows)}, snapshot.snapshot_id)
+            self.notifier.unsupported_workflow(missing, ref_id=snapshot.snapshot_id)
+            return missing
         twin = unsettled_twin(self.store, kind, dict(action.get("targets", {})), branch_id=self.branch.branch_id)
         if twin is not None:
             # Duplicate-effect guard (spec 12.3, ACT 02): the earlier intent's effect is not established, so a new
@@ -930,7 +1132,7 @@ class Orchestrator:
         enqueue(self.store, intent)
         executor = self._executor_for()
         executor.enqueue(intent)
-        result = executor.run_next(lambda: self.collect("pre-execution"))
+        result = executor.run_next(lambda action_critical=(): self.collect("pre-execution", action_critical=action_critical))
         if result is None:
             return f"{intent.action_id} was not run"
         self._after_execution(result, action)
@@ -1074,7 +1276,7 @@ class Orchestrator:
     def _decide_and_act(self, snapshot: DecisionSnapshot, triggers: list[Trigger]) -> PassResult:
         point = self.decision_point(snapshot)                       # mandatory first
         plan = self.plan(snapshot)                                  # optional optimisation second
-        gate = continue_gate(snapshot, point.pending, self._rules_contexts(snapshot), plan.lineup_status, authority_mode=self.settings.authority_mode(), capabilities=self.capabilities)
+        gate = self.close_decision_point(point, snapshot, plan.lineup_status)    # one gate per decision point, with the lineup verdict
         blocked = list(point.reports)
         blocked.extend(m for m in plan.missing if m.blocked_action not in {b.blocked_action for b in blocked})
         next_action = point.proposals[0] if point.proposals else plan.next_action

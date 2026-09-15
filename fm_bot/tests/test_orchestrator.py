@@ -14,15 +14,19 @@ from ..bridge_client.client import BridgeClient
 from ..bridge_client.transport import FakeTransport
 from ..execution.adapter import ANY_SCREEN, FAKE_SCREEN_MODEL, FAKE_WORKFLOWS, RISK_NAVIGATION, FakeAdapter, UIStep, Workflow
 from ..execution.lifecycle import IntentFactory, enqueue, validate
-from ..interactions.inbox import DeclaredInboxTextProvider, InboxText
+from ..interactions.inbox import DeclaredInboxTextProvider, DialogueOption, InboxText
+from ..interactions.language_model import NoLanguageModel, ScriptedLanguageModel
 from ..interface.controls import Settings
-from ..interface.explain import explain_action
+from ..interface.explain import explain_action, render_action
 from ..interface.notify import NotificationKind
+from ..interface.status import active_career, set_active_career
 from ..orchestrator import (
-    JOURNAL_BOUNDARY, JOURNAL_IDENTITY, JOURNAL_LINEAGE_CONFIRMED, JOURNAL_MATCH, JOURNAL_NOT_EXECUTED, JOURNAL_PLAN, JOURNAL_RECONCILE, JOURNAL_UNAVAILABLE, MANAGER_LOCK,
+    CALENDAR_BLOCKED_SUBJECT, JOURNAL_BOUNDARY, JOURNAL_IDENTITY, JOURNAL_INBOX_CHOICE, JOURNAL_LINEAGE_CONFIRMED, JOURNAL_MATCH, JOURNAL_NOT_EXECUTED, JOURNAL_PENDING_ACTIONS,
+    JOURNAL_PLAN, JOURNAL_RECONCILE, JOURNAL_UNAVAILABLE, MANAGER_LOCK,
     FakeClock, ManagerLockHeld, Orchestrator, PassStatus, RunLevel, Trigger, detect_triggers, lineup_status_of, next_action_of, plan_due, plan_outcome_of,
 )
 from ..rules.capabilities import CapabilityRegistry
+from ..rules.deadlines import CLASSIFICATION_UNRESOLVED_READ, LineupStatus, PendingActionsObservation
 from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ActionState, ConsistencyStatus, Decision, DecisionSnapshot
 from ..state.status import ValueStatus
@@ -55,7 +59,7 @@ def stub_planner(candidates: list[SimpleNamespace] | None = None, decisions: lis
 class World:
     """A registered career, a scripted bridge, a fake UI and an orchestrator with a fake clock."""
 
-    def __init__(self, *, routes: dict[str, Any] | None = None, linked: bool = False, lineage_confirmed: bool = True, authority: str | None = None, families: list[str] | None = None, allow_continue: bool = False, planner=None, provisions: dict[str, str] | None = None, inbox_text_provider=None, workflows: dict[str, Workflow] | None = None, club_id: int = 742, adapter: FakeAdapter | None = None):
+    def __init__(self, *, routes: dict[str, Any] | None = None, linked: bool = False, lineage_confirmed: bool = True, authority: str | None = None, families: list[str] | None = None, allow_continue: bool = False, planner=None, provisions: dict[str, str] | None = None, inbox_text_provider=None, pending_actions_provider=None, language_model=None, workflows: dict[str, Workflow] | None = None, club_id: int = 742, adapter: FakeAdapter | None = None):
         self.store = Store.memory()
         self.career, self.branch, _ = CareerRegistry(self.store).register_career("Wycombe", SaveManifest(fx.BUILD, 90001, club_id, fx.GAME_DATE, fx.GAME_TIME))
         self.adapter = adapter or FakeAdapter()
@@ -75,7 +79,7 @@ class World:
             limits["allow_continue"] = True
             self.settings.change("spending_limits", limits, reason="test")
         self.clock = FakeClock()
-        self.orchestrator = Orchestrator(self.store, self.client, self.adapter, self.settings, career=self.career, branch=self.branch, lineage_confirmed=lineage_confirmed, clock=self.clock, sleep=self.clock.advance, planner=planner, provisions=provisions, inbox_text_provider=inbox_text_provider, workflows=workflows)
+        self.orchestrator = Orchestrator(self.store, self.client, self.adapter, self.settings, career=self.career, branch=self.branch, lineage_confirmed=lineage_confirmed, clock=self.clock, sleep=self.clock.advance, planner=planner, provisions=provisions, inbox_text_provider=inbox_text_provider, pending_actions_provider=pending_actions_provider, language_model=language_model, workflows=workflows)
 
     def close(self):
         self.orchestrator.close()
@@ -437,6 +441,31 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
+    def test_a_kind_without_a_validated_workflow_is_an_unsupported_workflow_not_a_failed_action(self):
+        """spec 14, 15.1: the adapter has no validated workflow for the proposed kind, so the work is reported as an unsupported
+        mandatory workflow naming that workflow. No decision is recorded, no intent is minted (and therefore none is cancelled at
+        preflight and reported as a failure), and nothing is sent."""
+        planner = stub_planner([stub_candidate()])
+        w = World(linked=True, authority="scoped", families=["tactics"], planner=planner, workflows={})
+        try:
+            result = w.orchestrator.run_once()
+            self.assertIs(result.status, PassStatus.BLOCKED, result.notes)
+            report = next(r for r in result.blocked if r.blocked_action == "select_validated_tactic")
+            self.assertEqual(report.missing, ["ui_workflow:select_validated_tactic"])
+            self.assertIn("no validated workflow", report.reasons["ui_workflow:select_validated_tactic"])
+            self.assertIn("'fake'", report.reasons["ui_workflow:select_validated_tactic"])
+            self.assertIsNone(result.executed)
+            self.assertEqual(w.store.list_intents(branch_id=w.branch.branch_id), [], "nothing is minted for a workflow that does not exist")
+            self.assertEqual([d.kind for d in w.store.list_decisions(limit=1000) if d.kind.startswith("execution.")], [])
+            self.assertEqual(w.adapter.inputs, [])
+            kinds = [n.kind for n in w.orchestrator.notifier.history]
+            self.assertIn(NotificationKind.UNSUPPORTED_MANDATORY_WORKFLOW, kinds)
+            self.assertNotIn(NotificationKind.FAILED, kinds, "an unsupported workflow is not an action that failed")
+            journaled = [e["body"] for e in w.store.journal_entries(kind=JOURNAL_NOT_EXECUTED)]
+            self.assertTrue(any(b.get("missing", {}).get("missing") == ["ui_workflow:select_validated_tactic"] for b in journaled), journaled)
+        finally:
+            w.close()
+
     def test_act02_timeout_after_successful_accept_reconciles_in_process_and_never_dispatches_twice(self):
         """ACT 02 / spec 12.3, within one process: the consequential input lands but its confirmation times out (UNCERTAIN). Every
         later pass reconciles that intent from readback before replanning; while the readback cannot establish the effect (the UI
@@ -554,6 +583,28 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
+    def test_id01_confirm_lineage_persists_against_the_registered_career_without_forking_it(self):
+        """ID 01 / spec 5.1: the operator's confirmation is recorded against the career and branch already registered, so a restarted
+        process does not stop again; no second career, branch or checkpoint is created, and the active career pointer is not moved."""
+        w = World(linked=True)
+        try:
+            set_active_career(w.store, w.career.career_id, w.branch.branch_id, lineage_confirmed=False)
+            w.orchestrator.run_once()
+            w.transport.set("/game", env({"date": "2024-02-10", "time": "10:00"}))
+            self.assertIs(w.orchestrator.run_once().status, PassStatus.IDENTITY_RESOLUTION_REQUIRED)
+            careers, branches = len(w.store.list_careers()), len(w.store.list_branches(w.career.career_id))
+            checkpoints = len(w.store.list_checkpoints(w.branch.branch_id))
+            w.orchestrator.confirm_lineage("the 10 February save was loaded on purpose")
+            self.assertFalse(w.orchestrator.identity_resolution_required)
+            stored, _ = w.store.get_setting("registry:active_career")
+            self.assertEqual(stored, {"career_id": w.career.career_id, "branch_id": w.branch.branch_id, "lineage_confirmed": True})
+            self.assertEqual((len(w.store.list_careers()), len(w.store.list_branches(w.career.career_id)), len(w.store.list_checkpoints(w.branch.branch_id))), (careers, branches, checkpoints))
+            entry = w.store.journal_entries(kind=JOURNAL_LINEAGE_CONFIRMED)[-1]["body"]
+            self.assertEqual((entry["career_id"], entry["branch_id"], entry["persisted"]), (w.career.career_id, w.branch.branch_id, True))
+            self.assertTrue(active_career(w.store)[2], "a restarted process starts from a confirmed lineage")
+        finally:
+            w.close()
+
     def test_lock_lost_stops_the_pass(self):
         w = World()
         try:
@@ -603,6 +654,310 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
+
+# ---------------------------------------------------------------------------
+# the one Continue gate, inbox answers and the workflow catalogue
+# ---------------------------------------------------------------------------
+
+
+def fixture_tomorrow() -> dict[str, Any]:
+    """The fixture world with its next scheduled fixture the day after the snapshot, so the lineup gate is in horizon."""
+    payload = fx.fixtures_payload()
+    for entry in payload["fixtures"]:
+        if entry["status"] == "scheduled":
+            entry["date"] = "2024-02-18"
+            break
+    return payload
+
+
+def answered_inbox(*message_ids: int) -> DeclaredInboxTextProvider:
+    """A text provider that read every given message at any game time and found nothing to answer."""
+    provider = DeclaredInboxTextProvider()
+    for message_id in message_ids:
+        provider.declare(InboxText(message_id, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=None)
+    return provider
+
+
+class ContinueGateTests(unittest.TestCase):
+    """CAL 01 / spec 12.4, 15.1: one Continue gate decides a decision point, and it is the one the operator hears about."""
+
+    def _lineup_world(self, candidate: SimpleNamespace) -> World:
+        return World(linked=True, routes={"/fixtures": env(fixture_tomorrow())}, planner=stub_planner([candidate]), authority="scoped", families=["progression", "selection"], allow_continue=True,
+                     provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=answered_inbox(501, 503))
+
+    def test_cal01_the_gate_that_decides_is_the_only_one_and_the_only_one_notified(self):
+        """CAL 01 / spec 12.4, 15.1: the lineup verdict only exists after the plan, so the gate is evaluated once, with it. A plan
+        whose eleven is verified leaves the calendar clear, and the operator is not told it cannot move on: nothing is notified
+        that the deciding gate does not name."""
+        submit = stub_candidate(kind="submit.lineup", status="proposed", unverified=False, submittable=True, payload={"fixture": {"identity": None}}, targets={"routes": ["/squad"]}, parameters={"player_ids": [1001], "roles": {}})
+        w = self._lineup_world(submit)
+        try:
+            result = w.orchestrator.run_once()
+            self.assertTrue(result.continue_gate.allowed, result.continue_gate.to_json())
+            self.assertIs(result.decision_point.gate, result.continue_gate, "one gate per decision point: the recorded decision point carries the gate that decided")
+            required = [n for n in w.orchestrator.notifier.history if n.kind is NotificationKind.USER_ACTION_REQUIRED]
+            self.assertEqual(required, [], "the calendar is clear, so nothing asks the operator to unblock it")
+            for notification in w.orchestrator.notifier.history:
+                self.assertNotIn("no lineup status supplied", notification.detail)
+        finally:
+            w.close()
+
+    def test_cal01_an_unverified_eleven_blocks_the_gate_and_the_notification_uses_its_words(self):
+        """CAL 01 / spec 15.1: when the plan really cannot verify the eleven, the deciding gate blocks and the single notification
+        carries that gate's own reason, not a placeholder from an evaluation made before the plan ran."""
+        advisory = stub_candidate(kind="advise.lineup", status="advisory", unverified=True, submittable=False, payload={"fixture": {"identity": None}})
+        w = self._lineup_world(advisory)
+        try:
+            result = w.orchestrator.run_once()
+            self.assertFalse(result.continue_gate.allowed)
+            self.assertTrue(any("is unverified" in b for b in result.continue_gate.blockers), result.continue_gate.blockers)
+            required = [n for n in w.orchestrator.notifier.history if n.kind is NotificationKind.USER_ACTION_REQUIRED]
+            self.assertEqual(len(required), 1, [n.detail for n in required])
+            self.assertEqual(required[0].title, f"The club needs you: {CALENDAR_BLOCKED_SUBJECT}")
+            self.assertEqual(required[0].detail, "; ".join(result.continue_gate.blockers), "the operator is told exactly what the deciding gate says")
+        finally:
+            w.close()
+
+    def test_cal01_mandatory_inbox_work_is_reported_before_the_optional_plan_and_only_once(self):
+        """CAL 01 / spec 12.4: the mandatory items level 2 establishes on its own are notified before the optional plan runs, and the
+        gate that decides afterwards repeats none of it (the notifier suppresses the identical event for the same subject)."""
+        w = World()
+        try:
+            result = w.orchestrator.run_once()
+            entries = w.store.journal_entries(limit=100_000)
+            required = [n for n in w.orchestrator.notifier.history if n.kind is NotificationKind.USER_ACTION_REQUIRED]
+            self.assertEqual(len(required), 1, [n.detail for n in required])
+            first = next(e["seq"] for e in entries if e["kind"] == "notification" and e["body"]["kind"] == NotificationKind.USER_ACTION_REQUIRED.value)
+            self.assertLess(first, next(e["seq"] for e in entries if e["kind"] == JOURNAL_PLAN), "mandatory work is reported before the optional plan")
+            self.assertEqual(required[0].detail, "; ".join(result.continue_gate.blockers), "worded as the deciding gate words it")
+        finally:
+            w.close()
+
+
+class PendingActionsObservationTests(unittest.TestCase):
+    """CAL 01 / spec 12.4: a read message that looks like a decision keeps blocking until a pending-actions observation proves it answered."""
+
+    READ_DEADLINE = {"id": 504, "date": "2024-02-16", "time": "11:00", "unread": False, "event_type": "news_item_registration_deadline", "sender_id": 95, "sender_name": "Director of Football", "subject": None, "body": None, "text_status": "not_decoded", "time_status": "current"}
+
+    def _world(self, *, observation: PendingActionsObservation | None = None, supported: bool = True, declared: bool = False) -> World:
+        inbox = fx.inbox_payload()
+        inbox["messages"].append(dict(self.READ_DEADLINE))
+        provisions = {"inbox_text": "test-operator"}
+        if supported:
+            provisions["pending_actions"] = "test-operator"
+        provider = None if declared or observation is None else (lambda: observation)
+        w = World(routes={"/inbox": env(inbox)}, provisions=provisions, inbox_text_provider=answered_inbox(501, 503), pending_actions_provider=provider)
+        w.orchestrator.validate_capabilities(w.client.connection_state()["status"])      # as a pass does on connect
+        if declared and observation is not None:
+            w.orchestrator.declare_pending_actions(observation)
+        return w
+
+    def _gate(self, w: World):
+        snapshot = w.orchestrator.collect("test")
+        point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+        return snapshot, point, point.gate
+
+    def test_cal01_a_current_observation_stops_a_read_decision_blocking_the_calendar(self):
+        """CAL 01: with the ``pending_actions`` capability supported and an observation at the snapshot's own game date and time
+        naming the message, the read deadline message is resolved and the calendar may move on; the resolution is journaled with
+        the source that reported it."""
+        observation = PendingActionsObservation(frozenset({"inbox:504"}), "test-operator", fx.GAME_DATE, fx.GAME_TIME)
+        w = self._world(observation=observation, declared=True)
+        try:
+            snapshot, point, gate = self._gate(w)
+            resolved = next(p for p in point.pending if p.action_id == "inbox:504")
+            self.assertTrue(resolved.resolved)
+            self.assertFalse(resolved.blocks_continue)
+            self.assertIn("reported resolved by test-operator", resolved.description)
+            self.assertNotIn("inbox:504", "; ".join(gate.blockers))
+            self.assertTrue(gate.allowed, gate.to_json())
+            self.assertEqual(w.store.journal_entries(kind=JOURNAL_PENDING_ACTIONS)[-1]["body"]["resolved_action_ids"], ["inbox:504"])
+        finally:
+            w.close()
+
+    def test_cal01_a_stale_observation_or_a_missing_capability_keeps_it_blocking(self):
+        """CAL 01 / spec 5.2: in-game time is the only clock, so an observation from another game time proves nothing about this
+        decision point; and without the ``pending_actions`` capability no observation counts at all. Both keep the read message
+        blocking, and the gate says why."""
+        stale = PendingActionsObservation(frozenset({"inbox:504"}), "test-operator", "2024-02-16", "09:00")
+        w = self._world(observation=stale)
+        try:
+            _, point, gate = self._gate(w)
+            action = next(p for p in point.pending if p.action_id == "inbox:504")
+            self.assertEqual(action.classification, CLASSIFICATION_UNRESOLVED_READ)
+            self.assertFalse(action.resolved)
+            self.assertIn("inbox:504", "; ".join(gate.blockers))
+            self.assertFalse(gate.allowed)
+            self.assertTrue(any("is not the snapshot game time" in note for note in gate.notes), gate.notes)
+            self.assertTrue(any("is not the snapshot game time" in note for note in point.notes), point.notes)
+        finally:
+            w.close()
+        current = PendingActionsObservation(frozenset({"inbox:504"}), "test-operator", fx.GAME_DATE, fx.GAME_TIME)
+        w = self._world(observation=current, supported=False)
+        try:
+            _, point, gate = self._gate(w)
+            self.assertFalse(next(p for p in point.pending if p.action_id == "inbox:504").resolved)
+            self.assertIn("inbox:504", "; ".join(gate.blockers))
+            self.assertFalse(gate.allowed)
+            self.assertTrue(any("pending_actions capability" in note for note in gate.notes), gate.notes)
+        finally:
+            w.close()
+
+
+class InboxAnswerTests(unittest.TestCase):
+    """AUD 01 / spec 11.3, 4.3: an inbox answer is one of the options the game showed, ranked from observed evidence and recorded."""
+
+    OFFER_OPTIONS = (
+        DialogueOption("keep", "Reject the offer and keep him", "He stays at the club."),
+        DialogueOption("delegate", "Let my assistant handle it", "The assistant answers."),
+        DialogueOption("write", "Write your own reply", kind="free_text"),
+    )
+
+    def _world(self, *, language_model=None, options=OFFER_OPTIONS) -> World:
+        provider = answered_inbox(503)
+        provider.declare(InboxText(501, "Derby offer for Sam Wing", "Derby have offered GBP 450,000.", options, None, True, True), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=None)
+        return World(linked=True, authority="scoped", families=["inbox"], provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider, language_model=language_model)
+
+    def _inbox_observation_id(self, w: World) -> str:
+        return w.store.list_observations(branch_id=w.branch.branch_id, source="bridge:/inbox", limit=1000)[-1].observation_id
+
+    def test_aud01_the_proposal_carries_the_chosen_legal_option_its_evidence_and_the_policy_version(self):
+        """AUD 01 / spec 11.3: the club policy ranks the options the game showed and the proposal carries the chosen legal option id,
+        the cited observation ids and the policy version; the ``dialogue.inbox`` decision records the same, so an answer resolves
+        back to its inputs. Free-text boxes are excluded: the bot never composes prose."""
+        w = self._world()
+        try:
+            snapshot = w.orchestrator.collect("test")
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            self.assertEqual(len(point.proposals), 1, point.proposals)
+            parameters = point.proposals[0]["parameters"]
+            self.assertEqual(parameters["legal_option_ids"], ["keep", "delegate"], "only the fixed options the game offered are legal")
+            self.assertEqual(parameters["option_id"], "keep", "the policy disfavours delegating; both are legal")
+            self.assertIn(parameters["option_id"], parameters["legal_option_ids"])
+            self.assertEqual(parameters["cited_observation_ids"], [self._inbox_observation_id(w)])
+            self.assertTrue(parameters["choice_policy_version"].startswith("choice-policy/"))
+            self.assertIn(f"settings:authority_profile/{w.settings.authority_profile_version}", parameters["choice_policy_version"])
+            decision = w.store.get_decision(parameters["dialogue_decision_id"])
+            self.assertIsNotNone(decision, "the dialogue decision is recorded before anything is minted")
+            self.assertEqual(decision.kind, "dialogue.inbox")
+            self.assertEqual(decision.selected["option_id"], "keep")
+            self.assertEqual(decision.constraints, [{"legal_option_ids": ["keep", "delegate"]}])
+            self.assertEqual(decision.components["cited_observation_ids"], parameters["cited_observation_ids"])
+            self.assertEqual(decision.model_versions["settings:authority_profile"], str(w.settings.authority_profile_version))
+            self.assertEqual(point.proposals[0]["decision_id"], decision.decision_id, "the intent will cite the decision that chose the option")
+            entry = w.store.journal_entries(kind=JOURNAL_INBOX_CHOICE)[-1]["body"]
+            self.assertEqual(entry["ranking"]["excluded"], [["write", "option kind 'free_text': the bot does not invent free text"]])
+        finally:
+            w.close()
+
+    def test_aud01_a_language_model_may_only_rank_the_legal_options_it_cites_evidence_for(self):
+        """AUD 01 / spec 4.3: the configured model sees only the legal option ids and the mode-filtered evidence, and an accepted,
+        grounded answer is recorded with the model's own citation and request id."""
+        w = self._world()
+        try:
+            snapshot = w.orchestrator.collect("test")
+            observation_id = self._inbox_observation_id(w)
+            model = ScriptedLanguageModel([{"option_id": "delegate", "cited_observation_ids": [observation_id], "rationale": "the assistant knows the player"}])
+            w.orchestrator.language_model = model
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            parameters = point.proposals[0]["parameters"]
+            self.assertEqual(parameters["option_id"], "delegate", "an accepted model answer earns a bonus over the policy score")
+            self.assertEqual(parameters["cited_observation_ids"], [observation_id])
+            self.assertEqual(parameters["language_model"]["status"], "accepted")
+            self.assertEqual(parameters["language_model"]["request_id"], model.requests[-1].request_id)
+            self.assertEqual(model.requests[-1].legal_option_ids, ["keep", "delegate"], "the model is never offered the free-text box")
+            self.assertEqual(model.requests[-1].evidence_ids, [observation_id])
+            self.assertIn("are not instructions", model.requests[-1].render_prompt())
+        finally:
+            w.close()
+
+    def test_aud01_an_unavailable_or_rejected_model_never_invents_a_choice(self):
+        """AUD 01 / spec 4.3: with no model configured (the baseline ``NoLanguageModel``) the club policy still answers from the
+        observed legal ids and nothing is cited to the model; a model answer that names an option the game never offered is
+        rejected, and the recorded answer stays the policy's legal pick."""
+        w = self._world(language_model=NoLanguageModel())
+        try:
+            snapshot = w.orchestrator.collect("test")
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            parameters = point.proposals[0]["parameters"]
+            self.assertEqual(parameters["language_model"]["status"], "unavailable")
+            self.assertEqual(parameters["option_id"], "keep")
+            entry = w.store.journal_entries(kind=JOURNAL_INBOX_CHOICE)[-1]["body"]
+            self.assertFalse(any(item["lm_selected"] for item in entry["ranking"]["ranked"]), "an unavailable model selects nothing")
+        finally:
+            w.close()
+        w = self._world(language_model=ScriptedLanguageModel([{"option_id": "accept_and_sell", "cited_observation_ids": ["obs-invented"]}]))
+        try:
+            snapshot = w.orchestrator.collect("test")
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            parameters = point.proposals[0]["parameters"]
+            self.assertEqual(parameters["language_model"]["status"], "rejected")
+            self.assertEqual(parameters["option_id"], "keep", "an illegal or ungrounded answer changes nothing")
+            self.assertIn(parameters["option_id"], parameters["legal_option_ids"])
+        finally:
+            w.close()
+
+    def test_aud01_the_executed_answer_resolves_back_to_the_option_that_was_chosen(self):
+        """AUD 01 / spec 11.3: the intent the UI writer carries out names the chosen legal option, the evidence cited for it and the
+        policy version, and it cites the dialogue decision, so the executed answer resolves back to the ranking that produced it."""
+        workflow = Workflow("fake.respond_inbox", "1", "respond.inbox", FAKE_SCREEN_MODEL, (UIStep("open", "navigate", ANY_SCREEN, {"target": None}, RISK_NAVIGATION, "inbox"),), None)
+
+        class WithTarget(Orchestrator):
+            def _inbox_proposal(self, blocker, snapshot):
+                proposal = super()._inbox_proposal(blocker, snapshot)
+                if proposal is not None:
+                    proposal["parameters"]["target"] = "inbox"     # the fake UI's inbox screen stands in for the message screen
+                return proposal
+
+        w = self._world()
+        w.orchestrator.close()
+        w.orchestrator = WithTarget(w.store, w.client, w.adapter, w.settings, career=w.career, branch=w.branch, lineage_confirmed=True, clock=w.clock, sleep=w.clock.advance, provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=w.orchestrator.inbox_text_provider, workflows={**FAKE_WORKFLOWS, "respond.inbox": workflow})
+        try:
+            result = w.orchestrator.run_once()
+            self.assertIs(result.status, PassStatus.ACTED, result.notes)
+            self.assertIs(result.executed.state, ActionState.CONFIRMED, result.executed.reason)
+            intent = w.store.get_intent(result.executed.action_id)
+            self.assertEqual(intent.kind, "respond.inbox")
+            self.assertEqual(intent.parameters["option_id"], "keep")
+            self.assertEqual(intent.parameters["legal_option_ids"], ["keep", "delegate"])
+            cited = intent.parameters["cited_observation_ids"]
+            self.assertEqual([w.store.get_observation(o, with_payload=False).source for o in cited], ["bridge:/inbox"])
+            self.assertTrue(set(cited) <= set(w.store.get_snapshot(intent.decision_snapshot_id).observation_ids), "the cited evidence belongs to the snapshot the answer was chosen on")
+            explanation = explain_action(intent.action_id, w.store)
+            self.assertEqual(explanation.decision.kind, "dialogue.inbox")
+            self.assertEqual(explanation.decision.decision_id, intent.parameters["dialogue_decision_id"])
+            self.assertIn("Reject the offer and keep him", render_action(explanation))
+            self.assertTrue(explanation.before_evidence, "the answer resolves to the observations it was chosen from")
+        finally:
+            w.close()
+
+    def test_aud01_no_answer_is_proposed_when_the_options_cannot_be_read_or_understood(self):
+        """AUD 01 / spec 11.3: without observed text there are no option ids to choose from, so nothing is proposed and the blocker
+        keeps naming ``inbox_text``; when the visible words of every option mean nothing to the policy the bot says so (the refusal
+        is journaled with the legal ids) instead of guessing one."""
+        w = World(provisions={"pending_actions": "test-operator"})        # no inbox text provider at all
+        try:
+            snapshot = w.orchestrator.collect("test")
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            self.assertEqual(point.proposals, [])
+            self.assertEqual(w.store.journal_entries(kind=JOURNAL_INBOX_CHOICE), [], "no choice is even ranked without text")
+            self.assertTrue(any("inbox_text" in b.report.missing for b in point.blockers))
+        finally:
+            w.close()
+        opaque = (DialogueOption("option_a", "Mmm"), DialogueOption("option_b", "Hmm"))
+        w = self._world(options=opaque)
+        try:
+            snapshot = w.orchestrator.collect("test")
+            point = w.orchestrator.decision_point(snapshot, LineupStatus("not_required"))
+            self.assertEqual(point.proposals, [], "an option whose meaning is unknown is never sent")
+            refusal = w.store.journal_entries(kind=JOURNAL_NOT_EXECUTED)[-1]["body"]
+            self.assertEqual(refusal["kind"], "respond.inbox")
+            self.assertEqual(refusal["legal_option_ids"], ["option_a", "option_b"])
+            self.assertIn("what it would do is unknown", refusal["reason"])
+            self.assertIsNotNone(w.store.get_decision(refusal["decision_id"]), "the refusal to answer is recorded too")
+            self.assertEqual(w.store.list_intents(branch_id=w.branch.branch_id), [])
+        finally:
+            w.close()
 
 # ---------------------------------------------------------------------------
 # level 4: supported match

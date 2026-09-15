@@ -11,7 +11,6 @@ import unittest
 from dataclasses import replace
 from fractions import Fraction
 
-from ..bridge_client.client import BridgeClient
 from ..execution.adapter import FAKE_WORKFLOWS, FakeAdapter
 from ..execution.verification import Evidence, VerdictKind, verify_lineup
 from ..interactions.promises import PromiseLedger, promise_from_observed
@@ -24,15 +23,11 @@ from ..rules.authority import AuthorityLimits, AuthorityMode, AuthorityProfile
 from ..rules.capabilities import ACTION_REQUIREMENTS, CapabilityRegistry
 from ..rules.competitions import RulesProfileRegistry
 from ..rules.eligibility import DeclaredEligibilityProvider, EligibilityObservation
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ActionState, ConsistencyStatus, DecisionSnapshot
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import Observed
-from ..state.store import Store
 from ..state.units import Money, Period
 from ..state.views import player_state
 from . import fixtures as fx
-from .test_rules_competitions import default_rules_profile_for_tests
 
 CLUB = 742
 ROUTES = ["/game", "/manager", "/club", "/squad", "/finances", "/fixtures", "/tactics", "/inbox", "/staff"]
@@ -44,11 +39,8 @@ class World:
     """One registered career with a consistent snapshot of the fixture bridge."""
 
     def __init__(self, routes=ROUTES):
-        self.store = Store.memory()
-        self.career, self.branch, _ = CareerRegistry(self.store).register_career("t", SaveManifest(fx.BUILD, 90001, CLUB, fx.GAME_DATE, fx.GAME_TIME))
-        self.client = BridgeClient(fx.transport(), self.store, context={"career_id": self.career.career_id, "branch_id": self.branch.branch_id})
-        self.snapshot = SnapshotCollector(self.client, self.store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(self.career.career_id, self.branch.branch_id, lineage_confirmed=True))
-        assert self.snapshot.valid, self.snapshot.consistency_reasons
+        self.snapshot = fx.snapshot_for(routes, club_id=CLUB)
+        self.store, self.career, self.branch, self.client = self.snapshot.store, self.snapshot.career, self.snapshot.branch, self.snapshot.client
 
     def full_registry(self, *kinds: str) -> CapabilityRegistry:
         registry = CapabilityRegistry.from_status(fx.status_payload(), supported_builds=[fx.BUILD])
@@ -66,7 +58,7 @@ class World:
     def rules(self) -> RulesProfileRegistry:
         registry = RulesProfileRegistry(self.store)
         for competition in (33, 14):
-            registry.store_profile(default_rules_profile_for_tests(competition, "current", with_deadlines=False))
+            registry.store_profile(fx.rules_profile(competition, "current", with_deadlines=False))
         return registry
 
     def promises(self) -> PromiseLedger:
@@ -81,7 +73,7 @@ def scoped(*families: str, **limits) -> AuthorityProfile:
 
 
 def invalid_snapshot() -> DecisionSnapshot:
-    return DecisionSnapshot("snap-bad", [], ConsistencyStatus.SESSION_CHANGED, ["session changed during collection"], [], [], {}, "bridge_observed", "c", "b", fx.SESSION, fx.GAME_DATE, fx.GAME_TIME, manager_id=90001, club_id=CLUB)
+    return fx.hand_snapshot(snapshot_id="snap-bad", consistency=ConsistencyStatus.SESSION_CHANGED, consistency_reasons=["session changed during collection"], club_id=CLUB)
 
 
 def candidate_state(pid, name, positions, tier, wage):
@@ -249,6 +241,37 @@ class EvaluateTests(unittest.TestCase):
         self.assertEqual(set(observed.values()), {"pass"})
         self.assertIsNone(report.feasible)
         self.assertEqual(report.model_versions["finance"], fin.FINANCE_POLICY_VERSION)
+
+    def test_recruit_evaluation_checks_the_promise_ledger_before_recruitment(self):
+        """Spec 11.3: the ledger is checked before recruitment, so a promise the signing competes with becomes a constraint on that recruit."""
+        ledger = PromiseLedger(self.world.store, self.world.branch.branch_id)
+        competing, competing_terms = promise_from_observed(1018, "player", "You will be a regular starter at DL", source="obs:choice-1")
+        ledger.record(competing, competing_terms)
+        elsewhere, elsewhere_terms = promise_from_observed(1019, "player", "You will be a regular starter at GK", source="obs:choice-2")
+        ledger.record(elsewhere, elsewhere_terms)
+        self.assertEqual((competing_terms.position, elsewhere_terms.position), ("DL", "GK"))
+        recruit = package("A", candidate_state(2001, "Candidate A", ("DL", "WBL"), 3, 3000), wage=3000, fee=100_000, registration=True, availability=True)
+        self.assertEqual(recruit.target_position, "DL")
+        providers = pl.Providers(finance_policy=fin.RiskPolicy(GBP(2_000_000)), regulatory=NO_RULES, engine=fin.CashFlowEngine(transfer_windows=()), candidates=[recruit], promises=ledger)
+        planner = pl.Planner(store=self.world.store, providers=providers)
+        candidate = next(c for c in planner.propose(self.world.snapshot) if c.candidate_id == "recruit:A")
+        report = planner.evaluate(candidate, snapshot=self.world.snapshot)
+        promises = {c.name: c for c in report.constraints if c.name.startswith("promise:")}
+        self.assertEqual(list(promises), [f"promise:{competing.promise_id}"], "only the promise the DL signing competes with is reported")
+        conflict = promises[f"promise:{competing.promise_id}"]
+        self.assertEqual((conflict.status, conflict.binding, conflict.source), ("unknown", False, "promises"))
+        self.assertIn("competes with the starting_role promise to 1018", conflict.reason)
+        self.assertNotIn(f"promise:{elsewhere.promise_id}", {c.name for c in report.constraints})
+
+    def test_recruit_evaluation_reports_no_promise_constraint_when_the_ledger_is_empty(self):
+        """Spec 11.3: a ledger with no conflicting promise adds no constraint, so the check is not a blanket warning."""
+        empty = PromiseLedger(self.world.store, self.world.branch.branch_id)
+        recruit = package("A", candidate_state(2001, "Candidate A", ("DL", "WBL"), 3, 3000), wage=3000, fee=100_000, registration=True, availability=True)
+        providers = pl.Providers(finance_policy=fin.RiskPolicy(GBP(2_000_000)), regulatory=NO_RULES, engine=fin.CashFlowEngine(transfer_windows=()), candidates=[recruit], promises=empty)
+        planner = pl.Planner(store=self.world.store, providers=providers)
+        candidate = next(c for c in planner.propose(self.world.snapshot) if c.candidate_id == "recruit:A")
+        report = planner.evaluate(candidate, snapshot=self.world.snapshot)
+        self.assertEqual([c.name for c in report.constraints if c.name.startswith("promise:")], [])
 
     def test_evaluate_without_a_snapshot_fails_closed(self):
         planner = pl.Planner()
@@ -507,7 +530,7 @@ class FinanceModelTests(unittest.TestCase):
     def test_missing_balance_yields_no_projection(self):
         routes = dict(self.world.snapshot.routes)
         routes["/finances"] = {**fx.finances_payload(), "balance": None}
-        snap = DecisionSnapshot("snap-null", [], ConsistencyStatus.CONSISTENT, [], list(self.world.snapshot.capabilities), list(self.world.snapshot.unresolved), {}, "bridge_observed", "c", "b", fx.SESSION, fx.GAME_DATE, fx.GAME_TIME, routes=routes, manager_id=90001, club_id=CLUB)
+        snap = fx.hand_snapshot(routes, snapshot_id="snap-null", capabilities=self.world.snapshot.capabilities, unresolved=self.world.snapshot.unresolved, club_id=CLUB)
         model = pl.Planner().finance_model(snap)
         self.assertIsNone(model.committed_projection)
         self.assertEqual(model.view["balance"]["status"], "null")

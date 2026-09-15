@@ -5,19 +5,17 @@ import unittest
 
 from ..interactions.promises import (
     KIND_ALLOW_TRANSFER, KIND_NEW_CONTRACT, KIND_PLAYING_TIME, KIND_RECRUIT, KIND_STARTING_ROLE, MATCH_MINUTES, PLAYING_TIME_MINUTES_PER_FIXTURE,
-    SEVERITY_BLOCKING, SEVERITY_INFO, SEVERITY_WARNING, STARTING_ROLE_MINUTES_PER_FIXTURE, STATUS_BROKEN, STATUS_EXPIRED, STATUS_KEPT, PromiseError,
-    PromiseLedger, PromiseTerms, parse_terms, promise_from_observed,
+    RENEWAL_ACTIONS, SEVERITY_BLOCKING, SEVERITY_INFO, SEVERITY_WARNING, STARTING_ROLE_MINUTES_PER_FIXTURE, STATUS_BROKEN, STATUS_EXPIRED, STATUS_KEPT,
+    STATUS_WITHDRAWN, PromiseError, PromiseLedger, PromiseTerms, parse_terms, promise_from_observed,
 )
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import Promise
 from ..state.store import Store
 from . import fixtures as fx
 
 
 def ledger() -> tuple[Store, PromiseLedger]:
-    store = Store.memory()
-    _, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-    return store, PromiseLedger(store, branch.branch_id)
+    registered = fx.registered_store()
+    return registered.store, PromiseLedger(registered.store, registered.branch_id)
 
 
 class ParseTermsTests(unittest.TestCase):
@@ -98,6 +96,62 @@ class CheckBeforeTests(unittest.TestCase):
         [conflict] = self.book.check_before("conversations.player", {"player_id": 1001})
         self.assertEqual(conflict.severity, SEVERITY_INFO)
 
+    def test_renewing_a_player_promised_a_move_contradicts_the_promise(self):
+        """Spec 11.3: the ledger is checked before renewals, so renewing a player promised a transfer is a conflict, not silence."""
+        for action in sorted(RENEWAL_ACTIONS):
+            with self.subTest(action=action):
+                [conflict] = self.book.check_before(action, {"player_id": 1005})
+                self.assertEqual((conflict.severity, conflict.promise_id, conflict.party_id), (SEVERITY_BLOCKING, self.leaver.promise_id, 1005))
+                self.assertTrue(conflict.blocking)
+                self.assertIn("contradicts the promise to let 1005 leave", conflict.reason)
+                self.assertIn(self.leaver.commitment, conflict.reason)
+        self.assertEqual(self.book.check_before("contracts.renew", {"player_id": 1009}), [], "a player with no open promise raises nothing")
+
+    def test_a_contract_offer_naming_no_player_is_recruitment_not_a_renewal(self):
+        """Spec 11.3: ``commit.contract`` is a renewal only when it names a player already at the club; without one it is checked as recruitment."""
+        [conflict] = self.book.check_before("commit.contract", {"position": "ST"})
+        self.assertEqual((conflict.party_id, conflict.severity), (1001, SEVERITY_WARNING))
+        self.assertIn("recruiting a ST competes with", conflict.reason)
+        [loan] = self.book.check_before("loans.in", {"position": "ST", "player_id": 1005})
+        self.assertEqual((loan.party_id, loan.severity, loan.promise_id), (1001, SEVERITY_WARNING, self.starter.promise_id), "a loan-in names the incoming player, so it stays a recruitment check")
+
+    def test_renewal_fulfilling_a_promised_new_contract_is_informational(self):
+        """Spec 11.3: a renewal that keeps a promised new deal is reported as progress, not as a breach."""
+        promised, terms = promise_from_observed(1007, "player", "We will offer you a new contract in the summer", source="obs-d4", source_choice="c4")
+        self.book.record(promised, terms)
+        [conflict] = self.book.check_before("commit.contract", {"player_id": 1007})
+        self.assertEqual((conflict.severity, conflict.promise_id), (SEVERITY_INFO, promised.promise_id))
+        self.assertFalse(conflict.blocking)
+        self.assertIn("fulfils the promise", conflict.reason)
+
+    def test_renewal_that_commits_promised_playing_time_elsewhere_warns(self):
+        """Spec 11.3: a renewal commits playing time, so a starting-role promise another player holds at that position competes with it."""
+        conflicts = {c.party_id: c for c in self.book.check_before("contracts.renew", {"player_id": 1005, "position": "ST"})}
+        self.assertEqual(sorted(conflicts), [1001, 1005])
+        self.assertEqual(conflicts[1001].severity, SEVERITY_WARNING)
+        self.assertEqual(conflicts[1001].promise_id, self.starter.promise_id)
+        self.assertIn("commits playing time already promised to 1001", conflicts[1001].reason)
+        self.assertEqual(conflicts[1005].severity, SEVERITY_BLOCKING)
+        elsewhere = self.book.check_before("contracts.renew", {"player_id": 1005, "position": "GK"})
+        self.assertEqual([c.party_id for c in elsewhere], [1005], "a promise at another position does not compete")
+
+    def test_renewing_the_promised_starter_himself_is_not_a_competing_conflict(self):
+        """Spec 11.3: a player's own starting-role promise does not compete with his own renewal; it is reported once, as information."""
+        [conflict] = self.book.check_before("commit.contract", {"player_id": 1001, "position": "ST"})
+        self.assertEqual((conflict.party_id, conflict.severity), (1001, SEVERITY_INFO))
+        self.assertIn("open promise to 1001", conflict.reason)
+
+    def test_a_promised_signing_is_not_progressed_by_a_renewal(self):
+        """Spec 11.3: renewing an existing player is not the signing that was promised, so no progress is claimed."""
+        signing, terms = promise_from_observed(1001, "player", "We will sign a new ST for you", source="obs-d5", source_choice="c5")
+        self.book.record(signing, terms)
+        self.assertEqual(terms.kind, KIND_RECRUIT)
+        recruiting = [c.promise_id for c in self.book.check_before("commit.transfer_offer", {"position": "ST"})]
+        self.assertIn(signing.promise_id, recruiting, "recruitment does progress it")
+        renewing = {c.promise_id: c.severity for c in self.book.check_before("contracts.renew", {"player_id": 1005, "position": "ST"})}
+        self.assertNotIn(signing.promise_id, renewing)
+        self.assertEqual(renewing, {self.leaver.promise_id: SEVERITY_BLOCKING, self.starter.promise_id: SEVERITY_WARNING})
+
 
 class MinutesTests(unittest.TestCase):
     def test_reservations_use_observed_minutes_or_labelled_defaults(self):
@@ -154,6 +208,23 @@ class LifecycleTests(unittest.TestCase):
         self.assertIsNone(book.mark_broken(a.promise_id, "obs-inbox-11").consequences)
         self.assertEqual(book.mark_broken(b.promise_id, "obs-inbox-12", "Player is unhappy and wants to leave").consequences, "Player is unhappy and wants to leave")
         self.assertEqual({p.status for p in book.for_party(1001, include_closed=True)}, {STATUS_BROKEN})
+
+    def test_withdrawn_promise_is_closed_with_the_observation_that_released_the_club(self):
+        """Spec 11.3: a counterparty releasing the club is its own recorded closure status, not a kept or broken promise."""
+        store, book = ledger()
+        promise, _ = promise_from_observed(1001, "player", "You will be a regular starter", source="obs-d1", source_choice="c1")
+        book.record(promise)
+        with self.assertRaises(PromiseError):
+            book.withdraw(promise.promise_id, "")
+        withdrawn = book.withdraw(promise.promise_id, "obs-inbox-14: player accepted a squad role instead")
+        self.assertEqual(withdrawn.status, STATUS_WITHDRAWN)
+        self.assertEqual(book.open(), [])
+        self.assertEqual([p.status for p in book.for_party(1001, include_closed=True)], [STATUS_WITHDRAWN])
+        [entry] = [e for e in store.journal_entries(kind="promise_status", ref_id=promise.promise_id)]
+        self.assertEqual(entry["body"]["status"], STATUS_WITHDRAWN)
+        self.assertIn("obs-inbox-14", entry["body"]["evidence"])
+        with self.assertRaises(PromiseError):
+            book.mark_kept(promise.promise_id, "obs-inbox-15")
 
     def test_expire_requires_evidence(self):
         _, book = ledger()

@@ -8,10 +8,18 @@ from __future__ import annotations
 
 import copy
 import random
+from dataclasses import dataclass
 from typing import Any
 
+from ..bridge_client.client import BridgeClient
 from ..bridge_client.schemas import ATTRIBUTE_NAMES
 from ..bridge_client.transport import FakeTransport
+from ..rules.competitions import CompetitionRules, rule_missing
+from ..state.identity import CareerRegistry, SaveManifest
+from ..state.records import ConsistencyStatus, DecisionSnapshot
+from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from ..state.status import Observed
+from ..state.store import Store
 
 BUILD = "24.4.2+2081827"
 SESSION = "11111111-2222-3333-4444-555555555555"
@@ -208,10 +216,100 @@ def transport(**kw) -> FakeTransport:
     return FakeTransport(world(**kw))
 
 
-def client(store=None, **kw):
-    from ..bridge_client.client import BridgeClient
-    return BridgeClient(transport(**kw), store, context={"career_id": kw.pop("career_id", None), "branch_id": kw.pop("branch_id", None)} if False else None)
-
-
 def deep(value: Any) -> Any:
     return copy.deepcopy(value)
+
+
+# ---------------------------------------------------------------------------
+# Shared store / snapshot fixtures
+#
+# Every offline test needs the same three things: an in-memory store, one
+# registered career on it, and a bridge client over the fixture world. These
+# helpers build exactly that, so a test module states only what it varies
+# (routes, payload overrides, the game date) instead of re-deriving the whole
+# context - and so the snapshots all tests reason about are built the same
+# way (spec 14: the contract tests run offline against this world).
+# ---------------------------------------------------------------------------
+
+DEFAULT_ROUTES: tuple[str, ...] = ("/squad", "/finances", "/fixtures", "/tactics")
+
+
+@dataclass
+class Registered:
+    """An in-memory store with one registered career and a client on the fixture bridge."""
+
+    store: Any
+    career: Any
+    branch: Any
+    checkpoint: Any
+    client: Any
+
+    @property
+    def career_id(self) -> str:
+        return self.career.career_id
+
+    @property
+    def branch_id(self) -> str:
+        return self.branch.branch_id
+
+    def context(self, **kw: Any):
+        return CollectionContext(self.career_id, self.branch_id, lineage_confirmed=kw.pop("lineage_confirmed", True), **kw)
+
+    def collect(self, routes: Any = DEFAULT_ROUTES, *, player_ids: Any = (), action_critical: Any = (), optional: Any = (), label: str = "test", **context_kw: Any):
+        """Collect one snapshot over this career, exactly as the caller asks (valid or not)."""
+        requirements = SnapshotRequirements(routes=list(routes), player_ids=list(player_ids), action_critical=list(action_critical), optional=list(optional), label=label)
+        return SnapshotCollector(self.client, self.store).collect(requirements, self.context(**context_kw))
+
+
+def registered_store(*, label: str = "t", manager_id: int = MANAGER["id"], club_id: int = CLUB["id"], game_date: str = GAME_DATE, game_time: str = GAME_TIME, overrides: dict[str, Any] | None = None, world_map: dict[str, Any] | None = None, session: str = SESSION, store: Any = None) -> Registered:
+    """A registered career over a fresh in-memory store, with a client on the fixture world.
+
+    ``overrides`` replaces individual routes of the default world;
+    ``world_map`` replaces the whole route map (for a world built elsewhere,
+    such as one linked to a fake UI).
+    """
+    store = store if store is not None else Store.memory()
+    career, branch, checkpoint = CareerRegistry(store).register_career(label, SaveManifest(BUILD, manager_id, club_id, game_date, game_time))
+    routes = world_map if world_map is not None else world(session=session, game_date=game_date, game_time=game_time, overrides=overrides)
+    client = BridgeClient(FakeTransport(routes), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
+    return Registered(store, career, branch, checkpoint, client)
+
+
+def snapshot_for(routes: Any = DEFAULT_ROUTES, *, overrides: dict[str, Any] | None = None, world_map: dict[str, Any] | None = None, game_date: str = GAME_DATE, game_time: str = GAME_TIME, club_id: int = CLUB["id"], manager_id: int = MANAGER["id"], player_ids: Any = (), action_critical: Any = (), optional: Any = (), label: str = "test", require_valid: bool = True, registered: Registered | None = None, **context_kw: Any):
+    """A snapshot of the fixture world, carrying the ``store``, ``career``, ``branch`` and ``client`` it came from.
+
+    The returned :class:`DecisionSnapshot` has those attached as attributes
+    (plus ``registered``), so a test that also needs the store does not have
+    to rebuild the context. ``require_valid=False`` returns whatever the
+    collector decided, for tests about inconsistency itself.
+    """
+    registered = registered or registered_store(manager_id=manager_id, club_id=club_id, game_date=game_date, game_time=game_time, overrides=overrides, world_map=world_map)
+    snapshot = registered.collect(routes, player_ids=player_ids, action_critical=action_critical, optional=optional, label=label, **context_kw)
+    if require_valid:
+        assert snapshot.valid, snapshot.consistency_reasons
+    snapshot.registered = registered
+    snapshot.store, snapshot.career, snapshot.branch, snapshot.client = registered.store, registered.career, registered.branch, registered.client
+    return snapshot
+
+
+def hand_snapshot(routes: dict[str, Any] | None = None, *, snapshot_id: str = "snap-hand", game_date: str | None = GAME_DATE, game_time: str | None = GAME_TIME, information_mode: str = "bridge_observed", career_id: str = "career-hand", branch_id: str = "branch-hand", manager_id: int = MANAGER["id"], club_id: int = CLUB["id"], consistency: Any = None, consistency_reasons: Any = (), capabilities: Any = (), unresolved: Any = (), observation_ids: Any = (), entity_versions: dict[str, Any] | None = None, session_id: str | None = SESSION, **kw: Any):
+    """A hand-built snapshot over the given route payloads, consistent unless told otherwise.
+
+    For tests about a specific payload shape rather than about collection.
+    Nothing was collected, so observation ids and entity versions are empty
+    unless the caller supplies them; everything else matches what the
+    collector would have built.
+    """
+    consistency = ConsistencyStatus.CONSISTENT if consistency is None else consistency
+    return DecisionSnapshot(snapshot_id, list(observation_ids), consistency, list(consistency_reasons), list(capabilities), list(unresolved), dict(entity_versions or {}), information_mode, career_id, branch_id, session_id, game_date, game_time, routes=dict(routes or {}), manager_id=manager_id, club_id=club_id, **kw)
+
+
+def rules_profile(competition_id: int = 14, stage: str = "league", *, season: str = "2023/24", with_deadlines: bool = True, source: str = "ui:competition_rules_screen"):
+    """A fully observed competition rules profile used only by tests.
+
+    Every value here is test data, not a real competition rule: the bot never
+    invents these, it reads them from the rules screen (spec 11.4).
+    """
+    obs = lambda value, what: Observed.available_value(value, source, "2026-01-01T00:00:00Z", f"{GAME_DATE} {GAME_TIME}", what)  # noqa: E731
+    deadlines = obs([{"kind": "squad_registration", "date": "2024-02-22", "time": "17:00", "description": "post-window squad list due"}], "deadlines") if with_deadlines else rule_missing("deadlines", "not shown on the rules screen")
+    return CompetitionRules(competition_id, stage, obs([{"opens": "2024-01-01", "closes": "2024-02-01", "kind": "winter"}], "registration_windows"), obs(22, "squad_size_limit"), obs({"minimum": 4, "definition": "club-trained"}, "homegrown_rule"), obs(7, "bench_size"), obs(5, "substitutions_allowed"), obs(3, "substitution_windows"), obs({"kind": "league"}, "tie_progression"), deadlines, source, season=season, division_id=3, competition_name="Sky Bet League One")

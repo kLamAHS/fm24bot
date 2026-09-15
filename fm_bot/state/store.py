@@ -381,25 +381,45 @@ class Store:
         return (json.loads(row["body"]), int(row["version"])) if row else None
 
     # ----- locks -----
-    def acquire_lock(self, name: str, owner: str, *, stale_after_seconds: float = 300.0) -> bool:
-        """Manager lock: prevents two bot instances from controlling one game."""
+    @staticmethod
+    def _lock_instant(now: str | None):
+        """The wall-clock reading a lock is stamped and judged by: the caller's clock, or the system clock.
+
+        A lock's staleness is wall-clock, not in-game time (a crashed process
+        stops heartbeating whatever the game does), but the caller may inject
+        its own clock so that "this heartbeat is older than the threshold" is
+        expressible without waiting for it. A reading without an offset is
+        read as UTC; a malformed one is a caller bug, not a stale lock.
+        """
         import datetime as dt
-        now = dt.datetime.now(dt.timezone.utc)
+        moment = dt.datetime.now(dt.timezone.utc) if now is None else dt.datetime.fromisoformat(now)
+        return moment if moment.tzinfo is not None else moment.replace(tzinfo=dt.timezone.utc)
+
+    def acquire_lock(self, name: str, owner: str, *, stale_after_seconds: float = 300.0, now: str | None = None) -> bool:
+        """Manager lock: prevents two bot instances from controlling one game.
+
+        ``now`` is an ISO-8601 wall-clock reading; it defaults to the system
+        clock, so existing callers are unaffected. A foreign lock is taken
+        over only when its last heartbeat is at least ``stale_after_seconds``
+        older than ``now`` (spec 4.2, 12.4).
+        """
+        moment = self._lock_instant(now)
+        stamp = moment.isoformat()
         with self.transaction() as conn:
             row = conn.execute("SELECT owner, heartbeat_at FROM locks WHERE name = ?", (name,)).fetchone()
             if row and row["owner"] != owner:
-                beat = dt.datetime.fromisoformat(row["heartbeat_at"])
-                if (now - beat).total_seconds() < stale_after_seconds:
+                if (moment - self._lock_instant(row["heartbeat_at"])).total_seconds() < stale_after_seconds:
                     return False
-            conn.execute("INSERT OR REPLACE INTO locks VALUES (?, ?, ?, ?)", (name, owner, now.isoformat(), now.isoformat()))
+            conn.execute("INSERT OR REPLACE INTO locks VALUES (?, ?, ?, ?)", (name, owner, stamp, stamp))
             return True
 
-    def heartbeat_lock(self, name: str, owner: str) -> bool:
+    def heartbeat_lock(self, name: str, owner: str, *, now: str | None = None) -> bool:
+        """Refresh the owner's lock. ``now`` is the same injectable wall-clock reading as :meth:`acquire_lock`."""
         with self.transaction() as conn:
             row = conn.execute("SELECT owner FROM locks WHERE name = ?", (name,)).fetchone()
             if not row or row["owner"] != owner:
                 return False
-            conn.execute("UPDATE locks SET heartbeat_at = ? WHERE name = ?", (utc_now(), name))
+            conn.execute("UPDATE locks SET heartbeat_at = ? WHERE name = ?", (self._lock_instant(now).isoformat(), name))
             return True
 
     def release_lock(self, name: str, owner: str) -> None:

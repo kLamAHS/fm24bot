@@ -323,6 +323,27 @@ class LockTests(unittest.TestCase):
         self.assertEqual(store.lock_owner("manager"), "bot-b")
         self.assertFalse(store.heartbeat_lock("manager", "bot-a"))
 
+    def test_staleness_is_judged_by_the_callers_clock_when_one_is_given(self):
+        """Spec 4.2, 12.4: a caller with its own clock (the orchestrator's injected ``Clock``) can stamp and judge the lock by
+        that clock, so "this heartbeat is older than the threshold" is expressible without waiting for it. Omitting ``now``
+        keeps the system clock, which is what every other caller relies on."""
+        store = Store.memory()
+        start = dt.datetime(2026, 1, 1, tzinfo=dt.timezone.utc)
+        at = lambda seconds: (start + dt.timedelta(seconds=seconds)).isoformat()  # noqa: E731
+        self.assertTrue(store.acquire_lock("manager", "bot-a", now=at(0)))
+        self.assertEqual(store.connection.execute("SELECT heartbeat_at FROM locks WHERE name = 'manager'").fetchone()["heartbeat_at"], at(0))
+        self.assertFalse(store.acquire_lock("manager", "bot-b", stale_after_seconds=300, now=at(299)), "a heartbeat 299s old is not stale")
+        self.assertTrue(store.heartbeat_lock("manager", "bot-a", now=at(250)))
+        self.assertFalse(store.acquire_lock("manager", "bot-b", stale_after_seconds=300, now=at(549)), "the heartbeat moved the deadline")
+        self.assertTrue(store.acquire_lock("manager", "bot-b", stale_after_seconds=300, now=at(550)))
+        self.assertEqual(store.lock_owner("manager"), "bot-b")
+        # the system-clock default is unchanged: a lock just taken with the default is fresh by the default
+        store.release_lock("manager", "bot-b")
+        self.assertTrue(store.acquire_lock("manager", "bot-c"))
+        self.assertFalse(store.acquire_lock("manager", "bot-d"))
+        with self.assertRaises(ValueError):
+            store.acquire_lock("manager", "bot-e", now="not a timestamp")
+
 
 if __name__ == "__main__":
     unittest.main()

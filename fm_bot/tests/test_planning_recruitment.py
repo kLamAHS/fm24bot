@@ -11,16 +11,12 @@ import json
 import unittest
 from fractions import Fraction
 
-from ..bridge_client.client import BridgeClient
 from ..planning import finance as fin
 from ..planning import lineup as lu
 from ..planning import minutes as mn
 from ..planning import recruitment as rc
-from ..state.identity import CareerRegistry, SaveManifest
-from ..state.records import Certainty, CompetitionContext, ConsistencyStatus, DecisionSnapshot, FinancialCommitment, MovementKind
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from ..state.records import Certainty, CompetitionContext, FinancialCommitment, MovementKind
 from ..state.status import Observed, ValueStatus
-from ..state.store import Store
 from ..state.units import Money, Period
 from ..state.views import FinanceView, finance_view, fixture_views, player_state, tactic_view
 from ..state.visibility import InformationMode
@@ -36,7 +32,7 @@ def players():
 
 
 def hand_snapshot():
-    return DecisionSnapshot("snap-hand", [], ConsistencyStatus.CONSISTENT, [], [], [], {}, "bridge_observed", "c", "b", fx.SESSION, fx.GAME_DATE, fx.GAME_TIME, routes={"/tactics": fx.tactics_payload(), "/fixtures": fx.fixtures_payload()}, manager_id=90001, club_id=CLUB)
+    return fx.hand_snapshot({"/tactics": fx.tactics_payload(), "/fixtures": fx.fixtures_payload()}, club_id=CLUB)
 
 
 def slots():
@@ -66,12 +62,7 @@ def package(candidate_id="A", state=None, **kw):
 
 
 def live_snapshot(routes=("/finances", "/squad", "/staff")):
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, CLUB, fx.GAME_DATE, fx.GAME_TIME))
-    client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
-    assert snap.valid, snap.consistency_reasons
-    return snap
+    return fx.snapshot_for(routes, club_id=CLUB)
 
 
 def finance_inputs(reserve_pounds: int, scenarios=None, *, regulatory=NO_RULES) -> rc.FinanceInputs:

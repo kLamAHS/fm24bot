@@ -5,13 +5,9 @@ import datetime as dt
 import unittest
 from fractions import Fraction
 
-from ..bridge_client.client import BridgeClient
 from ..planning import finance as fin
-from ..state.identity import CareerRegistry, SaveManifest
-from ..state.records import Certainty, ConsistencyStatus, DecisionSnapshot, FinancialCommitment, MovementKind
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from ..state.records import Certainty, DecisionSnapshot, FinancialCommitment, MovementKind
 from ..state.status import Observed, ValueStatus
-from ..state.store import Store
 from ..state.units import Money, Period, UnitError, total_over
 from ..state.views import finance_view
 from . import fixtures as fx
@@ -23,16 +19,11 @@ STAFF_WAGES = 1500 + 900
 
 
 def live_snapshot(routes=("/finances", "/squad", "/staff")) -> DecisionSnapshot:
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-    client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
-    assert snap.valid, snap.consistency_reasons
-    return snap
+    return fx.snapshot_for(routes)
 
 
 def hand_snapshot(routes: dict) -> DecisionSnapshot:
-    return DecisionSnapshot("snap-hand", [], ConsistencyStatus.CONSISTENT, [], [], [], {}, "bridge_observed", "c", "b", fx.SESSION, fx.GAME_DATE, fx.GAME_TIME, routes=routes, manager_id=90001, club_id=742)
+    return fx.hand_snapshot(routes)
 
 
 def fee(counterparty: str, pounds: int, due: str, category: str = "transfer_fee", cid: str | None = None) -> FinancialCommitment:
@@ -109,7 +100,7 @@ class LedgerFromSnapshotTests(unittest.TestCase):
         self.assertEqual([m.certainty for m in week if m.commitment_id == "contract:employment:3003"], [Certainty.UNKNOWN], "listed, never charged")
         charged = -sum(m.signed.minor for m in week if m.certainty is Certainty.OBSERVED_COMMITTED)
         self.assertEqual(charged, PLAYER_WAGES * 100, "cash charged still equals the observed aggregate")
-        no_date = DecisionSnapshot("snap-nodate", [], ConsistencyStatus.CONSISTENT, [], [], [], {}, "bridge_observed", "c", "b", fx.SESSION, None, None, routes={"/finances": fx.finances_payload(), "/squad": [undated]}, manager_id=90001, club_id=742)
+        no_date = fx.hand_snapshot({"/finances": fx.finances_payload(), "/squad": [undated]}, snapshot_id="snap-nodate", game_date=None, game_time=None)
         dateless = fin.CommitmentLedger.from_snapshot(no_date)
         self.assertIsNone(dateless.get("contract:employment:3003"))
         self.assertTrue(any("no as-of date" in n for n in dateless.notes))

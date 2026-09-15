@@ -3,12 +3,8 @@ from __future__ import annotations
 
 import unittest
 
-from ..bridge_client.client import BridgeClient
-from ..state.identity import CareerRegistry, SaveManifest
-from ..state.records import ConsistencyStatus, DecisionSnapshot
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from ..state.records import DecisionSnapshot
 from ..state.status import ValueStatus
-from ..state.store import Store
 from ..state.units import Money, Period
 from ..state.views import (
     SQUAD_ROUTE_COLLECTED, SQUAD_ROUTE_MISSING, finance_view, fixture_identity, fixture_views, horizon_truncated, missing_eligibility, player_state,
@@ -18,16 +14,13 @@ from ..state.visibility import InformationMode
 from . import fixtures as fx
 
 
-def collected_snapshot(routes=("/squad", "/finances", "/fixtures", "/tactics")) -> DecisionSnapshot:
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-    client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    return SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
+def collected_snapshot(routes=fx.DEFAULT_ROUTES) -> DecisionSnapshot:
+    return fx.snapshot_for(routes)
 
 
 def manual_snapshot(routes: dict, *, game_date=fx.GAME_DATE, mode="bridge_observed") -> DecisionSnapshot:
     """A hand-built consistent snapshot for view tests that need a specific payload."""
-    return DecisionSnapshot("snap-manual", [], ConsistencyStatus.CONSISTENT, [], [], [], {}, mode, "career-a", "branch-a", fx.SESSION, game_date, fx.GAME_TIME, routes=routes, manager_id=90001, club_id=742)
+    return fx.hand_snapshot(routes, snapshot_id="snap-manual", game_date=game_date, information_mode=mode)
 
 
 class ReadinessTests(unittest.TestCase):

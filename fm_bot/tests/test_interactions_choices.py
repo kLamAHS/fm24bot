@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import unittest
 
-from ..bridge_client.client import BridgeClient
 from ..interactions.choices import (
     AUTHORITY_ALLOWED, AUTHORITY_OUTSIDE_SCOPE, DEFAULT_CLUB_POLICY, LM_PREFERENCE_BONUS, PROMISE_CONFLICT_PENALTY, STATUS_CHOSEN, STATUS_NO_OPTIONS,
     STATUS_OUTSIDE_SCOPE, STATUS_UNAVAILABLE, ClubPolicy, authorize_options, choice_intent, decide, rank_options, tag_option,
@@ -11,11 +10,8 @@ from ..interactions.choices import (
 from ..interactions.inbox import DialogueOption
 from ..interactions.language_model import Evidence, NoLanguageModel, ScriptedLanguageModel
 from ..rules.authority import AuthorityLimits, AuthorityMode, AuthorityProfile
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import Promise
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import MissingCapabilityReport
-from ..state.store import Store
 from ..state.units import Money, Period
 from ..state.visibility import InformationMode
 from . import fixtures as fx
@@ -160,10 +156,8 @@ class AuthorityTests(unittest.TestCase):
 
 class DecisionRecordTests(unittest.TestCase):
     def test_decision_carries_audit_fields_and_stores(self):
-        store = Store.memory()
-        career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-        client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-        snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=["/inbox"]), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
+        snap = fx.snapshot_for(["/inbox"])
+        store = snap.store
         lm = ScriptedLanguageModel([{"option_id": "reject", "cited_observation_ids": ["obs-inbox-501"], "rationale": "keep him"}])
         decision = decide([ACCEPT, REJECT], DEFAULT_CLUB_POLICY, EVIDENCE, [], lm, kind="inbox", context_id="inbox:501", snapshot_id=snap.snapshot_id)
         self.assertEqual(decision.status, STATUS_CHOSEN)

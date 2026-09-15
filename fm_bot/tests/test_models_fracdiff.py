@@ -75,20 +75,53 @@ class FoldChoiceTests(unittest.TestCase):
         self.assertIsNone(choice.d)
 
     def test_chooses_a_candidate_with_errors_recorded(self):
-        choice = fd.choose_d_within_fold(mean_reverting(40), [0.3, 0.5, 0.7], window=5)
+        # Candidates are passed worst-first for this fold, so returning the first (or a fixed) candidate fails.
+        choice = fd.choose_d_within_fold(mean_reverting(40), [0.7, 0.5, 0.3], window=5)
         self.assertEqual(choice.status, "chosen")
-        self.assertIn(choice.d, (0.3, 0.5, 0.7))
+        self.assertEqual(choice.d, 0.3)
         self.assertEqual(set(choice.errors), {"d=0.3", "d=0.5", "d=0.7"})
         self.assertEqual(choice.errors[f"d={choice.d:g}"], min(choice.errors.values()))
 
-    def test_choice_depends_only_on_the_training_fold(self):
-        train = mean_reverting(40)
-        choice = fd.choose_d_within_fold(train, [0.3, 0.5, 0.7], window=5)
-        again = fd.choose_d_within_fold(train + [1000.0, -1000.0, 1000.0], [0.3, 0.5, 0.7], window=5)
-        # The later, wilder points would change the choice if they were consulted; here they are part of a longer
-        # training fold, so the comparison is that the original fold alone is deterministic and self-contained.
-        self.assertEqual(choice.d, fd.choose_d_within_fold(list(train), [0.3, 0.5, 0.7], window=5).d)
-        self.assertEqual(again.train_points, 43)
+    def test_folds_with_different_training_halves_select_different_d(self):
+        """EXP 02 / spec 8.4, 13.3: d is selected from each training fold's own points, so different folds can differ.
+
+        A steady drift is forecast exactly by a first difference (d=1); a
+        level-stationary zigzag is forecast best on the levels (d=0). If the
+        order were fixed, or read off anything but the fold it is given, the
+        two folds could not disagree.
+        """
+        candidates = [0.0, 0.5, 1.0]
+        drifting = [1000.0 + 25.0 * t for t in range(24)]
+        level_stationary = [1000.0 + (40.0 if t % 2 else -40.0) for t in range(24)]
+        drift_fold = fd.choose_d_within_fold(drifting, candidates, window=5)
+        level_fold = fd.choose_d_within_fold(level_stationary, candidates, window=5)
+        self.assertEqual((drift_fold.status, drift_fold.d), ("chosen", 1.0))
+        self.assertEqual((level_fold.status, level_fold.d), ("chosen", 0.0))
+        self.assertEqual(drift_fold.errors["d=1"], 0.0)
+        self.assertLess(level_fold.errors["d=0"], level_fold.errors["d=1"])
+
+    def test_held_out_points_never_change_the_fold_choice(self):
+        """EXP 02 / spec 13.3: appending held-out (future) points leaves the training fold's order and its scores untouched.
+
+        Two series share the first 28 points and differ completely afterwards.
+        The training fold is the same 28 points in both, so the selected d and
+        every candidate score must be identical - no transform parameter may be
+        fitted on the held-out part - while the out-of-sample errors differ,
+        which shows the holdout really was scored.
+        """
+        candidates = [0.0, 0.5, 1.0]
+        train = [1000.0 + 25.0 * t for t in range(28)]
+        calm = train + [1675.0 + 25.0 * t for t in range(12)]
+        contaminating = train + [(-1.0) ** t * 1_000_000.0 for t in range(12)]
+        fold_only = fd.choose_d_within_fold(train, candidates, window=5)
+        calm_result = fd.admission_test(calm, candidates, margin=0.0, window=5, holdout_fraction=0.3)
+        wild_result = fd.admission_test(contaminating, candidates, margin=0.0, window=5, holdout_fraction=0.3)
+        self.assertEqual(fold_only.d, 1.0)
+        for result in (calm_result, wild_result):
+            self.assertEqual(result.fold.train_points, len(train))
+            self.assertEqual(result.chosen_d, fold_only.d)
+            self.assertEqual(result.fold.errors, fold_only.errors)
+        self.assertNotEqual(calm_result.test_errors, wild_result.test_errors)
 
 
 class AdmissionTests(unittest.TestCase):
@@ -105,8 +138,12 @@ class AdmissionTests(unittest.TestCase):
         self.assertEqual(strict.decision, "keep_accounting_baseline")
         self.assertIn("does not clear margin", strict.reason)
         self.assertEqual(set(strict.test_errors), {"d=0", "d=1", "seasonal", f"fractional d={strict.chosen_d:g}"})
-        self.assertEqual(lenient.decision, "admit_fractional" if lenient.improvement > 0.0 else "keep_accounting_baseline")
+        self.assertEqual(lenient.decision, "admit_fractional")
+        self.assertAlmostEqual(lenient.improvement, 0.0316, places=4)
         self.assertEqual(lenient.chosen_d, strict.chosen_d)
+        self.assertEqual(lenient.improvement, strict.improvement)
+        at_margin = fd.admission_test(series, [0.3, 0.5, 0.7], margin=lenient.improvement, window=5, seasonal_period=4)
+        self.assertEqual(at_margin.decision, "keep_accounting_baseline")   # the margin must be cleared, not merely matched
 
     def test_fractional_d_is_chosen_inside_the_training_fold_only(self):
         series = mean_reverting(80)
@@ -122,6 +159,9 @@ class AdmissionTests(unittest.TestCase):
             walk.append(walk[-1] + rng.gauss(0.0, 2000.0))
         result = fd.admission_test(walk, [0.3, 0.5, 0.7], margin=0.5, window=5)
         self.assertEqual(result.decision, "keep_accounting_baseline")
+        # It does not beat the baselines at all: the improvement is negative, so even a zero margin keeps the ledger.
+        self.assertLess(result.improvement, 0.0)
+        self.assertEqual(fd.admission_test(walk, [0.3, 0.5, 0.7], margin=0.0, window=5).decision, "keep_accounting_baseline")
 
     def test_invalid_arguments(self):
         with self.assertRaises(fd.TransformError):

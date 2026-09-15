@@ -3,16 +3,12 @@ from __future__ import annotations
 
 import unittest
 
-from ..bridge_client.client import BridgeClient
 from ..rules.eligibility import (
     QUALITY_DECLARED, QUALITY_UI_UNVERIFIED, QUALITY_UI_VERIFIED, BRIDGE_LOAN_SOURCE,
     CompositeProvider, DeclaredEligibilityProvider, EligibilityObservation, EligibilityProvider, NoEligibilityProvider,
     bridge_loan_absence, component_observed, eligibility_summary, freshness_status, verified_eligible,
 )
-from ..state.identity import CareerRegistry, SaveManifest
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import Observed, ValueStatus
-from ..state.store import Store
 from ..state.views import missing_eligibility, player_state, squad_states, upcoming_fixtures
 from . import fixtures as fx
 
@@ -20,11 +16,8 @@ NOW = "2026-01-01T00:00:00Z"
 
 
 def build_snapshot(routes=("/squad", "/fixtures")):
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-    client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
-    return store, snap
+    snap = fx.snapshot_for(routes)
+    return snap.store, snap
 
 
 def clear(pid, *, game_date=fx.GAME_DATE, game_time=fx.GAME_TIME, quality=QUALITY_UI_VERIFIED, source="ui:squad_screen", fixture_identity=None, registered=True):

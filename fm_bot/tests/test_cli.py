@@ -16,9 +16,28 @@ from typing import Any
 
 from .. import __main__ as cli
 from ..bridge_client.transport import FakeTransport
-from ..orchestrator import FakeClock
+from ..interface.status import build_view
+from ..orchestrator import FakeClock, PassResult, PassStatus, RunLevel
 from ..state.store import Store
 from . import fixtures as fx
+
+
+class StubOrchestrator:
+    """Stands in for the orchestrator so ``run``'s exit code can be checked per pass outcome (test double, not an orchestrator)."""
+
+    statuses: list[PassStatus] = []
+
+    def __init__(self, store, client, adapter, settings, **kwargs):
+        self.store, self.settings = store, settings
+
+    def run(self, max_iterations: int = 1) -> list[PassResult]:
+        return [PassResult(RunLevel.CONNECT, status) for status in self.statuses]
+
+    def status_view(self):
+        return build_view(self.store, settings=self.settings)
+
+    def close(self) -> None:
+        return None
 
 
 class CliCase(unittest.TestCase):
@@ -106,6 +125,74 @@ class StatusAndRegisterTests(CliCase):
         code, _, err = self.run_cli("--bridge-url", "http://example.com:8765", "snapshot")
         self.assertEqual(code, cli.EXIT_SETUP)
         self.assertIn("loopback", err)
+
+
+class ConfirmLineageTests(CliCase):
+    """ID 01 / spec 5.1: the operator confirms the lineage of the REGISTERED career; nothing forks the history."""
+
+    def test_id01_confirm_lineage_clears_the_stop_without_a_second_career_or_branch(self):
+        """ID 01: an unconfirmed lineage makes every snapshot unusable, and the advice the bot gives is `confirm-lineage`. That
+        command confirms the registered career itself: the stop clears, the next snapshot is usable, and no second career, branch
+        or checkpoint is created (registering again would have forked the production history)."""
+        out = self.register()
+        self.assertIn("run `confirm-lineage`", out)
+        self.assertIn("would start a second career", out)
+        code, out, _ = self.run_cli("status")
+        self.assertIn("run `python -m fm_bot confirm-lineage`", out)
+        code, out, _ = self.run_cli("snapshot")
+        self.assertEqual(code, cli.EXIT_GAME_STATE)
+        self.assertIn("lineage not confirmed", out)
+        code, out, err = self.run_cli("confirm-lineage", "--reason", "the 17 February save is the one I registered")
+        self.assertEqual(code, cli.EXIT_OK, err)
+        self.assertIn("Lineage confirmed for career", out)
+        self.assertIn("the 17 February save is the one I registered", out)
+        self.assertIn("No new career, branch or checkpoint was created", out)
+        code, out, err = self.run_cli("snapshot")
+        self.assertEqual(code, cli.EXIT_OK, err)
+        self.assertIn("consistent - usable for decisions", out)
+        store = Store(self.db)
+        try:
+            careers = store.list_careers()
+            self.assertEqual(len(careers), 1, "the registered career is confirmed, not replaced")
+            branches = store.list_branches(careers[0].career_id)
+            self.assertEqual(len(branches), 1)
+            self.assertEqual(len(store.list_checkpoints(branches[0].branch_id)), 1)
+            entry = store.journal_entries(kind="orchestrator.lineage_confirmed")[-1]
+            self.assertEqual((entry["body"]["career_id"], entry["body"]["branch_id"], entry["body"]["by"]), (careers[0].career_id, branches[0].branch_id, "cli"))
+            self.assertEqual(entry["body"]["game_date"], fx.GAME_DATE)
+        finally:
+            store.close()
+        code, out, _ = self.run_cli("status")
+        self.assertNotIn("lineage not yet confirmed", out)
+        code, out, err = self.run_cli("run", "--once")
+        self.assertEqual(code, cli.EXIT_OK, err)
+
+    def test_id01_confirm_lineage_refuses_a_save_that_is_not_the_registered_career(self):
+        """ID 01 / spec 5.1: confirming vouches for *this* registered career, so a save whose club, manager or build differs is
+        refused with the difference named; the lineage stays unconfirmed and nothing is created."""
+        self.register()
+        self.world["/club"] = FakeTransport.envelope({"id": 999, "name": "Somebody Else"}, session_id=fx.SESSION)
+        code, _, err = self.run_cli("confirm-lineage")
+        self.assertEqual(code, cli.EXIT_GAME_STATE)
+        self.assertIn("not the registered career", err)
+        self.assertIn("club 999 differs from registered 742", err)
+        self.assertIn("register it as its own career", err)
+        store = Store(self.db)
+        try:
+            self.assertEqual(len(store.list_careers()), 1)
+            self.assertFalse(store.get_setting("registry:active_career")[0]["lineage_confirmed"])
+        finally:
+            store.close()
+
+    def test_confirm_lineage_needs_a_career_and_a_connected_bridge(self):
+        code, _, err = self.run_cli("confirm-lineage")
+        self.assertEqual(code, cli.EXIT_SETUP)
+        self.assertIn("no career registered", err)
+        self.register()
+        self.world["/status"] = (200, fx.status_payload(connected=False))
+        code, _, err = self.run_cli("confirm-lineage")
+        self.assertEqual(code, cli.EXIT_GAME_STATE)
+        self.assertIn("not connected", err)
 
 
 class SnapshotPlanExplainTests(CliCase):
@@ -261,6 +348,34 @@ class RunAndReconcileTests(CliCase):
         code, out, err = self.run_cli("reconcile")
         self.assertEqual(code, cli.EXIT_OK, err)
         self.assertIn("nothing to reconcile", out)
+
+    def test_run_exits_with_game_state_when_the_game_or_bridge_state_prevented_the_pass(self):
+        """The documented exit-code contract: 1 when the game or bridge state prevented the command. A clock that never settles
+        leaves the pass inconsistent, and a stop for identity resolution means nothing was decided, so both exit 1; a pass that
+        planned, acted, was blocked on a capability or found nothing changed exits 0."""
+        self.register("--confirm-lineage")
+        self.world["/game"] = [FakeTransport.envelope({"date": fx.GAME_DATE, "time": f"{10 + i // 60:02d}:{i % 60:02d}"}, session_id=fx.SESSION) for i in range(40)]
+        code, out, _ = self.run_cli("run", "--once")
+        self.assertEqual(code, cli.EXIT_GAME_STATE, out)
+        self.assertIn("inconsistent", out)
+        self.world = fx.world()
+        prevented = (PassStatus.DISCONNECTED, PassStatus.BUILD_UNSUPPORTED, PassStatus.IDENTITY_MISMATCH, PassStatus.IDENTITY_RESOLUTION_REQUIRED, PassStatus.INCONSISTENT, PassStatus.LOCK_LOST)
+        saved = cli.Orchestrator
+        cli.Orchestrator = StubOrchestrator
+        try:
+            for status in prevented:
+                with self.subTest(status=status):
+                    StubOrchestrator.statuses = [status]
+                    self.assertEqual(self.run_cli("run", "--once")[0], cli.EXIT_GAME_STATE)
+            for status in (PassStatus.PLANNED, PassStatus.ACTED, PassStatus.BLOCKED, PassStatus.UNCHANGED, PassStatus.MATCH_OBSERVED, PassStatus.STOPPED):
+                with self.subTest(status=status):
+                    StubOrchestrator.statuses = [status]
+                    self.assertEqual(self.run_cli("run", "--once")[0], cli.EXIT_OK)
+            StubOrchestrator.statuses = [PassStatus.INCONSISTENT, PassStatus.PLANNED]
+            self.assertEqual(self.run_cli("run", "--iterations", "2")[0], cli.EXIT_OK, "the last pass decides the exit code")
+        finally:
+            cli.Orchestrator = saved
+            StubOrchestrator.statuses = []
 
     def test_bad_iterations_is_a_usage_error(self):
         self.register("--confirm-lineage")

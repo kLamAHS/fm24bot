@@ -22,6 +22,10 @@ from .controls import Settings
 
 STATUS_VIEW_VERSION = "interface.status/1"
 
+# The one operator command that clears an identity-resolution stop for the registered career (spec 5.1, ID 01).
+# Defined here (not imported from the orchestrator) because the view is built without it.
+CONFIRM_LINEAGE_COMMAND = "python -m fm_bot confirm-lineage"
+
 # Store key naming the career/branch the bot manages (a registration pointer, not an operator preference).
 ACTIVE_CAREER_KEY = "registry:active_career"
 JOURNAL_STOP = "orchestrator.stop"
@@ -148,7 +152,7 @@ def render_text(view: OperatorView) -> str:
     """The operator's main screen in football language."""
     lines: list[str] = []
     if view.career:
-        lines.append(f"Managing: {view.career['label']} (club {view.career['club_id']}, manager {view.career['manager_id']}); branch {view.branch['label'] or view.branch['kind']} ({view.branch['kind']})" + ("" if view.career.get("lineage_confirmed") else "; lineage not yet confirmed"))
+        lines.append(f"Managing: {view.career['label']} (club {view.career['club_id']}, manager {view.career['manager_id']}); branch {view.branch['label'] or view.branch['kind']} ({view.branch['kind']})" + ("" if view.career.get("lineage_confirmed") else f"; lineage not yet confirmed - run `{CONFIRM_LINEAGE_COMMAND}` (registering again would start a second career)"))
     else:
         lines.append("Managing: no career registered - run `register` first")
     lines.append(f"Information: {view.information_mode.replace('_', ' ')}")

@@ -51,6 +51,7 @@ loopback JSON API and never reads memory itself.
    ```text
    python -m fm_bot status                      # connection, career, authority, next action, prerequisites
    python -m fm_bot register --label "Wycombe main" --confirm-lineage
+   python -m fm_bot confirm-lineage [--reason TEXT]   # vouch that the loaded save is the registered career
    python -m fm_bot snapshot [--json]           # one consistent snapshot and its status
    python -m fm_bot plan [--json]               # advisory plan with capability reports
    python -m fm_bot config get [name] / config set <name> <value> [--reason TEXT]
@@ -61,8 +62,10 @@ loopback JSON API and never reads memory itself.
 
    Global options: `--db PATH` (default `fm_bot.sqlite3`), `--bridge-url URL`
    (loopback only), `--adapter fake|windows` (default `fake`; `windows` fails
-   closed and says why). Exit codes: 0 ok, 1 game or bridge state, 2 setup
-   or usage, 3 another bot instance holds the manager lock.
+   closed and says why). Exit codes: 0 ok, 1 game or bridge state (a
+   disconnected bridge, an inconsistent snapshot, a stop for identity
+   resolution), 2 setup or usage, 3 another bot instance holds the manager
+   lock.
 
    The default authority mode is `advise`: proposals are recorded, nothing is
    sent to the game. Execution needs `config set authority_mode scoped`, an

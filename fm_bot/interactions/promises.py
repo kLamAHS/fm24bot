@@ -90,7 +90,13 @@ OUTGOING_CONFLICT_KINDS: frozenset[str] = frozenset({KIND_STARTING_ROLE, KIND_PL
 RECRUITMENT_ACTIONS: frozenset[str] = frozenset({"commit.transfer_offer", "commit.contract", "recruit", "transfers.buy", "loans.in"})
 RECRUITMENT_CONFLICT_KINDS: frozenset[str] = frozenset({KIND_STARTING_ROLE, KIND_PLAYING_TIME})
 SELECTION_ACTIONS: frozenset[str] = frozenset({"advise.lineup", "submit.lineup"})
-RENEWAL_ACTIONS: frozenset[str] = frozenset({"contracts.renew", "renew_contract"})
+# A renewal names the player it re-signs. ``commit.contract`` is in both sets
+# because a contract offer is a renewal when it names a player already at the
+# club and a recruitment when it does not, so the renewal branch is taken only
+# when the context carries a player id.
+RENEWAL_ACTIONS: frozenset[str] = frozenset({"contracts.renew", "renew_contract", "commit.contract"})
+RENEWAL_CONTRADICTED_KINDS: frozenset[str] = frozenset({KIND_ALLOW_TRANSFER})
+RENEWAL_FULFILLED_KINDS: frozenset[str] = frozenset({KIND_NEW_CONTRACT})
 
 
 class PromiseError(ValueError):
@@ -244,6 +250,8 @@ class PromiseLedger:
         player_id = context.get("player_id")
         if action_kind in OUTGOING_PLAYER_ACTIONS and player_id is not None:
             conflicts.extend(self._outgoing_conflicts(action_kind, int(player_id)))
+        elif action_kind in RENEWAL_ACTIONS and player_id is not None:
+            conflicts.extend(self._renewal_conflicts(action_kind, int(player_id), context.get("position")))
         elif action_kind in RECRUITMENT_ACTIONS:
             conflicts.extend(self._recruitment_conflicts(action_kind, context.get("position")))
         elif action_kind in SELECTION_ACTIONS and "starters" in context:
@@ -272,6 +280,37 @@ class PromiseLedger:
                 found.append(PromiseConflict(promise.promise_id, promise.party_id, action_kind, SEVERITY_WARNING, f"recruiting a {position or 'player'} competes with the {terms.kind} promise to {promise.party_id} ({where}): {promise.commitment!r}"))
             elif terms.kind == KIND_RECRUIT and (position is None or _covers(terms.position, position) or terms.position is None):
                 found.append(PromiseConflict(promise.promise_id, promise.party_id, action_kind, SEVERITY_INFO, f"recruitment progresses the promise {promise.commitment!r}"))
+        return found
+
+    def _renewal_conflicts(self, action_kind: str, player_id: int, position: str | None) -> list[PromiseConflict]:
+        """Promises a contract renewal for a player already at the club touches (spec 11.3).
+
+        A renewal does two things at once, so both are checked. It re-commits
+        the club to the player it names: an open promise to let him leave is
+        *contradicted* outright, a promised new contract is *fulfilled*, and
+        any other open promise to him is surfaced as information. It also
+        commits playing time at a position, so a starting-role or
+        playing-time promise held by *another* party that the renewal's
+        position covers competes with it. A ``recruit`` promise is not
+        progressed by a renewal: renewing an existing player is not the
+        signing that was promised, so it is not reported as progress.
+        """
+        found = []
+        for promise in self.for_party(player_id):
+            terms = self.terms(promise.promise_id)
+            if terms.kind in RENEWAL_CONTRADICTED_KINDS:
+                found.append(PromiseConflict(promise.promise_id, player_id, action_kind, SEVERITY_BLOCKING, f"{action_kind} contradicts the promise to let {player_id} leave: {promise.commitment!r}"))
+            elif terms.kind in RENEWAL_FULFILLED_KINDS:
+                found.append(PromiseConflict(promise.promise_id, player_id, action_kind, SEVERITY_INFO, f"{action_kind} fulfils the promise {promise.commitment!r}"))
+            else:
+                found.append(PromiseConflict(promise.promise_id, player_id, action_kind, SEVERITY_INFO, f"open promise to {player_id}: {promise.commitment!r}"))
+        for promise in self.open():
+            if promise.party_id == player_id:
+                continue
+            terms = self.terms(promise.promise_id)
+            if terms.kind in RECRUITMENT_CONFLICT_KINDS and _covers(terms.position, position):
+                where = terms.position or "any position"
+                found.append(PromiseConflict(promise.promise_id, promise.party_id, action_kind, SEVERITY_WARNING, f"renewing a {position or 'player'} commits playing time already promised to {promise.party_id} ({where}): {promise.commitment!r}"))
         return found
 
     def _selection_conflicts(self, action_kind: str, starters: list[int]) -> list[PromiseConflict]:

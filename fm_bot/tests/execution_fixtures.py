@@ -7,6 +7,7 @@ relies on. Money is exact GBP; wages weekly.
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import Any
 
@@ -17,9 +18,7 @@ from ..execution.executor import SingleWriterExecutor
 from ..execution.lifecycle import IntentFactory, enqueue, validate
 from ..rules.authority import AuthorityLimits, AuthorityMode, AuthorityProfile
 from ..rules.capabilities import CapabilityRegistry
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ActionIntent, ActionState, DecisionSnapshot
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.store import Store
 from ..state.units import Money, Period
 from . import fixtures as fx
@@ -45,6 +44,66 @@ def linked_world(adapter: FakeAdapter, *, session: str = fx.SESSION, game_date: 
     return fx.world(session=session, game_date=game_date, overrides={"/tactics": tactics})
 
 
+class TracingAdapter(FakeAdapter):
+    """A fake UI that records, in order, every screen identification the *executor* asked for and every input attempt.
+
+    Identifications made inside ``perform`` (the adapter's own refusal checks
+    and its step result) are not recorded, so the trace shows only what the
+    executor itself did between attempts - which is how a retry can be proven
+    to have re-identified the screen first (spec 12.3).
+    """
+
+    def __init__(self, **kw: Any):
+        super().__init__(**kw)
+        self.trace: list[tuple[Any, ...]] = []
+        self._performing = False
+
+    def identify_screen(self):
+        observation = super().identify_screen()
+        if not self._performing:
+            self.trace.append(("identify", observation.screen_id))
+        return observation
+
+    def perform(self, step):
+        self.trace.append(("perform", step.step_id, self.calls + 1))
+        self._performing = True
+        try:
+            return super().perform(step)
+        finally:
+            self._performing = False
+
+    def performs_of(self, step_id: str) -> list[tuple[Any, ...]]:
+        return [entry for entry in self.trace if entry[0] == "perform" and entry[1] == step_id]
+
+
+def same_tick_change(world: Any, route: str = "/tactics", *, stable_reads: int = 1, field: str = "mentality", value: str = "Attacking", keep_changing: bool = False) -> dict[str, int]:
+    """Make ``route`` change after ``stable_reads`` reads, with the game clock standing still.
+
+    That is the same-tick update the action-critical second stable read exists
+    for: the first read of the pre-execution snapshot still agrees with the
+    intent, and only a second read of the route shows that the state the input
+    is about has moved (spec 5.2, 12.2, OBS 03). With ``keep_changing`` every
+    later read differs again, as a route being written to throughout the tick
+    would. Returns the read counter.
+
+    ``world`` is anything holding the fake bridge and the fake UI: the
+    execution :class:`Harness` or a narrow-loop process.
+    """
+    base = linked_world(world.adapter)[route]
+    counter = {"reads": 0}
+
+    def read():
+        counter["reads"] += 1
+        status, body = base() if callable(base) else base
+        body = json.loads(json.dumps(body))
+        if counter["reads"] > stable_reads:
+            body["data"][field] = f"{value}-{counter['reads']}" if keep_changing else value
+        return status, body
+
+    world.client.transport.set(route, read)
+    return counter
+
+
 def scoped_profile(*families: str) -> AuthorityProfile:
     limits = AuthorityLimits(max_weekly_wage_commitment=Money.native_gbp(5000, Period.WEEKLY), max_total_fee_commitment=Money.native_gbp(500000, Period.ONCE), max_contract_years=4)
     return AuthorityProfile(AuthorityMode.SCOPED_EXECUTION, set(families or ("tactics", "selection", "training", "contracts")), limits, 3)
@@ -60,9 +119,22 @@ class Harness:
     registry: CapabilityRegistry
     profile: AuthorityProfile
     factory: IntentFactory
+    registered: fx.Registered
 
-    def snapshot(self, routes: list[str] | None = None) -> DecisionSnapshot:
-        snap = SnapshotCollector(self.client, self.store).collect(SnapshotRequirements(routes=list(routes or ROUTES)), CollectionContext(self.career_id, self.branch_id, lineage_confirmed=True))
+    def collect(self, routes: list[str] | None = None, *, action_critical: list[str] | None = None) -> DecisionSnapshot:
+        """Collect a snapshot exactly as asked, valid or not.
+
+        ``action_critical`` names the routes needing a second stable read; it
+        is what the executor passes as the pre-execution provider (spec 5.2,
+        12.2), and the executor - not the fixture - judges the result.
+        """
+        critical = [route for route in (action_critical or []) if route]
+        wanted = list(routes or ROUTES)
+        wanted += [route for route in critical if route not in wanted]
+        return self.registered.collect(wanted, action_critical=critical)
+
+    def snapshot(self, routes: list[str] | None = None, *, action_critical: list[str] | None = None) -> DecisionSnapshot:
+        snap = self.collect(routes, action_critical=action_critical)
         assert snap.valid, snap.consistency_reasons
         return snap
 
@@ -98,14 +170,13 @@ def harness(adapter: FakeAdapter | None = None, *, profile: AuthorityProfile | N
     in the fixture bridge decodes contract cash flows). ``adapter_capabilities``
     registers what the fake UI reports, as the connection step would.
     """
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
     adapter = adapter or FakeAdapter(offers=OFFERS)
-    client = BridgeClient(FakeTransport(linked_world(adapter)), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
+    registered = fx.registered_store(world_map=linked_world(adapter))
+    store = registered.store
     registry = CapabilityRegistry.from_status(fx.status_payload(), supported_builds=(fx.BUILD,))
     for name in provide:
         registry.provide(name, "operator", "test-only provision")
     if adapter_capabilities:
         for name in adapter.capabilities():
             registry.provide(name, f"ui_adapter:{adapter.name}", "reported by the fake adapter")
-    return Harness(store, career.career_id, branch.branch_id, adapter, client, registry, profile or scoped_profile(), IntentFactory(store))
+    return Harness(store, registered.career_id, registered.branch_id, adapter, registered.client, registry, profile or scoped_profile(), IntentFactory(store), registered)

@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import unittest
 
-from ..bridge_client.client import BridgeClient
 from ..bridge_client.transport import FakeTransport
 from ..rules.authority import AuthorityMode
 from ..rules.capabilities import ACTION_REQUIREMENTS, CapabilityRegistry
@@ -14,9 +13,7 @@ from ..rules.deadlines import (
     PendingAction, PendingActionsObservation, classify_event_type, continue_gate, next_decision_boundary, pending_actions, registration_actions,
     resolve_read_actions,
 )
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ConsistencyStatus
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import Observed
 from ..state.store import Store
 from ..state.views import upcoming_fixtures
@@ -26,17 +23,13 @@ ROUTES = ["/squad", "/fixtures", "/inbox", "/tactics"]
 
 
 def build_snapshot(*, inbox=None, game_date=fx.GAME_DATE, routes=ROUTES, fixtures=None):
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, game_date, fx.GAME_TIME))
     overrides = {}
     if inbox is not None:
         overrides["/inbox"] = FakeTransport.envelope(inbox, session_id=fx.SESSION)
     if fixtures is not None:
         overrides["/fixtures"] = FakeTransport.envelope(fixtures, session_id=fx.SESSION)
-    transport = FakeTransport(fx.world(game_date=game_date, overrides=overrides))
-    client = BridgeClient(transport, store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(routes)), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
-    return store, snap
+    snap = fx.snapshot_for(routes, overrides=overrides, game_date=game_date, require_valid=False)
+    return snap.store, snap
 
 
 def inbox_with(changes):

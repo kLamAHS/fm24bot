@@ -3,16 +3,12 @@ from __future__ import annotations
 
 import unittest
 
-from ..bridge_client.client import BridgeClient
 from ..interactions.inbox import (
     CAPABILITY_INBOX_TEXT, CAPABILITY_PENDING_ACTIONS, CONFIDENCE_CONFIRMED, CONFIDENCE_EXPLICIT_LIST, CONFIDENCE_HEURISTIC, CONFIDENCE_NONE,
     INBOX_PATTERNS_VERSION, KIND_DECISION_REQUIRED, KIND_INFORMATIONAL, KIND_UNKNOWN, TIME_STATUS_UNKNOWN, DeclaredInboxTextProvider, DialogueOption,
     InboxItem, InboxText, NoInboxTextProvider, classify, continue_blocked_by_inbox, inbox_item, inbox_items, unresolved_mandatory,
 )
-from ..state.identity import CareerRegistry, SaveManifest
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import ValueStatus
-from ..state.store import Store
 from . import fixtures as fx
 
 OFFER_TEXT = InboxText(501, "Transfer offer for Sam Wing", "Derby have offered £450k.", (DialogueOption("accept", "Accept the offer"), DialogueOption("reject", "Reject the offer"), DialogueOption("negotiate", "Negotiate")), None, True, None)
@@ -52,10 +48,7 @@ class InboxItemTests(unittest.TestCase):
         self.assertTrue(asserted.time_known)
 
     def test_items_from_snapshot(self):
-        store = Store.memory()
-        career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-        client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-        snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=["/inbox"]), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
+        snap = fx.snapshot_for(["/inbox"])
         items = inbox_items(snap)
         self.assertEqual(len(items), 3)
         self.assertIn(snap.snapshot_id, items[0].source)

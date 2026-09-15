@@ -3,11 +3,17 @@
 One executor holds the ``ui_writer`` lock for a game; a second instance is
 refused. Queued intents run first-in first-out. Immediately before any input
 the executor re-checks, in order: Stop, career and branch, snapshot
-consistency, source-object freshness, the availability of a validated
-workflow, the display environment, the identified screen and the legality of
-the first action on it, required capabilities, the authority profile, and
-input focus. Any failure ends the intent (EXPIRED or CANCELLED) or pauses it
-(focus) with no input sent.
+consistency, a second stable read of the intent's target routes,
+source-object freshness, the availability of a validated workflow, the
+display environment, the identified screen and the legality of the first
+action on it, required capabilities, the authority profile, and input focus.
+Any failure ends the intent (EXPIRED or CANCELLED) or pauses it (focus) with
+no input sent.
+
+The pre-execution read is asked for the intent's target routes as
+``action_critical``, so a same-tick change to the very state the input is
+about is caught between the two reads instead of being overwritten
+(spec 5.2, 12.2, OBS 03).
 
 The EXECUTING transition is persisted *before* the first input, so a crash
 between the two leaves an in-flight record for
@@ -24,6 +30,7 @@ EXECUTING (spec 12.3).
 """
 from __future__ import annotations
 
+import inspect
 from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Callable
@@ -45,7 +52,7 @@ LOCK_STALE_SECONDS = 300.0
 # Bounded retries for navigation-class steps after a fresh screen check (spec 12.3). Consequential steps: zero.
 NAVIGATION_RETRY_LIMIT = 2
 
-PREFLIGHT_ORDER = ("stop", "career_branch", "snapshot_valid", "freshness", "workflow", "environment", "screen", "capabilities", "authority", "focus")
+PREFLIGHT_ORDER = ("stop", "career_branch", "snapshot_valid", "action_critical", "freshness", "workflow", "environment", "screen", "capabilities", "authority", "focus")
 
 RECOVERY_INSTRUCTION_UNCERTAIN = "do not retry; run reconciliation (reconcile_uncertain / reconcile_on_restart) to establish the actual state from readback"
 
@@ -75,6 +82,46 @@ def unsettled_twin(store, kind: str, targets: dict[str, Any], *, branch_id: str 
 
 class WriterLockHeld(ExecutorError):
     """Another executor already controls the UI for this game."""
+
+
+def action_critical_routes(intent: ActionIntent) -> list[str]:
+    """The intent's target routes: the state the input is *about* (spec 5.2, 12.2, OBS 03).
+
+    Bridge reads are not atomic, so a route read once may already have moved
+    on when the input goes out. Everything the intent aims at therefore needs
+    a second stable read immediately before execution; the pre-execution
+    snapshot is asked for exactly these routes as ``action_critical``.
+    """
+    routes: list[str] = []
+    for route in (intent.targets or {}).get("routes") or []:
+        if isinstance(route, str) and route and route not in routes:
+            routes.append(route)
+    return routes
+
+
+def accepts_action_critical(provider: Callable[..., DecisionSnapshot]) -> bool:
+    """Whether ``provider`` can be asked for a second stable read of named routes.
+
+    A provider that cannot is never *assumed* to have taken one: the
+    ``action_critical`` preflight check then ends the intent with no input
+    sent, rather than treating an unestablished freshness as established.
+    """
+    try:
+        parameters = inspect.signature(provider).parameters.values()
+    except (TypeError, ValueError):       # pragma: no cover - builtins and C callables
+        return False
+    for parameter in parameters:
+        if parameter.kind is inspect.Parameter.VAR_KEYWORD:
+            return True
+        if parameter.name == "action_critical" and parameter.kind in (inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.KEYWORD_ONLY):
+            return True
+    return False
+
+
+def unestablished_action_critical(intent: ActionIntent, fresh: DecisionSnapshot) -> list[str]:
+    """Target routes the fresh snapshot did *not* take a second stable read of."""
+    taken = set((fresh.requirements or {}).get("action_critical") or [])
+    return [route for route in action_critical_routes(intent) if route not in taken]
 
 
 @dataclass
@@ -201,6 +248,13 @@ class SingleWriterExecutor:
         flag = getattr(self.adapter, "stop_flag", None)
         return self.stopped or bool(flag and flag.is_set())
 
+    def _fresh_snapshot(self, provider: Callable[..., DecisionSnapshot], intent: ActionIntent) -> DecisionSnapshot:
+        """The pre-execution read, asking for a second stable read of the intent's target routes (spec 5.2, 12.2)."""
+        routes = action_critical_routes(intent)
+        if routes and accepts_action_critical(provider):
+            return provider(action_critical=routes)
+        return provider()
+
     def preflight(self, intent: ActionIntent, fresh: DecisionSnapshot, screen: ScreenObservation) -> list[PreflightProblem]:
         """Every check that must pass immediately before the first input (spec 12.2). Returns problems in check order."""
         problems: list[PreflightProblem] = []
@@ -210,6 +264,9 @@ class SingleWriterExecutor:
             problems.append(PreflightProblem("career_branch", f"intent {intent.career_id}/{intent.branch_id} and snapshot {fresh.career_id}/{fresh.branch_id} must both be the executor's {self.career_id}/{self.branch_id}", ActionState.EXPIRED))
         if not fresh.valid:
             problems.append(PreflightProblem("snapshot_valid", f"fresh snapshot {fresh.consistency.value}: {fresh.consistency_reasons}", ActionState.EXPIRED))
+        unestablished = unestablished_action_critical(intent, fresh)
+        if unestablished:
+            problems.append(PreflightProblem("action_critical", f"the pre-execution read took no second stable read of {', '.join(unestablished)}; action-specific freshness is unestablished, not assumed", ActionState.EXPIRED))
         changes = context_changes(intent, fresh)
         if changes:
             problems.append(PreflightProblem("freshness", "; ".join(changes), ActionState.EXPIRED))
@@ -241,12 +298,19 @@ class SingleWriterExecutor:
             problems.append(PreflightProblem("authority", "; ".join(decision.reasons), ActionState.EXPIRED))
 
     # ----- execution -----
-    def run_next(self, fresh_snapshot_provider: Callable[[], DecisionSnapshot]) -> ExecutionReport | None:
+    def run_next(self, fresh_snapshot_provider: Callable[..., DecisionSnapshot]) -> ExecutionReport | None:
         """Execute the next queued intent. Returns ``None`` when nothing is queued.
 
         The store is the durable FIFO; the in-memory deque is refilled from it
         when empty, so intents queued by the lifecycle (or by a previous
         process) are picked up in creation order.
+
+        ``fresh_snapshot_provider`` is called with
+        ``action_critical=<the intent's target routes>`` so the pre-execution
+        read takes a second stable read of exactly the state the input is
+        about (spec 5.2, 12.2). A provider that cannot honour that is not
+        assumed to have done so: the ``action_critical`` preflight check then
+        expires the intent with no input sent.
         """
         if not self._queue and not self.stopped:
             self.load_queue()
@@ -259,7 +323,7 @@ class SingleWriterExecutor:
         if self._stop_requested():
             transition(self.store, intent, ActionState.CANCELLED, f"stop: {self.stop_reason}")
             return ExecutionReport(action_id, ActionState.CANCELLED, "stop requested before execution; no input sent")
-        fresh = fresh_snapshot_provider()
+        fresh = self._fresh_snapshot(fresh_snapshot_provider, intent)
         screen = self.adapter.identify_screen()
         before_ids = [*fresh.observation_ids, self._record_screen(screen, fresh)]
         problems = self.preflight(intent, fresh, screen)

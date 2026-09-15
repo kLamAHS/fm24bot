@@ -20,6 +20,17 @@ def flat_schedule(days: int = 30) -> list[dy.DailyLoad]:
     return [dy.DailyLoad(d, 1.0 if d % 2 else 0.95) for d in range(days)]
 
 
+def on_grid_truth() -> tuple[dy.FatigueParameters, dy.ObservationModel]:
+    """A latent truth sitting on the bounded search grid, so the heuristic optimiser can reach the true minimum exactly."""
+    bounds = dy.ParameterBounds().as_dict()
+
+    def point(name: str, index: int) -> float:
+        low, high = bounds[name]
+        return low + (high - low) * index / (dy.GRID_STEPS - 1)
+
+    return dy.FatigueParameters(point("alpha", 2), point("beta", 2)), dy.ObservationModel(point("offset", 5), point("scale", 4))
+
+
 def synthetic_measurements(loads, days, *, decimals=0, model=None, obs=OBS) -> list[dy.ConditionMeasurement]:
     predicted = dy.predict_conditions(model or dy.DiscreteFatigueModel(TRUE), obs, 0.0, loads)
     return [dy.ConditionMeasurement(d, round(predicted[d], decimals)) for d in days]
@@ -115,13 +126,50 @@ class FitTests(unittest.TestCase):
         self.assertIsNone(fit.parameters)
         self.assertEqual(fit.measurements_used, 3)
 
-    def test_continuous_model_kind_fits(self):
+    def test_continuous_model_with_informative_measurements_is_identified(self):
+        """MOD 01 / spec 10.2: an informative continuous-model series is identified, inside the declared bounds, with a stated reproduction error."""
         loads = exciting_schedule()
-        continuous = dy.ContinuousFatigueModel(TRUE)
-        fit = dy.fit_parameters(loads, synthetic_measurements(loads, range(0, 31), model=continuous), model_kind="continuous")
+        params, observation = on_grid_truth()
+        measurements = synthetic_measurements(loads, range(0, 31), decimals=1, model=dy.ContinuousFatigueModel(params), obs=observation)
+        fit = dy.fit_parameters(loads, measurements, model_kind="continuous", measurement_resolution=0.1)
+        self.assertEqual(fit.status, "identified", fit.reasons)
         self.assertEqual(fit.model_kind, "continuous")
-        self.assertIn(fit.status, ("identified", "unidentifiable"))
-        self.assertIsNotNone(fit.objective)
+        self.assertEqual(fit.reasons, [])
+        self.assertEqual(fit.measurements_used, 31)
+        bounds = dy.ParameterBounds().as_dict()
+        for name, value in (("alpha", fit.parameters.alpha), ("beta", fit.parameters.beta), ("offset", fit.observation.offset), ("scale", fit.observation.scale)):
+            self.assertGreaterEqual(value, bounds[name][0], name)
+            self.assertLessEqual(value, bounds[name][1], name)
+        self.assertAlmostEqual(fit.parameters.alpha, params.alpha, places=6)
+        self.assertAlmostEqual(fit.parameters.beta, params.beta, places=6)
+        self.assertAlmostEqual(fit.observation.offset, observation.offset, places=6)
+        self.assertAlmostEqual(fit.observation.scale, observation.scale, places=6)
+        self.assertLess(fit.objective, 0.1 ** 2)   # mean squared error inside one measurement step
+        predicted = dy.predict_conditions(dy.ContinuousFatigueModel(fit.parameters), fit.observation, 0.0, loads)
+        self.assertLess(max(abs(predicted[m.day] - m.condition) for m in measurements), 0.1)
+
+    def test_continuous_model_on_whole_point_measurements_is_unidentifiable(self):
+        """MOD 01 / spec 10.2: with the objective flat within the displayed measurement resolution, no player-specific parameters are produced.
+
+        The same schedule and the same latent truth as the identified case,
+        measured only to whole percentage points: many (alpha, beta) pairs then
+        reproduce the data equally well, so the fit refuses rather than
+        reporting a falsely precise player-specific model.
+        """
+        loads = exciting_schedule()
+        params, observation = on_grid_truth()
+        measurements = synthetic_measurements(loads, range(0, 31), decimals=0, model=dy.ContinuousFatigueModel(params), obs=observation)
+        fit = dy.fit_parameters(loads, measurements, model_kind="continuous", measurement_resolution=1.0)
+        self.assertEqual(fit.status, "unidentifiable", fit.reasons)
+        self.assertIsNone(fit.parameters)
+        self.assertIsNone(fit.observation)
+        self.assertEqual(fit.model_kind, "continuous")
+        self.assertEqual(fit.measurements_used, 31)
+        self.assertIn("objective flat within tolerance", fit.reasons)
+        self.assertGreater(fit.near_optimal_spread["alpha"], dy.IDENTIFIABLE_SPREAD_FRACTION)
+        estimate = dy.individual_estimate(fit, dy.pooled_prior([]))
+        self.assertEqual(estimate.basis, "unavailable")
+        self.assertIsNone(estimate.alpha)
 
     def test_invalid_arguments(self):
         with self.assertRaises(ValueError):

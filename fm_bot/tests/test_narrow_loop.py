@@ -16,6 +16,7 @@ standing in for the planner, which has no tactic catalog to draw from.
 """
 from __future__ import annotations
 
+import datetime as dt
 import shutil
 import tempfile
 import unittest
@@ -32,7 +33,7 @@ from ..execution.reconciliation import reconcile_uncertain
 from ..interface.controls import Settings
 from ..interface.explain import explain_action
 from ..interface.notify import NotificationKind
-from ..orchestrator import FakeClock, Orchestrator, PassStatus
+from ..orchestrator import MANAGER_LOCK, MANAGER_LOCK_STALE_SECONDS, FakeClock, ManagerLockHeld, Orchestrator, PassStatus
 from ..rules.authority import AuthorityMode
 from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ActionState, DecisionSnapshot
@@ -40,7 +41,7 @@ from ..state.status import ValueStatus
 from ..state.store import Store, StoreError
 from ..state.views import tactic_view
 from . import fixtures as fx
-from .execution_fixtures import linked_world
+from .execution_fixtures import linked_world, same_tick_change
 
 # Test-only catalog: id -> the name the game stores. Mirrors the FakeAdapter default so the
 # bridge's ``/tactics`` stored_name (linked world) corroborates the UI readback.
@@ -130,15 +131,31 @@ def catalog_planner(adapter: FakeAdapter):
     return plan_once
 
 
+class LoopClock(FakeClock):
+    """A fake clock whose *wall-clock* reading advances with it.
+
+    ``FakeClock.utc_now`` wraps every 60 seconds, which cannot express "this
+    lock heartbeat is older than the stale threshold". This one is a plain
+    offset from a fixed instant, so a restart can be placed any number of
+    seconds after a crash without sleeping (spec 4.2, 12.4).
+    """
+
+    EPOCH = dt.datetime(2026, 1, 1, tzinfo=dt.timezone.utc)
+
+    def utc_now(self) -> str:
+        return (self.EPOCH + dt.timedelta(seconds=self.now)).isoformat()
+
+
 class Process:
     """One bot process over an on-disk store: registry, settings, bridge client, orchestrator.
 
     ``register=True`` registers the career (first run); a later process
     identifies the career from the registry instead. ``lock_stale_seconds``
-    is the takeover policy for locks left by a dead process.
+    is the takeover policy for locks left by a dead process, judged against
+    ``clock`` - the same clock the orchestrator uses for everything else.
     """
 
-    def __init__(self, db_path: str, adapter: FakeAdapter, *, register: bool = False, families: tuple[str, ...] = ("tactics",), lock_stale_seconds: float = 300.0, planner=None, provisions: dict[str, str] | None = None):
+    def __init__(self, db_path: str, adapter: FakeAdapter, *, register: bool = False, families: tuple[str, ...] = ("tactics",), lock_stale_seconds: float = MANAGER_LOCK_STALE_SECONDS, planner=None, provisions: dict[str, str] | None = None, clock: FakeClock | None = None):
         self.store = Store(db_path)
         registry = CareerRegistry(self.store)
         if register:
@@ -156,8 +173,12 @@ class Process:
             self.settings.save()
             self.settings.change("authority_mode", "scoped", reason="narrow loop")
             self.settings.change("action_families", list(families), reason="narrow loop")
-        self.clock = FakeClock()
-        self.orchestrator = Orchestrator(self.store, self.client, adapter, self.settings, career=self.career, branch=self.branch, lineage_confirmed=True, clock=self.clock, sleep=self.clock.advance, planner=planner, provisions=provisions, lock_stale_seconds=lock_stale_seconds)
+        self.clock = clock or LoopClock()
+        try:
+            self.orchestrator = Orchestrator(self.store, self.client, adapter, self.settings, career=self.career, branch=self.branch, lineage_confirmed=True, clock=self.clock, sleep=self.clock.advance, planner=planner, provisions=provisions, lock_stale_seconds=lock_stale_seconds)
+        except ManagerLockHeld:
+            self.store.close()          # a refused instance leaves nothing behind, not even a connection
+            raise
         self.dead = False
 
     def die(self) -> None:
@@ -344,7 +365,7 @@ class InterruptionTests(NarrowLoopCase):
         executor = SingleWriterExecutor(second.store, adapter, owner_id="exec-restart", registry=second.orchestrator.capabilities, profile=second.settings.authority_profile(), career_id=second.career.career_id, branch_id=second.branch.branch_id, workflows=FAKE_WORKFLOWS, lock_stale_seconds=0)
         try:
             self.assertEqual(executor.load_queue(), [])
-            self.assertIsNone(executor.run_next(lambda: second.orchestrator.collect("pre-execution")))
+            self.assertIsNone(executor.run_next(lambda action_critical=(): second.orchestrator.collect("pre-execution", action_critical=action_critical)))
         finally:
             executor.close()
         self.assertEqual(adapter.calls, 2)
@@ -476,6 +497,61 @@ class FreshContextTests(NarrowLoopCase):
         # the stored tactic is now outside the catalog, so a fresh proposal is refused rather than guessed
         with self.assertRaises(LookupError):
             propose_tactic_change(fresh)
+
+    def test_obs03_a_same_tick_change_to_the_target_route_stops_the_input_end_to_end(self):
+        """OBS 03 / spec 5.2, 12.2: ``/tactics`` agrees with the intent on the first read the orchestrator takes immediately
+        before execution and has moved on by the second, with the game clock standing still. The pre-execution read asks for
+        that second stable read of the target route, so the change is caught and no input is sent."""
+        adapter = FakeAdapter()
+        proc, snapshot = self.connected(adapter)
+        action = propose_tactic_change(snapshot)
+        counter = same_tick_change(proc, "/tactics", stable_reads=1)
+        report = proc.orchestrator.execute(action, snapshot)
+        self.assertIsInstance(report, ExecutionReport, report)
+        self.assertIs(report.state, ActionState.EXPIRED, report.reason)
+        self.assertGreaterEqual(counter["reads"], 2, "the pre-execution read really read the target route twice")
+        self.assertEqual(adapter.calls, 0)
+        self.assertEqual(adapter.inputs, [])
+        self.assertEqual(adapter.selected_tactic_id, "balanced-01")
+        self.assertIs(proc.store.get_intent(report.action_id).state, ActionState.EXPIRED)
+        self.assertEqual(proc.store.journal_entries("ui.input", report.action_id), [])
+        pre_execution = [e["body"] for e in proc.store.journal_entries("snapshot")][-1]
+        self.assertEqual(pre_execution["requirements"]["label"], "pre-execution")
+        self.assertEqual(pre_execution["requirements"]["action_critical"], ["/tactics"])
+
+
+class ManagerLockTests(NarrowLoopCase):
+    """One manager per game, and takeover only of a lock whose heartbeat is genuinely old (spec 4.2, 12.4)."""
+
+    def test_a_fresh_manager_lock_is_refused_even_when_its_process_is_dead(self):
+        """Spec 4.2: nothing distinguishes a dead process from a working one but its heartbeat, so a *fresh* foreign lock is
+        refused - a crash a second ago must not let a second instance start driving the same game."""
+        adapter = FakeAdapter()
+        first = self.start(adapter, register=True)
+        self.assertEqual(first.store.lock_owner(MANAGER_LOCK), first.orchestrator.owner_id)
+        first.die()                                    # killed; the lock and its heartbeat stay behind
+        just_before_stale = LoopClock(MANAGER_LOCK_STALE_SECONDS - 1)
+        with self.assertRaises(ManagerLockHeld):
+            self.start(adapter, clock=just_before_stale)
+        self.assertEqual(Store(self.db_path).lock_owner(MANAGER_LOCK), first.orchestrator.owner_id, "the lock still belongs to the dead process")
+        self.assertEqual(just_before_stale.sleeps, [], "the judgement is made from the clock, not by waiting")
+
+    def test_rec01_a_heartbeat_older_than_the_stale_threshold_is_taken_over(self):
+        """REC 01 / spec 12.4: a restart that happens later than ``MANAGER_LOCK_STALE_SECONDS`` after the crash takes the
+        abandoned lock over at the real threshold, connects and heartbeats as the owner - no degenerate threshold, no sleeping."""
+        adapter = FakeAdapter()
+        first = self.start(adapter, register=True)
+        first.die()
+        after_stale = LoopClock(MANAGER_LOCK_STALE_SECONDS + 1)
+        second = self.start(adapter, clock=after_stale)
+        self.assertNotEqual(second.orchestrator.owner_id, first.orchestrator.owner_id)
+        self.assertEqual(second.store.lock_owner(MANAGER_LOCK), second.orchestrator.owner_id)
+        self.assertEqual(after_stale.sleeps, [], "the takeover is judged from the clock, not by waiting for it")
+        self.assertTrue(second.orchestrator.connect().ok)
+        self.assertTrue(second.orchestrator.heartbeat())
+        # and once it owns the lock, a third instance arriving right after is refused again
+        with self.assertRaises(ManagerLockHeld):
+            self.start(adapter, clock=LoopClock(MANAGER_LOCK_STALE_SECONDS + 2))
 
 
 if __name__ == "__main__":

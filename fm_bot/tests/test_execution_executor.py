@@ -10,7 +10,7 @@ from ..execution.verification import VerdictKind
 from ..rules.authority import AuthorityMode
 from ..state.records import ActionState, ExecutionOutcome
 from ..state.status import ValueStatus
-from .execution_fixtures import harness
+from .execution_fixtures import TracingAdapter, harness, same_tick_change
 
 
 def queued_tactic(h, **kw):
@@ -60,7 +60,9 @@ class HappyPathTests(unittest.TestCase):
         self.assertIsNone(executor.run_next(h.snapshot))
 
     def test_navigation_step_retries_after_fresh_screen_check(self):
-        h = harness()
+        """Spec 12.3: a navigation step may be retried, but only after the screen has been identified again - the trace must show
+        identify/perform interleaved, never two inputs in a row off one stale screen read."""
+        h = harness(TracingAdapter())
         h.adapter.inject("timeout_before_effect", on_step=1)
         executor = h.executor()
         queued_tactic(h)
@@ -68,6 +70,32 @@ class HappyPathTests(unittest.TestCase):
         self.assertIs(report.state, ActionState.CONFIRMED, report.reason)
         self.assertEqual(h.adapter.calls, 3, "one navigation retry, then the consequential step once")
         self.assertEqual(report.inputs_sent, 3)
+        # The retry is preceded by its own screen identification, and the consequential step by another one.
+        self.assertEqual(h.adapter.trace[:7], [
+            ("identify", "home"),                    # the pre-execution screen check
+            ("identify", "home"), ("perform", "go_tactics", 1),    # attempt 1: timed out before any effect
+            ("identify", "home"), ("perform", "go_tactics", 2),    # the fresh screen check, then the retry
+            ("identify", "tactics"), ("perform", "select", 3),     # the consequential step on the screen just identified
+        ])
+        performs = [entry for entry in h.adapter.trace if entry[0] == "perform"]
+        for previous, current in zip(performs, performs[1:]):
+            between = h.adapter.trace[h.adapter.trace.index(previous) + 1:h.adapter.trace.index(current)]
+            self.assertIn("identify", [entry[0] for entry in between], f"no fresh screen check between {previous} and {current}")
+
+    def test_a_consequential_step_is_never_retried_even_after_a_fresh_screen_check(self):
+        """Spec 12.3: the retry allowance is for navigation only. A consequential step that times out is performed exactly once
+        and the executor stops there; no second screen check and no second dispatch of the same input (ACT 02)."""
+        h = harness(TracingAdapter())
+        h.adapter.inject("timeout_before_effect", on_step=2)     # the select times out before any effect
+        executor = h.executor()
+        queued_tactic(h)
+        report = executor.run_next(h.snapshot)
+        self.assertIs(report.state, ActionState.UNCERTAIN, report.reason)
+        self.assertIn("never retried", report.reason)
+        self.assertEqual(h.adapter.performs_of("select"), [("perform", "select", 2)], "the consequential step ran exactly once")
+        self.assertEqual(h.adapter.performs_of("go_tactics"), [("perform", "go_tactics", 1)])
+        self.assertEqual(h.adapter.trace.index(("perform", "select", 2)), len(h.adapter.trace) - 2, "nothing was attempted after it but the after-evidence screen read")
+        self.assertEqual(h.adapter.selected_tactic_id, "balanced-01")
 
     def test_navigation_retries_are_bounded(self):
         h = harness()
@@ -79,6 +107,90 @@ class HappyPathTests(unittest.TestCase):
         self.assertIs(report.state, ActionState.FAILED)
         self.assertIn("retries", report.reason)
         self.assertEqual(h.adapter.selected_tactic_id, "balanced-01")
+
+
+class ActionCriticalFreshnessTests(unittest.TestCase):
+    def test_obs03_the_pre_execution_read_takes_a_second_stable_read_of_the_target_routes(self):
+        """OBS 03 / spec 5.2, 12.2: the snapshot taken immediately before the input names the intent's target routes as
+        action-critical, so they are read twice and compared; the after-evidence read needs no second read."""
+        h = harness()
+        executor = h.executor()
+        intent = queued_tactic(h)
+        self.assertEqual(intent.targets, {"routes": ["/tactics"]})
+        asked: list[dict] = []
+        collected = []
+
+        def provider(**kw):
+            asked.append(dict(kw))
+            snap = h.collect(**kw)
+            collected.append(snap)
+            return snap
+
+        report = executor.run_next(provider)
+        self.assertIs(report.state, ActionState.CONFIRMED, report.reason)
+        self.assertEqual(asked, [{"action_critical": ["/tactics"]}, {}], "pre-execution asks for the targets; the after read does not")
+        self.assertEqual(collected[0].requirements["action_critical"], ["/tactics"])
+        self.assertIn("/tactics", collected[0].entity_versions)
+
+    def test_obs03_a_provider_that_cannot_reread_the_targets_expires_the_intent_without_input(self):
+        """OBS 03: an unestablished second stable read is never treated as an established one. A pre-execution provider that
+        cannot reread the target routes ends the intent EXPIRED with no input sent (spec 5.2: no fabricated freshness)."""
+        h = harness()
+        executor = h.executor()
+        intent = queued_tactic(h)
+        report = executor.run_next(lambda: h.collect())        # no action-critical reread possible
+        self.assertIs(report.state, ActionState.EXPIRED)
+        self.assertEqual([p.check for p in report.problems], ["action_critical"])
+        self.assertIn("/tactics", report.reason)
+        self.assertIn("unestablished, not assumed", report.reason)
+        self.assertEqual(h.adapter.inputs, [])
+        self.assertIs(h.store.get_intent(intent.action_id).state, ActionState.EXPIRED)
+        self.assertEqual(h.store.journal_entries("ui.input", intent.action_id), [])
+
+    def test_obs03_a_same_tick_change_to_a_target_route_stops_the_input(self):
+        """OBS 03 / spec 5.2, 12.2: ``/tactics`` still agrees with the intent on the first read of the pre-execution snapshot and
+        changes before the second, with the game clock standing still. The second stable read catches it: no input is sent, the
+        intent expires and the state the input would have acted on is recorded."""
+        h = harness()
+        executor = h.executor()
+        intent = queued_tactic(h)
+        counter = same_tick_change(h, "/tactics", stable_reads=1)   # the pre-execution snapshot's first read still agrees; the next one does not
+        report = executor.run_next(h.collect)
+        self.assertIs(report.state, ActionState.EXPIRED, report.reason)
+        self.assertGreaterEqual(counter["reads"], 2, "the target route really was read twice in the pre-execution snapshot")
+        self.assertIn("/tactics changed since the decision", report.reason)
+        self.assertEqual(h.adapter.inputs, [], "no input went out")
+        self.assertEqual(h.adapter.selected_tactic_id, "balanced-01")
+        self.assertIs(h.store.get_intent(intent.action_id).state, ActionState.EXPIRED)
+        self.assertEqual(h.store.journal_entries("ui.input", intent.action_id), [])
+        # Evidence: the pre-execution read is journaled, asked for the second read, and disagrees with the intent it was checking.
+        pre_execution = [e["body"] for e in h.store.journal_entries("snapshot")][-1]
+        self.assertEqual(pre_execution["requirements"]["action_critical"], ["/tactics"])
+        self.assertNotEqual(pre_execution["entity_versions"]["/tactics"], intent.entity_versions["/tactics"])
+        for oid in pre_execution["observation_ids"]:
+            self.assertIsNotNone(h.store.get_observation(oid, with_payload=False), oid)
+
+    def test_obs03_a_target_route_still_moving_within_the_tick_invalidates_the_pre_execution_read(self):
+        """OBS 03 / spec 5.2: a target route being written to throughout the tick never reads back stable, so no snapshot is
+        accepted and no input is sent. The exhausted read is journaled - naming the action-critical route - with its
+        observations, so what was seen is preserved instead of replaced by an optimistic assumption."""
+        h = harness()
+        executor = h.executor()
+        intent = queued_tactic(h)
+        same_tick_change(h, "/tactics", stable_reads=1, keep_changing=True)
+        report = executor.run_next(h.collect)
+        self.assertIs(report.state, ActionState.EXPIRED, report.reason)
+        self.assertEqual(report.problems[0].check, "snapshot_valid")
+        self.assertIn("action-critical route /tactics changed between reads", report.reason)
+        self.assertEqual(h.adapter.inputs, [])
+        self.assertIs(h.store.get_intent(intent.action_id).state, ActionState.EXPIRED)
+        self.assertEqual(h.store.journal_entries("ui.input", intent.action_id), [])
+        exhausted = [e["body"] for e in h.store.journal_entries("snapshot")][-1]
+        self.assertEqual(exhausted["consistency"], "attempts_exhausted")
+        self.assertTrue(any("action-critical route /tactics changed between reads" in reason for reason in exhausted["consistency_reasons"]), exhausted["consistency_reasons"])
+        self.assertTrue(exhausted["observation_ids"])
+        for oid in exhausted["observation_ids"]:
+            self.assertIsNotNone(h.store.get_observation(oid, with_payload=False), oid)
 
 
 class PreflightTests(unittest.TestCase):

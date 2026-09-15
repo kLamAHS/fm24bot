@@ -159,6 +159,19 @@ class StatusTests(unittest.TestCase):
         self.assertIn("settings:", evidence)
         self.assertEqual(view.to_json()["version"], status.STATUS_VIEW_VERSION)
 
+    def test_id01_an_unconfirmed_lineage_names_the_command_that_confirms_it(self):
+        """ID 01 / spec 5.1: the one thing the operator must do is named on the screen, and it is the command that confirms the
+        registered career - not a second registration, which would fork the history."""
+        h = harness()
+        career, branch = h.store.get_career(h.career_id), h.store.get_branch(h.branch_id)
+        set_active_career(h.store, career.career_id, branch.branch_id, lineage_confirmed=False)
+        text = render_text(build_view(h.store))
+        self.assertIn("lineage not yet confirmed", text)
+        self.assertIn(f"run `{status.CONFIRM_LINEAGE_COMMAND}`", text)
+        self.assertIn("registering again would start a second career", text)
+        set_active_career(h.store, career.career_id, branch.branch_id, lineage_confirmed=True)
+        self.assertNotIn("lineage", render_text(build_view(h.store)))
+
     def test_connection_text_distinguishes_unknown_disconnected_and_unsupported(self):
         store = Store.memory()
         self.assertIn("not checked", render_text(build_view(store)))

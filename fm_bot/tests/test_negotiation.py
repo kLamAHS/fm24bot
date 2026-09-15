@@ -4,14 +4,10 @@ from __future__ import annotations
 import unittest
 from fractions import Fraction
 
-from ..bridge_client.client import BridgeClient
 from ..planning import finance as fin
 from ..planning import negotiation as neg
-from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import Certainty, MovementKind
-from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
 from ..state.status import Observed
-from ..state.store import Store
 from ..state.units import Money, Period, UnitError
 from ..state.views import FinanceView, finance_view
 from . import fixtures as fx
@@ -42,10 +38,7 @@ def reservation(**kw) -> neg.ReservationPackage:
 
 
 def live_finance():
-    store = Store.memory()
-    career, branch, _ = CareerRegistry(store).register_career("t", SaveManifest(fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME))
-    client = BridgeClient(fx.transport(), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
-    snap = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=["/finances", "/squad", "/staff"]), CollectionContext(career.career_id, branch.branch_id, lineage_confirmed=True))
+    snap = fx.snapshot_for(["/finances", "/squad", "/staff"])
     view = finance_view(snap)
     return view, fin.CommitmentLedger.from_snapshot(snap, view)
 
@@ -309,6 +302,45 @@ class StateMachineTests(unittest.TestCase):
         self.assertIs(self.machine.state, neg.NegotiationState.WALKED_AWAY)
         with self.assertRaises(neg.NegotiationError):
             self.machine.record_offer(buy_offer(), "counterparty")
+
+    def test_round_limit_is_counted_from_the_rounds_the_machine_actually_saw(self):
+        """Spec 8.3: the walk-away condition is driven through real rounds, not asserted on propose_counter alone.
+
+        Each round the counterparty moves (a different wage, so the repeated-offer
+        rule cannot fire) and the club counters. The machine walks away on the
+        round that reaches ``max_rounds``, which only happens if ``counter()``
+        passes its own :meth:`rounds` count into the counter heuristic.
+        """
+        pack = reservation()
+        seen = []
+        for wage in (6000, 5900, 5800, 5700):
+            self.machine.record_offer(buy_offer(terms={"weekly_wage": {"amount": wage, "start_date": "2024-02-20", "end_date": "2026-06-30"}}), "counterparty")
+            self.assertIs(self.machine.state, neg.NegotiationState.COUNTERED)
+            proposal = self.machine.counter()
+            seen.append((self.machine.rounds(), proposal.kind))
+            if proposal.walk_away:
+                break
+        self.assertEqual(seen, [(1, "counter"), (2, "counter"), (3, "counter"), (4, "walk_away")])
+        self.assertEqual(self.machine.rounds(), pack.max_rounds, "four counterparty versions were seen")
+        self.assertEqual(len(self.machine.versions), 7, "three club counters were recorded; the fourth round walked away instead of countering")
+        self.assertIs(self.machine.state, neg.NegotiationState.WALKED_AWAY)
+        self.assertTrue(any(f"round limit {pack.max_rounds} reached" in h["reason"] for h in self.machine.history), self.machine.history)
+        self.assertIn(pack.walk_away_condition, self.machine.history[-1]["reason"])
+        with self.assertRaises(neg.NegotiationError):
+            self.machine.counter()
+
+    def test_a_shorter_round_limit_walks_away_earlier_through_the_machine(self):
+        """Spec 8.3: the limit is the reservation package's, read per negotiation, not a constant."""
+        machine = neg.NegotiationStateMachine(OXFORD, reservation(max_rounds=2), "buy")
+        machine.record_offer(buy_offer(terms={"weekly_wage": {"amount": 6000, "start_date": "2024-02-20", "end_date": "2026-06-30"}}), "counterparty")
+        self.assertEqual(machine.counter().kind, "counter")
+        machine.record_offer(buy_offer(terms={"weekly_wage": {"amount": 5900, "start_date": "2024-02-20", "end_date": "2026-06-30"}}), "counterparty")
+        self.assertEqual(machine.rounds(), 2)
+        proposal = machine.counter()
+        self.assertTrue(proposal.walk_away)
+        self.assertTrue(any("round limit 2 reached" in r for r in proposal.reasons), proposal.reasons)
+        self.assertIs(machine.state, neg.NegotiationState.WALKED_AWAY)
+        self.assertEqual(len(machine.versions), 3, "no fourth version: the walk-away records no counter")
 
     def test_illegal_transitions_raise(self):
         with self.assertRaises(neg.NegotiationError):
