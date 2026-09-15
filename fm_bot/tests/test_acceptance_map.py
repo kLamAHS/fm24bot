@@ -14,8 +14,10 @@ import unittest
 from os import path
 
 TESTS_DIR = path.dirname(path.abspath(__file__))
-REPO_ROOT = path.dirname(path.dirname(TESTS_DIR))
+PACKAGE_DIR = path.dirname(TESTS_DIR)
+REPO_ROOT = path.dirname(PACKAGE_DIR)
 SPEC_PATH = path.join(REPO_ROOT, "docs", "FM24_Bot_Design_Specification.md")
+README_PATH = path.join(PACKAGE_DIR, "README.md")
 
 # ID -> "test_file.py::TestClass::test_method" entries. Reviewed by hand; verified by the tests below.
 ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
@@ -132,11 +134,46 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
 }
 
 
+def _section_14(spec_text: str) -> str:
+    start = spec_text.index("\n## 14 ")
+    return spec_text[start:spec_text.index("\n## 15 ", start)]
+
+
 def spec_acceptance_ids(spec_text: str) -> list[str]:
     """The IDs in the first column of the section 14 table, in spec order."""
-    start = spec_text.index("\n## 14 ")
-    end = spec_text.index("\n## 15 ", start)
-    return re.findall(r"^\| ([A-Z]{2,3} \d{2}) \|", spec_text[start:end], flags=re.M)
+    return re.findall(r"^\| ([A-Z]{2,3} \d{2}) \|", _section_14(spec_text), flags=re.M)
+
+
+def spec_requirements(spec_text: str) -> dict[str, str]:
+    """ID -> the requirement wording in the second column of the section 14 table."""
+    rows = re.findall(r"^\| ([A-Z]{2,3} \d{2}) \| ([^|]+?) \|", _section_14(spec_text), flags=re.M)
+    return {acceptance_id: requirement.strip() for acceptance_id, requirement in rows}
+
+
+def readme_rows(readme_text: str) -> list[tuple[str, str, tuple[str, ...]]]:
+    """The README's acceptance table as ``(id, requirement, entries)``, in README order.
+
+    The table is the one headed ``| ID | Requirement | Tests |``; each Tests
+    cell lists ``file::class::test`` entries in backticks, separated by
+    ``<br>``. Parsing it is what lets a test refuse README drift.
+    """
+    header = "| ID | Requirement | Tests |"
+    if header not in readme_text:
+        return []
+    body = readme_text[readme_text.index(header) + len(header):]
+    rows: list[tuple[str, str, tuple[str, ...]]] = []
+    for line in body.splitlines():
+        line = line.strip()
+        if not line.startswith("|"):
+            if rows:
+                break
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) != 3 or not re.fullmatch(r"[A-Z]{2,3} \d{2}", cells[0]):
+            continue
+        entries = tuple(match.group(1).strip() for match in re.finditer(r"`([^`]+)`", cells[2]))
+        rows.append((cells[0], cells[1], entries))
+    return rows
 
 
 def _pattern(acceptance_id: str) -> re.Pattern[str]:
@@ -194,6 +231,44 @@ def render_map() -> str:
     for acceptance_id, entries in ACCEPTANCE_MAP.items():
         lines.append(f"| {acceptance_id} | " + "<br>".join(f"`{e}`" for e in entries) + " |")
     return "\n".join(lines)
+
+
+class ReadmeTableTests(unittest.TestCase):
+    """``fm_bot/README.md``'s acceptance table must say exactly what :data:`ACCEPTANCE_MAP` says.
+
+    The README is the document an operator reads; the map is what the tests
+    above check against the spec and the test files. If the two are allowed to
+    disagree the README quietly starts claiming coverage that no test has, so
+    this compares them entry by entry, in order.
+    """
+
+    def setUp(self):
+        with open(README_PATH, encoding="utf-8") as handle:
+            self.rows = readme_rows(handle.read())
+
+    def test_readme_has_the_acceptance_table(self):
+        self.assertTrue(self.rows, f"{README_PATH} has no parsable `| ID | Requirement | Tests |` table")
+
+    def test_readme_lists_the_same_ids_in_the_same_order(self):
+        self.assertEqual([row[0] for row in self.rows], list(ACCEPTANCE_MAP))
+
+    def test_readme_lists_exactly_the_mapped_tests_for_every_id(self):
+        listed = {row[0]: row[2] for row in self.rows}
+        for acceptance_id, entries in ACCEPTANCE_MAP.items():
+            with self.subTest(acceptance_id=acceptance_id):
+                self.assertIn(acceptance_id, listed, f"{acceptance_id} is missing from the README table")
+                self.assertEqual(
+                    listed[acceptance_id], entries,
+                    f"{acceptance_id}: the README table and ACCEPTANCE_MAP disagree; "
+                    f"README has {listed[acceptance_id]}, the map has {entries}",
+                )
+
+    def test_readme_requirement_wording_is_the_spec_wording(self):
+        with open(SPEC_PATH, encoding="utf-8") as handle:
+            requirements = spec_requirements(handle.read())
+        for acceptance_id, requirement, _ in self.rows:
+            with self.subTest(acceptance_id=acceptance_id):
+                self.assertEqual(requirement, requirements[acceptance_id])
 
 
 class SpecTableTests(unittest.TestCase):

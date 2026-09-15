@@ -10,15 +10,22 @@ from __future__ import annotations
 import io
 import json
 import os
+import sqlite3
 import tempfile
 import unittest
 from typing import Any
 
 from .. import __main__ as cli
+from ..bridge_client.client import BridgeClient
 from ..bridge_client.transport import FakeTransport
+from ..execution.lifecycle import IntentFactory, transition
 from ..interface.status import build_view
 from ..orchestrator import FakeClock, PassResult, PassStatus, RunLevel
-from ..state.store import Store
+from ..state.records import ActionState
+from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from ..state.identity import utc_now
+from ..state.store import SCHEMA_VERSION, Store
+from ..state.visibility import InformationMode
 from . import fixtures as fx
 
 
@@ -372,6 +379,31 @@ class RunAndReconcileTests(CliCase):
         code, out, _ = self.run_cli("config", "get", "authority_mode")
         self.assertIn('"observe"', out)
 
+    def test_run_authority_is_a_configuration_change_and_survives_a_refused_lock(self):
+        """Spec 1.2: ``--authority`` is a configuration change the operator typed, so it is saved, versioned, journaled and
+        reported even when the run is then refused with exit 3 - the manager lock (4.2) guards the writer, not the settings,
+        and ``config set authority_mode`` is equally available while a rival instance runs. Nothing is silently rolled back."""
+        self.register("--confirm-lineage")
+        rival = Store(self.db)
+        try:
+            self.assertTrue(rival.acquire_lock("manager", "rival-instance", now=self.clock.utc_now()))
+            code, out, err = self.run_cli("run", "--once", "--authority", "autonomy")
+            self.assertEqual(code, cli.EXIT_LOCK, err)
+            self.assertIn("manager lock is held by 'rival-instance'", err)
+            self.assertIn("Authority mode set to club_autonomy", out, "the operator is told what was saved")
+            self.assertEqual(rival.lock_owner("manager"), "rival-instance", "the refused run never took the lock")
+        finally:
+            rival.close()
+        code, out, _ = self.run_cli("config", "get", "authority_mode")
+        self.assertIn('"club_autonomy"', out)
+        self.assertIn("authority_mode (v2)", out, "one change, one version - no rollback churn")
+        store = Store(self.db)
+        try:
+            entries = store.journal_entries(kind="settings.changed")
+        finally:
+            store.close()
+        self.assertTrue(any(e["body"].get("reason") == "run --authority" for e in entries), "the change is auditable")
+
     def test_run_with_windows_adapter_reports_fail_closed(self):
         self.register("--confirm-lineage")
         code, out, err = self.run_cli("--adapter", "windows", "run", "--once")
@@ -403,6 +435,56 @@ class RunAndReconcileTests(CliCase):
         code, out, err = self.run_cli("reconcile")
         self.assertEqual(code, cli.EXIT_OK, err)
         self.assertIn("nothing to reconcile", out)
+
+    def _in_flight_intent(self, state=ActionState.EXECUTING):
+        """One intent left in flight by an earlier process, over the registered career of this database."""
+        store = Store(self.db)
+        career = store.list_careers()[0]
+        branch = store.list_branches(career.career_id)[0]
+        client = BridgeClient(FakeTransport(dict(self.world)), store, context={"career_id": career.career_id, "branch_id": branch.branch_id})
+        context = CollectionContext(career.career_id, branch.branch_id, InformationMode.BRIDGE_OBSERVED, None, True, False, None, 0)
+        snapshot = SnapshotCollector(client, store).collect(SnapshotRequirements(routes=list(cli.DEFAULT_ROUTES), label="pre-crash"), context)
+        self.assertTrue(snapshot.valid, snapshot.consistency_reasons)
+        intent = IntentFactory(store).create("select_validated_tactic", "tactics.select", snapshot, {"routes": ["/tactics"]}, {"catalog_id": "x"}, verification="tactic_selection")
+        for target in (ActionState.VALIDATED, ActionState.QUEUED, state):
+            transition(store, intent, target, "left behind by an earlier process")
+        return store, intent
+
+    def test_reconcile_settles_an_earlier_process_intent_while_its_manager_lock_is_still_fresh(self):
+        """Spec 12.4 / REC 01: ``reconcile`` is the recovery path for intents left in flight by a process that died.
+
+        A dead instance's manager lock row survives with a fresh heartbeat, and the bot deliberately refuses to steal a
+        fresh lock (``run`` exits EXIT_LOCK). Requiring the manager lock here would therefore refuse the recovery command
+        for the whole stale window, exactly when the operator needs it, so ``reconcile`` deliberately does not take it.
+        """
+        self.register("--confirm-lineage")
+        store, intent = self._in_flight_intent()
+        try:
+            self.assertTrue(store.acquire_lock("manager", "crashed-instance"), "the dead process's lock row is still there")
+            code, _, err = self.run_cli("run", "--once")
+            self.assertEqual(code, cli.EXIT_LOCK, "a lock-taking command cannot recover from this state")
+            self.assertEqual(store.get_intent(intent.action_id).state, ActionState.EXECUTING)
+            code, out, err = self.run_cli("reconcile")
+            self.assertEqual(code, cli.EXIT_OK, err)
+            self.assertIn("EXECUTING -> UNCERTAIN", out)
+            self.assertEqual(store.get_intent(intent.action_id).state, ActionState.UNCERTAIN)
+        finally:
+            store.release_lock("manager", "crashed-instance")
+            store.close()
+
+    def test_reconcile_never_requeues_or_re_dispatches_an_in_flight_intent(self):
+        """Spec 12.3/12.4: reconciliation reads back, it never sends input and never silently resets an intent to QUEUED."""
+        self.register("--confirm-lineage")
+        store, intent = self._in_flight_intent()
+        try:
+            self.assertEqual(self.run_cli("reconcile")[0], cli.EXIT_OK)
+            self.assertEqual(store.list_intents([ActionState.QUEUED]), [], "no intent is put back on the queue")
+            self.assertEqual(store.list_attempts(intent.action_id), [], "no UI input was sent")
+            code, out, err = self.run_cli("reconcile")
+            self.assertEqual(code, cli.EXIT_OK, err)
+            self.assertIn("UNCERTAIN -> UNCERTAIN", out, "an unestablished effect stays unestablished; it is not guessed away")
+        finally:
+            store.close()
 
     def test_run_exits_with_game_state_when_the_game_or_bridge_state_prevented_the_pass(self):
         """The documented exit-code contract: 1 when the game or bridge state prevented the command. A clock that never settles
@@ -437,6 +519,64 @@ class RunAndReconcileTests(CliCase):
         code, _, err = self.run_cli("run", "--iterations", "0")
         self.assertEqual(code, cli.EXIT_SETUP)
         self.assertIn("--iterations", err)
+
+
+class DatabasePathTests(CliCase):
+    """An unusable ``--db`` path is a setup problem, never a raw SQLite traceback (spec 15.1, 15.3).
+
+    The bot's own journal is part of its setup, so every way of failing to
+    open it - a directory that does not exist, a file that is not a database,
+    a schema newer than this bot understands - has to reach the operator as an
+    explicit error naming the path, with the documented setup exit code (2).
+    """
+
+    def at(self, db_path: str, *argv: str) -> tuple[int, str, str]:
+        out, err = io.StringIO(), io.StringIO()
+        code = cli.main(["--db", db_path, *(argv or ("status",))], out=out, err=err)
+        return code, out.getvalue(), err.getvalue()
+
+    def test_a_db_path_whose_directory_does_not_exist_is_a_setup_error(self):
+        missing = os.path.join(self.tmp.name, "no-such-directory", "bot.sqlite3")
+        code, out, err = self.at(missing)
+        self.assertEqual(code, cli.EXIT_SETUP, err)
+        self.assertEqual(out, "")
+        self.assertIn(missing, err)
+        self.assertIn("cannot open the bot's journal", err)
+        self.assertNotIn("Traceback", err)
+
+    def test_a_db_path_that_is_a_directory_is_a_setup_error(self):
+        directory = os.path.join(self.tmp.name, "a-directory")
+        os.mkdir(directory)
+        code, _, err = self.at(directory)
+        self.assertEqual(code, cli.EXIT_SETUP, err)
+        self.assertIn(directory, err)
+
+    def test_a_file_that_is_not_a_database_is_a_setup_error(self):
+        junk = os.path.join(self.tmp.name, "junk.sqlite3")
+        with open(junk, "w", encoding="utf-8") as handle:
+            handle.write("not a database at all\n")
+        code, _, err = self.at(junk)
+        self.assertEqual(code, cli.EXIT_SETUP, err)
+        self.assertIn("not a database", err)
+
+    def test_a_schema_newer_than_this_bot_is_reported_not_migrated(self):
+        store = Store(self.db)
+        store.close()
+        connection = sqlite3.connect(self.db)
+        try:
+            connection.execute("INSERT INTO schema_version(version, applied_at) VALUES (?, ?)", (SCHEMA_VERSION + 1, utc_now()))
+            connection.commit()
+        finally:
+            connection.close()
+        code, _, err = self.at(self.db)
+        self.assertEqual(code, cli.EXIT_SETUP, err)
+        self.assertIn(f"newer than this bot's {SCHEMA_VERSION}", err)
+        self.assertNotIn("Traceback", err)
+
+    def test_a_usable_db_path_still_opens(self):
+        code, out, err = self.at(os.path.join(self.tmp.name, "fresh.sqlite3"))
+        self.assertEqual(code, cli.EXIT_OK, err)
+        self.assertIn("no career registered", out)
 
 
 if __name__ == "__main__":

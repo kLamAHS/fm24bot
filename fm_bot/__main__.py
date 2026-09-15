@@ -21,7 +21,8 @@ are module-level hooks tests use to substitute the scripted fixture world.
 
 Exit codes: 0 done; 1 the game or bridge state prevented the command
 (disconnected, inconsistent snapshot); 2 a setup or usage problem (no
-career registered, unknown id, invalid setting); 3 another bot instance
+career registered, unknown id, invalid setting, a ``--db`` path that cannot
+be opened or a journal newer than this bot's schema); 3 another bot instance
 holds the manager lock.
 """
 from __future__ import annotations
@@ -29,6 +30,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sqlite3
 import sys
 from typing import Any, Callable, TextIO
 
@@ -46,7 +48,7 @@ from .rules.capabilities import CapabilityRegistry
 from .state.identity import CareerRegistry, SaveManifest, file_sha256
 from .state.records import DecisionSnapshot
 from .state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements, anchor_of
-from .state.store import Store
+from .state.store import Store, StoreError
 
 CLI_VERSION = "fm_bot.cli/1"
 DEFAULT_DB = "fm_bot.sqlite3"
@@ -84,6 +86,23 @@ def make_transport(url: str) -> Transport:
         return HttpTransport(url)
     except ValueError as exc:
         raise CliError(str(exc)) from exc
+
+
+def open_store(db_path: str) -> Store:
+    """Open the bot's own journal database, or report a setup problem instead of a traceback.
+
+    An unusable ``--db`` path (a directory that does not exist, a read-only
+    location, a file that is not a database) and a database written by a newer
+    schema than this bot understands are setup problems, not game state: the
+    operator is told which path failed and why, and the command exits with the
+    setup code rather than raising SQLite internals at them (spec 15.1, 15.3).
+    """
+    try:
+        return Store(db_path)
+    except StoreError as exc:
+        raise CliError(f"cannot use the bot's journal at {db_path}: {exc}") from exc
+    except (sqlite3.Error, OSError) as exc:
+        raise CliError(f"cannot open the bot's journal at {db_path}: {exc}; check the path exists and is writable, or pass --db with another path") from exc
 
 
 def make_adapter(name: str) -> Any:
@@ -470,7 +489,11 @@ def main(argv: list[str] | None = None, *, out: TextIO | None = None, err: TextI
     if args.command == "run" and args.iterations is not None and args.iterations < 1:
         print("--iterations must be at least 1", file=err)
         return EXIT_SETUP
-    store = Store(args.db)
+    try:
+        store = open_store(args.db)
+    except CliError as exc:
+        print(f"error: {exc}", file=err)
+        return exc.code
     try:
         return HANDLERS[args.command](args, store, out)
     except CliError as exc:

@@ -11,8 +11,9 @@ import unittest
 from dataclasses import replace
 from fractions import Fraction
 
+from ..bridge_client.transport import FakeTransport
 from ..execution.adapter import FAKE_WORKFLOWS, FakeAdapter
-from ..execution.verification import Evidence, VerdictKind, verify_lineup
+from ..execution.verification import PLANS, Evidence, VerdictKind, verify, verify_lineup
 from ..interactions.promises import PromiseLedger, promise_from_observed
 from ..models.registry import ModelRegistry
 from ..planning import finance as fin
@@ -38,8 +39,8 @@ NO_RULES = Observed.available_value({"rules": []}, "operator", what="regulatory_
 class World:
     """One registered career with a consistent snapshot of the fixture bridge."""
 
-    def __init__(self, routes=ROUTES):
-        self.snapshot = fx.snapshot_for(routes, club_id=CLUB)
+    def __init__(self, routes=ROUTES, overrides=None):
+        self.snapshot = fx.snapshot_for(routes, overrides=overrides, club_id=CLUB)
         self.store, self.career, self.branch, self.client = self.snapshot.store, self.snapshot.career, self.snapshot.branch, self.snapshot.client
 
     def full_registry(self, *kinds: str) -> CapabilityRegistry:
@@ -499,6 +500,74 @@ class IntentTests(unittest.TestCase):
         self.assertEqual(len(self.world.store.list_intents()), 2)
 
 
+class ContinueIntentTests(unittest.TestCase):
+    """The Continue the planner mints is judged by its effect on the game, never by where the UI ended up (spec 12.2, 12.4).
+
+    The calendar here is clear: the only inbox item left is a read,
+    non-mandatory one, every starter is verified eligible and the
+    ``progress.continue`` capabilities are provided, so the gate opens and
+    the candidate is proposed for the single UI writer.
+    """
+
+    CLEAR_INBOX = {"messages": [m for m in fx.inbox_payload()["messages"] if m["id"] == 502], "unread_count": 0, "scope": "current_human_inbox"}
+
+    def setUp(self):
+        self.world = World(overrides={"/inbox": FakeTransport.envelope(self.CLEAR_INBOX, session_id=fx.SESSION)})
+
+    def _plan(self):
+        return pl.plan_once(
+            self.world.snapshot, store=self.world.store,
+            authority=scoped("progression", "selection", allow_continue=True),
+            capabilities=self.world.full_registry("progress.continue", "submit.lineup"),
+            providers=pl.Providers(eligibility=self.world.verified_eligibility(), rules=self.world.rules()),
+        )
+
+    def test_cal01_a_planner_minted_continue_is_confirmed_by_the_game_advancing(self):
+        """CAL 01 / spec 12.2, 12.4: a Continue intent minted by ``plan_once`` alone (no orchestrator overriding the table) carries
+        the in-game moment it moves on from and the boundary it expects, and ``game_advanced_past_boundary`` confirms it from the
+        in-game clock of a fresh consistent snapshot. Judged by a changed screen it could never have been confirmed at all."""
+        report = self._plan()
+        cont = report.candidate("progress.continue")
+        self.assertEqual(cont.status, pl.STATUS_PROPOSED, cont.reasons)
+        outcome = next(i for i in report.intents if i.kind == "progress.continue")
+        self.assertTrue(outcome.created, outcome.reason)
+        self.assertEqual(outcome.state, ActionState.VALIDATED.value)
+        intent = self.world.store.get_intent(outcome.action_id)
+        self.assertEqual(intent.verification, "game_advanced_past_boundary")
+        self.assertNotIn("target", intent.parameters, "a screen target would claim a screen proves the calendar moved")
+        self.assertNotIn("expected_screen", intent.parameters)
+        self.assertEqual((intent.parameters["from_game_date"], intent.parameters["from_game_time"]), (fx.GAME_DATE, fx.GAME_TIME))
+        self.assertEqual(intent.parameters["expected_boundary"]["date"], "2024-02-20", intent.parameters["expected_boundary"])
+        # The game moves on; only the intent's own recorded moment is available to compare against (empty ``before`` evidence).
+        moved = fx.hand_snapshot(snapshot_id="snap-after", game_date="2024-02-20", game_time="21:30")
+        verdict = verify(intent, Evidence(), Evidence(snapshot=moved), FakeAdapter())
+        self.assertIs(verdict.kind, VerdictKind.CONFIRMED, verdict.reasons)
+        self.assertEqual(verdict.plan, "game_advanced_past_boundary")
+        effect = verdict.details["effect"]
+        self.assertEqual(effect["from"], {"game_date": fx.GAME_DATE, "game_time": fx.GAME_TIME})
+        self.assertEqual((effect["game_date"], effect["game_time"]), ("2024-02-20", "21:30"))
+        self.assertIs(effect["reached_expected_boundary"], True)
+        self.assertTrue(all(r["source"].startswith("bridge:/game@") for r in verdict.readbacks), verdict.readbacks)
+
+    def test_cal01_a_calendar_that_did_not_move_fails_the_same_intent(self):
+        """CAL 01 / spec 12.2: the same planner-minted intent is FAILED - never CONFIRMED, never retried - when the fresh snapshot's
+        in-game clock still reads the moment the intent recorded, and UNCERTAIN when no fresh clock reading exists at all."""
+        intent = self.world.store.get_intent(next(i.action_id for i in self._plan().intents if i.kind == "progress.continue"))
+        standstill = verify(intent, Evidence(), Evidence(snapshot=fx.hand_snapshot(snapshot_id="snap-same")), FakeAdapter())
+        self.assertIs(standstill.kind, VerdictKind.FAILED, standstill.reasons)
+        self.assertTrue(any("did not move on" in r for r in standstill.reasons), standstill.reasons)
+        blind = verify(intent, Evidence(), Evidence(), FakeAdapter())
+        self.assertIs(blind.kind, VerdictKind.UNCERTAIN, blind.reasons)
+
+    def test_continue_and_inbox_answers_are_verified_by_effect_not_by_navigation(self):
+        """spec 12.2 (CAL 01, AUD 01): every plan the planner names is a real plan in ``execution.verification``, and neither
+        Continue nor an inbox answer is judged by ``navigation_only`` - a changed screen is not evidence of either effect."""
+        self.assertLessEqual(set(pl.VERIFICATION_PLANS.values()), set(PLANS), "a plan name with no plan behind it can never be confirmed")
+        self.assertEqual(pl.VERIFICATION_PLANS["progress.continue"], "game_advanced_past_boundary")
+        self.assertEqual(pl.VERIFICATION_PLANS["respond.inbox"], "inbox_message_answered")
+        self.assertNotIn("navigation_only", set(pl.VERIFICATION_PLANS.values()))
+
+
 # ---------------------------------------------------------------------------
 # finance model, succession, worked example and the report
 # ---------------------------------------------------------------------------
@@ -535,6 +604,23 @@ class FinanceModelTests(unittest.TestCase):
         self.assertIsNone(model.committed_projection)
         self.assertEqual(model.view["balance"]["status"], "null")
         self.assertTrue(any("no projection possible" in n for n in model.notes))
+
+    def test_finance_summary_is_scoped_to_committed_obligations_and_the_undecoded_sources_are_named(self):
+        """The one-line finance headline never claims a full forecast, and the undecoded finance sources are named on the decision view (spec 8.1, 15.1)."""
+        for authority in (None, AuthorityProfile(limits=AuthorityLimits(min_cash_reserve=GBP(8_000_000)))):
+            with self.subTest(reserve_policy=authority is not None):
+                planner = pl.Planner(store=self.world.store, authority=authority) if authority else pl.Planner(store=self.world.store)
+                report = planner.plan(self.world.snapshot)
+                line = next(s for s in report.summaries if s.startswith("Finances:"))
+                self.assertIn("on committed obligations alone", line, "the headline scopes itself: it is not a complete forecast")
+                self.assertIn("0 unknown item(s)", line)
+                model = planner.finance_model(self.world.snapshot)
+                self.assertEqual(model.unknown_items, 0, "an 8.1 classification count of the observed ledger, not a claim of completeness")
+                self.assertIn("bridge does not decode: contract_clauses, transfer_target_terms, finance_breakdowns, scouting_budget, debts", model.notes)
+                finance = next(c for c in report.candidates if c.kind == "advise.finance")
+                self.assertTrue(any("bridge does not decode" in r for r in finance.reasons), "the undecoded sources travel with the finance candidate")
+                rolling = next(d for d in report.decisions if d.kind == "plan.rolling_12_months")
+                self.assertIn("bridge does not decode", json.dumps(rolling.to_json(), default=str), "the decision view names what the bridge cannot decode")
 
 
 class FinanceWindowTests(unittest.TestCase):

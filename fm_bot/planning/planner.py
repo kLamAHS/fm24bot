@@ -55,6 +55,7 @@ from typing import Any
 
 from ..execution.executor import unsettled_twin
 from ..execution.lifecycle import IntentFactory, LifecycleError, validate
+from ..execution.verification import CONTINUE_BOUNDARY, CONTINUE_FROM_DATE, CONTINUE_FROM_TIME
 from ..models.baselines import BASELINE_VERSION, Forecast, readiness_forecast, result_forecast, unavailable_forecast
 from ..models.registry import ModelRegistry, ReleaseContext
 from ..rules.authority import AuthorityMode, AuthorityProfile
@@ -100,7 +101,10 @@ GATED_FAMILIES: dict[str, str] = {"selection": "submit.lineup", "tactics": "sele
 EXECUTION_MODES = {AuthorityMode.SCOPED_EXECUTION, AuthorityMode.CLUB_AUTONOMY}
 KIND_FAMILY: dict[str, str] = {"advise.lineup": "selection", "submit.lineup": "selection", "advise.minutes": "selection", "advise.finance": "board", "commit.transfer_offer": "transfers", "commit.contract": "contracts", "progress.continue": "progression", "respond.inbox": "inbox", "advise.succession": "scouting"}
 AUTHORITY_SCOPES: dict[str, str] = {"submit.lineup": "selection.submit_lineup", "progress.continue": "progression.continue", "commit.transfer_offer": "transfers.offer", "commit.contract": "contracts.commit", "respond.inbox": "inbox.respond"}
-VERIFICATION_PLANS: dict[str, str] = {"submit.lineup": "lineup_matches_selection", "progress.continue": "navigation_only", "commit.contract": "contract_accepted_with_obligations", "commit.transfer_offer": "contract_accepted_with_obligations", "respond.inbox": "navigation_only"}
+# The verification plan each executable kind is judged by (spec 12.2). Continue and inbox answers are
+# judged by their effect on the game - the in-game clock moved on, the message is no longer pending -
+# because a changed screen and a click that returned prove nothing about the club's state.
+VERIFICATION_PLANS: dict[str, str] = {"submit.lineup": "lineup_matches_selection", "progress.continue": "game_advanced_past_boundary", "commit.contract": "contract_accepted_with_obligations", "commit.transfer_offer": "contract_accepted_with_obligations", "respond.inbox": "inbox_message_answered"}
 
 
 # ---------------------------------------------------------------------------
@@ -477,6 +481,14 @@ class Planner:
         return CandidateDecision("lineup:submit", "submit.lineup", HORIZON_NEXT_DECISION, f"Submit eleven v {label}", status, payload, ResourceClaims(minutes={pid: MATCH_MINUTES for pid in ids}), reasons, ACTION_REQUIREMENTS["submit.lineup"], not (plan_ is not None and plan_.submittable), plan_ is not None and plan_.submittable, {"routes": ["/tactics", "/squad"], "player_ids": ids}, lineup_parameters(plan_))
 
     def _continue_candidate(self, ctx: _Context) -> CandidateDecision:
+        """Continue, carrying the in-game moment it moves on from and the boundary it expects (spec 12.2, 12.4, CAL 01).
+
+        Those are exactly what ``game_advanced_past_boundary`` reads later:
+        Continue's effect is that the calendar moved, judged from the in-game
+        clock of a fresh snapshot against the moment recorded here. A screen
+        that changed proves nothing about the calendar, so no target screen
+        is named.
+        """
         gate = ctx.gate
         reasons = list(gate.blockers)
         if gate.missing_capabilities.blocked:
@@ -488,7 +500,8 @@ class Planner:
         boundary = gate.next_boundary.description if gate.next_boundary else "unknown boundary"
         status = STATUS_PROPOSED if not reasons else STATUS_BLOCKED
         deadline = gate.next_boundary.date if gate.next_boundary else None
-        return CandidateDecision("continue", "progress.continue", HORIZON_NEXT_DECISION, f"Advance the calendar to the next boundary: {boundary}", status, {"gate": gate.to_json()}, ResourceClaims(deadline=deadline), reasons, ACTION_REQUIREMENTS["progress.continue"], False, False, {"routes": [r for r in ("/inbox", "/fixtures") if r in ctx.snapshot.routes]}, {"target": "next_decision_boundary", "boundary": boundary})
+        parameters = {CONTINUE_BOUNDARY: gate.next_boundary.to_json() if gate.next_boundary else None, CONTINUE_FROM_DATE: ctx.snapshot.game_date, CONTINUE_FROM_TIME: ctx.snapshot.game_time}
+        return CandidateDecision("continue", "progress.continue", HORIZON_NEXT_DECISION, f"Advance the calendar to the next boundary: {boundary}", status, {"gate": gate.to_json()}, ResourceClaims(deadline=deadline), reasons, ACTION_REQUIREMENTS["progress.continue"], False, False, {"routes": [r for r in ("/inbox", "/fixtures") if r in ctx.snapshot.routes]}, parameters)
 
     def _inbox_candidates(self, ctx: _Context) -> list[CandidateDecision]:
         result = []
