@@ -723,10 +723,36 @@ def _plan_from_columns(request: LineupRequest, matrix: _Matrix, columns: list[in
     return LineupPlan(status, assignments, bench, bench_status, round(objective, 9), binding, [], verification, request.mode, solver, excluded, request.substitutes_allowed, request.bench_size, request.fixture.identity if request.fixture else None)
 
 
+def shared_conflict_cause(request: LineupRequest, matrix: _Matrix, conflicts: list[ConstraintConflict]) -> str | None:
+    """One sentence when every slot is short for the same reason, else ``None``.
+
+    Eleven slots reported short of players read as eleven separate problems
+    when they are one: nobody is admissible because, say, no player's
+    eligibility has been verified for this fixture. The operator's main flow
+    should say that once and name what would resolve it (spec 15.1), while
+    the per-slot conflicts stay in the plan for the detail view (SEL 02).
+    """
+    if not conflicts or any(c.players for c in conflicts):
+        return None
+    if {slot for c in conflicts for slot in c.slots} != {s.slot for s in request.slots}:
+        return None
+    reasons = [matrix.exclusions.get(p.player_id) or [] for p in request.players]
+    if not reasons or any(not r for r in reasons):
+        return None            # somebody is admissible, so the shortage is not universal
+    common = set(reasons[0])
+    for other in reasons[1:]:
+        common &= set(other)
+    if not common:
+        return None
+    cause = "; ".join(sorted(common))
+    return f"no player is admissible for any of the {len(request.slots)} slots: every one of the {len(request.players)} in the squad is held out because {cause}"
+
+
 def _infeasible(request: LineupRequest, matrix: _Matrix, conflicts: list[ConstraintConflict], solver: dict[str, Any], started: float) -> LineupPlan:
     solver = dict(solver)
     solver["elapsed_seconds"] = round(time.monotonic() - started, 6)
     excluded = {pid: reasons for pid, reasons in matrix.exclusions.items() if reasons}
-    binding = [c.message for c in conflicts]
+    shared = shared_conflict_cause(request, matrix, conflicts)
+    binding = [shared] if shared else [c.message for c in conflicts]
     verification = ["submission stopped: no legal lineup exists under the current constraints"]
     return LineupPlan("infeasible", [], [], "infeasible", None, binding, conflicts, verification, request.mode, solver, excluded, request.substitutes_allowed, request.bench_size, request.fixture.identity if request.fixture else None)

@@ -206,6 +206,33 @@ class InfeasibilityTests(unittest.TestCase):
         self.assertIn(1001, gk_conflict.players)
         self.assertTrue(lu.check_plan(plan, req).ok)
 
+    def test_sel02_a_universal_shortage_is_reported_once_with_its_cause(self):
+        """SEL 02 / spec 15.1: eleven slots short of players for one shared reason is one problem, not eleven. The binding
+        constraint names the shared cause once (here: no eligibility observation at all), while the per-slot conflicts stay in
+        the plan for the detail view."""
+        squad = players()
+        elig = verified([], unavailable_ids=[p.player_id for p in squad])
+        plan = lu.solve(lu.LineupRequest(squad, slots(), next_fixture(), eligibility=elig, mode="submit"))
+        self.assertEqual(plan.status, "infeasible")
+        self.assertEqual(len(plan.binding_constraints), 1, plan.binding_constraints)
+        [line] = plan.binding_constraints
+        self.assertIn(f"no player is admissible for any of the {len(slots())} slots", line)
+        self.assertIn("no eligibility observation", line)
+        self.assertEqual(len(plan.conflicts), len(slots()))       # the detail is still there
+        self.assertTrue(lu.check_plan(plan, lu.LineupRequest(squad, slots(), next_fixture(), eligibility=elig, mode="submit")).ok)
+
+    def test_sel02_a_partial_shortage_still_lists_each_conflict(self):
+        """SEL 02: when some players are admissible the shortage is not universal, so every conflicting slot set is reported."""
+        squad = players()
+        for p in squad:
+            if "GK" not in p.positions:
+                p.attributes = {}
+        elig = verified(range(1001, 1025), false_ids=[1001, 1002])
+        plan = lu.solve(lu.LineupRequest(squad, slots(), next_fixture(), eligibility=elig, mode="submit"))
+        self.assertEqual(plan.status, "infeasible")
+        self.assertEqual(len(plan.binding_constraints), len(plan.conflicts))
+        self.assertTrue(any("required slot(s)" in line for line in plan.binding_constraints))
+
     def test_both_keepers_injured_explains_the_missing_cover(self):
         squad = players()
         for p in squad:

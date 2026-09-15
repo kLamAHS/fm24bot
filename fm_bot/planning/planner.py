@@ -431,7 +431,7 @@ class Planner:
             return LineupStatus("missing", identity, reasons=["tactic slots unavailable; no eleven could be selected"])
         immediate = minutes_plan.immediate.lineup
         if immediate.status == "infeasible":
-            return LineupStatus("infeasible", identity, reasons=[c.message for c in immediate.conflicts])
+            return LineupStatus("infeasible", identity, reasons=list(immediate.binding_constraints) or [c.message for c in immediate.conflicts])
         unverified = [a.player_id for a in immediate.assignments if FLAG_ELIGIBILITY_UNVERIFIED in a.flags]
         if unverified:
             return LineupStatus("unverified", identity, unverified, [f"eligibility unverified for {len(unverified)} starter(s)"])
@@ -472,7 +472,8 @@ class Planner:
         report = ctx.registry.check("submit.lineup")
         reasons: list[str] = []
         if plan_ is None or not plan_.submittable:
-            reasons.append(f"submit-mode selection is {plan_.status if plan_ else 'unavailable'}: " + ("; ".join(c.message for c in plan_.conflicts) if plan_ and plan_.conflicts else "eligibility must be verified for every starter before submission"))
+            detail = "; ".join(plan_.binding_constraints) if plan_ and plan_.binding_constraints else ("; ".join(c.message for c in plan_.conflicts) if plan_ and plan_.conflicts else "eligibility must be verified for every starter before submission")
+            reasons.append(f"submit-mode selection is {plan_.status if plan_ else 'unavailable'}: {detail}")
         if report.blocked:
             reasons.append("missing capabilities: " + ", ".join(report.missing))
         status = STATUS_PROPOSED if not reasons else STATUS_BLOCKED
