@@ -228,11 +228,11 @@ class CommitmentLedger:
             squad = (snapshot.routes.get("/club") or {}).get("squad") or []
         source = f"{snapshot.snapshot_id}:/squad"
         for player in squad:
-            for item in cls._player_contract_commitments(player, ledger.club_id, source):
+            for item in cls._player_contract_commitments(player, ledger.club_id, source, ledger.as_of, ledger.notes):
                 ledger.commitments[item.commitment_id] = item
         staff = snapshot.routes.get("/staff") or []
         for person in staff:
-            item = cls._staff_commitment(person, ledger.club_id, f"{snapshot.snapshot_id}:/staff", staff_in_aggregate)
+            item = cls._staff_commitment(person, ledger.club_id, f"{snapshot.snapshot_id}:/staff", staff_in_aggregate, ledger.as_of, ledger.notes)
             if item is not None:
                 ledger.commitments[item.commitment_id] = item
         if not squad:
@@ -242,7 +242,25 @@ class CommitmentLedger:
         return ledger
 
     @staticmethod
-    def _player_contract_commitments(player: dict[str, Any], club_id: int | None, source: str) -> list[FinancialCommitment]:
+    def _anchor(commitment_id: str, start_date: str | None, as_of: str | None, notes: list[str]) -> tuple[str, Certainty] | None:
+        """Payment anchor for an observed contract: its start date, or nothing fabricated.
+
+        A contract whose ``start_date`` was not observed cannot be placed on
+        the calendar. It is kept with ``Certainty.UNKNOWN`` (the cash engine
+        buckets it, never charges or drops it silently) and listed at the
+        ledger's ``as_of`` date purely so it has a date to be listed under.
+        Without an as-of date either, the contract is left out with a note.
+        """
+        if start_date:
+            return start_date, Certainty.OBSERVED_COMMITTED
+        if as_of is None:
+            notes.append(f"{commitment_id}: start_date unobserved and the ledger has no as-of date; commitment omitted (timing unknown)")
+            return None
+        notes.append(f"{commitment_id}: start_date unobserved; certainty unknown, listed at as_of {as_of} (not a contract start date)")
+        return as_of, Certainty.UNKNOWN
+
+    @staticmethod
+    def _player_contract_commitments(player: dict[str, Any], club_id: int | None, source: str, as_of: str | None = None, notes: list[str] | None = None) -> list[FinancialCommitment]:
         """Wages and loan contributions from one player's observed contracts.
 
         Only obligations our club actually carries are recorded: our own
@@ -250,6 +268,7 @@ class CommitmentLedger:
         from elsewhere, and the contribution another club pays us for a
         player we loaned out (a receipt outside the payroll aggregate).
         """
+        notes = [] if notes is None else notes
         contracts = player.get("contracts") or []
         name = player.get("name", str(player.get("id")))
         pid = player.get("id")
@@ -269,17 +288,27 @@ class CommitmentLedger:
                 kind, category, aggregate = MovementKind.RECEIPT, "loan_wage_contribution", None
             if kind is None:
                 continue
-            items.append(FinancialCommitment(f"contract:{contract.get('kind')}:{pid}", name, kind, money, contract.get("start_date") or "1970-01-01", Period.WEEKLY, contract.get("end_date"), None, "club" if kind is MovementKind.PAYMENT else contract.get("club_name", "loan club"), Certainty.OBSERVED_COMMITTED, source, 1, category, aggregate))
+            commitment_id = f"contract:{contract.get('kind')}:{pid}"
+            anchor = CommitmentLedger._anchor(commitment_id, contract.get("start_date"), as_of, notes)
+            if anchor is None:
+                continue
+            due, certainty = anchor
+            items.append(FinancialCommitment(commitment_id, name, kind, money, due, Period.WEEKLY, contract.get("end_date"), None, "club" if kind is MovementKind.PAYMENT else contract.get("club_name", "loan club"), certainty, source, 1, category, aggregate))
         return items
 
     @staticmethod
-    def _staff_commitment(person: dict[str, Any], club_id: int | None, source: str, in_aggregate: bool) -> FinancialCommitment | None:
+    def _staff_commitment(person: dict[str, Any], club_id: int | None, source: str, in_aggregate: bool, as_of: str | None = None, notes: list[str] | None = None) -> FinancialCommitment | None:
         contract = person.get("employment") or {}
         wage = contract.get("weekly_wage_gbp")
         if wage is None or contract.get("club_id") != club_id:
             return None
         money = Money.native_gbp(int(wage), Period.WEEKLY)
-        return FinancialCommitment(f"contract:staff:{person.get('id')}", person.get("name", str(person.get("id"))), MovementKind.PAYMENT, money, contract.get("start_date") or "1970-01-01", Period.WEEKLY, contract.get("end_date"), None, "club", Certainty.OBSERVED_COMMITTED, source, 1, "wages", PAYROLL_AGGREGATE if in_aggregate else None)
+        commitment_id = f"contract:staff:{person.get('id')}"
+        anchor = CommitmentLedger._anchor(commitment_id, contract.get("start_date"), as_of, [] if notes is None else notes)
+        if anchor is None:
+            return None
+        due, certainty = anchor
+        return FinancialCommitment(commitment_id, person.get("name", str(person.get("id"))), MovementKind.PAYMENT, money, due, Period.WEEKLY, contract.get("end_date"), None, "club", certainty, source, 1, "wages", PAYROLL_AGGREGATE if in_aggregate else None)
 
     # ----- mutation -----
     def add_commitment(self, commitment: FinancialCommitment) -> FinancialCommitment:
@@ -324,8 +353,15 @@ class CommitmentLedger:
         return [c for c in self.commitments.values() if c.category == category]
 
     def active(self, as_of: str | dt.date | None = None) -> list[FinancialCommitment]:
-        """Commitments whose payment window has not closed by ``as_of``."""
-        day = as_date(as_of or self.as_of or "1970-01-01")
+        """Commitments whose payment window has not closed by ``as_of``.
+
+        Needs an in-game date: the argument or the ledger's ``as_of``. With
+        neither there is no calendar to test against and the ledger refuses
+        rather than anchoring on a made-up date.
+        """
+        if as_of is None and self.as_of is None:
+            raise LedgerError("no as-of date: the ledger cannot tell which commitments are active without an in-game date")
+        day = as_date(as_of or self.as_of)
         result = []
         for c in self.commitments.values():
             if c.recurrence is Period.ONCE:
@@ -336,7 +372,14 @@ class CommitmentLedger:
         return result
 
     def in_aggregate(self, aggregate: str = PAYROLL_AGGREGATE, as_of: str | dt.date | None = None) -> list[FinancialCommitment]:
-        return [c for c in self.active(as_of) if c.included_in_aggregate == aggregate and c.recurrence is Period.WEEKLY and c.kind is MovementKind.PAYMENT]
+        """Weekly payment lines the aggregate explains, i.e. those the calendar can place.
+
+        A line whose timing is unknown (no observed start date) is not
+        subtracted from the aggregate: its cash stays inside the
+        ``unexplained`` residual, which is charged as observed, while the
+        line itself is reported through the projection's unknown bucket.
+        """
+        return [c for c in self.active(as_of) if c.included_in_aggregate == aggregate and c.recurrence is Period.WEEKLY and c.kind is MovementKind.PAYMENT and c.certainty is not Certainty.UNKNOWN]
 
     def weekly_payroll(self, as_of: str | dt.date | None = None) -> PayrollReconciliation:
         """Observed payroll aggregate reconciled against the per-contract sum.
@@ -591,8 +634,12 @@ class CashFlowEngine:
                     unknown.append({"commitment_id": m.commitment_id, "label": m.label, "date": m.date.isoformat(), "reason": f"trigger {m.trigger!r} unresolved in scenario {scenario.name}"})
                 elif outcome:
                     certain.append(m)
-            elif m.certainty is Certainty.FORECAST and m.probability is not None and m.probability < 1:
-                if m.probability > 0:
+            elif m.certainty is Certainty.FORECAST:
+                if m.probability is None:
+                    unknown.append({"commitment_id": m.commitment_id, "label": m.label, "date": m.date.isoformat(), "reason": "forecast without a probability"})
+                elif m.probability >= 1:
+                    certain.append(m)          # only an explicit probability of one is taken at face value
+                elif m.probability > 0:
                     uncertain.append(m)
             else:
                 certain.append(m)
@@ -958,11 +1005,14 @@ class FeasibilityReport:
         return {"constraints": [c.to_json() for c in self.constraints], "feasible": self.feasible, "binding": self.binding, "risk": self.risk.to_json() if self.risk else None, "projection": self.projection.to_json() if self.projection else None, "blocked": self.blocked.to_json() if self.blocked else None, "package_summary": dict(self.package_summary), "version": self.version}
 
 
-def package_summary(package: list[FinancialCommitment], start: dt.date, end: dt.date, currency: str) -> dict[str, Any]:
-    guaranteed = guaranteed_total(package, start, end, currency=currency)
+NO_AS_OF_DATE = "no as-of date: the projection window cannot be anchored without an in-game date"
+
+
+def package_summary(package: list[FinancialCommitment], start: dt.date | None, end: dt.date | None, currency: str) -> dict[str, Any]:
+    guaranteed = None if start is None or end is None else guaranteed_total(package, start, end, currency=currency)
     weekly = _weekly_total_by_category(package, WAGE_BUDGET_CATEGORIES, currency)
     conditional = sum_money((c.amount.as_once() for c in package if c.certainty is Certainty.CONDITIONAL and c.kind is MovementKind.PAYMENT and c.recurrence is Period.ONCE), currency, Period.ONCE)
-    return {"guaranteed_total_in_window": str(guaranteed), "weekly_wages": str(weekly), "conditional_once_total": str(conditional), "items": len(package)}
+    return {"guaranteed_total_in_window": "unknown (no window)" if guaranteed is None else str(guaranteed), "weekly_wages": str(weekly), "conditional_once_total": str(conditional), "items": len(package)}
 
 
 def check_package(package: list[FinancialCommitment], finance: FinanceView, ledger: CommitmentLedger, policy: RiskPolicy, scenarios: list[Scenario] | None = None, *, start_date: str | dt.date | None = None, engine: CashFlowEngine | None = None, regulatory: Observed | None = None) -> FeasibilityReport:
@@ -974,21 +1024,32 @@ def check_package(package: list[FinancialCommitment], finance: FinanceView, ledg
     sale to make the deal fit.
     """
     engine = engine or CashFlowEngine()
-    start = as_date(start_date or ledger.as_of or finance.as_of or "1970-01-01")
-    _, end = engine.horizon(start)
+    as_of = start_date or ledger.as_of or finance.as_of
+    start: dt.date | None = as_date(as_of) if as_of is not None else None
+    end: dt.date | None = engine.horizon(start)[1] if start is not None else None
     constraints: list[ConstraintResult] = []
     projection: CashFlowProjection | None = None
     risk: RiskReport | None = None
     blocked: MissingCapabilityReport | None = None
-    if finance.balance.available:
+    if start is None:
+        # No in-game date anywhere: nothing dated can be tested. The window is
+        # not anchored on a made-up date; every dated constraint stays unknown.
+        blocked = MissingCapabilityReport("finance.check_package")
+        blocked.add("game_date", NO_AS_OF_DATE)
+        if not finance.balance.available:
+            blocked.add("club_finances", f"balance {finance.balance.status.value}: {finance.balance.reason}")
+        constraints.append(ConstraintResult("cash_reserve", ConstraintStatus.UNKNOWN, NO_AS_OF_DATE + "; no projection possible"))
+        constraints.append(ConstraintResult("transfer_budget", ConstraintStatus.UNKNOWN, NO_AS_OF_DATE + "; guaranteed fees in the window cannot be totalled"))
+    elif finance.balance.available:
         projection = engine.project(finance.balance.value, start, ledger, scenarios, extra_commitments=package)
         risk = evaluate_risk(projection, policy)
         constraints.append(check_cash_reserve(risk))
+        constraints.append(check_transfer_budget(package, finance, start, end))
     else:
         blocked = MissingCapabilityReport("finance.check_package")
         blocked.add("club_finances", f"balance {finance.balance.status.value}: {finance.balance.reason}")
         constraints.append(ConstraintResult("cash_reserve", ConstraintStatus.UNKNOWN, f"balance {finance.balance.status.value}; no projection possible"))
-    constraints.append(check_transfer_budget(package, finance, start, end))
+        constraints.append(check_transfer_budget(package, finance, start, end))
     constraints.append(check_wage_headroom(package, finance))
     constraints.append(check_regulatory_limits(regulatory, package, finance=finance, start=start, end=end))
     binding = next((c.name for c in constraints if c.status is ConstraintStatus.FAIL), None)

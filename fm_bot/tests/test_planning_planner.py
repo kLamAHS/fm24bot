@@ -8,9 +8,12 @@ from __future__ import annotations
 
 import json
 import unittest
+from dataclasses import replace
 from fractions import Fraction
 
 from ..bridge_client.client import BridgeClient
+from ..execution.adapter import FAKE_WORKFLOWS, FakeAdapter
+from ..execution.verification import Evidence, VerdictKind, verify_lineup
 from ..interactions.promises import PromiseLedger, promise_from_observed
 from ..models.registry import ModelRegistry
 from ..planning import finance as fin
@@ -418,6 +421,60 @@ class IntentTests(unittest.TestCase):
         self.assertEqual(report.candidate("advise.lineup").status, pl.STATUS_ADVISORY, "advice needs no adapter")
         self.assertEqual(self.world.store.list_intents(), [])
 
+    def _verified_kw(self) -> dict:
+        return dict(store=self.world.store, authority=scoped("selection"), capabilities=self.world.full_registry("submit.lineup"), providers=pl.Providers(eligibility=self.world.verified_eligibility(), rules=self.world.rules()))
+
+    def test_lineup_roles_are_a_dict_keyed_by_slot_position_that_the_workflow_and_verifier_accept(self):
+        """spec 12.2: one lineup parameter contract. ``parameters["roles"]`` maps each slot's position code to its role name, which is
+        what the ``set_lineup`` workflow sends and what ``lineup_matches_selection`` reads back; a list of role names would have
+        broken the consequential input after it was sent."""
+        report = pl.plan_once(self.world.snapshot, **self._verified_kw())
+        submit = report.candidate("submit.lineup")
+        self.assertEqual(submit.status, pl.STATUS_PROPOSED)
+        roles = submit.parameters["roles"]
+        self.assertIsInstance(roles, dict)
+        self.assertEqual(list(roles), [s["position"] for s in fx.tactics_payload()["positions"]], "keyed by slot position code, in slot order")
+        self.assertTrue(all(isinstance(v, str) for v in roles.values()), roles)
+        self.assertEqual(len(submit.parameters["player_ids"]), 11)
+        advisory = report.candidate("advise.lineup")
+        self.assertIsInstance(advisory.parameters["roles"], dict)
+        self.assertEqual(list(advisory.parameters["roles"]), list(roles), "the advisory eleven uses the same contract")
+        stored = self.world.store.get_intent(next(i.action_id for i in report.intents if i.kind == "submit.lineup"))
+        self.assertEqual(stored.parameters["roles"], roles)
+        # the fake UI workflow accepts the parameters as they are, and the verifier's readback equals them
+        steps = FAKE_WORKFLOWS["submit.lineup"].instantiate(stored.parameters)
+        adapter = FakeAdapter(screen="squad.selection")
+        result = adapter.perform(steps[1])
+        self.assertTrue(result.ok, result.error)
+        self.assertEqual(adapter.readback("lineup").require(), {"player_ids": stored.parameters["player_ids"], "roles": roles})
+        verdict = verify_lineup(stored, Evidence(), Evidence(), adapter)
+        self.assertIs(verdict.kind, VerdictKind.CONFIRMED, verdict.reasons)
+
+    def test_act02_duplicate_effect_guard_refuses_a_new_lineup_intent_while_a_twin_is_unsettled(self):
+        """ACT 02 / spec 12.3: a later plan on the same store (a new decision, hence a new idempotency key) does not mint another
+        ``submit.lineup`` intent while the earlier one is UNCERTAIN or RECONCILING; the outcome names that intent so reconciliation,
+        never a second dispatch, follows. Once the earlier intent is settled a new decision may mint again."""
+        kw = self._verified_kw()
+        first = pl.plan_once(self.world.snapshot, **kw)
+        action_id = next(i.action_id for i in first.intents if i.kind == "submit.lineup")
+        intent = self.world.store.get_intent(action_id)
+        for state in (ActionState.QUEUED, ActionState.EXECUTING, ActionState.UNCERTAIN):
+            self.world.store.update_intent_state(intent, state, "test: consequential input timed out after it went out")
+        second = pl.plan_once(self.world.snapshot, **kw)
+        outcome = next(i for i in second.intents if i.kind == "submit.lineup")
+        self.assertFalse(outcome.created)
+        self.assertIn("duplicate-effect guard", outcome.reason)
+        self.assertIn(action_id, outcome.reason)
+        self.assertIn("UNCERTAIN", outcome.reason)
+        self.assertEqual([i.action_id for i in self.world.store.list_intents()], [action_id], "no second intent exists")
+        self.world.store.update_intent_state(intent, ActionState.RECONCILING, "test")
+        third = pl.plan_once(self.world.snapshot, **kw)
+        self.assertFalse(next(i for i in third.intents if i.kind == "submit.lineup").created, "RECONCILING is still unsettled")
+        self.world.store.update_intent_state(intent, ActionState.CONFIRMED, "test: effect established by readback")
+        fourth = pl.plan_once(self.world.snapshot, **kw)
+        self.assertTrue(next(i for i in fourth.intents if i.kind == "submit.lineup").created, "a settled effect no longer blocks a new decision")
+        self.assertEqual(len(self.world.store.list_intents()), 2)
+
 
 # ---------------------------------------------------------------------------
 # finance model, succession, worked example and the report
@@ -455,6 +512,42 @@ class FinanceModelTests(unittest.TestCase):
         self.assertIsNone(model.committed_projection)
         self.assertEqual(model.view["balance"]["status"], "null")
         self.assertTrue(any("no projection possible" in n for n in model.notes))
+
+
+class FinanceWindowTests(unittest.TestCase):
+    """The rolling projection window is placed in game time or not at all (spec 5.2: in-game time is the clock for game commitments)."""
+
+    def setUp(self):
+        self.world = World()
+        a = package("A", candidate_state(2001, "Candidate A", ("DL", "WBL"), 3, 4500), wage=4500, fee=1_500_000, registration=True, availability=True)
+        self.providers = pl.Providers(candidates=[a])      # no reserve policy: no FinanceInputs, so the planner places the window itself
+
+    def test_window_starts_at_the_snapshot_game_date(self):
+        planner = pl.Planner(providers=self.providers)
+        recruit = next(c for c in planner.propose(self.world.snapshot) if c.candidate_id == "recruit:A")
+        self.assertEqual(recruit.claims.guaranteed_fees, GBP(1_500_000))
+        window = recruit.payload["finance_window"]
+        self.assertEqual(window["status"], "available")
+        self.assertEqual(window["value"][0], fx.GAME_DATE)
+        self.assertNotIn("finance_window", [c.name for c in planner.evaluate(recruit, snapshot=self.world.snapshot).constraints])
+
+    def test_missing_game_date_leaves_the_finance_window_unavailable_not_an_epoch_default(self):
+        """spec 5.2 / OBS 02: without a game date the window is explicitly missing: no guaranteed-fee projection, the finance-window
+        constraint is unknown (not binding, not passed), and no 1970 sentinel appears anywhere in the candidate or its evaluation."""
+        snap = replace(self.world.snapshot, snapshot_id="snap-no-date", game_date=None, game_time=None)
+        planner = pl.Planner(providers=self.providers)
+        recruit = next(c for c in planner.propose(snap) if c.candidate_id == "recruit:A")
+        self.assertIsNone(recruit.claims.guaranteed_fees, "fees over an unplaceable window are not projected")
+        self.assertIsNone(recruit.parameters["total_fee"])
+        self.assertEqual(recruit.payload["finance_window"]["status"], "missing")
+        self.assertTrue(any("finance window missing" in r and "not projected" in r for r in recruit.reasons), recruit.reasons)
+        evaluation = planner.evaluate(recruit, snapshot=snap)
+        window = next(c for c in evaluation.constraints if c.name == "finance_window")
+        self.assertEqual(window.status, "unknown")
+        self.assertFalse(window.binding)
+        self.assertIsNot(evaluation.feasible, True, "an unknown window never makes a package feasible")
+        for text in (json.dumps(recruit.to_json()), json.dumps(evaluation.to_json())):
+            self.assertNotIn("1970", text)
 
 
 class WorkedExampleTests(unittest.TestCase):

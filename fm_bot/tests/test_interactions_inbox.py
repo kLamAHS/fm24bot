@@ -6,8 +6,8 @@ import unittest
 from ..bridge_client.client import BridgeClient
 from ..interactions.inbox import (
     CAPABILITY_INBOX_TEXT, CAPABILITY_PENDING_ACTIONS, CONFIDENCE_CONFIRMED, CONFIDENCE_EXPLICIT_LIST, CONFIDENCE_HEURISTIC, CONFIDENCE_NONE,
-    INBOX_PATTERNS_VERSION, KIND_DECISION_REQUIRED, KIND_INFORMATIONAL, KIND_UNKNOWN, DeclaredInboxTextProvider, DialogueOption, InboxItem, InboxText,
-    NoInboxTextProvider, classify, continue_blocked_by_inbox, inbox_item, inbox_items, unresolved_mandatory,
+    INBOX_PATTERNS_VERSION, KIND_DECISION_REQUIRED, KIND_INFORMATIONAL, KIND_UNKNOWN, TIME_STATUS_UNKNOWN, DeclaredInboxTextProvider, DialogueOption,
+    InboxItem, InboxText, NoInboxTextProvider, classify, continue_blocked_by_inbox, inbox_item, inbox_items, unresolved_mandatory,
 )
 from ..state.identity import CareerRegistry, SaveManifest
 from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
@@ -37,6 +37,19 @@ class InboxItemTests(unittest.TestCase):
         self.assertTrue(items[0].time_known)
         self.assertEqual(items[0].text_status, "not_decoded")
         self.assertEqual(items[0].source, "obs-1")
+
+    def test_obs02_omitted_time_status_is_unknown_not_current(self):
+        """OBS 02 / spec 5.2: a record with a time but no time_status was never asserted current by the bridge, so time_known is False."""
+        without = inbox_item({"id": 7, "date": "2024-02-17", "time": "09:00", "unread": True, "event_type": "news_item_generic"})
+        self.assertEqual(without.time, "09:00")
+        self.assertEqual(without.time_status, TIME_STATUS_UNKNOWN)
+        self.assertFalse(without.time_known)
+        no_time = inbox_item({"id": 8, "date": "2024-02-17", "unread": True, "event_type": "news_item_generic"})
+        self.assertIsNone(no_time.time)
+        self.assertEqual(no_time.time_status, TIME_STATUS_UNKNOWN)
+        self.assertFalse(no_time.time_known)
+        asserted = inbox_item({"id": 9, "date": "2024-02-17", "time": "09:00", "time_status": "current", "unread": True, "event_type": "news_item_generic"})
+        self.assertTrue(asserted.time_known)
 
     def test_items_from_snapshot(self):
         store = Store.memory()

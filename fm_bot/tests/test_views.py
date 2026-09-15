@@ -11,8 +11,8 @@ from ..state.status import ValueStatus
 from ..state.store import Store
 from ..state.units import Money, Period
 from ..state.views import (
-    finance_view, fixture_identity, fixture_views, horizon_truncated, missing_eligibility, player_state, readiness_observed,
-    squad_states, tactic_view, upcoming_fixtures,
+    SQUAD_ROUTE_COLLECTED, SQUAD_ROUTE_MISSING, finance_view, fixture_identity, fixture_views, horizon_truncated, missing_eligibility, player_state,
+    readiness_observed, squad_route_status, squad_states, squad_states_observed, tactic_view, upcoming_fixtures,
 )
 from ..state.visibility import InformationMode
 from . import fixtures as fx
@@ -93,6 +93,23 @@ class PlayerStateTests(unittest.TestCase):
         self.assertEqual(state.morale_status, "unsupported")
         self.assertEqual(state.employment, [])
 
+    def test_vis01_masked_readiness_never_enters_player_state(self):
+        """VIS 01 / spec 1.2: readiness comes from the masked record, so a masked condition is unsupported, not the bridge's fresh number."""
+        payload = fx.other_club_player()
+        self.assertEqual(payload["readiness"]["status"], "current", "the bridge cache is fresh; only the mode withholds it")
+        state = player_state(payload, mode=InformationMode.MANAGER_VISIBLE, other_club=True)
+        self.assertIsNone(state.condition)
+        self.assertIsNone(state.match_sharpness)
+        self.assertEqual(state.readiness_status, "unsupported")
+        # own-club readiness is visible to the manager and still freshness-checked
+        own = player_state(fx.player_payload(*fx.SQUAD_SPEC[0]), mode=InformationMode.MANAGER_VISIBLE)
+        self.assertEqual((own.condition, own.match_sharpness, own.readiness_status), (93.0, 88.0, "current"))
+        stale = player_state(fx.player_payload(*fx.SQUAD_SPEC[0], readiness_current=False), mode=InformationMode.MANAGER_VISIBLE)
+        self.assertEqual((stale.condition, stale.readiness_status), (None, "stale"))
+        # bridge-observed mode masks nothing, so other-club readiness stays available there
+        bridge = player_state(payload, other_club=True)
+        self.assertEqual((bridge.condition, bridge.readiness_status), (93.0, "current"))
+
 
 class SquadStatesTests(unittest.TestCase):
     def test_squad_states_default_to_missing_eligibility(self):
@@ -118,7 +135,30 @@ class SquadStatesTests(unittest.TestCase):
     def test_squad_falls_back_to_club_roster_then_empty(self):
         from_club = manual_snapshot({"/club": {"id": 742, "name": "Wycombe", "squad": fx.squad_payload()[:2]}})
         self.assertEqual(len(squad_states(from_club)), 2)
+        self.assertEqual(squad_route_status(from_club), SQUAD_ROUTE_COLLECTED)
         self.assertEqual(squad_states(manual_snapshot({})), [])
+
+    def test_obs02_uncollected_roster_is_missing_not_an_observed_empty_squad(self):
+        """OBS 02 / spec 5.2: a snapshot without /squad or /club is a missing roster observation, distinct from a collected empty roster."""
+        uncollected = manual_snapshot({"/fixtures": fx.fixtures_payload()})
+        self.assertEqual(squad_route_status(uncollected), SQUAD_ROUTE_MISSING)
+        observed = squad_states_observed(uncollected)
+        self.assertIs(observed.status, ValueStatus.MISSING)
+        self.assertIsNone(observed.value)
+        self.assertIn("neither /squad nor /club", observed.reason)
+        self.assertEqual(squad_states(uncollected), [], "the plain list view stays [] for existing callers; the status tells the two apart")
+        empty = manual_snapshot({"/squad": []})
+        self.assertEqual(squad_route_status(empty), SQUAD_ROUTE_COLLECTED)
+        observed = squad_states_observed(empty)
+        self.assertTrue(observed.available)
+        self.assertEqual(observed.value, [])
+        self.assertEqual(observed.game_time, f"{fx.GAME_DATE} {fx.GAME_TIME}")
+        club_without_squad = manual_snapshot({"/club": {"id": 742, "name": "Wycombe"}})
+        self.assertEqual(squad_route_status(club_without_squad), SQUAD_ROUTE_MISSING)
+        collected = squad_states_observed(collected_snapshot())
+        self.assertTrue(collected.available)
+        self.assertEqual(len(collected.value), 24)
+        self.assertTrue(collected.source.endswith(":/squad"))
 
     def test_snapshot_mode_applies_to_squad(self):
         snap = manual_snapshot({"/squad": fx.squad_payload()[:1]}, mode="manager_visible")

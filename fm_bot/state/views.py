@@ -15,7 +15,7 @@ from typing import Any, Callable, Iterable
 from .records import DecisionSnapshot, PlayerState
 from .status import Observed, ValueStatus
 from .units import Money, Period, parse_date
-from .visibility import InformationMode, VisibilityMask, apply_mode
+from .visibility import InformationMode, MaskedRecord, VisibilityMask, apply_mode
 
 EligibilityProvider = Callable[[int, dict[str, Any] | None], dict[str, Any]]
 
@@ -35,10 +35,33 @@ def readiness_observed(payload: dict[str, Any], source: str = "") -> tuple[Obser
     return (Observed.unavailable(ValueStatus.MISSING, "condition", "readiness freshness unknown", source), Observed.unavailable(ValueStatus.MISSING, "match_sharpness", "readiness freshness unknown", source))
 
 
+READINESS_FIELDS: tuple[str, ...] = ("condition", "match_sharpness")
+
+
+def masked_readiness(masked: MaskedRecord, payload: dict[str, Any], source: str = "") -> tuple[Observed, Observed, str]:
+    """Condition, sharpness and the readiness status, derived from the *masked* record (spec 1.2, VIS 01).
+
+    A field the information mode removed (privileged or of unknown
+    visibility, for example another club's player in manager-visible mode)
+    is ``unsupported`` here and never reaches :class:`PlayerState`, however
+    fresh the bridge's own readiness cache is. Only fields the mode kept are
+    freshness-checked through :func:`readiness_observed`.
+    """
+    removed = [item for item in masked.masked if item.field in READINESS_FIELDS]
+    if removed:
+        reason = f"{', '.join(sorted(item.field for item in removed))} masked in {masked.mode.value} mode: {removed[0].reason}"
+        return (Observed.unavailable(ValueStatus.UNSUPPORTED, "condition", reason, source), Observed.unavailable(ValueStatus.UNSUPPORTED, "match_sharpness", reason, source), "unsupported")
+    visible = dict(payload)
+    for name in READINESS_FIELDS:
+        visible[name] = masked.fields.get(name)
+    condition, sharpness = readiness_observed(visible, source)
+    return condition, sharpness, (payload.get("readiness") or {}).get("status", "unknown")
+
+
 def player_state(payload: dict[str, Any], *, source: str = "", eligibility: dict[str, Any] | None = None, mode: InformationMode = InformationMode.BRIDGE_OBSERVED, mask: VisibilityMask | None = None, other_club: bool = False) -> PlayerState:
     masked = apply_mode("player", payload, mode, mask, other_club=other_club)
     fields = masked.fields
-    condition, sharpness = readiness_observed(payload, source)
+    condition, sharpness, readiness_status = masked_readiness(masked, payload, source)
     attributes = dict(fields.get("attributes") or {})
     return PlayerState(
         player_id=payload["id"], name=payload.get("name", ""),
@@ -47,22 +70,61 @@ def player_state(payload: dict[str, Any], *, source: str = "", eligibility: dict
         employment=list(fields.get("contracts") or []),
         morale=fields.get("morale"), morale_status="available" if "morale" in fields else "unsupported",
         condition=condition.value, match_sharpness=sharpness.value,
-        readiness_status=(payload.get("readiness") or {}).get("status", "unknown"),
+        readiness_status=readiness_status,
         eligibility=eligibility or missing_eligibility(payload["id"]),
         age=payload.get("age"), source_observation_id=source or None,
     )
 
 
-def squad_states(snapshot: DecisionSnapshot, *, eligibility: EligibilityProvider | None = None, fixture: dict[str, Any] | None = None, mode: InformationMode | None = None, mask: VisibilityMask | None = None) -> list[PlayerState]:
-    squad = snapshot.routes.get("/squad")
+SQUAD_ROUTE_COLLECTED = "collected"
+SQUAD_ROUTE_MISSING = "missing"
+
+
+def _squad_payload(snapshot: DecisionSnapshot) -> tuple[list[dict[str, Any]] | None, str]:
+    """The roster list and the route it came from; ``(None, reason)`` when no roster route was collected."""
+    if "/squad" in snapshot.routes and snapshot.routes["/squad"] is not None:
+        return list(snapshot.routes["/squad"] or []), "/squad"
+    club = snapshot.routes.get("/club")
+    if isinstance(club, dict) and club.get("squad") is not None:
+        return list(club.get("squad") or []), "/club"
+    return None, "neither /squad nor /club (with a squad list) was collected in this snapshot"
+
+
+def squad_route_status(snapshot: DecisionSnapshot) -> str:
+    """``collected`` when a roster route (``/squad``, else ``/club.squad``) is in the snapshot, ``missing`` otherwise (spec 5.2, OBS 02).
+
+    :func:`squad_states` returns ``[]`` in both the *collected-but-empty* and
+    the *missing* case; callers that must tell "no players observed" from
+    "roster not observed" consult this or use :func:`squad_states_observed`.
+    """
+    squad, _ = _squad_payload(snapshot)
+    return SQUAD_ROUTE_COLLECTED if squad is not None else SQUAD_ROUTE_MISSING
+
+
+def squad_states_observed(snapshot: DecisionSnapshot, *, eligibility: EligibilityProvider | None = None, fixture: dict[str, Any] | None = None, mode: InformationMode | None = None, mask: VisibilityMask | None = None) -> Observed[list[PlayerState]]:
+    """The roster as an :class:`Observed`: AVAILABLE (possibly empty) when a roster route was collected, MISSING when it was not.
+
+    An uncollected route is never reported as an observed empty squad (OBS 02).
+    """
+    squad, route_or_reason = _squad_payload(snapshot)
     if squad is None:
-        club = snapshot.routes.get("/club") or {}
-        squad = club.get("squad")
-    if squad is None:
-        return []
+        return Observed.unavailable(ValueStatus.MISSING, "squad", route_or_reason, f"{snapshot.snapshot_id}:/squad")
     mode = mode or InformationMode(snapshot.information_mode)
     provider = eligibility or missing_eligibility
-    return [player_state(p, source=f"{snapshot.snapshot_id}:/squad", eligibility=provider(p["id"], fixture), mode=mode, mask=mask) for p in squad]
+    states = [player_state(p, source=f"{snapshot.snapshot_id}:/squad", eligibility=provider(p["id"], fixture), mode=mode, mask=mask) for p in squad]
+    game_time = f"{snapshot.game_date} {snapshot.game_time}" if snapshot.game_date and snapshot.game_time else None
+    return Observed.available_value(states, f"{snapshot.snapshot_id}:{route_or_reason}", game_time=game_time, what="squad")
+
+
+def squad_states(snapshot: DecisionSnapshot, *, eligibility: EligibilityProvider | None = None, fixture: dict[str, Any] | None = None, mode: InformationMode | None = None, mask: VisibilityMask | None = None) -> list[PlayerState]:
+    """Roster players as :class:`PlayerState`; ``[]`` when the roster route was not collected.
+
+    The empty list is ambiguous on its own: check :func:`squad_route_status`
+    (``missing`` versus ``collected``) or call :func:`squad_states_observed`
+    before treating it as an observed empty roster.
+    """
+    observed = squad_states_observed(snapshot, eligibility=eligibility, fixture=fixture, mode=mode, mask=mask)
+    return list(observed.value) if observed.available else []
 
 
 @dataclass

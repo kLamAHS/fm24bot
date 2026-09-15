@@ -160,7 +160,7 @@ class PaymentDatesTests(unittest.TestCase):
 
 class TotalOverTests(unittest.TestCase):
     def test_weekly_wage_over_a_month_is_calendar_exact(self):
-        """FIN 01: a weekly wage summed over March 2024 pays 5 times (5 Fridays), not 4 or 4.33.
+        """FIN 01: calendar-exact expansion. A weekly wage summed over March 2024 pays 5 times (5 Fridays), not 4 or 4.33.
 
         The result is a one-off amount so it can be added to other one-off totals.
         """
@@ -172,7 +172,7 @@ class TotalOverTests(unittest.TestCase):
         self.assertEqual(total_over(wage, dt.date(2024, 2, 2), dt.date(2024, 2, 29)).minor, 4 * 350_000)
 
     def test_weekly_and_monthly_only_combine_after_expansion(self):
-        """FIN 01: weekly wage and monthly loan fee are expanded over the same window and then summed as one-off amounts."""
+        """FIN 01: unit mixing. A weekly wage and a monthly loan fee cannot be added as-is; each is expanded calendar-exactly over the same window and only the one-off totals are summed."""
         wage = Money.native_gbp(3500, Period.WEEKLY)
         loan_fee = Money.native_gbp(10_000, Period.MONTHLY)
         with self.assertRaises(UnitError):
@@ -183,13 +183,24 @@ class TotalOverTests(unittest.TestCase):
         self.assertEqual(combined.minor, 14 * 350_000 + 3 * 1_000_000)
 
     def test_double_counting_is_visible_through_counts(self):
-        """FIN 01: an obligation with a contract end date inside the window is not charged past the end."""
+        """FIN 01: calendar-exact expansion stops at a contract end date inside the window, and the payment count makes that visible.
+
+        This checks the unit-level expansion only: ``count_occurrences`` reports
+        exactly the payments ``total_over`` charged, so a total can always be
+        reconciled against its count. The ledger-level check that one
+        obligation is never charged twice across windows lives in
+        ``test_finance.py``.
+        """
         wage = Money.native_gbp(1000, Period.WEEKLY)
-        full = total_over(wage, dt.date(2024, 3, 1), dt.date(2024, 5, 31))
-        ended = total_over(wage, dt.date(2024, 3, 1), dt.date(2024, 5, 31), last=dt.date(2024, 3, 31))
+        window = (dt.date(2024, 3, 1), dt.date(2024, 5, 31))
+        full = total_over(wage, *window)
+        ended = total_over(wage, *window, last=dt.date(2024, 3, 31))
+        self.assertEqual(count_occurrences(Period.WEEKLY, *window), 14)
+        self.assertEqual(count_occurrences(Period.WEEKLY, *window, last=dt.date(2024, 3, 31)), 5)
         self.assertEqual(full.minor, 14 * 100_000)
         self.assertEqual(ended.minor, 5 * 100_000)
         self.assertLess(ended, full)
+        self.assertEqual(count_occurrences(Period.WEEKLY, *window, last=dt.date(2024, 2, 20)), 0, "a contract that ended before the window charges nothing")
 
     def test_once_total_over_counts_at_most_one(self):
         fee = Money.native_gbp(250_000)

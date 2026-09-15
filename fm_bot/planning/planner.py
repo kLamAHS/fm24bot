@@ -53,6 +53,7 @@ import datetime as dt
 from dataclasses import dataclass, field, replace
 from typing import Any
 
+from ..execution.executor import unsettled_twin
 from ..execution.lifecycle import IntentFactory, LifecycleError, validate
 from ..models.baselines import BASELINE_VERSION, Forecast, readiness_forecast, result_forecast, unavailable_forecast
 from ..models.registry import ModelRegistry, ReleaseContext
@@ -456,7 +457,7 @@ class Planner:
         if unverified:
             reasons.append(f"eligibility unverified for {len(unverified)} starter(s): advisory only, not for submission")
         reasons.extend(immediate.verification_required)
-        advisory = CandidateDecision("lineup:advisory", "advise.lineup", HORIZON_NEXT_DECISION, f"Advisory eleven v {label} ({immediate.status})", status, {"lineup": immediate.to_json(), "fixture": fixture.to_json()}, ResourceClaims(minutes={pid: MATCH_MINUTES for pid in immediate.player_ids}), reasons, ACTION_REQUIREMENTS["advise.lineup"], bool(unverified), False, {"routes": ["/tactics", "/squad"], "player_ids": immediate.player_ids}, {"player_ids": immediate.player_ids, "roles": [a.role for a in immediate.assignments]})
+        advisory = CandidateDecision("lineup:advisory", "advise.lineup", HORIZON_NEXT_DECISION, f"Advisory eleven v {label} ({immediate.status})", status, {"lineup": immediate.to_json(), "fixture": fixture.to_json()}, ResourceClaims(minutes={pid: MATCH_MINUTES for pid in immediate.player_ids}), reasons, ACTION_REQUIREMENTS["advise.lineup"], bool(unverified), False, {"routes": ["/tactics", "/squad"], "player_ids": immediate.player_ids}, lineup_parameters(immediate))
         result = [advisory]
         if self.execution_requested:
             result.append(self._submit_candidate(ctx, fixture, label))
@@ -473,7 +474,7 @@ class Planner:
         status = STATUS_PROPOSED if not reasons else STATUS_BLOCKED
         payload = {"lineup": plan_.to_json() if plan_ else None, "fixture": fixture.to_json()}
         ids = plan_.player_ids if plan_ else []
-        return CandidateDecision("lineup:submit", "submit.lineup", HORIZON_NEXT_DECISION, f"Submit eleven v {label}", status, payload, ResourceClaims(minutes={pid: MATCH_MINUTES for pid in ids}), reasons, ACTION_REQUIREMENTS["submit.lineup"], not (plan_ is not None and plan_.submittable), plan_ is not None and plan_.submittable, {"routes": ["/tactics", "/squad"], "player_ids": ids}, {"player_ids": ids, "roles": [a.role for a in plan_.assignments] if plan_ else []})
+        return CandidateDecision("lineup:submit", "submit.lineup", HORIZON_NEXT_DECISION, f"Submit eleven v {label}", status, payload, ResourceClaims(minutes={pid: MATCH_MINUTES for pid in ids}), reasons, ACTION_REQUIREMENTS["submit.lineup"], not (plan_ is not None and plan_.submittable), plan_ is not None and plan_.submittable, {"routes": ["/tactics", "/squad"], "player_ids": ids}, lineup_parameters(plan_))
 
     def _continue_candidate(self, ctx: _Context) -> CandidateDecision:
         gate = ctx.gate
@@ -520,20 +521,39 @@ class Planner:
         status = STATUS_ADVISORY if model.committed_projection is not None else STATUS_BLOCKED
         return CandidateDecision("finance", "advise.finance", HORIZON_ROLLING_12_MONTHS, f"Partial finance model over 12 months ({model.status})", status, {"finance_model": model.to_json()}, ResourceClaims(), list(model.notes), ACTION_REQUIREMENTS["advise.finance"], True, False)
 
+    @staticmethod
+    def finance_window(ctx: _Context) -> Observed:
+        """The rolling projection window as ``Observed[(start, end)]``.
+
+        In-game time is the only clock for game commitments: without a game
+        date in the snapshot there is no window, so guaranteed fees over the
+        horizon are not projected and the corresponding constraint stays
+        unknown. No epoch or wall-clock date ever stands in for it.
+        """
+        if ctx.finance_inputs is not None:
+            return Observed.available_value(ctx.finance_inputs.window(), "planner", what="finance_window")
+        if ctx.snapshot.game_date:
+            start = fin.as_date(ctx.snapshot.game_date)
+            return Observed.available_value((start, fin.add_months(start, fin.PROJECTION_MONTHS)), "planner", what="finance_window")
+        return Observed.unavailable(ValueStatus.MISSING, "finance_window", "snapshot reports no game date; the rolling projection window cannot be placed in game time", "planner")
+
     def _recruitment_candidates(self, ctx: _Context) -> list[CandidateDecision]:
         result = []
-        start, end = ctx.finance_inputs.window() if ctx.finance_inputs else (fin.as_date(ctx.snapshot.game_date or "1970-01-01"), fin.add_months(fin.as_date(ctx.snapshot.game_date or "1970-01-01"), fin.PROJECTION_MONTHS))
+        window = self.finance_window(ctx)
         for package in self.providers.candidates:
             kind = "commit.contract" if package.kind == "renewal" else "commit.transfer_offer"
             if not package.registration.available and ctx.rules_contexts and ctx.rules_contexts[0] is not None:
                 # the caller's package is left untouched; the planner's copy carries the rules-derived answer
                 package = replace(package, registration=registration_feasibility(ctx.rules_contexts[0], len(ctx.players), ctx.snapshot.game_date))
-            claims = ResourceClaims(package.weekly_wage(), package.guaranteed_fees(start, end), squad_places=0 if package.kind == "renewal" else 1)
+            fees = package.guaranteed_fees(*window.value) if window.available else None
+            claims = ResourceClaims(package.weekly_wage(), fees, squad_places=0 if package.kind == "renewal" else 1)
             reasons = ["negotiation must produce a confirmed executable offer before any commitment (spec 8.3)"]
+            if not window.available:
+                reasons.append(f"finance window {window.status.value}: {window.reason}; guaranteed fees not projected")
             if ctx.evaluator is None:
                 reasons.append("sporting contribution cannot be computed without tactic slots and fixtures")
             description = f"{package.kind.replace('_', ' ').title()}: {package.player.name} at {claims.weekly_wage}" + (f" for {claims.guaranteed_fees} guaranteed" if claims.guaranteed_fees and not claims.guaranteed_fees.is_zero else "")
-            result.append(CandidateDecision(f"recruit:{package.candidate_id}", kind, HORIZON_ROLLING_12_MONTHS, description, STATUS_ADVISORY, {"package": package.to_json()}, claims, reasons, ACTION_REQUIREMENTS[kind], True, False, {"routes": [r for r in ("/finances", "/squad") if r in ctx.snapshot.routes]}, {"weekly_wage": claims.weekly_wage.to_json(), "total_fee": claims.guaranteed_fees.to_json() if claims.guaranteed_fees else None, "conditional_total": package.conditional_total().to_json()}, package))
+            result.append(CandidateDecision(f"recruit:{package.candidate_id}", kind, HORIZON_ROLLING_12_MONTHS, description, STATUS_ADVISORY, {"package": package.to_json(), "finance_window": _window_json(window)}, claims, reasons, ACTION_REQUIREMENTS[kind], True, False, {"routes": [r for r in ("/finances", "/squad") if r in ctx.snapshot.routes]}, {"weekly_wage": claims.weekly_wage.to_json(), "total_fee": claims.guaranteed_fees.to_json() if claims.guaranteed_fees else None, "conditional_total": package.conditional_total().to_json()}, package))
         return result
 
     def _succession_candidate(self, ctx: _Context) -> CandidateDecision:
@@ -550,7 +570,10 @@ class Planner:
         view_json = {k: _observed_json(getattr(view, k)) for k in ("balance", "transfer_budget", "wage_budget_weekly", "payroll_spending_weekly")}
         unresolved = [u for u in (snapshot.unresolved or []) if u in ("contract_clauses", "debts", "finance_breakdowns", "scouting_budget", "transfer_target_terms")]
         notes = [f"bridge does not decode: {', '.join(unresolved)}" if unresolved else "no finance-related capability reported unresolved"]
-        payroll = ctx.ledger.weekly_payroll(snapshot.game_date).to_json() if ctx.ledger is not None else None
+        # The ledger judges which commitments are active by in-game date only; without one nothing is evaluated (spec 5.2).
+        payroll = ctx.ledger.weekly_payroll(snapshot.game_date).to_json() if ctx.ledger is not None and snapshot.game_date else None
+        if ctx.ledger is not None and not snapshot.game_date:
+            notes.append("no game date in the snapshot: active contract lines cannot be determined, payroll ledger not evaluated")
         if payroll is not None and payroll.get("residual", {}).get("status") == "available":
             notes.append(f"payroll aggregate minus contract lines leaves an unexplained residual of {Money.from_json(payroll['residual']['value'])}")
         projection = reserve = None
@@ -733,14 +756,17 @@ class Planner:
     def _evaluate_package(self, ctx: _Context, candidate: CandidateDecision, scenarios: list[fin.Scenario] | None) -> ForecastAndConstraintReport:
         package = candidate.package
         assert package is not None
+        window = self.finance_window(ctx)
+        window_constraints = [] if window.available else [ConstraintRecord("finance_window", "unknown", f"finance window {window.status.value}: {window.reason}; guaranteed fees over the horizon not projected", False, "planner")]
         if ctx.evaluator is None:
-            return ForecastAndConstraintReport(candidate.candidate_id, [], [ConstraintRecord("squad_context", "fail", "no tactic slots or fixtures to re-solve against", True)], ["squad_context"], None, False)
+            return ForecastAndConstraintReport(candidate.candidate_id, [], [ConstraintRecord("squad_context", "fail", "no tactic slots or fixtures to re-solve against", True), *window_constraints], ["squad_context"], None, False)
         evaluator = ctx.evaluator
         if scenarios is not None and ctx.finance_inputs is not None:
             evaluator = RecruitmentEvaluator(ctx.squad, FinanceInputs(ctx.finance, ctx.ledger, ctx.policy, scenarios, self.providers.engine, self.providers.regulatory, ctx.snapshot.game_date), baseline=ctx.evaluator.baseline)
         evaluation = evaluator.evaluate(package)
         contribution, feasibility = evaluation.contribution, evaluation.feasibility
         constraints = [ConstraintRecord(c.name, c.status.value, c.reason, c.binding, "finance") for c in feasibility.constraints]
+        constraints.extend(window_constraints)
         constraints.append(_observed_constraint("registration_feasible", package.registration, "rules"))
         constraints.append(_observed_constraint("availability", package.availability, "scouting"))
         constraints.append(ConstraintRecord("acceptance", "pass" if package.acceptance == "plausible" else ("fail" if package.acceptance == "unlikely" else "unknown"), f"acceptance {package.acceptance}: {package.acceptance_basis}", False, "declared"))
@@ -983,6 +1009,11 @@ class Planner:
             if candidate.kind == "submit.lineup" and (candidate.unverified or not candidate.submittable):
                 outcomes.append(IntentOutcome(candidate.kind, candidate.candidate_id, False, None, "advisory or unverified lineup is never submitted"))
                 continue
+            twin = unsettled_twin(self.store, candidate.kind, candidate.targets, branch_id=snapshot.branch_id) if self.store is not None else None
+            if twin is not None:
+                # Duplicate-effect guard (spec 12.3, ACT 02): the earlier intent's effect is not established; a new one could double it.
+                outcomes.append(IntentOutcome(candidate.kind, candidate.candidate_id, False, None, f"duplicate-effect guard: intent {twin.action_id} for the same targets is still {twin.state.value}; reconcile it before a new intent is minted"))
+                continue
             try:
                 intent = factory.create(candidate.kind, AUTHORITY_SCOPES[candidate.kind], snapshot, candidate.targets, candidate.parameters, verification=VERIFICATION_PLANS[candidate.kind], decision_id=decision_by_horizon.get(candidate.horizon))
             except LifecycleError as exc:
@@ -1058,6 +1089,26 @@ class Planner:
 def _compact(candidate: CandidateDecision) -> dict[str, Any]:
     data = candidate.to_json()
     data.pop("payload", None)
+    return data
+
+
+def lineup_parameters(plan_: LineupPlan | None) -> dict[str, Any]:
+    """The one lineup parameter contract shared with the UI workflow and the verifier (spec 12.2).
+
+    ``player_ids`` is the eleven in slot order; ``roles`` maps each slot's
+    position code (``GK``, ``DCR``, ``STCL`` ...) to the role name assigned
+    there, exactly what ``set_lineup`` sends and ``lineup_matches_selection``
+    reads back. A plan with no assignments yields an empty eleven and no roles.
+    """
+    if plan_ is None:
+        return {"player_ids": [], "roles": {}}
+    return {"player_ids": list(plan_.player_ids), "roles": {a.position: a.role for a in plan_.assignments}}
+
+
+def _window_json(window: Observed) -> dict[str, Any]:
+    data = window.to_json()
+    if window.available:
+        data["value"] = [d.isoformat() if isinstance(d, dt.date) else str(d) for d in window.value]
     return data
 
 

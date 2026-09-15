@@ -16,7 +16,11 @@ between the two leaves an in-flight record for
 Navigation-class steps may be retried a bounded number of times after a fresh
 screen check. Consequential steps (offer acceptance, selection submission,
 Continue, ...) are never retried: a timeout or unexpected screen makes the
-intent UNCERTAIN and stops the workflow with its evidence preserved.
+intent UNCERTAIN and stops the workflow with its evidence preserved. The same
+holds for *any* exception the adapter raises from ``perform``: once the call
+was made the input may have gone out, so the effect is unknown; the intent
+becomes UNCERTAIN with its after-evidence recorded and is never left
+EXECUTING (spec 12.3).
 """
 from __future__ import annotations
 
@@ -27,9 +31,9 @@ from typing import Any, Callable
 from ..rules.authority import AuthorityProfile, authorize
 from ..rules.capabilities import CapabilityRegistry
 from ..state.identity import new_id, utc_now
-from ..state.records import ActionIntent, ActionResult, ActionState, DecisionSnapshot, ExecutionOutcome, Observation, QualityStatus, Visibility
+from ..state.records import ActionIntent, ActionResult, ActionState, DecisionSnapshot, ExecutionOutcome, Observation, QualityStatus, Visibility, payload_hash
 from ..state.status import MissingCapabilityReport
-from .adapter import (ADAPTER_CONTRACT_VERSION, ANY_SCREEN, RISK_CONSEQUENTIAL, STEP_NO_FOCUS, STEP_STOPPED, STEP_TIMEOUT, STEP_UNEXPECTED_SCREEN, AdapterCrash, ScreenObservation, UIAdapter, UIStep, Workflow, validate_environment)
+from .adapter import (ADAPTER_CONTRACT_VERSION, ANY_SCREEN, RISK_CONSEQUENTIAL, STEP_NO_FOCUS, STEP_STOPPED, STEP_TIMEOUT, STEP_UNEXPECTED_SCREEN, ScreenObservation, UIAdapter, UIStep, Workflow, validate_environment)
 from .lifecycle import context_changes, enqueue as lifecycle_enqueue, transition
 from .verification import Evidence, Verdict, VerdictKind, verify
 
@@ -45,9 +49,28 @@ PREFLIGHT_ORDER = ("stop", "career_branch", "snapshot_valid", "freshness", "work
 
 RECOVERY_INSTRUCTION_UNCERTAIN = "do not retry; run reconciliation (reconcile_uncertain / reconcile_on_restart) to establish the actual state from readback"
 
+# States in which an intent's effect on the game is not yet established. A new intent aimed at the same
+# targets would risk a duplicate effect, so nothing is minted for those targets until reconciliation settles it (ACT 02).
+UNSETTLED_STATES: tuple[ActionState, ...] = (ActionState.EXECUTING, ActionState.VERIFYING, ActionState.UNCERTAIN, ActionState.RECONCILING)
+
 
 class ExecutorError(RuntimeError):
     pass
+
+
+def unsettled_twin(store, kind: str, targets: dict[str, Any], *, branch_id: str | None) -> ActionIntent | None:
+    """The oldest intent of ``kind`` on ``branch_id`` aimed at exactly ``targets`` whose effect is still unsettled.
+
+    The idempotency key changes with every new decision, so it cannot stop a
+    re-planned duplicate; this lookup is the duplicate-effect guard the
+    planner and the orchestrator apply before minting an intent (spec 12.3,
+    ACT 02). ``None`` means no such intent exists.
+    """
+    wanted = payload_hash({"targets": targets})
+    for intent in store.list_intents(list(UNSETTLED_STATES), branch_id=branch_id):
+        if intent.kind == kind and payload_hash({"targets": intent.targets}) == wanted:
+            return intent
+    return None
 
 
 class WriterLockHeld(ExecutorError):
@@ -295,10 +318,10 @@ class SingleWriterExecutor:
                 inputs += 1
                 try:
                     outcome = self.adapter.perform(step)
-                except AdapterCrash as exc:
-                    records.append({"step_id": step.step_id, "status": "crash", "error": str(exc)})
+                except Exception as exc:  # noqa: BLE001 - the input may already have gone out; nothing here may guess or retry
+                    records.append({"step_id": step.step_id, "risk_class": step.risk_class, "retry": retries, "status": "exception", "error_type": exc.__class__.__name__, "error": str(exc)})
                     consequential_sent = consequential_sent or step.risk_class == RISK_CONSEQUENTIAL
-                    return _StepsOutcome(ActionState.UNCERTAIN, f"adapter crashed during step {step.step_id}: {exc}; effect unknown", records, consequential_sent, inputs)
+                    return _StepsOutcome(ActionState.UNCERTAIN, f"adapter raised {exc.__class__.__name__} during step {step.step_id}: {exc}; the input may have been sent, effect unknown; never retried", records, consequential_sent, inputs)
                 records.append({"step_id": step.step_id, "risk_class": step.risk_class, "retry": retries, **outcome.to_json()})
                 if outcome.ok:
                     consequential_sent = consequential_sent or step.risk_class == RISK_CONSEQUENTIAL

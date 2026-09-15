@@ -65,6 +65,9 @@ MANDATORY_EVENT_PATTERNS: tuple[str, ...] = (
 # Event types that never require a decision. Extend only with observed examples.
 INFORMATIONAL_EVENT_TYPES: frozenset[str] = frozenset({"news_item_training", "news_item_match_report", "news_item_results"})
 
+# ``time_status`` when the bridge record carries no such field at all.
+TIME_STATUS_UNKNOWN = "unknown"
+
 # ``text_status`` values the bridge uses for undecoded prose.
 UNDECODED_TEXT_STATUSES: frozenset[str] = frozenset({"not_decoded", "unsupported", "missing"})
 
@@ -99,7 +102,9 @@ class InboxItem:
 def inbox_item(message: dict[str, Any], source: str = "") -> InboxItem:
     """Build an :class:`InboxItem` from one bridge ``/inbox`` message record."""
     time = message.get("time")
-    time_status = message.get("time_status") or ("current" if time is not None else "missing")
+    # The bridge asserts whether a time is initialised through ``time_status``; a record
+    # without it is ``unknown`` (never assumed current), so ``time_known`` stays False (OBS 02).
+    time_status = message.get("time_status") or TIME_STATUS_UNKNOWN
     return InboxItem(
         message_id=int(message["id"]), date=str(message["date"]), time=time, time_status=str(time_status),
         unread=bool(message["unread"]), event_type=str(message.get("event_type") or ""),

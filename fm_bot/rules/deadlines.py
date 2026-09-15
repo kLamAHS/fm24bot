@@ -5,11 +5,15 @@ flag and ``text_status == "not_decoded"``. Whether a message demands a
 decision before the calendar can advance is therefore a conservative
 heuristic on the event type until an ``inbox_text`` / ``pending_actions``
 provider exists. The heuristic errs towards blocking: an unread message
-whose type merely *looks* mandatory blocks Continue, and read messages that
-look mandatory are reported as unresolved (they cannot be proven answered).
-It can still miss a required decision whose event type has no matching
-substring; that is why ``progress.continue`` also requires the
-``pending_actions`` capability in :data:`ACTION_REQUIREMENTS`.
+whose type merely *looks* mandatory blocks Continue, and a read message
+that looks mandatory keeps blocking too, because "read" is not "answered".
+Only a text provider that says no decision is required, or a
+:class:`PendingActionsObservation` at the snapshot's game time (with the
+``pending_actions`` capability supported) that reports the message
+resolved, lifts it. The heuristic can still miss a required decision whose
+event type has no matching substring; that is why ``progress.continue``
+also requires the ``pending_actions`` capability in
+:data:`ACTION_REQUIREMENTS`.
 
 Baseline only: no learned classifier is used here. If a language model is
 ever attached to read message text it is a separate, gated provider.
@@ -17,7 +21,7 @@ ever attached to read message text it is a separate, gated provider.
 from __future__ import annotations
 
 import datetime as dt
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Callable, Iterable
 
 from ..state.records import CompetitionContext, DecisionSnapshot
@@ -53,7 +57,7 @@ EXECUTION_MODES: frozenset[AuthorityMode] = frozenset({AuthorityMode.SCOPED_EXEC
 
 CLASSIFICATION_MANDATORY_CONFIRMED = "mandatory_confirmed"       # a text/pending-actions provider said so
 CLASSIFICATION_MANDATORY_HEURISTIC = "mandatory_heuristic"       # event type matched a pattern; text not decoded
-CLASSIFICATION_UNRESOLVED_READ = "unresolved_read_heuristic"     # read, looks mandatory, resolution unknown
+CLASSIFICATION_UNRESOLVED_READ = "unresolved_read_heuristic"     # read, looks mandatory, resolution unknown: blocks until observed resolved
 CLASSIFICATION_UNCLASSIFIED = "unclassified"                     # unread, no pattern match, text not decoded
 CLASSIFICATION_INFORMATIONAL = "informational"                   # provider or explicit list says no decision needed
 
@@ -113,7 +117,7 @@ def _message_action(message: dict[str, Any], text_provider: InboxTextProvider | 
     if matched and unread:
         return PendingAction(classification=CLASSIFICATION_MANDATORY_HEURISTIC, blocks_continue=True, description=f"unread {event_type} looks like a required decision (matched {', '.join(matched)}); text not decoded", requires_capability="inbox_text", **base)
     if matched:
-        return PendingAction(classification=CLASSIFICATION_UNRESOLVED_READ, blocks_continue=False, description=f"read {event_type} looks like a decision; whether it was answered cannot be verified without pending_actions", requires_capability="pending_actions", **base)
+        return PendingAction(classification=CLASSIFICATION_UNRESOLVED_READ, blocks_continue=True, description=f"read {event_type} looks like a decision (matched {', '.join(matched)}); whether it was answered cannot be verified without a pending_actions observation", requires_capability="pending_actions", **base)
     if unread:
         return PendingAction(classification=CLASSIFICATION_UNCLASSIFIED, blocks_continue=False, description=f"unread {event_type} matched no mandatory pattern; text not decoded so it may still require a decision", requires_capability="inbox_text", **base)
     return None
@@ -156,6 +160,68 @@ def registration_actions(contexts: Iterable[CompetitionContext], game_date: str 
             resolved = bool(entry.get("resolved"))
             result.append(PendingAction(action_id=f"{kind}:{context.competition_id}:{context.stage or 'current'}:{entry['date']}", kind=kind, classification=CLASSIFICATION_MANDATORY_CONFIRMED if within and not resolved else CLASSIFICATION_INFORMATIONAL, blocks_continue=within and not resolved, description=f"{context.competition_name or context.competition_id}: {entry.get('description') or kind} on {entry['date']}", source=f"rules_profile:{context.source}", deadline_date=entry["date"], deadline_time=entry.get("time"), game_date=game_date, resolved=resolved))
     return result
+
+
+@dataclass(frozen=True)
+class PendingActionsObservation:
+    """What a ``pending_actions`` provider reported at one in-game moment (spec 12.4, CAL 01).
+
+    ``resolved_action_ids`` are the pending-action ids (``inbox:<id>``,
+    ``registration_deadline:...``) the provider observed as answered or
+    cleared. Only an observation at the snapshot's own game date *and*
+    time counts: in-game time is the clock, and a reading from another
+    moment proves nothing about this one.
+    """
+
+    resolved_action_ids: frozenset[str]
+    source: str
+    game_date: str | None
+    game_time: str | None
+    observed_at: str | None = None
+
+    def current_for(self, snapshot: DecisionSnapshot) -> bool:
+        return self.game_date is not None and self.game_time is not None and self.game_date == snapshot.game_date and self.game_time == snapshot.game_time
+
+    def reports_resolved(self, action_id: str) -> bool:
+        return action_id in self.resolved_action_ids
+
+    def to_json(self) -> dict[str, Any]:
+        return {"resolved_action_ids": sorted(self.resolved_action_ids), "source": self.source, "game_date": self.game_date, "game_time": self.game_time, "observed_at": self.observed_at}
+
+
+def resolve_read_actions(snapshot: DecisionSnapshot, pending: Iterable[PendingAction], observation: PendingActionsObservation | None, *, capabilities=None) -> tuple[list[PendingAction], list[str]]:
+    """Copies of ``pending`` in which read-but-unresolved messages are marked resolved only on observed evidence.
+
+    A ``CLASSIFICATION_UNRESOLVED_READ`` action is resolved when the
+    ``pending_actions`` capability is supported *and* a current
+    :class:`PendingActionsObservation` reports its id. Anything less (no
+    observation, an observation from another game time, an unsupported
+    capability) leaves it blocking, with a note saying why.
+    """
+    notes: list[str] = []
+    result: list[PendingAction] = []
+    supported, reason = _capability_supported(snapshot, capabilities, "pending_actions")
+    for action in pending:
+        if action.classification != CLASSIFICATION_UNRESOLVED_READ or action.resolved:
+            result.append(action)
+            continue
+        if observation is None:
+            result.append(action)
+            continue
+        if not supported:
+            notes.append(f"{action.action_id}: pending-actions observation from {observation.source} ignored; pending_actions capability {reason}")
+            result.append(action)
+            continue
+        if not observation.current_for(snapshot):
+            notes.append(f"{action.action_id}: pending-actions observation at {observation.game_date} {observation.game_time} is not the snapshot game time {snapshot.game_date} {snapshot.game_time}; resolution unverified")
+            result.append(action)
+            continue
+        if observation.reports_resolved(action.action_id):
+            notes.append(f"{action.action_id}: reported resolved by {observation.source} at {observation.game_date} {observation.game_time}")
+            result.append(replace(action, resolved=True, blocks_continue=False, description=f"{action.description}; reported resolved by {observation.source}"))
+        else:
+            result.append(action)
+    return result, notes
 
 
 @dataclass
@@ -217,21 +283,25 @@ def _capability_supported(snapshot: DecisionSnapshot, capabilities, name: str) -
     return False, "no provider registered"
 
 
-def continue_gate(snapshot: DecisionSnapshot, pending: list[PendingAction], rules_contexts: list[CompetitionContext], lineup_status: LineupStatus | dict[str, Any] | None, *, authority_mode: AuthorityMode = AuthorityMode.ADVISE, capabilities=None, lineup_horizon_days: int = LINEUP_GATE_HORIZON_DAYS, registration_window_days: int = REGISTRATION_DEADLINE_WINDOW_DAYS) -> ContinueGate:
-    """Decide whether the calendar may be advanced (spec 12.4).
+def continue_gate(snapshot: DecisionSnapshot, pending: list[PendingAction], rules_contexts: list[CompetitionContext], lineup_status: LineupStatus | dict[str, Any] | None, *, authority_mode: AuthorityMode = AuthorityMode.ADVISE, capabilities=None, lineup_horizon_days: int = LINEUP_GATE_HORIZON_DAYS, registration_window_days: int = REGISTRATION_DEADLINE_WINDOW_DAYS, pending_observation: PendingActionsObservation | None = None) -> ContinueGate:
+    """Decide whether the calendar may be advanced (spec 12.4, CAL 01).
 
     ``blockers`` are things a person or a prior action can resolve (an
-    unread required decision, an unverified lineup before a fixture, a
-    registration deadline inside its window, an invalid snapshot).
-    ``missing_capabilities`` names subsystems ``progress.continue`` needs
-    that nobody provides. Continue is allowed only when both are empty.
-    ``capabilities`` may be a :class:`CapabilityRegistry`; without one the
-    snapshot's own capability lists are consulted.
+    unread or read-but-unanswered required decision, an unverified lineup
+    before a fixture, a registration deadline inside its window, an invalid
+    snapshot). ``missing_capabilities`` names subsystems
+    ``progress.continue`` needs that nobody provides. Continue is allowed
+    only when both are empty. ``capabilities`` may be a
+    :class:`CapabilityRegistry`; without one the snapshot's own capability
+    lists are consulted. A read mandatory-looking message stops blocking
+    only when ``pending_observation`` (current for this snapshot, with the
+    ``pending_actions`` capability supported) reports it resolved; see
+    :func:`resolve_read_actions`.
     """
     lineup = lineup_status if isinstance(lineup_status, LineupStatus) else LineupStatus.from_json(lineup_status)
     report = MissingCapabilityReport("progress.continue")
     blockers: list[str] = []
-    notes: list[str] = []
+    pending, notes = resolve_read_actions(snapshot, pending, pending_observation, capabilities=capabilities)
     for name in ACTION_REQUIREMENTS["progress.continue"]:
         ok, reason = _capability_supported(snapshot, capabilities, name)
         if not ok:
@@ -250,7 +320,7 @@ def continue_gate(snapshot: DecisionSnapshot, pending: list[PendingAction], rule
                 if not ok:
                     previous = report.reasons.get(action.requires_capability)
                     report.add(action.requires_capability, f"{previous}; also {action.action_id}" if previous else f"needed to resolve {action.action_id}: {reason}")
-        elif action.classification in (CLASSIFICATION_UNCLASSIFIED, CLASSIFICATION_UNRESOLVED_READ):
+        elif action.classification == CLASSIFICATION_UNCLASSIFIED:
             notes.append(f"{action.action_id}: {action.description}")
     for context in rules_contexts:
         if context.squad_rules.get("status") == "missing":

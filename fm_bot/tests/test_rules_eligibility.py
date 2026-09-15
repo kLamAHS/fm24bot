@@ -56,6 +56,22 @@ class FreshnessTests(unittest.TestCase):
         self.assertIs(freshness_status(None, None, "2024-02-17", "10:00")[0], ValueStatus.MISSING)
         self.assertIs(freshness_status("2024-02-17", "10:00", None, None)[0], ValueStatus.MISSING)
 
+    def test_sel01_time_less_same_day_reading_is_stale_not_current(self):
+        """SEL 01 / spec 7.1: a reading with no game time on the snapshot's day may predate the snapshot time; it never verifies."""
+        status, reason = freshness_status("2024-02-17", None, "2024-02-17", "15:00")
+        self.assertIs(status, ValueStatus.STALE)
+        self.assertIn("no game time", reason)
+        self.assertIn("15:00", reason)
+
+    def test_sel01_unknown_snapshot_time_cannot_verify_a_same_day_reading(self):
+        """SEL 01: when the snapshot's own time is unknown nothing can be compared, so same-day readings are missing verification."""
+        status, reason = freshness_status("2024-02-17", "10:00", "2024-02-17", None)
+        self.assertIs(status, ValueStatus.MISSING)
+        self.assertIn("no game time", reason)
+        self.assertIs(freshness_status("2024-02-17", None, "2024-02-17", None)[0], ValueStatus.MISSING)
+        # a different day is still reported stale first, whatever the times
+        self.assertIs(freshness_status("2024-02-16", None, "2024-02-17", None)[0], ValueStatus.STALE)
+
 
 class ProviderTests(unittest.TestCase):
     def test_no_provider_is_missing_and_keeps_default_shape(self):
@@ -236,6 +252,25 @@ class VerifiedEligibleTests(unittest.TestCase):
         provider = DeclaredEligibilityProvider(self.snap.game_date, self.snap.game_time)
         provider.register(clear(1001, game_date="2024-02-16"))
         result = verified_eligible(self.states(provider)[1001], self.fixture, **self.kw)
+        self.assertIs(result.status, ValueStatus.STALE)
+
+    def test_sel01_time_less_clear_reading_cannot_verify_a_starter(self):
+        """SEL 01: an EligibilityObservation.clear(..., game_time=None) from earlier the same day is stale at 10:00, not verified."""
+        provider = DeclaredEligibilityProvider(self.snap.game_date, self.snap.game_time)
+        provider.register(clear(1001, game_time=None))
+        state = self.states(provider)[1001]
+        self.assertEqual(state.eligibility["status"], "stale")
+        result = verified_eligible(state, self.fixture, **self.kw)
+        self.assertFalse(result.available)
+        self.assertIs(result.status, ValueStatus.STALE)
+        self.assertIn("no game time", result.reason)
+        # the ??:?? placeholder in a stored component key is the same time-less reading
+        self.assertTrue(all(state.eligibility[name]["game_time"].endswith("??:??") for name in ("injury", "suspension", "loan_absence", "registration")))
+        # a positive absence read without a time is stale like any other unfresh reading: not proven, and not submittable either way
+        provider = DeclaredEligibilityProvider(self.snap.game_date, self.snap.game_time)
+        provider.register(injured(1002, game_time=None))
+        result = verified_eligible(self.states(provider)[1002], self.fixture, **self.kw)
+        self.assertFalse(result.available)
         self.assertIs(result.status, ValueStatus.STALE)
 
     def test_reverification_against_a_later_snapshot_time(self):

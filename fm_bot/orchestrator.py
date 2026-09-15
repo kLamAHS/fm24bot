@@ -12,9 +12,26 @@ Four run levels, in the order the spec gives them:
 3. **Weekly or material event** - the shared planner refreshes squad,
    minutes, contracts, scouting and finance plans.
 4. **Supported match** - only verified state changes at permitted
-   intervention points may drive actions. The current ``/match`` feed has an
-   unclassified timeline, so this version refuses every live action and only
-   records what it saw (MAT 01).
+   intervention points may drive actions. Live actions are gated on the
+   ``/match`` payload's own ``timeline`` field and the ``match_event_order``
+   capability: only a ``classified`` timeline with a supported event order
+   could ever permit one; anything else (unclassified, missing, an unresolved
+   capability) records observations and refuses, naming the value it saw
+   (MAT 01). No prevalidated match action set exists in this version, so even
+   a permitted gate executes nothing.
+
+Before any replanning, every intent whose effect is unsettled (EXECUTING,
+VERIFYING, UNCERTAIN, RECONCILING) is reconciled from readback, and no new
+intent is minted for targets an unsettled intent already covers: a timeout
+after a successful acceptance leads to reconciliation, never to a second
+dispatch (spec 12.3, ACT 02).
+
+A reload of another checkpoint (date reversed), a manager/club change or a
+build change is a stop for identity resolution (spec 5.1, ID 01): execution
+is disabled, queued work is cancelled, and no decision or intent is recorded
+on the branch until the operator confirms the lineage
+(:meth:`Orchestrator.confirm_lineage`). Observations are still journaled;
+the snapshots are invalid.
 
 Events (a new message, an offer, a fixture change, a budget change, a squad
 change, a reported injury) are detected by diffing successive snapshots.
@@ -37,16 +54,16 @@ from typing import Any, Callable, Protocol
 
 from .bridge_client.client import BridgeClient
 from .execution.adapter import FAKE_WORKFLOWS
-from .execution.executor import ExecutionReport, SingleWriterExecutor, WriterLockHeld
+from .execution.executor import ExecutionReport, SingleWriterExecutor, WriterLockHeld, unsettled_twin
 from .execution.lifecycle import IntentFactory, LifecycleError, enqueue, validate
-from .execution.reconciliation import reconcile_on_restart
+from .execution.reconciliation import IN_FLIGHT_OR_UNCERTAIN, RecoveryDecision, reconcile_on_restart, reconcile_uncertain
 from .interactions.inbox import InboxBlocker, InboxTextProvider, continue_blocked_by_inbox, inbox_items, unresolved_mandatory
 from .interface.controls import Settings
 from .interface.notify import Notifier
 from .interface.status import JOURNAL_CONNECTION, JOURNAL_STOP, JOURNAL_STOP_CLEARED, OperatorView, build_view
-from .rules.capabilities import CapabilityRegistry
+from .rules.capabilities import CapabilityRegistry, CapabilityStatus
 from .rules.deadlines import EXECUTION_MODES, ContinueGate, LineupStatus, PendingAction, continue_gate, pending_actions
-from .state.identity import BranchIdentity, CareerIdentity, CareerRegistry, new_id, utc_now
+from .state.identity import BranchIdentity, CareerIdentity, CareerRegistry, ContinuityStatus, new_id, utc_now
 from .state.records import ActionState, ConsistencyStatus, Decision, DecisionSnapshot
 from .state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements, anchor_of
 from .state.status import MissingCapabilityReport
@@ -64,7 +81,12 @@ DEFAULT_ROUTES: tuple[str, ...] = ("/squad", "/finances", "/fixtures", "/tactics
 OPTIONAL_ROUTES: tuple[str, ...] = ("/match", "/training")
 # Fixtures whose competition rules are consulted at a decision point.
 RULES_HORIZON_FIXTURES = 3
-MATCH_LIVE_ACTIONS_REFUSED = "the /match feed's timeline is unclassified and no verified intervention point exists; live actions are refused and only observations are recorded (MAT 01)"
+# The only /match timeline value under which a live action could ever be considered (spec 9.2, MAT 01).
+MATCH_TIMELINE_CLASSIFIED = "classified"
+MATCH_EVENT_ORDER_CAPABILITY = "match_event_order"
+# Continuity outcomes that stop the bot for identity resolution (spec 5.1, ID 01).
+IDENTITY_STOP_STATUSES: tuple[ContinuityStatus, ...] = (ContinuityStatus.DATE_REVERSED, ContinuityStatus.IDENTITY_CHANGED, ContinuityStatus.BUILD_CHANGED)
+LINEAGE_CONFIRMATION_REQUIRED = "the operator must confirm this save is the registered career (confirm_lineage / register --confirm-lineage) before any decision, intent or input"
 CONTINUE_ACTION_KIND = "progress.continue"
 INBOX_RESPONSE_KIND = "respond.inbox"
 # Candidate kinds the orchestrator may hand to the single UI writer when the planner marks them proposed.
@@ -80,6 +102,10 @@ JOURNAL_MATCH = "orchestrator.match_observed"
 JOURNAL_UNAVAILABLE = "orchestrator.observations_unavailable"
 JOURNAL_BOUNDARY = "orchestrator.expected_boundary"
 JOURNAL_SETTLE = "orchestrator.settle"
+JOURNAL_RECONCILE = "orchestrator.reconciled"
+JOURNAL_IDENTITY = "orchestrator.identity_resolution_required"
+JOURNAL_LINEAGE_CONFIRMED = "orchestrator.lineage_confirmed"
+JOURNAL_NOT_EXECUTED = "orchestrator.not_executed"
 
 
 class OrchestratorError(RuntimeError):
@@ -103,6 +129,7 @@ class PassStatus(str, Enum):
     DISCONNECTED = "disconnected"
     BUILD_UNSUPPORTED = "build_unsupported"
     IDENTITY_MISMATCH = "identity_mismatch"
+    IDENTITY_RESOLUTION_REQUIRED = "identity_resolution_required"
     INCONSISTENT = "inconsistent"
     UNCHANGED = "unchanged"
     MATCH_OBSERVED = "match_observed"
@@ -346,14 +373,24 @@ class PassResult:
     notifications: int = 0
     next_poll_seconds: float = 0.0
     notes: list[str] = field(default_factory=list)
+    reconciled: list[dict[str, Any]] = field(default_factory=list)      # unsettled intents reconciled before this pass replanned
 
     def to_json(self) -> dict[str, Any]:
-        return {"level": self.level.value, "status": self.status.value, "snapshot_id": self.snapshot_id, "game_date": self.game_date, "game_time": self.game_time, "changed": self.changed, "triggers": [t.to_json() for t in self.triggers], "decision_point": self.decision_point.to_json() if self.decision_point else None, "plan": self.plan.to_json() if self.plan else None, "next_action": self.next_action, "executed": self.executed.to_json() if self.executed else None, "continue_gate": self.continue_gate.to_json() if self.continue_gate else None, "blocked": [b.to_json() for b in self.blocked], "notifications": self.notifications, "next_poll_seconds": self.next_poll_seconds, "notes": list(self.notes), "version": ORCHESTRATOR_VERSION}
+        return {"level": self.level.value, "status": self.status.value, "snapshot_id": self.snapshot_id, "game_date": self.game_date, "game_time": self.game_time, "changed": self.changed, "triggers": [t.to_json() for t in self.triggers], "decision_point": self.decision_point.to_json() if self.decision_point else None, "plan": self.plan.to_json() if self.plan else None, "next_action": self.next_action, "executed": self.executed.to_json() if self.executed else None, "continue_gate": self.continue_gate.to_json() if self.continue_gate else None, "blocked": [b.to_json() for b in self.blocked], "notifications": self.notifications, "next_poll_seconds": self.next_poll_seconds, "notes": list(self.notes), "reconciled": list(self.reconciled), "version": ORCHESTRATOR_VERSION}
 
 
 # ---------------------------------------------------------------------------
 # The orchestrator
 # ---------------------------------------------------------------------------
+
+
+def _continuity_status(snapshot: DecisionSnapshot) -> ContinuityStatus | None:
+    """The continuity verdict the collector attached to ``snapshot``, or ``None`` when it never got that far."""
+    raw = (snapshot.continuity or {}).get("status")
+    try:
+        return ContinuityStatus(raw) if raw is not None else None
+    except ValueError:
+        return None
 
 
 def plan_due(last_plan_date: str | None, game_date: str | None) -> bool:
@@ -520,6 +557,8 @@ class Orchestrator:
         self.capabilities = CapabilityRegistry.from_status(None, supported_builds=client.supported_builds)
         self.connected = False
         self.execution_enabled = False
+        self.identity_resolution_required = False
+        self.identity_resolution_reason: str | None = None
         self.consecutive_errors = 0
         self.previous_snapshot: DecisionSnapshot | None = None
         self.last_plan_date: str | None = None
@@ -651,6 +690,8 @@ class Orchestrator:
         settled = self.settle()
         registry = self.validate_capabilities(state["status"])
         snapshot = self.collect("connect")
+        if self.identity_resolution_required:
+            return self._finish_connect(ConnectResult(PassStatus.IDENTITY_RESOLUTION_REQUIRED, True, True, True, [self.identity_resolution_reason or "identity resolution required", LINEAGE_CONFIRMATION_REQUIRED], settled, [], snapshot.snapshot_id, registry.summary(), snapshot.game_date, snapshot.game_time))
         reconciled = []
         if snapshot.valid:
             reconciled = [d.to_json() for d in reconcile_on_restart(self.store, self.adapter, snapshot, branch_id=self.branch.branch_id)]
@@ -680,7 +721,12 @@ class Orchestrator:
         context = CollectionContext(self.career.career_id, self.branch.branch_id, self.settings.information_mode(), self._anchor, self.lineage_confirmed, self._bot_progressed, self.stable_point, self._sequence)
         snapshot = self.collector.collect(requirements, context)
         self._sequence = context.sequence
-        if snapshot.valid:
+        continuity = _continuity_status(snapshot)
+        if continuity in IDENTITY_STOP_STATUSES:
+            # The anchor is deliberately not moved: until the operator confirms the lineage, every later
+            # collection is judged against the history the bot actually witnessed (spec 5.1, ID 01).
+            self._require_identity_resolution(snapshot, continuity)
+        elif snapshot.valid:
             self._anchor = anchor_of(snapshot)
             self._bot_progressed = False
         elif snapshot.consistency is ConsistencyStatus.DISCONNECTED:
@@ -689,14 +735,62 @@ class Orchestrator:
             self._unavailable(PassStatus.BUILD_UNSUPPORTED, "; ".join(snapshot.consistency_reasons), snapshot)
         return snapshot
 
+    # ----- identity resolution (spec 5.1, ID 01) -----
+    def _require_identity_resolution(self, snapshot: DecisionSnapshot, status: ContinuityStatus) -> None:
+        """A load of another checkpoint, another manager/club or another build: stop until the operator confirms the lineage.
+
+        Execution is disabled, queued work is cancelled without input, and
+        nothing further is decided or minted on this branch. Observations keep
+        being journaled (they are what the operator resolves against) but the
+        snapshots stay invalid. Repeated passes in this state do not repeat
+        the journal entry or the notification.
+        """
+        reasons = "; ".join((snapshot.continuity or {}).get("reasons") or snapshot.consistency_reasons or [status.value])
+        self.execution_enabled = False
+        self.lineage_confirmed = False
+        if self.identity_resolution_required:
+            return
+        self.identity_resolution_required = True
+        self.identity_resolution_reason = f"continuity {status.value}: {reasons}"
+        cancelled: list[str] = []
+        for intent in self.store.list_intents([ActionState.QUEUED], branch_id=self.branch.branch_id):
+            self.store.update_intent_state(intent, ActionState.CANCELLED, f"identity resolution required: {self.identity_resolution_reason}")
+            cancelled.append(intent.action_id)
+        self.store.journal(JOURNAL_IDENTITY, {"status": status.value, "reason": self.identity_resolution_reason, "snapshot_id": snapshot.snapshot_id, "observation_ids": list(snapshot.observation_ids), "game_date": snapshot.game_date, "game_time": snapshot.game_time, "cancelled": cancelled, "execution": "disabled", "required": LINEAGE_CONFIRMATION_REQUIRED}, self.branch.branch_id)
+        self.notifier.required_action("the loaded save is not the continuation of the registered career", [self.identity_resolution_reason, LINEAGE_CONFIRMATION_REQUIRED], ref_id=self.branch.branch_id)
+
+    def confirm_lineage(self, reason: str = "operator confirmed the loaded save is the registered career") -> None:
+        """The operator vouches for the loaded save. Continuity restarts from it; the next pass reconnects, settles and reconciles."""
+        self.store.journal(JOURNAL_LINEAGE_CONFIRMED, {"reason": reason, "previous": self.identity_resolution_reason, "branch_id": self.branch.branch_id}, self.branch.branch_id)
+        self.identity_resolution_required = False
+        self.identity_resolution_reason = None
+        self.lineage_confirmed = True
+        self._anchor = None
+        self.previous_snapshot = None          # nothing is diffed across the reload; a full decision point follows
+        self.last_plan_date = None
+        self.connected = False
+        self.execution_enabled = False
+
     # ----- level 2: stable decision point -----
-    def _deadline_text_provider(self):
+    @staticmethod
+    def _game_time_of(snapshot: DecisionSnapshot) -> str | None:
+        return f"{snapshot.game_date} {snapshot.game_time}" if snapshot.game_date else None
+
+    def _deadline_text_provider(self, snapshot: DecisionSnapshot):
+        """Inbox text as the deadline rules and the planner read it, at the snapshot's own game time.
+
+        The game time is passed through so a text read at an earlier game
+        time is served ``stale`` and ignored here exactly as
+        ``unresolved_mandatory`` treats it: one decision point, one clock
+        (spec 5.2, 12.4). ``None`` when no provider is installed.
+        """
         provider = self.inbox_text_provider
         if provider is None:
             return None
+        game_time = self._game_time_of(snapshot)
 
         def read(message: dict[str, Any]) -> dict[str, Any] | None:
-            observed = provider.get_text(message.get("id"), game_time=None)
+            observed = provider.get_text(message.get("id"), game_time=game_time)
             if not observed.available or observed.value.requires_decision is None:
                 return None
             text = observed.value
@@ -713,8 +807,8 @@ class Orchestrator:
 
     def decision_point(self, snapshot: DecisionSnapshot, lineup_status: LineupStatus | None = None) -> DecisionPointResult:
         """Level 2: mandatory deadlines and inbox decisions, before any optional work."""
-        game_time = f"{snapshot.game_date} {snapshot.game_time}" if snapshot.game_date else None
-        pending = pending_actions(snapshot, self._deadline_text_provider())
+        game_time = self._game_time_of(snapshot)
+        pending = pending_actions(snapshot, self._deadline_text_provider(snapshot))
         blockers = unresolved_mandatory(inbox_items(snapshot), self.inbox_text_provider, game_time=game_time, pending_actions_supported=self.capabilities.supported("pending_actions"))
         gate = continue_gate(snapshot, pending, self._rules_contexts(snapshot), lineup_status, authority_mode=self.settings.authority_mode(), capabilities=self.capabilities)
         merged = MissingCapabilityReport(CONTINUE_ACTION_KIND)
@@ -741,9 +835,14 @@ class Orchestrator:
         under; a material change from the previous decision of the same kind
         is reported through the notifier. Blocked capability reports from
         the planner are listed as unresolved prerequisites (they are not
-        mandatory workflows, so they do not notify).
+        mandatory workflows, so they do not notify). While identity
+        resolution is required nothing is planned or recorded (ID 01).
         """
-        outcome = run_planner(snapshot, store=self.store, settings=self.settings, capabilities=self.capabilities, eligibility=self.eligibility, rules=self.rules, promises=self.promises, inbox_text=self._deadline_text_provider(), build=self._bridge_build(), planner=self.planner)
+        if self.identity_resolution_required:
+            reason = f"identity resolution required ({self.identity_resolution_reason}); no plan is made or recorded on this branch until the operator confirms the lineage"
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": "plan.weekly", "reason": reason}, snapshot.snapshot_id)
+            return PlanOutcome("unavailable", reason=reason)
+        outcome = run_planner(snapshot, store=self.store, settings=self.settings, capabilities=self.capabilities, eligibility=self.eligibility, rules=self.rules, promises=self.promises, inbox_text=self._deadline_text_provider(snapshot), build=self._bridge_build(), planner=self.planner)
         self.last_plan_date = snapshot.game_date          # do not re-plan every poll; the next week or a trigger retries
         if outcome.status == "unavailable":
             for report in outcome.missing:
@@ -755,6 +854,9 @@ class Orchestrator:
 
     def _record_decision(self, decision: Decision) -> None:
         """Persist a decision with the setting versions it was made under, and report a material plan change."""
+        if self.identity_resolution_required:
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": decision.kind, "decision_id": decision.decision_id, "reason": f"identity resolution required ({self.identity_resolution_reason}); decision not recorded on this branch"}, decision.decision_id)
+            return
         if self.store.get_decision(decision.decision_id) is None:
             self.settings.stamp_decision(decision)
             self.store.insert_decision(decision)
@@ -776,6 +878,8 @@ class Orchestrator:
     def _execution_permitted(self, kind: str) -> str | None:
         if self.stop_control.engaged:
             return f"Stop is engaged ({self.stop_control.reason}); no input will be sent"
+        if self.identity_resolution_required:
+            return f"identity resolution required ({self.identity_resolution_reason}); no decision, intent or input on this branch until the operator confirms the lineage"
         if not self.execution_enabled:
             return "execution disabled: bridge unavailable, unsettled or career unconfirmed"
         if self.settings.authority_mode() not in EXECUTION_MODES:
@@ -798,23 +902,30 @@ class Orchestrator:
         kind = action["kind"]
         refusal = self._execution_permitted(kind)
         if refusal:
-            self.store.journal("orchestrator.not_executed", {"kind": kind, "reason": refusal}, snapshot.snapshot_id)
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": kind, "reason": refusal}, snapshot.snapshot_id)
             return refusal
         report = self.capabilities.check(kind, extra=action.get("required_capabilities", []))
         if report.blocked:
             self.notifier.unsupported_workflow(report, ref_id=snapshot.snapshot_id)
             return report
+        twin = unsettled_twin(self.store, kind, dict(action.get("targets", {})), branch_id=self.branch.branch_id)
+        if twin is not None:
+            # Duplicate-effect guard (spec 12.3, ACT 02): the earlier intent's effect is not established, so a new
+            # intent for the same targets is refused until reconciliation settles it. Never a second dispatch.
+            refusal = f"duplicate-effect guard: intent {twin.action_id} ({twin.kind}) for the same targets is still {twin.state.value}; reconcile it before a new intent is minted"
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": kind, "reason": refusal, "unsettled_action_id": twin.action_id, "unsettled_state": twin.state.value}, snapshot.snapshot_id)
+            return refusal
         decision_id = decision_id or action.get("decision_id")
         if decision_id is None or self.store.get_decision(decision_id) is None:
             decision_id = self._wrap_decision(action, snapshot, reasons=reasons or [action.get("description", "proposed by the planner")]).decision_id
         try:
             intent = self.factory.create(kind, action["authority_scope"], snapshot, dict(action.get("targets", {})), dict(action.get("parameters", {})), required_capabilities=action.get("required_capabilities"), verification=action.get("verification", "navigation_only"), decision_id=decision_id)
         except (LifecycleError, StoreError) as exc:
-            self.store.journal("orchestrator.not_executed", {"kind": kind, "reason": str(exc)}, snapshot.snapshot_id)
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": kind, "reason": str(exc)}, snapshot.snapshot_id)
             return f"intent not created: {exc}"
         validation = validate(intent, self.capabilities, self.settings.authority_profile(), snapshot, self.store)
         if not validation.ok:
-            self.store.journal("orchestrator.not_executed", {"kind": kind, "action_id": intent.action_id, "validation": validation.to_json()}, intent.action_id)
+            self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": kind, "action_id": intent.action_id, "validation": validation.to_json()}, intent.action_id)
             return f"{intent.action_id} {validation.state.value}: " + "; ".join(validation.reasons)
         enqueue(self.store, intent)
         executor = self._executor_for()
@@ -858,12 +969,32 @@ class Orchestrator:
 
     # ----- level 4: supported match -----
     def match_level(self, snapshot: DecisionSnapshot) -> MatchObservation:
+        """Level 4: gate live actions on the ``/match`` payload's own timeline classification and the event-order capability (MAT 01).
+
+        The timeline value is read from the payload (``match.timeline``, or
+        the top-level ``timeline``), never assumed. A missing field is
+        journaled as missing, not as a classification. Only ``classified``
+        together with a supported ``match_event_order`` could permit a live
+        action; even then nothing is executed here because no prevalidated
+        match action set exists in this version.
+        """
         payload = snapshot.routes.get("/match")
         if not payload or not payload.get("available"):
             reason = (payload or {}).get("reason") or "/match not collected"
             return MatchObservation(False, False, reason, snapshot.snapshot_id)
-        observation = MatchObservation(True, False, MATCH_LIVE_ACTIONS_REFUSED, snapshot.snapshot_id)
-        self.store.journal(JOURNAL_MATCH, {**observation.to_json(), "observation_ids": list(snapshot.observation_ids), "timeline": "unclassified", "match_event_order": self.capabilities.status("match_event_order").value}, snapshot.snapshot_id)
+        match = payload.get("match") if isinstance(payload.get("match"), dict) else {}
+        timeline = match.get("timeline", payload.get("timeline"))
+        order = self.capabilities.status(MATCH_EVENT_ORDER_CAPABILITY)
+        if timeline is None:
+            allowed, reason = False, f"the /match payload reports no timeline classification (timeline missing); retained statistics cannot trigger live actions and only observations are recorded (MAT 01)"
+        elif timeline != MATCH_TIMELINE_CLASSIFIED:
+            allowed, reason = False, f"the /match timeline is {timeline!r}, not {MATCH_TIMELINE_CLASSIFIED!r}; retained statistics cannot trigger live actions or be joined to an earlier replay moment, only observations are recorded (MAT 01)"
+        elif order is not CapabilityStatus.SUPPORTED:
+            allowed, reason = False, f"the /match timeline is {timeline!r} but {MATCH_EVENT_ORDER_CAPABILITY} is {order.value}; no verified intervention point exists, live actions are refused and only observations are recorded (MAT 01)"
+        else:
+            allowed, reason = True, f"the /match timeline is {timeline!r} and {MATCH_EVENT_ORDER_CAPABILITY} is supported: a live action could be considered at a verified intervention point; no prevalidated match action set exists in this version, so nothing is executed"
+        observation = MatchObservation(True, allowed, reason, snapshot.snapshot_id)
+        self.store.journal(JOURNAL_MATCH, {**observation.to_json(), "observation_ids": list(snapshot.observation_ids), "timeline": timeline, "timeline_status": "missing" if timeline is None else "reported", MATCH_EVENT_ORDER_CAPABILITY: order.value}, snapshot.snapshot_id)
         return observation
 
     # ----- one pass -----
@@ -881,13 +1012,21 @@ class Orchestrator:
         if self.stop_control.engaged:
             cancelled = self._cancel_queued(self.stop_control.reason or "operator stop") if self.store.list_intents([ActionState.QUEUED], branch_id=self.branch.branch_id) else []
             return PassResult(RunLevel.DECISION_POINT, PassStatus.STOPPED, notes=[f"Stop engaged: {self.stop_control.reason}"] + ([f"cancelled {cancelled}"] if cancelled else []), next_poll_seconds=self.next_interval())
+        if self.identity_resolution_required:
+            # Observations are still journaled for the operator to resolve against; the snapshot is invalid by construction
+            # (the anchor stays where the witnessed history ended) and nothing is decided, minted or sent (ID 01).
+            snapshot = self.collect("identity-resolution")
+            return PassResult(RunLevel.CONNECT, PassStatus.IDENTITY_RESOLUTION_REQUIRED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, notes=[self.identity_resolution_reason or "identity resolution required", LINEAGE_CONFIRMATION_REQUIRED], next_poll_seconds=self.next_interval())
         if not self.connected:
             connection = self.connect()
             if not connection.ok or connection.status is PassStatus.INCONSISTENT:
                 self.consecutive_errors += 1
                 status = connection.status if isinstance(connection.status, PassStatus) else PassStatus.INCONSISTENT
                 return PassResult(RunLevel.CONNECT, status, connection.snapshot_id, connection.game_date, connection.game_time, notes=list(connection.problems), next_poll_seconds=self.next_interval())
+        just_connected = self._connect_snapshot is not None      # connect() already reconciled everything left in flight (REC 01)
         snapshot, self._connect_snapshot = (self._connect_snapshot or self.collect()), None
+        if self.identity_resolution_required:                   # raised by this very collection (spec 5.1, ID 01)
+            return PassResult(RunLevel.CONNECT, PassStatus.IDENTITY_RESOLUTION_REQUIRED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, notes=[self.identity_resolution_reason or "identity resolution required", LINEAGE_CONFIRMATION_REQUIRED], next_poll_seconds=self.next_interval())
         if not snapshot.valid:
             self.consecutive_errors += 1
             status = {ConsistencyStatus.DISCONNECTED: PassStatus.DISCONNECTED, ConsistencyStatus.BUILD_UNSUPPORTED: PassStatus.BUILD_UNSUPPORTED}.get(snapshot.consistency, PassStatus.INCONSISTENT)
@@ -898,16 +1037,39 @@ class Orchestrator:
         if match.available:
             self.previous_snapshot = snapshot
             return PassResult(RunLevel.MATCH, PassStatus.MATCH_OBSERVED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, bool(triggers), triggers, notes=[match.reason], next_poll_seconds=self.next_interval(match_paused=True))
+        # Unsettled effects are established from readback on every pass, and always before anything is replanned (ACT 02).
+        reconciled = [] if just_connected else [d.to_json() for d in self.reconcile_unsettled(snapshot)]
         changed = self.previous_snapshot is None or bool(triggers) or plan_due(self.last_plan_date, snapshot.game_date)
         if not changed:
             self.notifier.poll_unchanged()
             self.previous_snapshot = snapshot
-            return PassResult(RunLevel.DECISION_POINT, PassStatus.UNCHANGED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, False, [], next_poll_seconds=self.next_interval())
+            return PassResult(RunLevel.DECISION_POINT, PassStatus.UNCHANGED, snapshot.snapshot_id, snapshot.game_date, snapshot.game_time, False, [], next_poll_seconds=self.next_interval(), reconciled=reconciled)
         result = self._decide_and_act(snapshot, triggers)
+        result.reconciled = reconciled
         self.previous_snapshot = snapshot
         self.last_decided = result
         result.next_poll_seconds = self.next_interval()
         return result
+
+    def reconcile_unsettled(self, snapshot: DecisionSnapshot) -> list[RecoveryDecision]:
+        """Reconcile every EXECUTING/VERIFYING/UNCERTAIN/RECONCILING intent on the branch from readback, before any new work (spec 12.3, ACT 02).
+
+        No input is sent. An intent whose effect the readback still cannot
+        establish stays UNCERTAIN; the duplicate-effect guard then refuses
+        any new intent for its targets, so a timeout after a successful
+        acceptance ends in reconciliation, never in a second dispatch.
+        """
+        decisions: list[RecoveryDecision] = []
+        for intent in self.store.list_intents(IN_FLIGHT_OR_UNCERTAIN, branch_id=self.branch.branch_id):
+            decisions.append(reconcile_uncertain(self.store, self.adapter, intent, snapshot, reason=f"unsettled {intent.state.value} intent reconciled before replanning"))
+        if decisions:
+            self.store.journal(JOURNAL_RECONCILE, {"snapshot_id": snapshot.snapshot_id, "decisions": [d.to_json() for d in decisions]}, snapshot.snapshot_id)
+            for decision in decisions:
+                if decision.new_state is ActionState.CONFIRMED:
+                    self.notifier.completed(decision.action_id, decision.kind, detail=f"reconciled: {decision.reason}")
+                elif decision.new_state is not ActionState.QUEUED:
+                    self.notifier.failed(decision.kind, f"reconciled {decision.new_state.value}: {decision.reason}", ref_id=decision.action_id)
+        return decisions
 
     def _decide_and_act(self, snapshot: DecisionSnapshot, triggers: list[Trigger]) -> PassResult:
         point = self.decision_point(snapshot)                       # mandatory first

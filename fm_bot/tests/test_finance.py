@@ -76,6 +76,46 @@ class LedgerFromSnapshotTests(unittest.TestCase):
         self.assertEqual(total, -PLAYER_WAGES * 100)
         self.assertTrue(any(m.category == "payroll_residual" and "unexplained" in m.label for m in week))
 
+    def test_fin01_payroll_aggregate_is_not_added_on_top_of_per_contract_wages(self):
+        """FIN 01 (double counting): payroll charged over the window equals the observed aggregate, never aggregate + contracts."""
+        end = fin.add_months(START, 12)
+        payroll = [m for m in self.ledger.movements(START, end) if m.category in ("wages", "payroll_residual")]
+        weeks = 53                                                     # Saturdays 2024-02-17 .. 2025-02-15 inclusive
+        charged = -sum(m.signed.minor for m in payroll)
+        self.assertEqual(charged, PLAYER_WAGES * 100 * weeks)
+        self.assertNotEqual(charged, (PLAYER_WAGES + PLAYER_WAGES + STAFF_WAGES) * 100 * weeks, "aggregate plus contracts would be the double count")
+        contract_lines = [m for m in payroll if m.category == "wages"]
+        self.assertEqual(-sum(m.signed.minor for m in contract_lines), (PLAYER_WAGES + STAFF_WAGES) * 100 * weeks, "every contract is still expanded individually")
+        self.assertTrue(all(c.included_in_aggregate == fin.PAYROLL_AGGREGATE for c in self.ledger.by_category("wages")))
+        proj = fin.CashFlowEngine(transfer_windows=()).project(GBP(10_000_000), START, self.ledger)
+        self.assertEqual(proj.path("baseline").end_cash, GBP(10_000_000 - PLAYER_WAGES * weeks))
+
+    def test_contract_without_start_date_is_unknown_not_anchored_on_a_made_up_date(self):
+        """Spec 8.1 / 5.2: an unobserved contract start is an unknown, listed at the ledger's as-of date, never 1970."""
+        undated = fx.player_payload(3003, "No Start", ["DC"], 1, 700, "Okay")
+        undated["contracts"][0].pop("start_date")
+        ledger = fin.CommitmentLedger.from_snapshot(hand_snapshot({"/finances": fx.finances_payload(), "/squad": [undated, fx.player_payload(*fx.SQUAD_SPEC[0])]}))
+        item = ledger.get("contract:employment:3003")
+        self.assertIs(item.certainty, Certainty.UNKNOWN)
+        self.assertEqual(item.due_date, fx.GAME_DATE)
+        self.assertTrue(any("contract:employment:3003" in n and "start_date unobserved" in n for n in ledger.notes))
+        self.assertNotIn(item, ledger.in_aggregate(as_of=START), "an unplaceable line does not reduce the aggregate residual")
+        recon = ledger.weekly_payroll(START)
+        self.assertEqual(recon.contract_sum, GBP(3500, Period.WEEKLY))
+        proj = fin.CashFlowEngine(transfer_windows=()).project(GBP(1_000_000), START, ledger)
+        self.assertTrue(proj.unknown_count >= 1)
+        self.assertTrue(all(u["commitment_id"] == "contract:employment:3003" and u["reason"] == "certainty unknown" for u in proj.unknown))
+        week = [m for m in ledger.movements(START, START + dt.timedelta(days=6)) if m.category in ("wages", "payroll_residual")]
+        self.assertEqual([m.certainty for m in week if m.commitment_id == "contract:employment:3003"], [Certainty.UNKNOWN], "listed, never charged")
+        charged = -sum(m.signed.minor for m in week if m.certainty is Certainty.OBSERVED_COMMITTED)
+        self.assertEqual(charged, PLAYER_WAGES * 100, "cash charged still equals the observed aggregate")
+        no_date = DecisionSnapshot("snap-nodate", [], ConsistencyStatus.CONSISTENT, [], [], [], {}, "bridge_observed", "c", "b", fx.SESSION, None, None, routes={"/finances": fx.finances_payload(), "/squad": [undated]}, manager_id=90001, club_id=742)
+        dateless = fin.CommitmentLedger.from_snapshot(no_date)
+        self.assertIsNone(dateless.get("contract:employment:3003"))
+        self.assertTrue(any("no as-of date" in n for n in dateless.notes))
+        with self.assertRaises(fin.LedgerError):
+            dateless.active()
+
     def test_missing_aggregate_falls_back_to_contract_sum_with_explicit_status(self):
         routes = dict(self.snap.routes)
         routes["/finances"] = {**fx.finances_payload(), "payroll_spending_weekly": None}
@@ -234,6 +274,24 @@ class CashFlowEngineTests(unittest.TestCase):
         with self.assertRaises(fin.ProjectionError):
             self.engine.project(GBP(1), START, self.ledger, [fin.Scenario("many", 1, receipts=receipts)])
 
+    def test_forecast_without_probability_is_unknown_not_taken_at_face_value(self):
+        """Spec 8.1: a forecast receipt is certain only with an explicit probability of one; none at all is unknown."""
+        def prize(prob, cid):
+            return FinancialCommitment(cid, "FA", MovementKind.RECEIPT, GBP(1_000_000), "2024-05-01", Period.ONCE, None, None, "FA", Certainty.FORECAST, "t", 1, "prize_money", None, prob)
+        self.ledger.add_commitment(prize(None, "silent"))
+        proj = self.engine.project(GBP(0), START, self.ledger)
+        self.assertEqual(proj.unknown_count, 1)
+        self.assertEqual(proj.unknown[0]["commitment_id"], "silent")
+        self.assertIn("forecast without a probability", proj.unknown[0]["reason"])
+        self.assertEqual(proj.path("baseline").end_cash, GBP(0), "no probability, no cash in any path")
+        self.ledger.remove("silent", "test")
+        self.ledger.add_commitment(prize(1.0, "sure"))
+        self.assertEqual(self.engine.project(GBP(0), START, self.ledger).path("baseline").end_cash, GBP(1_000_000))
+        self.ledger.remove("sure", "test")
+        self.ledger.add_commitment(prize(0.5, "maybe"))
+        proj = self.engine.project(GBP(0), START, self.ledger)
+        self.assertEqual(sorted(p.end_cash.minor for p in proj.paths), [0, 100_000_000])
+
     def test_unknown_certainty_is_bucketed_never_zeroed(self):
         unknown = FinancialCommitment("u", "HMRC", MovementKind.PAYMENT, GBP(5000), "2024-04-01", Period.ONCE, None, None, "club", Certainty.UNKNOWN, "t", 1, "tax")
         self.ledger.add_commitment(unknown)
@@ -367,6 +425,28 @@ class PackageFeasibilityTests(unittest.TestCase):
         self.assertIs(report.by_name("cash_reserve").status, fin.ConstraintStatus.UNKNOWN)
         self.assertIsNone(report.projection)
         self.assertIsNone(report.feasible)
+
+    def test_missing_as_of_date_leaves_dated_constraints_unknown_not_passed(self):
+        """FIN 02 / spec 8.1: with no in-game date the window is not anchored anywhere; dated constraints stay unknown."""
+        view = finance_view(self.snap)
+        undated_view = type(view)(view.balance, view.transfer_budget, view.wage_budget_weekly, view.payroll_spending_weekly, None)
+        ledger = self.ledger.copy()
+        ledger.as_of = None
+        package = [fee("Oxford", 50_000_000, "2024-02-20", cid="fee:huge"), wage("Star", 1000, cid="wage:star")]
+        report = fin.check_package(package, undated_view, ledger, fin.RiskPolicy(GBP(1)), engine=self.engine, regulatory=self.no_rules)
+        self.assertIs(report.by_name("cash_reserve").status, fin.ConstraintStatus.UNKNOWN)
+        self.assertIs(report.by_name("transfer_budget").status, fin.ConstraintStatus.UNKNOWN)
+        self.assertIs(report.by_name("wage_budget_headroom_weekly").status, fin.ConstraintStatus.PASS, "the weekly headroom test needs no window")
+        self.assertIsNone(report.feasible)
+        self.assertIsNone(report.projection)
+        self.assertIsNone(report.binding)
+        self.assertIn("game_date", report.blocked.missing)
+        self.assertIn("no as-of date", report.by_name("cash_reserve").reason)
+        self.assertEqual(report.package_summary["guaranteed_total_in_window"], "unknown (no window)")
+        self.assertEqual(report.package_summary["items"], 2)
+        dated = fin.check_package(package, undated_view, ledger, fin.RiskPolicy(GBP(1)), start_date=fx.GAME_DATE, engine=self.engine, regulatory=self.no_rules)
+        self.assertIs(dated.feasible, False, "the same package with a date is tested and fails")
+        self.assertIs(dated.by_name("transfer_budget").status, fin.ConstraintStatus.FAIL)
 
     def test_no_sale_or_owner_funding_is_assumed(self):
         package = [fee("Oxford", 1500000, "2024-02-20", cid="fee:target")]

@@ -11,7 +11,8 @@ from ..rules.competitions import CompetitionRules, RulesProfileRegistry
 from ..rules.deadlines import (
     CLASSIFICATION_INFORMATIONAL, CLASSIFICATION_MANDATORY_CONFIRMED, CLASSIFICATION_MANDATORY_HEURISTIC, CLASSIFICATION_UNCLASSIFIED,
     CLASSIFICATION_UNRESOLVED_READ, MANDATORY_EVENT_PATTERNS, MANDATORY_EVENT_PATTERNS_VERSION, ContinueGate, DecisionBoundary, LineupStatus,
-    PendingAction, classify_event_type, continue_gate, next_decision_boundary, pending_actions, registration_actions,
+    PendingAction, PendingActionsObservation, classify_event_type, continue_gate, next_decision_boundary, pending_actions, registration_actions,
+    resolve_read_actions,
 )
 from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ConsistencyStatus
@@ -87,11 +88,13 @@ class PendingActionTests(unittest.TestCase):
         self.assertFalse(actions["inbox:502"].blocks_continue)
         self.assertIsInstance(actions["inbox:501"].to_json(), dict)
 
-    def test_read_mandatory_looking_message_is_reported_not_blocking(self):
+    def test_read_mandatory_looking_message_still_blocks(self):
+        """CAL 01: a read message that looks like a decision is not proven answered; it blocks and names pending_actions."""
         _, snap = build_snapshot(inbox=inbox_with({501: {"unread": False}}))
         actions = {a.action_id: a for a in pending_actions(snap)}
         self.assertEqual(actions["inbox:501"].classification, CLASSIFICATION_UNRESOLVED_READ)
-        self.assertFalse(actions["inbox:501"].blocks_continue)
+        self.assertTrue(actions["inbox:501"].blocks_continue)
+        self.assertFalse(actions["inbox:501"].resolved)
         self.assertEqual(actions["inbox:501"].requires_capability, "pending_actions")
 
     def test_unread_unmatched_message_is_unclassified(self):
@@ -150,11 +153,69 @@ class ContinueGateTests(unittest.TestCase):
         self.assertFalse(gate.missing_capabilities.blocked)
 
     def test_cal01_read_but_unconfirmed_messages_stay_visible(self):
+        """CAL 01 / OBS 02: read mandatory-looking messages keep blocking Continue; "read" is not "resolved".
+
+        The registry supplying ``pending_actions`` is not enough on its own: a
+        resolution has to be *observed*. Without an observation the gate is
+        blocked and the messages are visible as blockers; with an observation
+        from a registry that does not support ``pending_actions`` the
+        observation is ignored (and said so); a stale observation is not
+        current for the snapshot and proves nothing.
+        """
         _, snap = build_snapshot(inbox=inbox_with({501: {"unread": False}, 503: {"unread": False}}))
-        gate = continue_gate(snap, pending_actions(snap), [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry())
-        self.assertTrue(gate.allowed)
-        self.assertEqual(len(gate.notes), 2)
-        self.assertTrue(all("cannot be verified" in n for n in gate.notes))
+        pending = pending_actions(snap)
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry())
+        self.assertFalse(gate.allowed, gate.to_json())
+        self.assertEqual(sorted(b.split(":")[1] for b in gate.blockers), ["501", "503"])
+        self.assertTrue(all("cannot be verified" in b for b in gate.blockers))
+        self.assertFalse(gate.missing_capabilities.blocked, "the capability is provided; what is missing is the observation")
+        self.assertTrue(all(p.blocks_continue and not p.resolved for p in gate.pending if p.kind == "inbox_message" and p.message_id in (501, 503)))
+        # without the capability the read messages also surface pending_actions as the missing subsystem
+        without = CapabilityRegistry.from_status(fx.status_payload(), supported_builds=[fx.BUILD])
+        for name in ("ui_action_adapter", "inbox_metadata"):
+            without.provide(name, "ui_adapter", "test double")
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=without)
+        self.assertFalse(gate.allowed)
+        self.assertIn("pending_actions", gate.missing_capabilities.missing)
+        self.assertIn("inbox:501", gate.missing_capabilities.reasons["pending_actions"])
+        # an observation is ignored when the capability is unsupported
+        observation = PendingActionsObservation(frozenset({"inbox:501", "inbox:503"}), "ui:pending_actions", fx.GAME_DATE, fx.GAME_TIME, "2026-01-01T00:00:00Z")
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=without, pending_observation=observation)
+        self.assertFalse(gate.allowed)
+        self.assertTrue(any("ignored" in n and "pending_actions" in n for n in gate.notes), gate.notes)
+        # an observation from another in-game moment proves nothing
+        stale = PendingActionsObservation(frozenset({"inbox:501", "inbox:503"}), "ui:pending_actions", fx.GAME_DATE, "09:00")
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry(), pending_observation=stale)
+        self.assertFalse(gate.allowed)
+        self.assertTrue(any("not the snapshot game time" in n for n in gate.notes), gate.notes)
+        undated = PendingActionsObservation(frozenset({"inbox:501", "inbox:503"}), "ui:pending_actions", fx.GAME_DATE, None)
+        self.assertFalse(continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry(), pending_observation=undated).allowed)
+        self.assertTrue(all(p.blocks_continue and not p.resolved for p in pending if p.message_id in (501, 503)), "the caller's pending list is never mutated")
+
+    def test_cal01_read_messages_resolve_only_on_a_current_pending_actions_observation(self):
+        """CAL 01: with pending_actions supported and a current observation naming the message, the gate opens."""
+        _, snap = build_snapshot(inbox=inbox_with({501: {"unread": False}, 503: {"unread": False}}))
+        pending = pending_actions(snap)
+        observation = PendingActionsObservation(frozenset({"inbox:501"}), "ui:pending_actions", fx.GAME_DATE, fx.GAME_TIME)
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry(), pending_observation=observation)
+        self.assertFalse(gate.allowed, "503 was not reported resolved")
+        self.assertEqual([b.split(":")[1] for b in gate.blockers], ["503"])
+        resolved = {p.action_id: p for p in gate.pending}
+        self.assertTrue(resolved["inbox:501"].resolved)
+        self.assertFalse(resolved["inbox:501"].blocks_continue)
+        self.assertIn("reported resolved by ui:pending_actions", resolved["inbox:501"].description)
+        self.assertFalse(resolved["inbox:503"].resolved)
+        both = PendingActionsObservation(frozenset({"inbox:501", "inbox:503"}), "ui:pending_actions", fx.GAME_DATE, fx.GAME_TIME)
+        gate = continue_gate(snap, pending, [], LineupStatus("not_required"), authority_mode=AuthorityMode.CLUB_AUTONOMY, capabilities=full_registry(), pending_observation=both)
+        self.assertTrue(gate.allowed, gate.to_json())
+        self.assertEqual(gate.blockers, [])
+        self.assertEqual(len([n for n in gate.notes if "reported resolved" in n]), 2)
+        self.assertIsInstance(both.to_json()["resolved_action_ids"], list)
+        # an unread message is never resolved by the observation: it still has to be read and answered
+        _, unread = build_snapshot()
+        actions, notes = resolve_read_actions(unread, pending_actions(unread), both, capabilities=full_registry())
+        self.assertTrue(all(a.blocks_continue and not a.resolved for a in actions if a.message_id in (501, 503)))
+        self.assertEqual(notes, [])
 
     def test_missing_capabilities_without_registry_come_from_snapshot(self):
         _, snap = build_snapshot()

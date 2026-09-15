@@ -58,6 +58,10 @@ DIRECTION_ROLES: dict[str, dict[str, str]] = {
 
 CLUB_ALIASES: frozenset[str] = frozenset({"club", "us", "we", "our club"})
 
+# An offer version must carry the in-game date it was made on; without it no
+# commitment can be dated, no instalment horizon checked and no counter scheduled.
+NO_OFFER_DATE = "offer has no in-game date"
+
 
 @dataclass(frozen=True)
 class ClauseSpec:
@@ -182,12 +186,23 @@ class ParsedOffer:
 
 
 def _money(value: Any, currency: str, period: Period) -> Money:
+    """An exact amount in the clause's period.
+
+    A bare integer is whole currency units in the clause's own period. A
+    :class:`Money` (or its JSON) must already carry that period: a monthly
+    or annual figure offered for a weekly clause is rejected, never
+    relabelled (``Money.with_period`` is not a conversion; spec 5.3).
+    """
+    if isinstance(value, dict):
+        if "period" not in value:
+            raise UnitError(f"amount {value!r} carries no period; a {period.value} amount was expected")
+        value = Money.from_json(value)
     if isinstance(value, Money):
         if value.currency != currency:
             raise UnitError(f"amount in {value.currency} inside a {currency} offer")
-        return value.with_period(period)
-    if isinstance(value, dict):
-        return Money.from_json(value).with_period(period)
+        if value.period is not period:
+            raise UnitError(f"amount {value} is a {value.period.value} figure where a {period.value} amount was expected; no conversion is applied")
+        return value
     if isinstance(value, bool) or not isinstance(value, int):
         raise UnitError(f"amount {value!r} is not an exact whole-currency integer")
     return Money.of(value, currency, period)
@@ -211,7 +226,7 @@ def _resolve_payer(stated: Any, spec: ClauseSpec, direction: str | None, counter
     return ("club" if who == "club" else counterparty.name), "inferred from direction"
 
 
-def _clause_commitments(key: str, spec: ClauseSpec, clause: dict[str, Any], payer: str, parsed: ParsedOffer, offer_date: str, source: str) -> list[FinancialCommitment]:
+def _clause_commitments(key: str, spec: ClauseSpec, clause: dict[str, Any], payer: str, parsed: ParsedOffer, offer_date: str | None, source: str) -> list[FinancialCommitment]:
     kind = MovementKind.PAYMENT if payer == "club" else MovementKind.RECEIPT
     counterparty = parsed.counterparty.name
     trigger = clause.get("trigger") or spec.trigger
@@ -230,6 +245,9 @@ def _clause_commitments(key: str, spec: ClauseSpec, clause: dict[str, Any], paye
         parsed.problems.append(f"{key}: {exc}")
         return []
     due = clause.get("due_date") or clause.get("start_date") or offer_date
+    if due is None:
+        parsed.problems.append(f"{key}: no due_date and the offer has no date; the commitment cannot be dated")
+        return []
     end = clause.get("end_date") if spec.recurrence is not Period.ONCE else None
     if spec.recurrence is not Period.ONCE and not end:
         parsed.problems.append(f"{key}: recurring clause without end_date")
@@ -277,7 +295,9 @@ def parse_offer(raw: dict[str, Any], *, source: str = "offer") -> ParsedOffer:
 
     Nothing is guessed: an unknown key is unrecognized, a payer that is not
     the club or the counterparty is ambiguous, an inexact amount is a
-    problem. All three leave ``complete`` False.
+    problem, and an offer without an in-game ``date`` is incomplete (its
+    undated clauses cannot be placed on the calendar). All leave
+    ``complete`` False.
     """
     cp_raw = raw.get("counterparty") or {}
     counterparty = Counterparty(str(cp_raw.get("name") or ""), str(cp_raw.get("kind") or ""))
@@ -286,6 +306,8 @@ def parse_offer(raw: dict[str, Any], *, source: str = "offer") -> ParsedOffer:
     parsed = ParsedOffer(str(raw.get("offer_id") or new_id("offer")), raw.get("direction"), counterparty, currency, offer_date, [], raw_hash=payload_hash(raw))
     if not counterparty.valid:
         parsed.problems.append(f"counterparty {counterparty.to_json()} is not a valid club, player or agent")
+    if offer_date is None:
+        parsed.problems.append(NO_OFFER_DATE)
     if parsed.direction is not None and parsed.direction not in DIRECTION_ROLES:
         parsed.problems.append(f"unknown direction {parsed.direction!r}")
     terms = raw.get("terms")
@@ -307,7 +329,7 @@ def parse_offer(raw: dict[str, Any], *, source: str = "offer") -> ParsedOffer:
         if payer is None:
             parsed.ambiguous_payer.append(f"{key}: {how}")
             continue
-        items = _clause_commitments(key, spec, clause, payer, parsed, offer_date or "1970-01-01", source)
+        items = _clause_commitments(key, spec, clause, payer, parsed, offer_date, source)
         parsed.commitments.extend(items)
         parsed.clause_of.update({c.commitment_id: key for c in items})
     parsed.terms_hash = payload_hash({"terms": terms, "direction": parsed.direction, "counterparty": counterparty.to_json(), "currency": currency})
@@ -374,10 +396,13 @@ class ReservationPackage:
         schedule = offer.instalment_schedule()
         if self.max_instalments is not None and len(schedule) > self.max_instalments:
             out.append(f"{len(schedule)} instalments exceed the allowed {self.max_instalments}")
-        if self.max_instalment_months is not None and schedule and offer.date:
-            last = as_date(schedule[-1].due_date)
-            if last > add_months(as_date(offer.date), self.max_instalment_months):
-                out.append(f"final instalment {last.isoformat()} is later than {self.max_instalment_months} months from the offer date")
+        if self.max_instalment_months is not None and schedule:
+            if offer.date is None:
+                out.append(f"instalment horizon of {self.max_instalment_months} months cannot be checked: {NO_OFFER_DATE}")
+            else:
+                last = as_date(schedule[-1].due_date)
+                if last > add_months(as_date(offer.date), self.max_instalment_months):
+                    out.append(f"final instalment {last.isoformat()} is later than {self.max_instalment_months} months from the offer date")
         if self.min_total_receipt is not None and offer.direction in ("sell", "loan_out"):
             receipts = offer.receipts_once_total()
             if receipts < self.min_total_receipt:
@@ -397,9 +422,14 @@ class ReservationPackage:
 
 @dataclass
 class CounterProposal:
-    """Either a counter inside the reservation package or a walk-away. ``terms`` is a raw offer."""
+    """Either a counter inside the reservation package, a walk-away, or a stop. ``terms`` is a raw offer.
 
-    kind: str                       # "counter" | "walk_away" | "no_counter_needed"
+    ``stopped`` means no counter could be built without guessing (for
+    example no in-game date to schedule instalments on); the negotiation
+    is not ended, it waits for the missing input.
+    """
+
+    kind: str                       # "counter" | "walk_away" | "no_counter_needed" | "stopped"
     terms: dict[str, Any] | None
     reasons: list[str]
     heuristic: str = "clamp-to-reservation-0.1"
@@ -408,6 +438,10 @@ class CounterProposal:
     def walk_away(self) -> bool:
         return self.kind == "walk_away"
 
+    @property
+    def stopped(self) -> bool:
+        return self.kind == "stopped"
+
 
 def _split_evenly(total: Money, parts: int) -> list[Money]:
     base, remainder = divmod(total.minor, parts)
@@ -415,15 +449,20 @@ def _split_evenly(total: Money, parts: int) -> list[Money]:
 
 
 def _reschedule_fee(total: Money, offer_date: dt.date, reservation: ReservationPackage) -> list[dict[str, Any]]:
-    """Equal instalments inside the reservation's count and month limits (heuristic)."""
+    """Equal instalments inside the reservation's count and month limits (heuristic).
+
+    Amounts are serialised as exact minor units (:meth:`Money.to_json`); the
+    remainder of an uneven split goes on the earliest instalments, so the
+    parts always add back up to ``total`` and the counter re-parses as complete.
+    """
     count = max(1, reservation.max_instalments or 1)
     months = reservation.max_instalment_months or 0
     amounts = _split_evenly(total, count)
     step = months // count if count > 1 and months else 0
-    return [{"amount": int(a.major()), "due_date": add_months(offer_date, i * step).isoformat()} for i, a in enumerate(amounts)]
+    return [{"amount": a.to_json(), "due_date": add_months(offer_date, i * step).isoformat()} for i, a in enumerate(amounts)]
 
 
-def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_terms: dict[str, Any], *, previous_counterparty_hashes: Iterable[str] = (), rounds_so_far: int = 0) -> CounterProposal:
+def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_terms: dict[str, Any], *, previous_counterparty_hashes: Iterable[str] = (), rounds_so_far: int = 0, game_date: str | None = None) -> CounterProposal:
     """Counter inside the reservation package, or walk away (heuristic, not a model).
 
     Rules, in order: walk away when the round limit is reached or the
@@ -431,6 +470,12 @@ def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_ter
     clauses, clamp the wage, clamp guaranteed fees to what remains of the
     total commitment, and reschedule instalments to the allowed shape. If the
     offer already sits inside the package no counter is needed.
+
+    Money in the counter is serialised exactly (minor units). A counter is
+    dated, and its instalments scheduled, from an in-game date only: the
+    offer's date, else the snapshot ``game_date`` supplied by the caller.
+    With neither the proposal is ``stopped`` rather than anchored on the
+    operator's clock.
     """
     reasons: list[str] = []
     if rounds_so_far >= reservation.max_rounds:
@@ -440,6 +485,9 @@ def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_ter
     violations = reservation.violations(offer)
     if not violations and offer.complete:
         return CounterProposal("no_counter_needed", None, ["offer is inside the reservation package"])
+    anchor = offer.date or game_date
+    if anchor is None:
+        return CounterProposal("stopped", None, [f"{NO_OFFER_DATE} and no game date supplied: a counter cannot be dated or its instalments scheduled without an in-game date"])
     terms = {k: (dict(v) if isinstance(v, dict) else {"amount": v}) for k, v in raw_terms.items() if k in reservation.allowed_clauses and k in KNOWN_CLAUSES}
     dropped = sorted(set(raw_terms) - set(terms))
     if dropped:
@@ -448,7 +496,7 @@ def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_ter
     if "weekly_wage" in terms:
         wage = offer.weekly_wage_total()
         if wage > reservation.max_weekly_wage:
-            terms["weekly_wage"]["amount"] = int(reservation.max_weekly_wage.major())
+            terms["weekly_wage"]["amount"] = reservation.max_weekly_wage.to_json()
             reasons.append(f"weekly wage clamped from {wage} to {reservation.max_weekly_wage}")
     fee_key = "transfer_fee" if "transfer_fee" in terms else ("loan_fee" if "loan_fee" in terms else None)
     other_once = sum_money((c.amount for c in offer.club_payments(Certainty.OBSERVED_COMMITTED, Period.ONCE) if c.category not in ("transfer_fee", "loan_fee")), currency, Period.ONCE)
@@ -460,15 +508,15 @@ def propose_counter(offer: ParsedOffer, reservation: ReservationPackage, raw_ter
         target = min(fee_total, room)
         if target != fee_total:
             reasons.append(f"guaranteed fee clamped from {fee_total} to {target}")
-        offer_day = as_date(offer.date) if offer.date else dt.date.today()
-        terms[fee_key] = {"amount": int(target.major()), "payer": "club", "instalments": _reschedule_fee(target, offer_day, reservation)}
+        offer_day = as_date(anchor)
+        terms[fee_key] = {"amount": target.to_json(), "payer": "club", "instalments": _reschedule_fee(target, offer_day, reservation)}
         if terms[fee_key]["instalments"] and len(terms[fee_key]["instalments"]) == 1:
             terms[fee_key].pop("instalments")
             terms[fee_key]["due_date"] = offer_day.isoformat()
     if fee_key is not None and offer.direction in ("sell", "loan_out") and reservation.min_total_receipt is not None:
         receipts = offer.receipts_once_total()
         if receipts < reservation.min_total_receipt:
-            terms[fee_key] = {"amount": int(reservation.min_total_receipt.major()), "payer": offer.counterparty.name}
+            terms[fee_key] = {"amount": reservation.min_total_receipt.to_json(), "payer": offer.counterparty.name}
             reasons.append(f"asking price raised from {receipts} to the reservation minimum {reservation.min_total_receipt}")
     if not terms:
         return CounterProposal("walk_away", None, ["nothing acceptable remains after removing disallowed clauses"])
@@ -606,16 +654,21 @@ class NegotiationStateMachine:
         item.confirmed, item.confirmed_by = True, by
         return item
 
-    def counter(self) -> CounterProposal:
-        """Propose a counter to the latest counterparty version, recording it as a club version."""
+    def counter(self, *, game_date: str | None = None) -> CounterProposal:
+        """Propose a counter to the latest counterparty version, recording it as a club version.
+
+        ``game_date`` is the snapshot's in-game date; it dates the club's
+        counter when the counterparty offer carried no date. A ``stopped``
+        proposal records nothing and leaves the machine where it is.
+        """
         latest = self.latest
         if latest is None or latest.author != "counterparty":
             raise NegotiationError("no counterparty offer to counter")
-        proposal = propose_counter(latest.offer, self.reservation, latest.raw.get("terms") or {}, previous_counterparty_hashes=self.counterparty_hashes()[:-1], rounds_so_far=self.rounds())
+        proposal = propose_counter(latest.offer, self.reservation, latest.raw.get("terms") or {}, previous_counterparty_hashes=self.counterparty_hashes()[:-1], rounds_so_far=self.rounds(), game_date=game_date)
         if proposal.walk_away:
             self.walk_away("; ".join(proposal.reasons))
         elif proposal.kind == "counter":
-            self.record_offer({"terms": proposal.terms, "currency": latest.offer.currency, "date": latest.offer.date}, "club")
+            self.record_offer({"terms": proposal.terms, "currency": latest.offer.currency, "date": latest.offer.date or game_date}, "club")
         return proposal
 
     def walk_away(self, reason: str) -> None:
@@ -652,6 +705,8 @@ class NegotiationStateMachine:
         if not item.confirmed:
             reasons.append(f"v{version} has not been confirmed by an independent readback")
         offer = item.offer
+        if offer.date is None:
+            reasons.append(f"{NO_OFFER_DATE}: commitments cannot be dated and budgets cannot be tested against a window")
         if not offer.complete:
             reasons.extend(offer.stop_reasons())
         if not offer.counterparty.valid or offer.counterparty != self.counterparty:

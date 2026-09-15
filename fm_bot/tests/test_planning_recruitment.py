@@ -22,7 +22,7 @@ from ..state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequi
 from ..state.status import Observed, ValueStatus
 from ..state.store import Store
 from ..state.units import Money, Period
-from ..state.views import finance_view, fixture_views, player_state, tactic_view
+from ..state.views import FinanceView, finance_view, fixture_views, player_state, tactic_view
 from ..state.visibility import InformationMode
 from . import fixtures as fx
 
@@ -320,6 +320,22 @@ class EvaluatorTests(unittest.TestCase):
         self.assertTrue(all(c.status is fin.ConstraintStatus.UNKNOWN for c in evaluation.feasibility.constraints))
         self.assertTrue(evaluation.contribution.available)
 
+    def test_no_in_game_date_means_no_window_and_unknown_dated_constraints(self):
+        """FIN 02 / spec 8.1: the projection window is never anchored on an invented date."""
+        inputs = finance_inputs(6_000_000)
+        inputs.start_date = None
+        inputs.ledger.as_of = None
+        inputs.finance_view = FinanceView(inputs.finance_view.balance, inputs.finance_view.transfer_budget, inputs.finance_view.wage_budget_weekly, inputs.finance_view.payroll_spending_weekly, None)
+        self.assertIsNone(inputs.as_of())
+        self.assertIsNone(inputs.window())
+        report = rc.package_feasibility(package(), inputs)
+        self.assertIs(report.by_name("cash_reserve").status, fin.ConstraintStatus.UNKNOWN)
+        self.assertIs(report.by_name("transfer_budget").status, fin.ConstraintStatus.UNKNOWN)
+        self.assertIsNone(report.feasible)
+        self.assertIn("game_date", report.blocked.missing)
+        inputs.start_date = fx.GAME_DATE
+        self.assertEqual(inputs.window()[0].isoformat(), fx.GAME_DATE)
+
     def test_terms_change_recomputes_finance_and_reuses_the_sporting_side(self):
         evaluator = rc.RecruitmentEvaluator(context(), finance_inputs(6_000_000))
         pkg = package()
@@ -361,6 +377,18 @@ class TradeoffTests(unittest.TestCase):
         json.dumps(table.to_json())
         with self.assertRaises(KeyError):
             table.row("Z")
+
+    def test_fees_without_a_window_are_the_all_dates_total_not_a_made_up_window(self):
+        """Spec 8.1: no projection window means the package's committed fees over every date, labelled as such."""
+        evaluator = rc.RecruitmentEvaluator(context(), None)
+        parts = [("2024-02-20", GBP(500_000)), ("2025-08-01", GBP(500_000)), ("2026-02-01", GBP(500_000))]
+        evaluation = evaluator.evaluate(package("A", terms=terms(instalments=parts, prefix="pkg:A")))
+        no_window = rc.package_tradeoffs([evaluation]).row("A")
+        self.assertEqual(no_window.values["fees_basis"], "all_dates")
+        self.assertEqual(no_window.values["guaranteed_fees"], str(GBP(1_500_000)))
+        windowed = rc.package_tradeoffs([evaluation], window=("2024-02-17", "2025-02-17")).row("A")
+        self.assertEqual(windowed.values["fees_basis"], "window")
+        self.assertEqual(windowed.values["guaranteed_fees"], str(GBP(500_000)))
 
     def test_infeasible_packages_cannot_dominate(self):
         evaluator = rc.RecruitmentEvaluator(context(), finance_inputs(6_000_000))

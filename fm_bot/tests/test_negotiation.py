@@ -118,6 +118,43 @@ class ParseOfferTests(unittest.TestCase):
         euro = neg.parse_offer(buy_offer(terms={"agent_fee": {"amount": Money.of(10, "EUR")}}))
         self.assertTrue(any("EUR" in p for p in euro.problems))
 
+    def test_offer_without_date_is_incomplete_and_nothing_is_dated_for_it(self):
+        """FIN 02 / spec 8.3: an offer with no in-game date cannot be dated, checked or accepted; no date is invented."""
+        raw = buy_offer()
+        raw.pop("date")
+        raw["terms"] = {"transfer_fee": {"amount": 5_000_000}, "weekly_wage": {"amount": 1000, "start_date": "2024-02-20", "end_date": "2026-06-30"}}
+        parsed = neg.parse_offer(raw)
+        self.assertFalse(parsed.complete)
+        self.assertIn(neg.NO_OFFER_DATE, parsed.problems)
+        self.assertTrue(any("transfer_fee" in p and "no due_date" in p for p in parsed.problems), parsed.problems)
+        self.assertNotIn("off-1:transfer_fee", {c.commitment_id for c in parsed.commitments}, "an undated fee is not modelled at a made-up date")
+        self.assertFalse(any(c.due_date.startswith("1970") for c in parsed.commitments))
+        self.assertEqual([c.commitment_id for c in parsed.commitments], ["off-1:weekly_wage"], "dated clauses are still planned")
+        self.assertTrue(any("instalment horizon" in v for v in reservation().violations(neg.parse_offer({**raw, "terms": {"transfer_fee": {"amount": 800_000, "instalments": [{"amount": 800_000, "due_date": "2027-01-01"}]}}}))))
+        machine = neg.NegotiationStateMachine(OXFORD, reservation(), "buy")
+        v1 = machine.record_offer(raw, "counterparty")
+        self.assertIs(machine.state, neg.NegotiationState.STOPPED)
+        self.assertIn(neg.NO_OFFER_DATE, machine.stop_reason)
+        machine.confirm_version(1, v1.hash, by="ui_adapter")
+        check = machine.accept_ready(1, FinanceView(*(Observed.unavailable(fin.ValueStatus.MISSING, w) for w in ("balance", "transfer_budget", "wage_budget_weekly", "payroll_spending_weekly")), None), reservation(), None, game_date=fx.GAME_DATE)
+        self.assertFalse(check.ready)
+        self.assertTrue(any(neg.NO_OFFER_DATE in r for r in check.reasons))
+        self.assertIs(machine.state, neg.NegotiationState.STOPPED)
+
+    def test_amount_in_another_period_is_rejected_not_relabelled(self):
+        """FIN 01: a monthly (or period-less) figure offered for a weekly clause is a parse problem, never re-stamped weekly."""
+        monthly = neg.parse_offer(buy_offer(terms={"weekly_wage": {"amount": GBP(4000, Period.MONTHLY), "start_date": "2024-02-20", "end_date": "2026-06-30"}}))
+        self.assertFalse(monthly.complete)
+        self.assertTrue(any("weekly_wage" in p and "monthly" in p for p in monthly.problems), monthly.problems)
+        self.assertEqual([c for c in monthly.commitments if c.category == "wages"], [])
+        no_period = neg.parse_offer(buy_offer(terms={"weekly_wage": {"amount": {"minor": 400000, "currency": "GBP"}, "start_date": "2024-02-20", "end_date": "2026-06-30"}}))
+        self.assertTrue(any("no period" in p for p in no_period.problems), no_period.problems)
+        weekly_fee = neg.parse_offer(buy_offer(terms={"signing_on_fee": {"amount": GBP(20000, Period.WEEKLY).to_json()}}))
+        self.assertTrue(any("signing_on_fee" in p and "weekly" in p for p in weekly_fee.problems), weekly_fee.problems)
+        right = neg.parse_offer(buy_offer(terms={"weekly_wage": {"amount": GBP(4000, Period.WEEKLY).to_json(), "start_date": "2024-02-20", "end_date": "2026-06-30"}}))
+        self.assertTrue(right.complete, right.problems)
+        self.assertEqual(right.weekly_wage_total(), GBP(4000, Period.WEEKLY))
+
     def test_invalid_counterparty_and_direction(self):
         parsed = neg.parse_offer(buy_offer(counterparty={"name": "", "kind": "sponsor"}))
         self.assertFalse(parsed.counterparty.valid)
@@ -165,9 +202,9 @@ class CounterProposalTests(unittest.TestCase):
         parsed = neg.parse_offer(raw)
         proposal = neg.propose_counter(parsed, reservation(), raw["terms"])
         self.assertEqual(proposal.kind, "counter")
-        self.assertEqual(proposal.terms["weekly_wage"]["amount"], 4500)
-        self.assertEqual(proposal.terms["transfer_fee"]["amount"], 900000 - 35000)
-        self.assertEqual([i["amount"] for i in proposal.terms["transfer_fee"]["instalments"]], [432500, 432500])
+        self.assertEqual(Money.from_json(proposal.terms["weekly_wage"]["amount"]), GBP(4500, Period.WEEKLY))
+        self.assertEqual(Money.from_json(proposal.terms["transfer_fee"]["amount"]), GBP(900000 - 35000))
+        self.assertEqual([Money.from_json(i["amount"]) for i in proposal.terms["transfer_fee"]["instalments"]], [GBP(432500), GBP(432500)])
         self.assertEqual([i["due_date"] for i in proposal.terms["transfer_fee"]["instalments"]], ["2024-02-17", "2024-08-17"])
         self.assertNotIn("image_rights_share", proposal.terms)
         counter = neg.parse_offer({**raw, "terms": proposal.terms})
@@ -187,7 +224,49 @@ class CounterProposalTests(unittest.TestCase):
         pack = reservation(min_total_receipt=GBP(500000))
         proposal = neg.propose_counter(neg.parse_offer(raw), pack, raw["terms"])
         self.assertEqual(proposal.kind, "counter")
-        self.assertEqual(proposal.terms["transfer_fee"], {"amount": 500000, "payer": "Oxford"})
+        self.assertEqual(proposal.terms["transfer_fee"], {"amount": GBP(500000).to_json(), "payer": "Oxford"})
+        self.assertTrue(neg.parse_offer({**raw, "terms": proposal.terms}).complete, "the club's own counter re-parses as complete")
+
+    def test_counter_keeps_pence_exact_and_reparses_complete(self):
+        """Spec 5.3: counter amounts are exact minor units; an uneven split still adds up to the clamped total."""
+        pack = reservation(max_total_commitment=Money(100_000_001), max_instalments=3, max_instalment_months=12)   # GBP 1,000,000.01
+        raw = buy_offer()
+        raw["terms"] = {"transfer_fee": {"amount": 2_000_000, "due_date": "2024-02-20"}, "weekly_wage": {"amount": 4000, "start_date": "2024-02-20", "end_date": "2026-06-30"}}
+        proposal = neg.propose_counter(neg.parse_offer(raw), pack, raw["terms"])
+        self.assertEqual(proposal.kind, "counter")
+        parts = [Money.from_json(i["amount"]) for i in proposal.terms["transfer_fee"]["instalments"]]
+        self.assertEqual(parts, [Money(33_333_334), Money(33_333_334), Money(33_333_333)])
+        self.assertEqual(sum(m.minor for m in parts), 100_000_001, "no penny is truncated")
+        self.assertEqual(Money.from_json(proposal.terms["transfer_fee"]["amount"]), Money(100_000_001))
+        counter = neg.parse_offer({**raw, "terms": proposal.terms})
+        self.assertTrue(counter.complete, counter.problems)
+        self.assertEqual(pack.violations(counter), [])
+        self.assertEqual(counter.guaranteed_once_total(), Money(100_000_001))
+
+    def test_counter_without_in_game_date_is_stopped_not_anchored_on_the_wall_clock(self):
+        """Spec 5.2 / 8.1: instalments are scheduled on in-game dates only; without one the proposal stops."""
+        raw = buy_offer(terms={"transfer_fee": {"amount": 1_200_000, "instalments": [{"amount": 600_000, "due_date": "2024-02-20"}, {"amount": 600_000, "due_date": "2024-08-20"}]}})
+        raw.pop("date")
+        parsed = neg.parse_offer(raw)
+        stopped = neg.propose_counter(parsed, reservation(), raw["terms"])
+        self.assertEqual(stopped.kind, "stopped")
+        self.assertTrue(stopped.stopped)
+        self.assertIsNone(stopped.terms)
+        self.assertTrue(any("in-game date" in r for r in stopped.reasons))
+        anchored = neg.propose_counter(parsed, reservation(), raw["terms"], game_date=fx.GAME_DATE)
+        self.assertEqual(anchored.kind, "counter")
+        self.assertEqual([i["due_date"] for i in anchored.terms["transfer_fee"]["instalments"]], ["2024-02-17", "2024-08-17"])
+        # through the state machine: a stopped proposal records nothing; a game date dates the club's counter
+        machine = neg.NegotiationStateMachine(OXFORD, reservation(), "buy")
+        machine.record_offer(raw, "counterparty")
+        self.assertIs(machine.state, neg.NegotiationState.STOPPED)
+        self.assertEqual(machine.counter().kind, "stopped")
+        self.assertEqual(len(machine.versions), 1)
+        self.assertIs(machine.state, neg.NegotiationState.STOPPED)
+        self.assertEqual(machine.counter(game_date=fx.GAME_DATE).kind, "counter")
+        self.assertEqual(machine.latest.offer.date, fx.GAME_DATE)
+        self.assertTrue(machine.latest.offer.complete)
+        self.assertIs(machine.state, neg.NegotiationState.OFFERED)
 
 
 class StateMachineTests(unittest.TestCase):

@@ -5,7 +5,7 @@ import json
 import unittest
 
 from ..execution.adapter import FAKE_SCREEN_MODEL, FAKE_WORKFLOWS, FakeAdapter, UIStep, Workflow
-from ..execution.executor import NAVIGATION_RETRY_LIMIT, UI_WRITER_LOCK, ExecutorError, WriterLockHeld
+from ..execution.executor import NAVIGATION_RETRY_LIMIT, UI_WRITER_LOCK, ExecutorError, WriterLockHeld, unsettled_twin
 from ..execution.verification import VerdictKind
 from ..rules.authority import AuthorityMode
 from ..state.records import ActionState, ExecutionOutcome
@@ -243,6 +243,60 @@ class UncertaintyTests(unittest.TestCase):
         report = executor.run_next(h.snapshot)
         self.assertIs(report.state, ActionState.UNCERTAIN)
         self.assertEqual(h.adapter.calls, 2)
+
+    def test_act02_any_adapter_exception_after_input_is_uncertain_with_after_evidence_and_never_retried(self):
+        """ACT 02 / spec 12.3: an adapter error that is not an ``AdapterCrash`` (here the UI layer raising ``ValueError`` once the
+        consequential input has gone out) never propagates out of ``run_next``: the intent becomes UNCERTAIN with the attempt's
+        after-evidence recorded, it is never left EXECUTING, and the step is never retried."""
+        class RaisingUI(FakeAdapter):
+            def _apply(self, step):
+                if step.action == "select_tactic":
+                    raise ValueError("dictionary update sequence element #0 has length 10; 2 is required")
+                return super()._apply(step)
+
+        h = harness(RaisingUI())
+        executor = h.executor()
+        intent = queued_tactic(h)
+        report = executor.run_next(h.snapshot)                       # must not raise
+        self.assertIs(report.state, ActionState.UNCERTAIN, report.reason)
+        self.assertIn("ValueError", report.reason)
+        self.assertIn("never retried", report.reason)
+        self.assertEqual(h.adapter.calls, 2, "navigation once, the consequential step exactly once")
+        self.assertEqual(len(h.adapter.inputs), 2, "the input had gone out before the adapter raised")
+        self.assertIs(h.store.get_intent(intent.action_id).state, ActionState.UNCERTAIN)
+        self.assertEqual(h.store.list_intents([ActionState.EXECUTING]), [], "never stuck in EXECUTING")
+        attempt = h.store.list_attempts(intent.action_id)[0]
+        self.assertEqual(attempt["execution_state"], "UNCERTAIN")
+        self.assertEqual(attempt["outcome"], ExecutionOutcome.UNCERTAIN.value)
+        self.assertTrue(attempt["before_evidence"] and attempt["after_evidence"], "before and after evidence are both recorded")
+        for oid in [*attempt["before_evidence"], *attempt["after_evidence"]]:
+            self.assertIsNotNone(h.store.get_observation(oid, with_payload=False), oid)
+        self.assertIn("reconcil", attempt["recovery_instruction"])
+        steps = h.store.journal_entries("executor.result", intent.action_id)[0]["body"]["steps"]
+        self.assertEqual((steps[-1]["step_id"], steps[-1]["status"], steps[-1]["error_type"]), ("select", "exception", "ValueError"))
+        self.assertIsNone(executor.run_next(h.snapshot), "nothing is re-queued")
+
+
+class DuplicateEffectGuardTests(unittest.TestCase):
+    def test_act02_unsettled_twin_matches_kind_and_targets_only_while_the_effect_is_unsettled(self):
+        """ACT 02 / spec 12.3: the duplicate-effect lookup finds an EXECUTING/VERIFYING/UNCERTAIN/RECONCILING intent with the same
+        kind and targets on the same branch, and nothing once that intent is settled (or for other targets, kinds, branches)."""
+        h = harness()
+        snap = h.snapshot()
+        kind, targets = "select_validated_tactic", {"routes": ["/tactics"]}
+        intent = h.ready(h.tactic_intent(snap, decision_id="d1"), snap)
+        self.assertIsNone(unsettled_twin(h.store, kind, targets, branch_id=h.branch_id), "QUEUED has sent nothing; it is not unsettled")
+        h.store.update_intent_state(intent, ActionState.EXECUTING, "test")
+        self.assertEqual(unsettled_twin(h.store, kind, targets, branch_id=h.branch_id).action_id, intent.action_id)
+        h.store.update_intent_state(intent, ActionState.UNCERTAIN, "test")
+        self.assertEqual(unsettled_twin(h.store, kind, targets, branch_id=h.branch_id).action_id, intent.action_id)
+        self.assertIsNone(unsettled_twin(h.store, kind, {"routes": ["/squad"]}, branch_id=h.branch_id), "different targets")
+        self.assertIsNone(unsettled_twin(h.store, "set.training", targets, branch_id=h.branch_id), "different kind")
+        self.assertIsNone(unsettled_twin(h.store, kind, targets, branch_id="branch-elsewhere"), "different branch")
+        h.store.update_intent_state(intent, ActionState.RECONCILING, "test")
+        self.assertEqual(unsettled_twin(h.store, kind, targets, branch_id=h.branch_id).action_id, intent.action_id)
+        h.store.update_intent_state(intent, ActionState.CONFIRMED, "test")
+        self.assertIsNone(unsettled_twin(h.store, kind, targets, branch_id=h.branch_id), "a settled effect no longer blocks a new decision")
 
 
 class VerificationGateTests(unittest.TestCase):

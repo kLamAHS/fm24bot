@@ -145,12 +145,16 @@ def positive_absence(name: str, component: Observed) -> str | None:
 
 
 def freshness_status(game_date: str | None, game_time: str | None, snapshot_game_date: str | None, snapshot_game_time: str | None) -> tuple[ValueStatus, str | None]:
-    """Compare an observation's game time with the snapshot's.
+    """Compare an observation's game time with the snapshot's (spec 7.1, SEL 01).
 
     Only a reading at the same in-game moment is current. Earlier readings
     are stale (the game may have advanced through an injury or a suspension
     since); later readings mean the snapshot itself is out of date and are
-    reported as stale too, never silently treated as current.
+    reported as stale too, never silently treated as current. A reading
+    with no game time can never verify: on the snapshot's day it is
+    ``stale`` (it may predate the snapshot's time, and "same day" is not
+    "same moment"), and when the snapshot's own time is unknown nothing can
+    be compared, so the reading is ``missing`` verification.
     """
     if snapshot_game_date is None:
         return ValueStatus.MISSING, "snapshot has no game date to check freshness against"
@@ -161,7 +165,11 @@ def freshness_status(game_date: str | None, game_time: str | None, snapshot_game
     if obs_day != snap_day:
         direction = "earlier" if obs_day < snap_day else "later"
         return ValueStatus.STALE, f"observed {game_date} which is {direction} than the snapshot game date {snapshot_game_date}"
-    if game_time is None or snapshot_game_time is None or obs_min == snap_min:
+    if snapshot_game_time is None:
+        return ValueStatus.MISSING, f"snapshot has no game time; a reading on {game_date} cannot be verified as current"
+    if game_time is None:
+        return ValueStatus.STALE, f"observed on {game_date} with no game time; it cannot be shown current at the snapshot game time {snapshot_game_time}"
+    if obs_min == snap_min:
         return ValueStatus.AVAILABLE, None
     direction = "earlier" if obs_min < snap_min else "later"
     return ValueStatus.STALE, f"observed at {game_time} which is {direction} than the snapshot game time {snapshot_game_time} on {game_date}"

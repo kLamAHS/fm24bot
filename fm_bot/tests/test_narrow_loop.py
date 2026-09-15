@@ -49,8 +49,14 @@ CATALOG_VERSION = 1
 TRAINING_CHANGE = {"intensity": "Double", "rest_percent": 20}
 
 
-class ProcessDied(Exception):
-    """Stands in for the executor process being killed mid-step (kill -9, power loss)."""
+class ProcessDied(BaseException):
+    """Stands in for the executor process being killed mid-step (kill -9, power loss).
+
+    A ``BaseException`` like ``SystemExit`` or ``KeyboardInterrupt``: process
+    termination is not an adapter error the executor may turn into an
+    UNCERTAIN outcome (any ordinary ``Exception`` from ``perform`` is), so it
+    must pass straight through and leave the in-flight record behind.
+    """
 
 
 class DyingAdapter(FakeAdapter):

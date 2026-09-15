@@ -19,12 +19,13 @@ from ..interface.controls import Settings
 from ..interface.explain import explain_action
 from ..interface.notify import NotificationKind
 from ..orchestrator import (
-    JOURNAL_BOUNDARY, JOURNAL_MATCH, JOURNAL_PLAN, JOURNAL_UNAVAILABLE, MANAGER_LOCK, FakeClock, ManagerLockHeld, Orchestrator, PassStatus, RunLevel, Trigger,
-    detect_triggers, lineup_status_of, next_action_of, plan_due, plan_outcome_of,
+    JOURNAL_BOUNDARY, JOURNAL_IDENTITY, JOURNAL_LINEAGE_CONFIRMED, JOURNAL_MATCH, JOURNAL_NOT_EXECUTED, JOURNAL_PLAN, JOURNAL_RECONCILE, JOURNAL_UNAVAILABLE, MANAGER_LOCK,
+    FakeClock, ManagerLockHeld, Orchestrator, PassStatus, RunLevel, Trigger, detect_triggers, lineup_status_of, next_action_of, plan_due, plan_outcome_of,
 )
 from ..rules.capabilities import CapabilityRegistry
 from ..state.identity import CareerRegistry, SaveManifest
 from ..state.records import ActionState, ConsistencyStatus, Decision, DecisionSnapshot
+from ..state.status import ValueStatus
 from ..state.store import Store
 from . import fixtures as fx
 from .execution_fixtures import linked_world
@@ -287,6 +288,32 @@ class DecisionPointAndPlanTests(unittest.TestCase):
         self.assertEqual(detect_triggers(before, before), [])
         self.assertIsInstance(triggers[0], Trigger)
 
+    def test_inbox_text_read_at_an_earlier_game_time_is_stale_for_the_whole_decision_point(self):
+        """spec 5.2 / 12.4: one decision point, one clock. Text declared at an earlier game time is served ``stale`` to the deadline
+        rules (pending actions, the Continue gate, the planner) exactly as to the mandatory-inbox check, so the two halves of the
+        decision point agree; text declared at the snapshot's own game time is used by both."""
+        current = f"{fx.GAME_DATE} {fx.GAME_TIME}"
+        provider = DeclaredInboxTextProvider()
+        provider.declare(InboxText(501, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time="2024-02-10 09:00")
+        provider.declare(InboxText(503, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=current)
+        w = World(provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider)
+        try:
+            snap = w.orchestrator.collect("test")
+            self.assertIs(provider.get_text(501, game_time=current).status, ValueStatus.STALE)
+            point = w.orchestrator.decision_point(snap)
+            stale = next(p for p in point.pending if p.message_id == 501)
+            self.assertFalse(stale.resolved, "a stale reading proves nothing; the unread offer still looks like a required decision")
+            self.assertTrue(stale.blocks_continue)
+            fresh = next(p for p in point.pending if p.message_id == 503)
+            self.assertTrue(fresh.resolved, "text read at this game time settles the message")
+            self.assertEqual({b.item.message_id for b in point.blockers}, {501}, "the mandatory-inbox check reaches the same verdict")
+            self.assertFalse(point.mandatory_clear)
+            reading = w.orchestrator._deadline_text_provider(snap)
+            self.assertIsNone(reading({"id": 501}), "the planner's reader ignores the stale text too")
+            self.assertEqual(reading({"id": 503})["requires_decision"], False)
+        finally:
+            w.close()
+
     def test_material_events_backoff_on_errors_is_bounded(self):
         w = World()
         try:
@@ -410,6 +437,123 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
+    def test_act02_timeout_after_successful_accept_reconciles_in_process_and_never_dispatches_twice(self):
+        """ACT 02 / spec 12.3, within one process: the consequential input lands but its confirmation times out (UNCERTAIN). Every
+        later pass reconciles that intent from readback before replanning; while the readback cannot establish the effect (the UI
+        says the change landed, the bridge still shows the old tactic: sources contradict) the replanned duplicate is refused by
+        the duplicate-effect guard, so the acceptance is never dispatched a second time; once the bridge corroborates it the
+        intent is CONFIRMED and nothing further is proposed or sent."""
+        def bridge_aware_planner():
+            """Proposes the counter tactic while the bridge still reports the balanced one (test double, not a planner)."""
+            calls: list[dict[str, Any]] = []
+
+            def plan_once(snapshot, **kwargs):
+                calls.append(kwargs)
+                stored = (snapshot.routes.get("/tactics") or {}).get("stored_name")
+                candidates = [stub_candidate()] if stored != "4-2-3-1 Counter" else []
+                return SimpleNamespace(status="planned", candidates=candidates, decisions=[], summaries=["stub plan"], capability_reports={}, reasons=[])
+            plan_once.calls = calls
+            return plan_once
+
+        planner = bridge_aware_planner()
+        w = World(authority="scoped", families=["tactics"], planner=planner)      # not linked: the bridge does not yet reflect the UI change
+        try:
+            w.adapter.inject("timeout_after_success", on_step=2)
+            first = w.orchestrator.run_once()
+            self.assertIs(first.status, PassStatus.ACTED, first.notes)
+            self.assertIs(first.executed.state, ActionState.UNCERTAIN, first.executed.reason)
+            self.assertEqual(w.adapter.selected_tactic_id, "counter-02", "the effect landed; only reconciliation may say so")
+            self.assertEqual(w.adapter.calls, 2)
+            action_id = first.executed.action_id
+            # a material event replans: the uncertain intent is reconciled first, and the replanned duplicate is refused
+            w.transport.set("/finances", env(dict(fx.finances_payload(), balance=10_000_000)))
+            second = w.orchestrator.run_once()
+            self.assertEqual([d["action_id"] for d in second.reconciled], [action_id])
+            self.assertEqual(second.reconciled[0]["new_state"], "UNCERTAIN")
+            self.assertIn("contradict", second.reconciled[0]["reason"])
+            self.assertIsNotNone(second.next_action, "the bridge still shows the old tactic, so the same change is proposed again")
+            self.assertIsNone(second.executed)
+            self.assertTrue(any("duplicate-effect guard" in n and action_id in n for n in second.notes), second.notes)
+            self.assertEqual(w.adapter.calls, 2, "no second dispatch")
+            self.assertEqual([i["action"] for i in w.adapter.inputs], ["navigate", "select_tactic"])
+            self.assertEqual([(i.action_id, i.state) for i in w.store.list_intents()], [(action_id, ActionState.UNCERTAIN)], "no second intent was minted")
+            refused = w.store.journal_entries(kind=JOURNAL_NOT_EXECUTED)[-1]["body"]
+            self.assertEqual(refused["unsettled_action_id"], action_id)
+            self.assertIn(JOURNAL_RECONCILE, w.journal_kinds())
+            # the bridge now corroborates the UI readback: reconciliation confirms, and the plan proposes nothing
+            tactics = fx.tactics_payload()
+            tactics["stored_name"] = "4-2-3-1 Counter"
+            w.transport.set("/tactics", env(tactics))
+            third = w.orchestrator.run_once()
+            self.assertEqual(third.reconciled[0]["new_state"], "CONFIRMED", third.reconciled)
+            self.assertIs(w.store.get_intent(action_id).state, ActionState.CONFIRMED)
+            self.assertIsNone(third.executed)
+            self.assertEqual(w.adapter.calls, 2, "reconciliation sent nothing")
+            transitions = [e["body"]["to"] for e in w.store.journal_entries("intent.transition", action_id)]
+            self.assertEqual(transitions, ["VALIDATED", "QUEUED", "EXECUTING", "UNCERTAIN", "RECONCILING", "UNCERTAIN", "RECONCILING", "CONFIRMED"])
+            self.assertNotIn("QUEUED", transitions[3:], "never silently re-queued")
+            self.assertEqual(len(w.store.list_intents()), 1)
+        finally:
+            w.close()
+
+    def test_id01_reload_of_an_earlier_checkpoint_stops_for_identity_resolution(self):
+        """ID 01 / spec 5.1: mid-session the operator loads an earlier save (``/game`` goes backwards). The next pass is a stop for
+        identity resolution: execution is disabled, queued work is cancelled without input, and no decision or intent is recorded on
+        the branch while observations keep being journaled, until the operator confirms the lineage; then the bot reconnects from
+        the loaded save."""
+        w = World(linked=True, authority="scoped", families=["tactics"])          # the shared planner: it records decisions per horizon
+        try:
+            first = w.orchestrator.run_once()
+            self.assertIn(first.status, (PassStatus.PLANNED, PassStatus.BLOCKED), first.notes)
+            self.assertEqual(first.game_date, fx.GAME_DATE)
+            decisions_before = len(w.store.list_decisions(limit=1000))
+            self.assertGreater(decisions_before, 0)
+            snap = w.orchestrator.collect("setup")
+            intent = IntentFactory(w.store).create("select_validated_tactic", "tactics.select", snap, {"routes": ["/tactics"]}, {"tactic_catalog_id": "counter-02", "catalog_version": 1}, verification="selected_tactic_matches_catalog")
+            self.assertTrue(validate(intent, w.orchestrator.capabilities, w.settings.authority_profile(), snap, w.store).ok)
+            enqueue(w.store, intent)
+            action = next_action_of(SimpleNamespace(candidates=[stub_candidate()], decisions=[]), [])
+            w.transport.set("/game", env({"date": "2024-02-10", "time": "10:00"}))          # the operator loaded the 10 February save
+            second = w.orchestrator.run_once()
+            self.assertIs(second.status, PassStatus.IDENTITY_RESOLUTION_REQUIRED, second.notes)
+            self.assertTrue(any("date_reversed" in n for n in second.notes), second.notes)
+            self.assertTrue(any("confirm" in n for n in second.notes), second.notes)
+            self.assertTrue(w.orchestrator.identity_resolution_required)
+            self.assertFalse(w.orchestrator.execution_enabled)
+            self.assertFalse(w.orchestrator.lineage_confirmed)
+            self.assertIsNone(second.plan)
+            self.assertIsNone(second.executed)
+            self.assertIs(w.store.get_intent(intent.action_id).state, ActionState.CANCELLED, "queued work is cancelled")
+            self.assertEqual(w.adapter.inputs, [])
+            stop = w.store.journal_entries(kind=JOURNAL_IDENTITY)[-1]["body"]
+            self.assertEqual((stop["status"], stop["cancelled"], stop["execution"]), ("date_reversed", [intent.action_id], "disabled"))
+            self.assertIn(NotificationKind.USER_ACTION_REQUIRED, [n.kind for n in w.orchestrator.notifier.history])
+            # later passes keep journaling what they see, but decide, mint and send nothing
+            observations_before = len(w.store.list_observations(branch_id=w.branch.branch_id, limit=100_000))
+            third = w.orchestrator.run_once()
+            self.assertIs(third.status, PassStatus.IDENTITY_RESOLUTION_REQUIRED)
+            self.assertGreater(len(w.store.list_observations(branch_id=w.branch.branch_id, limit=100_000)), observations_before, "observations are still journaled")
+            self.assertEqual(len(w.store.list_decisions(limit=1000)), decisions_before, "no decision recorded on the branch")
+            self.assertEqual(len(w.store.list_intents()), 1, "no intent minted")
+            self.assertEqual(len(w.store.journal_entries(kind=JOURNAL_IDENTITY)), 1, "the stop is recorded once, not every poll")
+            refusal = w.orchestrator.execute(action, snap)
+            self.assertIsInstance(refusal, str)
+            self.assertIn("identity resolution required", refusal)
+            self.assertEqual(w.orchestrator.plan(snap).status, "unavailable")
+            self.assertEqual(len(w.store.list_decisions(limit=1000)), decisions_before)
+            self.assertFalse(w.orchestrator.status_view().career["lineage_confirmed"])
+            # the operator confirms the lineage: continuity restarts from the loaded save and the bot decides again
+            w.orchestrator.confirm_lineage("the 10 February save was loaded on purpose")
+            self.assertIn(JOURNAL_LINEAGE_CONFIRMED, w.journal_kinds())
+            fourth = w.orchestrator.run_once()
+            self.assertIn(fourth.status, (PassStatus.PLANNED, PassStatus.BLOCKED), fourth.notes)
+            self.assertEqual(fourth.game_date, "2024-02-10")
+            self.assertTrue(w.orchestrator.execution_enabled)
+            self.assertFalse(w.orchestrator.identity_resolution_required)
+            self.assertGreater(len(w.store.list_decisions(limit=1000)), decisions_before, "decisions resume on the confirmed lineage")
+        finally:
+            w.close()
+
     def test_lock_lost_stops_the_pass(self):
         w = World()
         try:
@@ -465,25 +609,75 @@ class ExecutionTests(unittest.TestCase):
 # ---------------------------------------------------------------------------
 
 
+def match_payload(timeline: str | None = "unclassified", *, with_timeline: bool = True) -> dict[str, Any]:
+    match = {"home": {"club_id": 742}, "away": {"club_id": 804}, "clock": "45:00", "score": {"home": 0, "away": 0}}
+    if with_timeline:
+        match["timeline"] = timeline
+    return {"available": True, "reason": None, "match": match}
+
+
 class MatchLevelTests(unittest.TestCase):
-    def test_mat01_live_match_only_records_observations(self):
-        match = {"available": True, "reason": None, "match": {"home": {"club_id": 742}, "away": {"club_id": 804}, "clock": "45:00", "score": {"home": 0, "away": 0}, "timeline": "unclassified"}}
+    """MAT 01: live decisions are gated on the ``/match`` payload's own timeline classification and the event-order capability."""
+
+    def _observe(self, match: dict[str, Any], **world_kw):
         planner = stub_planner([stub_candidate()])
-        w = World(linked=True, authority="scoped", families=["tactics"], planner=planner, routes={"/match": env(match)})
+        w = World(linked=True, authority="scoped", families=["tactics"], planner=planner, routes={"/match": env(match)}, **world_kw)
         try:
             result = w.orchestrator.run_once()
             self.assertIs(result.level, RunLevel.MATCH)
             self.assertIs(result.status, PassStatus.MATCH_OBSERVED)
             self.assertIsNone(result.executed)
             self.assertEqual(planner.calls, [], "no optimisation during a match")
-            self.assertEqual(w.adapter.inputs, [])
-            self.assertIn(JOURNAL_MATCH, w.journal_kinds())
-            entry = w.store.journal_entries(kind=JOURNAL_MATCH)[-1]["body"]
-            self.assertFalse(entry["live_actions_allowed"])
-            self.assertEqual(entry["timeline"], "unclassified")
+            self.assertEqual(w.adapter.inputs, [], "nothing is ever sent from the match level in this version")
             self.assertEqual(result.next_poll_seconds, 2.0, "paused-match engineering default")
+            self.assertIn(JOURNAL_MATCH, w.journal_kinds())
+            return result, w.store.journal_entries(kind=JOURNAL_MATCH)[-1]["body"]
         finally:
             w.close()
+
+    def test_mat01_live_match_only_records_observations(self):
+        """MAT 01: an ``unclassified`` timeline refuses every live action; the journal carries the timeline value read from the
+        payload and the refusal names it, so retained statistics cannot trigger anything."""
+        result, entry = self._observe(match_payload("unclassified"))
+        self.assertFalse(entry["live_actions_allowed"])
+        self.assertEqual(entry["timeline"], "unclassified")
+        self.assertEqual(entry["timeline_status"], "reported")
+        self.assertIn("'unclassified'", entry["reason"])
+        self.assertIn("'unclassified'", result.notes[0])
+        self.assertIn("MAT 01", entry["reason"])
+
+    def test_mat01_gate_reads_the_payload_timeline_value_not_a_constant(self):
+        """MAT 01: whatever the payload says is what is journaled and refused on; a payload with no timeline field is journaled as
+        missing (never as a classification) and refused."""
+        _, entry = self._observe(match_payload("partially_classified"))
+        self.assertFalse(entry["live_actions_allowed"])
+        self.assertEqual(entry["timeline"], "partially_classified")
+        self.assertIn("'partially_classified'", entry["reason"])
+        result, entry = self._observe(match_payload(with_timeline=False))
+        self.assertFalse(entry["live_actions_allowed"])
+        self.assertIsNone(entry["timeline"])
+        self.assertEqual(entry["timeline_status"], "missing")
+        self.assertIn("timeline missing", entry["reason"])
+        self.assertIn("timeline missing", result.notes[0])
+
+    def test_mat01_classified_timeline_without_the_event_order_capability_still_refuses(self):
+        """MAT 01: ``classified`` alone is not enough; with ``match_event_order`` unresolved there is no verified intervention point,
+        so live actions are refused and the refusal names the capability status."""
+        _, entry = self._observe(match_payload("classified"))
+        self.assertFalse(entry["live_actions_allowed"])
+        self.assertEqual(entry["timeline"], "classified")
+        self.assertIn(entry["match_event_order"], ("missing", "unsupported"))
+        self.assertIn("match_event_order", entry["reason"])
+        self.assertIn(entry["match_event_order"], entry["reason"])
+
+    def test_mat01_classified_timeline_with_supported_event_order_is_the_only_permitting_combination(self):
+        """MAT 01: only a ``classified`` timeline together with a supported ``match_event_order`` could ever permit a live action; even
+        then nothing is executed here because no prevalidated match action set exists in this version."""
+        result, entry = self._observe(match_payload("classified"), provisions={"match_event_order": "test-operator"})
+        self.assertTrue(entry["live_actions_allowed"])
+        self.assertEqual((entry["timeline"], entry["match_event_order"]), ("classified", "supported"))
+        self.assertIn("nothing is executed", entry["reason"])
+        self.assertIn("nothing is executed", result.notes[0])
 
 
 if __name__ == "__main__":

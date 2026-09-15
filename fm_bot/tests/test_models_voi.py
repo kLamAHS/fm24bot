@@ -62,10 +62,11 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(voi.update_belief(prior, 14.0, 4.0, 0.0), prior)
 
 
-def candidate(pid, name, *, known, attr_gain=4.0, ctx_gain=1.0, cost=0.5, report=None, quality=None) -> voi.ScoutingCandidate:
+def candidate(pid, name, *, known, attr_gain=4.0, ctx_gain=1.0, cost=0.5, report=None, quality=None, knowledge=0.0) -> voi.ScoutingCandidate:
+    """``knowledge=0.0`` is an *observed* "nothing known yet"; pass ``knowledge=None`` for a candidate with no knowledge observation."""
     attr = [voi.Scenario("s", 1.0, 0.0, attr_gain)] if attr_gain is not None else []
     ctx = [voi.Scenario("s", 1.0, 0.0, ctx_gain)] if ctx_gain is not None else []
-    return voi.ScoutingCandidate(pid, name, known, attr, ctx, report, quality, cost, 0.0)
+    return voi.ScoutingCandidate(pid, name, known, attr, ctx, report, quality, cost, 0.0, knowledge)
 
 
 class RankingTests(unittest.TestCase):
@@ -81,12 +82,13 @@ class RankingTests(unittest.TestCase):
 
     def test_manager_visible_never_uses_bridge_attribute_knowledge(self):
         rankings = voi.rank_assignments([candidate(2001, "Known", known=True)], InformationMode.MANAGER_VISIBLE, "2024-02-17")
-        self.assertEqual(rankings[0].flags, [])
+        self.assertNotIn(voi.ATTRIBUTE_KNOWN_FLAG, rankings[0].flags)
+        self.assertEqual(rankings[0].components["attributes"], 4.0)
         self.assertAlmostEqual(rankings[0].voi, 4.5)
 
     def test_fresh_high_quality_report_reduces_remaining_value(self):
-        fresh = candidate(2001, "Reported", known=False, report="2024-02-17", quality=1.0)
-        unreported = candidate(2002, "Unreported", known=False)
+        fresh = candidate(2001, "Reported", known=False, report="2024-02-17", quality=1.0, knowledge=None)
+        unreported = candidate(2002, "Unreported", known=False, knowledge=None)
         rankings = voi.rank_assignments([fresh, unreported], InformationMode.MANAGER_VISIBLE, "2024-02-17")
         by_id = {r.player_id: r for r in rankings}
         self.assertEqual(by_id[2001].report_status, "stored_report")
@@ -94,6 +96,34 @@ class RankingTests(unittest.TestCase):
         self.assertAlmostEqual(by_id[2001].voi, -0.5)
         self.assertEqual(by_id[2002].report_status, "no_stored_report")
         self.assertIsNone(by_id[2002].report_weight)
+
+    def test_no_stored_report_is_not_proof_the_player_is_unknown(self):
+        """spec 11.1: without a report or an observed knowledge level the remaining gain is unknown, so VOI is unavailable, never the full gain."""
+        unreported = candidate(2002, "Unreported", known=False, knowledge=None)
+        [ranking] = voi.rank_assignments([unreported], InformationMode.MANAGER_VISIBLE, "2024-02-17")
+        self.assertEqual(ranking.status, "unavailable")
+        self.assertIsNone(ranking.voi)
+        self.assertIn(voi.KNOWLEDGE_UNKNOWN_FLAG, ranking.flags)
+        self.assertEqual(ranking.report_status, "no_stored_report")
+        self.assertIn("not", ranking.reason)
+        self.assertEqual(ranking.components, {"attributes": 4.0, "context": 1.0}, "the gains themselves are still reported")
+        self.assertIsNone(ranking.to_json()["voi"])
+        # an observed knowledge level (e.g. the bridge's scout_report_knowledge) stands in for a report
+        half_known = candidate(2003, "Half", known=False, knowledge=0.5)
+        nothing_known = candidate(2004, "Fresh", known=False, knowledge=0.0)
+        rankings = voi.rank_assignments([unreported, half_known, nothing_known], InformationMode.MANAGER_VISIBLE, "2024-02-17")
+        by_id = {r.player_id: r for r in rankings}
+        self.assertAlmostEqual(by_id[2003].voi, 5.0 * 0.5 - 0.5)
+        self.assertAlmostEqual(by_id[2004].voi, 5.0 - 0.5)
+        self.assertIn(voi.KNOWLEDGE_OBSERVED_FLAG, by_id[2003].flags)
+        self.assertEqual([r.player_id for r in rankings], [2004, 2003, 2002], "unavailable sorts last")
+        # a stored report takes precedence over the knowledge level
+        reported = candidate(2005, "Reported", known=False, report="2024-02-17", quality=1.0, knowledge=0.0)
+        [ranking] = voi.rank_assignments([reported], InformationMode.MANAGER_VISIBLE, "2024-02-17")
+        self.assertAlmostEqual(ranking.voi, -0.5)
+        self.assertNotIn(voi.KNOWLEDGE_OBSERVED_FLAG, ranking.flags)
+        with self.assertRaises(voi.VoiError):
+            voi.rank_assignments([candidate(2006, "Bad", known=False, knowledge=1.5)], InformationMode.MANAGER_VISIBLE, "2024-02-17")
 
     def test_no_scenarios_is_unavailable_and_sorted_last(self):
         rankings = voi.rank_assignments([candidate(2001, "Empty", known=False, attr_gain=None, ctx_gain=None), candidate(2002, "Loss", known=False, attr_gain=0.0, ctx_gain=0.0, cost=3.0)], InformationMode.MANAGER_VISIBLE, "2024-02-17")

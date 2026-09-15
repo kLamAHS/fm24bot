@@ -153,6 +153,10 @@ class CandidatePackage:
         """Guaranteed one-off club payments falling inside the window (calendar-expanded)."""
         return fin.guaranteed_total((c for c in self.terms if c.category in fin.TRANSFER_BUDGET_CATEGORIES), start, end, currency=self.currency)
 
+    def guaranteed_fees_all_dates(self) -> Money:
+        """Every guaranteed one-off club fee in the package regardless of date (no window applied)."""
+        return sum_money((c.amount.as_once() for c in self.terms if c.category in fin.TRANSFER_BUDGET_CATEGORIES and c.recurrence is Period.ONCE and c.kind is MovementKind.PAYMENT and c.certainty is Certainty.OBSERVED_COMMITTED), self.currency, Period.ONCE)
+
     def conditional_total(self) -> Money:
         return sum_money((c.amount.as_once() for c in self.terms if c.certainty is Certainty.CONDITIONAL and c.kind is MovementKind.PAYMENT and c.recurrence is Period.ONCE), self.currency, Period.ONCE)
 
@@ -573,10 +577,17 @@ class FinanceInputs:
     regulatory: Observed | None = None
     start_date: str | None = None
 
-    def window(self) -> tuple[dt.date, dt.date]:
+    def as_of(self) -> str | None:
+        """The in-game date the projection is anchored on, or None when no input carries one."""
+        return self.start_date or self.ledger.as_of or self.finance_view.as_of
+
+    def window(self) -> tuple[dt.date, dt.date] | None:
+        """The rolling projection window, or None when there is no in-game date to anchor it on."""
+        as_of = self.as_of()
+        if as_of is None:
+            return None
         engine = self.engine or fin.CashFlowEngine()
-        start = fin.as_date(self.start_date or self.ledger.as_of or self.finance_view.as_of or "1970-01-01")
-        return engine.horizon(start)
+        return engine.horizon(fin.as_date(as_of))
 
 
 def package_feasibility(package: CandidatePackage, inputs: FinanceInputs) -> fin.FeasibilityReport:
@@ -683,20 +694,27 @@ def package_tradeoffs(evaluations: Iterable[PackageEvaluation], *, window: tuple
     ``undominated`` lists packages not dominated on (plan value gain, weekly
     wage, guaranteed fees) by another package whose feasibility is not
     ``False``; an infeasible package cannot dominate anything.
+
+    ``window`` is the projection window the fees are totalled inside. Without
+    one, ``guaranteed_fees`` is the package's committed one-off fee total over
+    every date it carries (``fees_basis`` says which), never a window
+    anchored on an invented date.
     """
     rows: list[TradeoffRow] = []
     raw: dict[str, dict[str, Any]] = {}
     for ev in evaluations:
         pkg, con, fea = ev.package, ev.contribution, ev.feasibility
-        start, end = window if window is not None else (pkg.terms[0].due_date if pkg.terms else "1970-01-01", "9999-12-31")
         wage = pkg.weekly_wage()
-        fees = pkg.guaranteed_fees(start, end)
+        if window is not None:
+            fees, fees_basis = pkg.guaranteed_fees(*window), "window"
+        else:
+            fees, fees_basis = pkg.guaranteed_fees_all_dates(), "all_dates"
         values: dict[str, Any] = {
             "immediate_lineup_objective": con.change("immediate_lineup_objective"),
             "horizon_plan_value": con.change("horizon_plan_value"),
             "versatility_value": con.versatility.value if con.versatility else None,
             "slots_newly_covered": list(con.coverage_summary.get("newly_covered", [])),
-            "weekly_wage": str(wage), "guaranteed_fees": str(fees), "conditional_total": str(pkg.conditional_total()),
+            "weekly_wage": str(wage), "guaranteed_fees": str(fees), "fees_basis": fees_basis, "conditional_total": str(pkg.conditional_total()),
             "feasible": fea.feasible, "binding_constraint": fea.binding,
             "acceptance": pkg.acceptance, "registration": pkg.registration.value if pkg.registration.available else pkg.registration.status.value,
             "availability": pkg.availability.value if pkg.availability.available else pkg.availability.status.value,

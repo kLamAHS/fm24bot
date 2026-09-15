@@ -15,7 +15,10 @@ report cannot "discover" them; such candidates are flagged
 
 Report handling: a stored report is weighted by source quality and decays
 with age. Absence of a stored report is a distinct status
-(``no_stored_report``), not proof that the player is unknown.
+(``no_stored_report``), not proof that the player is unknown: without a
+report or an observed knowledge level the share of the gain still to be
+learned is unknown, and the candidate's VOI is ``unavailable`` (flagged
+``knowledge_unknown``) rather than credited in full.
 """
 from __future__ import annotations
 
@@ -30,6 +33,8 @@ VOI_VERSION = "voi-1.0"
 PROBABILITY_TOLERANCE = 1e-6
 REPORT_HALF_LIFE_DAYS = 90.0     # a report's weight halves every 90 game days (heuristic)
 ATTRIBUTE_KNOWN_FLAG = "attributes_already_known"
+KNOWLEDGE_UNKNOWN_FLAG = "knowledge_unknown"
+KNOWLEDGE_OBSERVED_FLAG = "knowledge_observed"
 
 
 class VoiError(ValueError):
@@ -129,6 +134,7 @@ class ScoutingCandidate:
     source_quality: float | None = None
     scouting_cost: float = 0.0
     opportunity_cost: float = 0.0
+    knowledge_level: float | None = None          # observed share of the player already known, in [0, 1] (e.g. bridge scout_report_knowledge); None = not observed
 
 
 @dataclass
@@ -141,9 +147,10 @@ class AssignmentRanking:
     report_status: str = "no_stored_report"
     report_weight: float | None = None
     components: dict[str, float | None] = field(default_factory=dict)
+    reason: str | None = None
 
     def to_json(self) -> dict[str, Any]:
-        return {"player_id": self.player_id, "name": self.name, "voi": self.voi, "status": self.status, "flags": list(self.flags), "report_status": self.report_status, "report_weight": self.report_weight, "components": dict(self.components)}
+        return {"player_id": self.player_id, "name": self.name, "voi": self.voi, "status": self.status, "flags": list(self.flags), "report_status": self.report_status, "report_weight": self.report_weight, "components": dict(self.components), "reason": self.reason}
 
 
 def _component(scenarios: Sequence[Scenario]) -> float | None:
@@ -160,6 +167,12 @@ def rank_assignments(candidates: Sequence[ScoutingCandidate], mode: InformationM
     already exposes is flagged and only its context component counts. In
     ``MANAGER_VISIBLE`` mode actual attributes are never consulted, so the
     attribute component is credited whenever the caller supplied it.
+
+    The gain is scaled by the share still to be learned: ``1 - weight`` of a
+    stored report, else ``1 - knowledge_level`` when a knowledge level was
+    observed. With neither, that share is unknown and the estimate is
+    ``unavailable`` (spec 11.1: no stored report is not proof the player is
+    unknown), never the full gain.
     """
     rankings = []
     for c in candidates:
@@ -174,10 +187,19 @@ def rank_assignments(candidates: Sequence[ScoutingCandidate], mode: InformationM
         components = {"attributes": attribute_gain, "context": context_gain}
         gains = [g for g in components.values() if g is not None]
         if not gains:
-            rankings.append(AssignmentRanking(c.player_id, c.name, None, "unavailable", flags + ["no_decision_scenarios"], report_status, weight, components))
+            rankings.append(AssignmentRanking(c.player_id, c.name, None, "unavailable", flags + ["no_decision_scenarios"], report_status, weight, components, "no decision scenarios supplied"))
             continue
-        # A fresh high-quality report leaves less to learn: scale the gain by what the report has not already told us.
-        remaining = 1.0 - (weight or 0.0)
+        # A fresh high-quality report (or an observed knowledge level) leaves less to learn: scale the gain by what is not already known.
+        if weight is not None:
+            remaining = 1.0 - weight
+        elif c.knowledge_level is not None:
+            if not 0.0 <= c.knowledge_level <= 1.0:
+                raise VoiError("knowledge_level must be in [0, 1]")
+            remaining = 1.0 - c.knowledge_level
+            flags.append(KNOWLEDGE_OBSERVED_FLAG)
+        else:
+            rankings.append(AssignmentRanking(c.player_id, c.name, None, "unavailable", flags + [KNOWLEDGE_UNKNOWN_FLAG], report_status, None, components, "no stored report and no observed knowledge level: how much of the gain is still unknown cannot be estimated"))
+            continue
         voi = sum(gains) * remaining - c.scouting_cost - c.opportunity_cost
         rankings.append(AssignmentRanking(c.player_id, c.name, voi, "available", flags, report_status, weight, components))
     rankings.sort(key=lambda r: (r.voi is None, -(r.voi or 0.0)))
