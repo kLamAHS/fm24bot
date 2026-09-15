@@ -7,7 +7,7 @@ import sqlite3
 import tempfile
 import unittest
 
-from ..state.identity import CareerRegistry, SaveManifest
+from ..state.identity import Anchor, CareerRegistry, SaveManifest
 from ..state.records import (
     ActionIntent, ActionResult, ActionState, Certainty, Decision, ExecutionOutcome, FinancialCommitment, ModelVersion,
     MovementKind, Observation, Promise, ReleaseState, TRANSITIONS,
@@ -106,6 +106,20 @@ class JournalTests(unittest.TestCase):
         self.assertEqual([e["body"] for e in entries], [{"a": 1}, {"a": 2}])
         self.assertEqual(store.journal_entries(ref_id="ref-2")[0]["seq"], second)
 
+    def test_the_newest_entry_of_a_kind_is_readable_past_any_page_limit(self):
+        """Spec 15.1: "the last one" is read as the newest row. A page of ``journal_entries`` is the OLDEST ``limit`` rows, so its
+        end freezes once a kind has more entries than the page; ``latest_journal_entry`` follows the journal instead."""
+        store = Store.memory()
+        for index in range(5):
+            store.journal("connection", {"connected": True, "index": index})
+        self.assertEqual(store.journal_entries(kind="connection", limit=2)[-1]["body"]["index"], 1, "a page of the oldest rows ends on a stale row")
+        self.assertEqual(store.journal_entries(kind="connection", limit=2, newest_first=True)[0]["body"]["index"], 4)
+        self.assertEqual(store.latest_journal_entry(kind="connection")["body"]["index"], 4)
+        store.journal("connection", {"connected": False, "index": 5}, "ref-x")
+        self.assertEqual(store.latest_journal_entry(kind="connection")["body"]["index"], 5)
+        self.assertEqual(store.latest_journal_entry(ref_id="ref-x")["body"]["index"], 5)
+        self.assertIsNone(store.latest_journal_entry(kind="never-journaled"), "an absent kind is absent, not a guess")
+
     def test_journal_is_append_only(self):
         store = Store.memory()
         seq = store.journal("note", {"a": 1})
@@ -122,6 +136,28 @@ class JournalTests(unittest.TestCase):
         self.assertEqual(store.get_blob("h1"), {"x": 1})
         with self.assertRaises(KeyError):
             store.get_blob("nope")
+
+
+class AnchorTests(unittest.TestCase):
+    """ID 01 / spec 5.1: the last witnessed identity-and-time context per career branch, so continuity outlives the process."""
+
+    def test_the_witnessed_anchor_round_trips_per_branch_and_can_be_forgotten(self):
+        store, career, branch, _ = registered_store()
+        self.assertIsNone(store.get_anchor(career.career_id, branch.branch_id), "nothing witnessed yet is None, not a default")
+        anchor = Anchor(career.career_id, branch.branch_id, "session-1", fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME, 7)
+        store.put_anchor(anchor)
+        self.assertEqual(store.get_anchor(career.career_id, branch.branch_id), anchor)
+        later = Anchor(career.career_id, branch.branch_id, "session-1", fx.BUILD, 90001, 742, "2024-02-18", "09:00", 8)
+        store.put_anchor(later)
+        self.assertEqual(store.get_anchor(career.career_id, branch.branch_id), later, "one row per branch: the latest witnessed anchor")
+        self.assertIsNone(store.get_anchor(career.career_id, "branch-other"), "anchors are per branch")
+        store.delete_anchor(career.career_id, branch.branch_id)
+        self.assertIsNone(store.get_anchor(career.career_id, branch.branch_id))
+
+    def test_an_anchor_without_a_career_branch_is_refused(self):
+        store = Store.memory()
+        with self.assertRaises(StoreError):
+            store.put_anchor(Anchor(None, None, "session-1", fx.BUILD, 90001, 742, fx.GAME_DATE, fx.GAME_TIME, 1))
 
 
 class ObservationTests(unittest.TestCase):

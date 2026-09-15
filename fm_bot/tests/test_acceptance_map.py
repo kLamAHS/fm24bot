@@ -30,6 +30,7 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
         "test_views.py::FinanceViewTests::test_null_money_stays_null",
         "test_views.py::PlayerStateTests::test_default_eligibility_is_missing",
         "test_status.py::ObservedInvariantTests::test_require_raises_unavailable_with_status_and_reason",
+        "test_interactions_inbox.py::UnresolvedMandatoryTests::test_obs02_a_reading_that_is_not_current_answers_nothing_but_still_classifies",
     ),
     "OBS 03": (
         "test_snapshot.py::InjectedChangeTests::test_time_change_between_reads_is_retried_then_accepted",
@@ -41,6 +42,8 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
     ),
     "ID 01": (
         "test_identity.py::RegistryTests::test_reloading_earlier_and_later_checkpoints_are_distinct",
+        "test_orchestrator.py::ExecutionTests::test_id01_a_restarted_orchestrator_judges_continuity_against_the_witnessed_anchor",
+        "test_cli.py::ConfirmLineageTests::test_id01_a_restarted_process_detects_a_save_reloaded_from_an_earlier_point",
         "test_identity.py::RegistryTests::test_no_cross_branch_history_merge",
         "test_identity.py::RegistryTests::test_laboratory_fork_records_parent_and_checkpoint",
     ),
@@ -56,6 +59,8 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
         "test_units.py::TotalOverTests::test_weekly_and_monthly_only_combine_after_expansion",
         "test_units.py::TotalOverTests::test_double_counting_is_visible_through_counts",
         "test_finance.py::MoneyTimingTests::test_monthly_instalments_follow_calendar_month_ends",
+        "test_finance.py::MoneyTimingTests::test_fin01_a_contract_that_has_not_started_explains_none_of_todays_payroll",
+        "test_finance.py::CashFlowEngineTests::test_fin01_forecast_receipts_outside_the_horizon_are_bucketed_never_credited_or_dropped",
     ),
     "FIN 02": (
         "test_finance.py::PackageFeasibilityTests::test_deal_inside_transfer_budget_but_below_cash_reserve_is_rejected",
@@ -68,10 +73,12 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
     ),
     "SEL 02": (
         "test_planning_lineup.py::InfeasibilityTests::test_sel02_two_goalkeeper_slots_but_one_goalkeeper",
+        "test_interactions_promises.py::MinutesTests::test_sel02_two_promises_to_one_player_reserve_the_same_minutes_in_either_ledger_order",
     ),
     "ACT 01": (
         "test_execution_executor.py::PreflightTests::test_act01_changed_tactic_expires_queued_action_without_input",
         "test_narrow_loop.py::FreshContextTests::test_act01_tactic_changed_between_snapshot_and_execution_expires_the_intent",
+        "test_execution_executor.py::PreflightTests::test_act01_intent_missing_a_workflow_parameter_is_cancelled_without_input",
     ),
     "ACT 02": (
         "test_execution_reconciliation.py::Act02Tests::test_timeout_after_acceptance_reconciles_without_second_dispatch",
@@ -101,20 +108,26 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
     "CAL 01": (
         "test_rules_deadlines.py::ContinueGateTests::test_cal01_unread_required_decision_blocks_continue_until_resolved",
         "test_rules_deadlines.py::ContinueGateTests::test_cal01_read_but_unconfirmed_messages_stay_visible",
+        "test_orchestrator.py::ExecutionTests::test_cal01_continue_is_confirmed_by_the_game_advancing_then_settles_and_recollects",
+        "test_orchestrator.py::ExecutionTests::test_cal01_a_second_continue_follows_the_confirmed_first_one",
+        "test_orchestrator.py::ExecutionTests::test_cal01_an_unverifiable_continue_is_closed_explicitly_instead_of_wedging_the_calendar",
     ),
     "EXP 01": (
         "test_experiments_manifests.py::TrialManifestTests::test_trial_maps_to_checkpoint_build_policy_treatment_and_outcomes",
     ),
     "EXP 02": (
         "test_experiments_leakage.py::DetectLeakageTests::test_deliberately_contaminated_dataset_fails",
+        "test_experiments_splits.py::ChronologicalSplitTests::test_exp02_a_timed_cutoff_embargoes_a_unit_that_straddles_it",
     ),
     "MOD 01": (
         "test_models_registry.py::ResolutionTests::test_failed_calibration_falls_back",
         "test_models_registry.py::ResolutionTests::test_unsupported_feature_schema_in_context_falls_back",
+        "test_models_dynamics.py::GappedLoadRecordTests::test_mod01_a_gap_in_the_load_record_refuses_the_fit_instead_of_misaligning_days",
     ),
     "AUD 01": (
         "test_interface.py::ExplainActionTests::test_aud01_executed_action_resolves_to_inputs_limits_decision_and_evidence",
         "test_narrow_loop.py::HappyPathTests::test_identify_collect_propose_authorise_apply_verify",
+        "test_orchestrator.py::InboxAnswerTests::test_aud01_the_executed_answer_resolves_back_to_the_option_that_was_chosen",
     ),
 }
 

@@ -90,6 +90,33 @@ class ChronologicalSplitTests(unittest.TestCase):
         with self.assertRaises(SplitError):
             chronological_split(rows, cutoff="2024-03-01", embargo_days=-1)
 
+    def test_exp02_a_timed_cutoff_embargoes_a_unit_that_straddles_it(self):
+        """EXP 02: a cutoff with a time of day is compared on the same clock as the units, so a kick-off before it whose result came after it is embargoed, not tested."""
+        rows = [
+            SplitUnit("past", "c", "b", "2024-02-24 15:00", "2024-02-24 17:00"),
+            SplitUnit("straddles", "c", "b", "2024-03-01 10:00", "2024-03-01 21:00"),   # began before the cutoff, outcome known after it
+            SplitUnit("at_cutoff", "c", "b", "2024-03-01 15:00", "2024-03-01 17:00"),
+            SplitUnit("later_same_day", "c", "b", "2024-03-01 19:45", "2024-03-01 21:30"),
+        ]
+        split = chronological_split(rows, cutoff="2024-03-01 15:00")
+        self.assertEqual(split.train, ["past"])
+        self.assertEqual(split.embargoed, ["straddles"], "a unit whose outcome was unknown at the cutoff may not be tested")
+        self.assertEqual(split.test, ["at_cutoff", "later_same_day"])
+        iso = chronological_split(rows, cutoff="2024-03-01T15:00")
+        self.assertEqual((iso.train, iso.embargoed, iso.test), (split.train, split.embargoed, split.test), "both moment spellings are the same clock")
+
+    def test_exp02_a_timed_embargo_window_ends_at_the_cutoff_time_of_day(self):
+        """EXP 02: embargo_days keeps its time of day too, so the far end of the window is not pulled back to midnight."""
+        rows = [
+            SplitUnit("inside_embargo", "c", "b", "2024-03-06 09:00", "2024-03-06 11:00"),
+            SplitUnit("on_boundary", "c", "b", "2024-03-06 15:00", "2024-03-06 17:00"),
+            SplitUnit("after", "c", "b", "2024-03-07 15:00", "2024-03-07 17:00"),
+        ]
+        split = chronological_split(rows, cutoff="2024-03-01 15:00", embargo_days=5)
+        self.assertEqual(split.embargoed, ["inside_embargo"])
+        self.assertEqual(split.test, ["on_boundary", "after"])
+        self.assertEqual(split.train, [])
+
 
 class HoldoutTests(unittest.TestCase):
     def test_holdout_is_consumed_when_a_judged_model_changes(self):

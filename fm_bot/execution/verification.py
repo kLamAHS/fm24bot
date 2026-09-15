@@ -9,7 +9,16 @@ same fact, corroborates it against a fresh snapshot:
 * ``lineup_matches_selection``        - the selected player ids (in slot order) and roles are exactly the intended ones;
 * ``training_settings_reread``        - the committed training settings reread equal the intended ones;
 * ``contract_accepted_with_obligations`` - the agreement exists and its obligations equal the intended commitments;
+* ``game_advanced_past_boundary``     - in-game time has moved on from the moment the intent recorded (Continue);
+* ``inbox_message_answered``          - the message the answer was sent to is no longer pending in the bridge's inbox metadata;
 * ``navigation_only``                 - the identified screen is the intended one.
+
+A screen that changed and a click that returned are explicitly not enough, so
+Continue and inbox answers are judged by their effect on the game rather than
+by where the UI ended up: the in-game clock (the only clock for game state)
+and the ``/inbox`` metadata of a *fresh* snapshot decide. Where the fresh
+reading is not available the verdict is UNCERTAIN - never a guess, and never a
+reason to send the input again.
 
 Exact machine values are compared. The only tolerances are for values the UI
 displays rounded (:data:`DISPLAY_TOLERANCES`); money is never rounded.
@@ -22,10 +31,17 @@ from typing import Any, Callable
 
 from ..state.records import ActionIntent, DecisionSnapshot
 from ..state.status import Observed, ValueStatus
-from ..state.units import Money
+from ..state.units import Money, game_time_key
 from .adapter import ScreenObservation, UIAdapter
 
 VERIFICATION_VERSION = "execution.verification/1"
+
+# Intent parameters a ``progress.continue`` carries so its effect can be established later:
+# the in-game moment the calendar was to move on from, and the boundary it was expected to reach.
+CONTINUE_FROM_DATE = "from_game_date"
+CONTINUE_FROM_TIME = "from_game_time"
+CONTINUE_BOUNDARY = "expected_boundary"
+INBOX_ROUTE = "/inbox"
 
 # Tolerances apply only to fields the UI shows rounded; the key is the field
 # name suffix, the value the maximum absolute difference accepted. Money and
@@ -206,6 +222,119 @@ def verify_contract(intent: ActionIntent, before: Evidence, after: Evidence, ada
     return _confirmed(plan, {"agreement_id": observed.get("agreement_id"), "offer_id": offer_id, "commitments": list(observed.get("commitments", []))}, [readback])
 
 
+def _unusable_snapshot(after: Evidence) -> str | None:
+    """Why the fresh snapshot cannot be read as evidence, or ``None`` when it can.
+
+    Both effect-based plans read the game itself rather than the UI, so they
+    need a snapshot the collector accepted: an inconsistent one is not a
+    weaker reading, it is no reading at all (spec 5.2, 12.2).
+    """
+    if after.snapshot is None:
+        return "no fresh snapshot was collected after the input"
+    if not after.snapshot.valid:
+        return f"the fresh snapshot is not consistent ({after.snapshot.consistency.value}): " + "; ".join(after.snapshot.consistency_reasons)
+    return None
+
+
+def _game_moment(snapshot: DecisionSnapshot | None) -> tuple[str, str | None] | None:
+    """The in-game moment a snapshot read, or ``None`` when it read none."""
+    if snapshot is None or snapshot.game_date is None:
+        return None
+    return snapshot.game_date, snapshot.game_time
+
+
+def _moment_text(moment: tuple[str, str | None] | None) -> str:
+    return "unknown" if moment is None else f"{moment[0]} {moment[1] or '(no time)'}"
+
+
+def verify_game_advanced(intent: ActionIntent, before: Evidence, after: Evidence, adapter: UIAdapter) -> Verdict:
+    """Continue's effect: the in-game clock has moved on from the moment the intent recorded (spec 12.2, 12.4, CAL 01).
+
+    The screen the UI ended up on proves nothing about the calendar, so the
+    verdict is read from a fresh bridge snapshot's own in-game time - the only
+    clock for game state. Moved on is CONFIRMED (whether the expected
+    boundary was reached is recorded, not required: the game may stop earlier
+    at an event nobody foresaw); still the same moment is FAILED (the
+    calendar did not move); no fresh reading, or no recorded starting moment,
+    is UNCERTAIN.
+    """
+    plan = "game_advanced_past_boundary"
+    boundary = intent.parameters.get(CONTINUE_BOUNDARY)
+    started = (intent.parameters.get(CONTINUE_FROM_DATE), intent.parameters.get(CONTINUE_FROM_TIME))
+    if started[0] is None:
+        started = _game_moment(before.snapshot) or (None, None)
+    unusable = _unusable_snapshot(after)
+    reached = None if unusable else _game_moment(after.snapshot)
+    source = f"bridge:/game@{after.snapshot.snapshot_id}" if after.snapshot is not None else "bridge:/game"
+    if reached is None:
+        detail = unusable or "the fresh snapshot read no in-game clock"
+        readback = Observed.unavailable(ValueStatus.MISSING, "game_time", detail, source=source)
+        return _uncertain(plan, [f"no usable in-game clock reading after the input ({detail}); whether the calendar moved is unknown"], [readback], {"expected_boundary": boundary, "from": {"game_date": started[0], "game_time": started[1]}})
+    readback = Observed.available_value({"game_date": reached[0], "game_time": reached[1]}, source, after.snapshot.collected_at, game_time=_moment_text(reached), what="game_time")
+    if started[0] is None:
+        return _uncertain(plan, ["the intent records no in-game moment to compare against; whether the calendar moved cannot be established"], [readback], {"observed": {"game_date": reached[0], "game_time": reached[1]}, "expected_boundary": boundary})
+    if reached[0] == started[0] and (reached[1] is None or started[1] is None):
+        # Same date and no time of day on one side: FM reports an uninitialised time as none, and a missing
+        # reading is not "midnight". Whether the calendar moved inside that day is simply not observable.
+        return _uncertain(plan, [f"in-game date is still {reached[0]} and the time of day is not reported for both readings ({_moment_text(started)} -> {_moment_text(reached)}); whether the calendar moved within the day cannot be established"], [readback], {"observed": {"game_date": reached[0], "game_time": reached[1]}, "expected_boundary": boundary})
+    reached_key, started_key = game_time_key(*reached), game_time_key(*started)
+    if reached_key == started_key:
+        return _failed(plan, [f"in-game time is still {_moment_text(started)}: the calendar did not move on"], [readback], {"observed": {"game_date": reached[0], "game_time": reached[1]}, "expected_boundary": boundary})
+    if reached_key < started_key:
+        return _failed(plan, [f"in-game time went backwards {_moment_text(started)} -> {_moment_text(reached)}; the calendar did not move on (another save may be loaded)"], [readback], {"observed": {"game_date": reached[0], "game_time": reached[1]}, "expected_boundary": boundary})
+    expected_date = (boundary or {}).get("date") if isinstance(boundary, dict) else None
+    at_boundary = None if not expected_date else reached_key >= game_time_key(expected_date, (boundary or {}).get("time"))
+    reasons = [f"in-game time moved {_moment_text(started)} -> {_moment_text(reached)}"]
+    if at_boundary is False:
+        reasons.append(f"the game stopped before the expected boundary ({_moment_text((expected_date, (boundary or {}).get('time')))}): {(boundary or {}).get('description')}")
+    return _confirmed(plan, {"from": {"game_date": started[0], "game_time": started[1]}, "game_date": reached[0], "game_time": reached[1], "expected_boundary": boundary, "reached_expected_boundary": at_boundary}, [readback], reasons)
+
+
+def _inbox_message(snapshot: DecisionSnapshot | None, message_id: Any) -> tuple[str, dict[str, Any] | None]:
+    """How the fresh inbox metadata describes ``message_id``: ``unavailable``, ``absent`` or ``listed`` with the record."""
+    if snapshot is None or not snapshot.valid:
+        return "unavailable", None
+    payload = snapshot.routes.get(INBOX_ROUTE)
+    if not isinstance(payload, dict) or not isinstance(payload.get("messages"), list):
+        return "unavailable", None
+    for message in payload["messages"]:
+        if isinstance(message, dict) and message.get("id") == message_id:
+            return "listed", message
+    return "absent", None
+
+
+def verify_inbox_answered(intent: ActionIntent, before: Evidence, after: Evidence, adapter: UIAdapter) -> Verdict:
+    """An inbox answer's effect: the message it answered is no longer pending (spec 12.2, 11.3, AUD 01).
+
+    The bridge decodes no message text, so the observable effect is the
+    metadata one: the message is gone from the inbox, or it is no longer
+    unread. Which option the game recorded is *not* observable, so the chosen
+    option id is carried in the effect as what was sent, never as something
+    read back. Still unread is FAILED; no fresh inbox metadata is UNCERTAIN.
+    """
+    plan = "inbox_message_answered"
+    message_id = intent.parameters.get("message_id")
+    option_id = intent.parameters.get("option_id")
+    state, record = _inbox_message(after.snapshot, message_id)
+    source = f"bridge:{INBOX_ROUTE}@{after.snapshot.snapshot_id}" if after.snapshot is not None else f"bridge:{INBOX_ROUTE}"
+    observed_at = after.snapshot.collected_at if after.snapshot is not None else None
+    effect = {"message_id": message_id, "option_id_sent": option_id, "option_readback": "unsupported: the bridge decodes no inbox text, so which option the game recorded cannot be read back"}
+    if state == "unavailable":
+        detail = _unusable_snapshot(after) or f"the fresh snapshot carries no {INBOX_ROUTE} metadata"
+        readback = Observed.unavailable(ValueStatus.MISSING, "inbox_metadata", detail, source=source)
+        return _uncertain(plan, [f"no usable {INBOX_ROUTE} metadata ({detail}); whether message {message_id!r} is still pending is unknown"], [readback], {"message_id": message_id})
+    if state == "absent":
+        readback = Observed.available_value({"message_id": message_id, "listed": False}, source, observed_at, what="inbox_metadata")
+        return _confirmed(plan, {**effect, "pending": False, "listed": False}, [readback], [f"message {message_id!r} is no longer listed in the inbox: it is no longer pending"])
+    unread = (record or {}).get("unread")
+    readback = Observed.available_value({"message_id": message_id, "listed": True, "unread": unread}, source, observed_at, what="inbox_metadata")
+    if unread is None:
+        return _uncertain(plan, [f"the inbox record for message {message_id!r} carries no unread flag; whether it is still pending is unknown"], [readback], {"observed": dict(record or {})})
+    if unread:
+        return _failed(plan, [f"message {message_id!r} is still unread in the inbox: the answer did not land"], [readback], {"observed": dict(record or {})})
+    return _confirmed(plan, {**effect, "pending": False, "listed": True, "unread": False}, [readback], [f"message {message_id!r} is no longer unread in the inbox: it is no longer pending"])
+
+
 def verify_navigation(intent: ActionIntent, before: Evidence, after: Evidence, adapter: UIAdapter) -> Verdict:
     plan = "navigation_only"
     expected = intent.parameters.get("target") or intent.parameters.get("expected_screen")
@@ -225,6 +354,8 @@ PLANS: dict[str, Callable[[ActionIntent, Evidence, Evidence, UIAdapter], Verdict
     "lineup_matches_selection": verify_lineup,
     "training_settings_reread": verify_training,
     "contract_accepted_with_obligations": verify_contract,
+    "game_advanced_past_boundary": verify_game_advanced,
+    "inbox_message_answered": verify_inbox_answered,
     "navigation_only": verify_navigation,
 }
 

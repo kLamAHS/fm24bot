@@ -34,6 +34,11 @@ def wage(counterparty: str, pounds: int, start: str = "2024-02-17", end: str = "
     return FinancialCommitment(cid or f"wage:{counterparty}", counterparty, MovementKind.PAYMENT, GBP(pounds, Period.WEEKLY), start, Period.WEEKLY, end, None, "club", Certainty.OBSERVED_COMMITTED, "test", 1, "wages")
 
 
+def payroll_wage(cid: str, pounds: int, start: str, end: str | None = "2026-06-30") -> FinancialCommitment:
+    """A weekly wage line the bridge's payroll aggregate is meant to include."""
+    return FinancialCommitment(cid, cid, MovementKind.PAYMENT, GBP(pounds, Period.WEEKLY), start, Period.WEEKLY, end, None, "club", Certainty.OBSERVED_COMMITTED, "test", 1, "wages", fin.PAYROLL_AGGREGATE)
+
+
 class LedgerFromSnapshotTests(unittest.TestCase):
     def setUp(self):
         self.snap = live_snapshot()
@@ -192,6 +197,24 @@ class MoneyTimingTests(unittest.TestCase):
         self.assertEqual(fin.guaranteed_total(items, START, dt.date(2024, 12, 31)), GBP(4 * 1000 + 5000))
 
 
+    def test_fin01_a_contract_that_has_not_started_explains_none_of_todays_payroll(self):
+        """FIN 01 (timing): a wage line whose first payment is months away neither shrinks the unexplained residual nor under-charges the observed weekly payroll before its start date."""
+        ledger = fin.CommitmentLedger(742, START.isoformat())
+        ledger.aggregates[fin.PAYROLL_AGGREGATE] = Observed.available_value(GBP(10_000, Period.WEEKLY), "bridge", what=fin.PAYROLL_AGGREGATE)
+        ledger.add_commitment(payroll_wage("in_force", 6000, "2024-02-17"))
+        ledger.add_commitment(payroll_wage("starts_in_july", 4000, "2024-07-06"))
+        self.assertEqual([c.commitment_id for c in ledger.in_aggregate(as_of=START)], ["in_force"], "a contract that starts in July is not part of the payroll observed today")
+        recon = ledger.weekly_payroll(START)
+        self.assertEqual(recon.contract_sum, GBP(6000, Period.WEEKLY))
+        self.assertEqual(recon.residual.value, GBP(4000, Period.WEEKLY), "the residual is honest about what today's contracts do not explain")
+        week = [m for m in ledger.movements(START, START + dt.timedelta(days=6)) if m.category in ("wages", "payroll_residual")]
+        self.assertEqual(-sum(m.signed.minor for m in week), GBP(10_000, Period.WEEKLY).minor, "the first week charges exactly the observed aggregate, not less")
+        self.assertEqual([m.commitment_id for m in week if m.commitment_id], ["in_force"], "the July contract pays nothing in February")
+        self.assertIn("starts_in_july", [c.commitment_id for c in ledger.active("2024-07-06")], "it is still carried, from its own start date")
+        july = [m.date for m in ledger.movements(dt.date(2024, 7, 6), dt.date(2024, 7, 12)) if m.commitment_id == "starts_in_july"]
+        self.assertEqual(july, [dt.date(2024, 7, 6)], "and it is expanded from its start date once in force")
+
+
 class CashFlowEngineTests(unittest.TestCase):
     def setUp(self):
         self.ledger = fin.CommitmentLedger(742, fx.GAME_DATE)
@@ -290,6 +313,24 @@ class CashFlowEngineTests(unittest.TestCase):
         self.assertEqual(proj.unknown_count, 1)
         self.assertEqual(proj.unknown[0]["commitment_id"], "u")
         self.assertEqual(proj.path("baseline").min_cash, GBP(10000))
+
+    def test_fin01_forecast_receipts_outside_the_horizon_are_bucketed_never_credited_or_dropped(self):
+        """FIN 01 / spec 8.1: a receipt dated before the projection start is never credited onto the observed opening balance, and one dated after the end is listed as unknown rather than silently dropped."""
+        before = fin.ForecastReceipt("last season's prize money", GBP(500_000), "2023-12-01", 1)
+        after = fin.ForecastReceipt("sale next season", GBP(750_000), "2026-01-01", 1)
+        inside = fin.ForecastReceipt("cup gate", GBP(20_000), "2024-05-01", 1)
+        proj = self.engine.project(GBP(1_000_000), START, self.ledger, [fin.Scenario("s", 1, receipts=[before, after, inside])])
+        path = proj.paths[0]
+        self.assertEqual(path.series[0], (START, GBP(1_000_000)), "the observed opening balance is used as observed")
+        self.assertEqual(path.end_cash, GBP(1_020_000), "only the in-window receipt is credited")
+        self.assertEqual(path.min_cash, GBP(1_000_000))
+        outside = {u["label"]: u["reason"] for u in proj.unknown}
+        self.assertEqual(set(outside), {"last season's prize money", "sale next season"})
+        self.assertIn("before the projection start 2024-02-17", outside["last season's prize money"])
+        self.assertIn("opening balance is not adjusted", outside["last season's prize money"])
+        self.assertIn("after the projection end", outside["sale next season"])
+        self.assertEqual(proj.unknown_count, 2, "nothing is silently dropped at either end")
+        self.assertNotIn(dt.date(2023, 12, 1), proj.steps)
 
     def test_currency_and_period_errors_are_raised(self):
         with self.assertRaises(UnitError):

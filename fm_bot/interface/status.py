@@ -59,8 +59,12 @@ def latest_snapshot(store, branch_id: str | None) -> DecisionSnapshot | None:
 
 
 def stop_state(store) -> dict[str, Any]:
-    """The Stop control as last journaled: engaged or cleared, by whom and when."""
-    entries = store.journal_entries(kind=JOURNAL_STOP, limit=10_000) + store.journal_entries(kind=JOURNAL_STOP_CLEARED, limit=10_000)
+    """The Stop control as last journaled: engaged or cleared, by whom and when.
+
+    Read as the newest entry of each kind, so the view keeps following the
+    journal however long the bot has been running (see :meth:`Store.latest_journal_entry`).
+    """
+    entries = [entry for entry in (store.latest_journal_entry(kind=JOURNAL_STOP), store.latest_journal_entry(kind=JOURNAL_STOP_CLEARED)) if entry is not None]
     if not entries:
         return {"engaged": False, "reason": None, "at": None, "status": "never_engaged"}
     last = max(entries, key=lambda e: e["seq"])
@@ -69,18 +73,23 @@ def stop_state(store) -> dict[str, Any]:
 
 
 def last_execution(store) -> dict[str, Any] | None:
-    entries = store.journal_entries(kind=JOURNAL_EXECUTION, limit=10_000)
-    if not entries:
+    """The last action result, read as the newest journal entry of its kind (spec 15.1).
+
+    Never the end of a page of the *oldest* entries: once a kind has more
+    entries than the page returns, such a read freezes on a stale row and the
+    operator's line silently stops following what the bot is doing.
+    """
+    last = store.latest_journal_entry(kind=JOURNAL_EXECUTION)
+    if last is None:
         return None
-    last = entries[-1]
     return {"action_id": last["body"].get("action_id"), "state": last["body"].get("state"), "reason": last["body"].get("reason"), "at": last["at_utc"]}
 
 
 def last_connection(store) -> dict[str, Any] | None:
-    entries = store.journal_entries(kind=JOURNAL_CONNECTION, limit=10_000)
-    if not entries:
+    """The bridge's last reported connection state, read as the newest journal entry of its kind (spec 15.1)."""
+    last = store.latest_journal_entry(kind=JOURNAL_CONNECTION)
+    if last is None:
         return None
-    last = entries[-1]
     return {**last["body"], "at": last["at_utc"]}
 
 

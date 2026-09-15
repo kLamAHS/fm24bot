@@ -342,11 +342,27 @@ class PromiseLedger:
         return reservations
 
     def minutes_commitments(self, fixture_count: int, fixture_dates: Iterable[str] | None = None) -> dict[int, int]:
-        """``{player_id: minutes reserved}`` over the next ``fixture_count`` fixtures (capped at the match total)."""
-        reserved: dict[int, int] = {}
+        """``{player_id: minutes reserved}`` over the next ``fixture_count`` fixtures.
+
+        Reservations are accumulated PER FIXTURE, not as one total: each
+        reservation demands ``minutes_per_fixture`` in each of the first
+        ``fixtures`` matches of the horizon, the demands on one match are
+        added, and only that match's own demand is capped at
+        :data:`MATCH_MINUTES` (nobody can play more than a full match).
+        The reservation is therefore independent of the order the ledger
+        returns promises in (``list_promises`` orders by deadline, which is
+        not a fact about the promises' minutes) and it never falls below
+        what any single open promise reserves on its own (spec 11.3): two
+        promises with different fixture scopes each keep their own scope
+        instead of one capping the other away.
+        """
+        per_fixture: dict[int, list[int]] = {}
         for item in self.minutes_reservations(fixture_count, fixture_dates):
-            reserved[item.player_id] = min(reserved.get(item.player_id, 0) + item.total_minutes, MATCH_MINUTES * item.fixtures)
-        return reserved
+            demand = per_fixture.setdefault(item.player_id, [])
+            demand.extend([0] * max(item.fixtures - len(demand), 0))
+            for index in range(item.fixtures):
+                demand[index] += item.minutes_per_fixture
+        return {player_id: sum(min(minutes, MATCH_MINUTES) for minutes in demand) for player_id, demand in per_fixture.items()}
 
     @staticmethod
     def _minutes_basis(promise: Promise, terms: PromiseTerms) -> tuple[int | None, str]:

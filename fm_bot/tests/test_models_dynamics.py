@@ -178,6 +178,49 @@ class FitTests(unittest.TestCase):
             dy.fit_parameters([], [], measurement_resolution=0.0)
 
 
+class GappedLoadRecordTests(unittest.TestCase):
+    """MOD 01 / spec 10.2: unlogged load days are missing workload, never an assumed rest day."""
+
+    def gapped(self) -> list[dy.DailyLoad]:
+        """Two logged training weeks either side of a week off whose load was never logged."""
+        return exciting_schedule(7) + [dy.DailyLoad(d, 1.0 if d % 3 else 0.4, 3.0 if d % 7 == 0 else 0.0) for d in range(14, 21)]
+
+    def test_mod01_a_gap_in_the_load_record_refuses_the_fit_instead_of_misaligning_days(self):
+        """MOD 01 / spec 10.2: a gapped schedule yields no player-specific parameters; days are never silently realigned or assumed zero-load."""
+        loads = self.gapped()
+        self.assertEqual(dy.load_record_gaps(loads), ["no load records for days [7, 8, 9, 10, 11, 12, 13]; unlogged days are not assumed to be zero load"])
+        with self.assertRaises(ValueError):
+            dy.predict_conditions(dy.DiscreteFatigueModel(TRUE), OBS, 0.0, loads)
+        measurements = [dy.ConditionMeasurement(d, 90.0 - (d % 5)) for d in (0, 1, 2, 3, 14, 15, 16, 20)]
+        self.assertTrue(all(m.day in {l.day for l in loads} for m in measurements), "every measurement day does have a load record")
+        fit = dy.fit_parameters(loads, measurements)
+        self.assertEqual(fit.status, "insufficient_data", fit.reasons)
+        self.assertIsNone(fit.parameters)
+        self.assertIsNone(fit.observation)
+        self.assertTrue(any("unlogged days are not assumed to be zero load" in r for r in fit.reasons), fit.reasons)
+        self.assertEqual(fit.measurements_used, len(measurements))
+
+    def test_mod01_a_short_gap_is_refused_rather_than_identified_from_shifted_days(self):
+        """MOD 01 / spec 10.2: even a two-day hole would shift every later prediction, so the fit is refused, not reported as identified."""
+        loads = exciting_schedule(6) + [dy.DailyLoad(d, 4.0, 0.0) for d in range(8, 12)]
+        measurements = [dy.ConditionMeasurement(d, 90.0 - (d % 4)) for d in (0, 1, 2, 3, 8, 9)]
+        fit = dy.fit_parameters(loads, measurements)
+        self.assertEqual(fit.status, "insufficient_data", fit.reasons)
+        self.assertIsNone(fit.parameters)
+        self.assertTrue(any("[6, 7]" in r for r in fit.reasons), fit.reasons)
+
+    def test_duplicate_or_out_of_order_load_rows_are_refused_too(self):
+        self.assertTrue(any("more than one load record" in r for r in dy.load_record_gaps([dy.DailyLoad(0, 1.0), dy.DailyLoad(0, 2.0), dy.DailyLoad(1, 1.0)])))
+        self.assertTrue(any("day order" in r for r in dy.load_record_gaps([dy.DailyLoad(1, 1.0), dy.DailyLoad(0, 1.0)])))
+        self.assertEqual(dy.load_record_gaps(exciting_schedule(5)), [])
+        self.assertEqual(dy.load_record_gaps([]), [])
+
+    def test_consecutive_predictions_are_keyed_by_the_real_day_including_a_non_zero_first_day(self):
+        loads = [dy.DailyLoad(d, 1.0 if d % 3 else 0.4, 3.0 if d % 7 == 0 else 0.0) for d in range(100, 104)]
+        predicted = dy.predict_conditions(dy.DiscreteFatigueModel(TRUE), OBS, 0.0, loads)
+        self.assertEqual(sorted(predicted), [100, 101, 102, 103, 104])
+
+
 class RecoveryCurveTests(unittest.TestCase):
     def test_groups_current_measurements_by_days_since_match(self):
         loads = [dy.DailyLoad(0, 1.0, 3.0), dy.DailyLoad(1, 0.5), dy.DailyLoad(2, 0.5), dy.DailyLoad(3, 1.0, 3.0), dy.DailyLoad(4, 0.5)]

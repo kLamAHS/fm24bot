@@ -33,7 +33,19 @@ Before any replanning, every intent whose effect is unsettled (EXECUTING,
 VERIFYING, UNCERTAIN, RECONCILING) is reconciled from readback, and no new
 intent is minted for targets an unsettled intent already covers: a timeout
 after a successful acceptance leads to reconciliation, never to a second
-dispatch (spec 12.3, ACT 02).
+dispatch (spec 12.3, ACT 02). Repeated reconciliation that cannot establish
+the effect does not become a permanent blockade either: after
+:data:`RECONCILIATION_ROUNDS_BEFORE_ABANDON` rounds a Continue or an inbox
+answer is closed explicitly as unverifiable, with its evidence and a reason
+the operator sees, so the calendar cannot be wedged by an intent nobody can
+settle.
+
+Every action the orchestrator mints is verified by its *effect*, never by
+where the UI ended up (spec 12.2): Continue carries the in-game moment it is
+to move on from, and its verdict comes from the in-game clock of a fresh
+snapshot; an inbox answer carries the message it answers, and its verdict
+comes from that message no longer being pending in the bridge's inbox
+metadata.
 
 A reload of another checkpoint (date reversed), a manager/club change or a
 build change is a stop for identity resolution (spec 5.1, ID 01): execution
@@ -110,7 +122,22 @@ CALENDAR_BLOCKED_SUBJECT = "the calendar cannot move on"
 EXECUTABLE_KINDS: tuple[str, ...] = ("submit.lineup", "respond.inbox", "commit.contract", "commit.transfer_offer", "select_validated_tactic", "set.training")
 # Fallbacks when the planner module does not export its own scope/verification tables.
 DEFAULT_AUTHORITY_SCOPES: dict[str, str] = {"submit.lineup": "selection.submit_lineup", "progress.continue": "progression.continue", "commit.transfer_offer": "transfers.offer", "commit.contract": "contracts.commit", "respond.inbox": "inbox.respond", "select_validated_tactic": "tactics.select", "set.training": "training.set"}
-DEFAULT_VERIFICATION_PLANS: dict[str, str] = {"submit.lineup": "lineup_matches_selection", "progress.continue": "navigation_only", "commit.contract": "contract_accepted_with_obligations", "commit.transfer_offer": "contract_accepted_with_obligations", "respond.inbox": "navigation_only", "select_validated_tactic": "selected_tactic_matches_catalog", "set.training": "training_settings_reread"}
+DEFAULT_VERIFICATION_PLANS: dict[str, str] = {"submit.lineup": "lineup_matches_selection", "progress.continue": "game_advanced_past_boundary", "commit.contract": "contract_accepted_with_obligations", "commit.transfer_offer": "contract_accepted_with_obligations", "respond.inbox": "inbox_message_answered", "select_validated_tactic": "selected_tactic_matches_catalog", "set.training": "training_settings_reread"}
+# Kinds whose verification must establish the *effect* on the game, never where the UI ended up: a changed
+# screen is explicitly not evidence that the calendar moved or that a message was answered (spec 12.2). The
+# orchestrator keeps its own plan for these even when another module's table still names ``navigation_only``.
+EFFECT_VERIFIED_KINDS: tuple[str, ...] = (CONTINUE_ACTION_KIND, INBOX_RESPONSE_KIND)
+# Reconciliation rounds an unsettled intent gets before it is closed as unverifiable. Reconciliation sends
+# nothing, so repeating it forever only keeps the duplicate-effect guard shut on this branch's work
+# (spec 12.3, 12.4); after this many rounds the effect is declared unestablished for good, with its
+# evidence, and a person is asked to look at the game.
+RECONCILIATION_ROUNDS_BEFORE_ABANDON = 3
+# Kinds an unverifiable intent may be closed for. Continue and an inbox answer are decided afresh at the
+# next decision point from fresh observations and commit nothing by themselves, so closing one costs the
+# club nothing. Anything that can create money or contractual obligations keeps its unsettled twin: there
+# the guard against a second irreversible dispatch matters more than an unblocked queue, and only the
+# operator can resolve it (spec 12.3, ACT 02).
+ABANDONABLE_KINDS: tuple[str, ...] = (CONTINUE_ACTION_KIND, INBOX_RESPONSE_KIND)
 
 JOURNAL_PASS = "orchestrator.pass"
 JOURNAL_PLAN = "orchestrator.plan"
@@ -124,6 +151,7 @@ JOURNAL_LINEAGE_CONFIRMED = "orchestrator.lineage_confirmed"
 JOURNAL_NOT_EXECUTED = "orchestrator.not_executed"
 JOURNAL_PENDING_ACTIONS = "orchestrator.pending_actions_observed"
 JOURNAL_INBOX_CHOICE = "orchestrator.inbox_choice"
+JOURNAL_ABANDONED = "orchestrator.intent_abandoned"
 
 
 class OrchestratorError(RuntimeError):
@@ -472,7 +500,12 @@ def _planner_tables() -> tuple[dict[str, str], dict[str, str]]:
         from .planning import planner as module
     except ImportError:
         return dict(DEFAULT_AUTHORITY_SCOPES), dict(DEFAULT_VERIFICATION_PLANS)
-    return {**DEFAULT_AUTHORITY_SCOPES, **getattr(module, "AUTHORITY_SCOPES", {})}, {**DEFAULT_VERIFICATION_PLANS, **getattr(module, "VERIFICATION_PLANS", {})}
+    scopes = {**DEFAULT_AUTHORITY_SCOPES, **getattr(module, "AUTHORITY_SCOPES", {})}
+    plans = {**DEFAULT_VERIFICATION_PLANS, **getattr(module, "VERIFICATION_PLANS", {})}
+    # A ``navigation_only`` plan cannot establish that the calendar moved or that a message was answered,
+    # so for those kinds the effect-based plan stands whatever another table says (spec 12.2).
+    plans.update({kind: DEFAULT_VERIFICATION_PLANS[kind] for kind in EFFECT_VERIFIED_KINDS})
+    return scopes, plans
 
 
 def next_action_of(report: Any, decisions: list[Decision]) -> dict[str, Any] | None:
@@ -606,8 +639,11 @@ class Orchestrator:
         self.last_pass: PassResult | None = None
         self.last_decided: PassResult | None = None        # the most recent pass that reached a decision point
         self.last_connection: ConnectResult | None = None
-        self._anchor = None
-        self._sequence = 0
+        # Continuity outlives the process: a restarted bot judges the next observation against the last
+        # anchor it actually witnessed on this branch, so a save reloaded from an earlier point is the
+        # reload it is and not a first observation (spec 5.1, ID 01).
+        self._anchor = store.get_anchor(career.career_id, branch.branch_id)
+        self._sequence = self._anchor.sequence if self._anchor is not None else 0
         self._bot_progressed = False
         self._executor: SingleWriterExecutor | None = None
         # One manager per game (spec 4.2): a foreign lock is taken over only once its heartbeat is
@@ -781,6 +817,8 @@ class Orchestrator:
         elif snapshot.valid:
             self._anchor = anchor_of(snapshot)
             self._bot_progressed = False
+            if self._anchor is not None:
+                self.store.put_anchor(self._anchor)          # witnessed history survives a restart (ID 01)
         elif snapshot.consistency is ConsistencyStatus.DISCONNECTED:
             self._unavailable(PassStatus.DISCONNECTED, "; ".join(snapshot.consistency_reasons), snapshot)
         elif snapshot.consistency is ConsistencyStatus.BUILD_UNSUPPORTED:
@@ -828,6 +866,8 @@ class Orchestrator:
         self.identity_resolution_reason = None
         self.lineage_confirmed = True
         self._anchor = None
+        # The witnessed history the operator has just overruled must not come back on the next restart.
+        self.store.delete_anchor(self.career.career_id, self.branch.branch_id)
         self.previous_snapshot = None          # nothing is diffed across the reload; a full decision point follows
         self.last_plan_date = None
         self.connected = False
@@ -962,7 +1002,7 @@ class Orchestrator:
             self.store.journal(JOURNAL_NOT_EXECUTED, {"kind": INBOX_RESPONSE_KIND, "message_id": item.message_id, "decision_id": decision.decision_id, "status": decision.status, "legal_option_ids": list(decision.legal_option_ids), "reason": f"no answer proposed for inbox:{item.message_id}: {reason}"}, snapshot.snapshot_id)
             return None
         parameters = {"message_id": item.message_id, "option_id": decision.chosen_option_id, "legal_option_ids": list(decision.legal_option_ids), "cited_observation_ids": list(decision.cited_observation_ids), "choice_policy_version": decision.policy_version, "dialogue_decision_id": decision.decision_id, "language_model": {"status": decision.lm_status, "request_id": decision.lm_request_id}}
-        return {"kind": INBOX_RESPONSE_KIND, "authority_scope": "inbox.respond", "targets": {"routes": [INBOX_ROUTE], "message_id": item.message_id}, "parameters": parameters, "verification": "navigation_only", "required_capabilities": list(self.capabilities.requirements(INBOX_RESPONSE_KIND)), "description": f"{blocker.description}: answer {decision.chosen_option_id!r}", "decision_id": decision.decision_id}
+        return {"kind": INBOX_RESPONSE_KIND, "authority_scope": "inbox.respond", "targets": {"routes": [INBOX_ROUTE], "message_id": item.message_id}, "parameters": parameters, "verification": DEFAULT_VERIFICATION_PLANS[INBOX_RESPONSE_KIND], "required_capabilities": list(self.capabilities.requirements(INBOX_RESPONSE_KIND)), "description": f"{blocker.description}: answer {decision.chosen_option_id!r}", "decision_id": decision.decision_id}
 
     def continue_gate_for(self, snapshot: DecisionSnapshot, pending: list[PendingAction], lineup_status: LineupStatus | None) -> ContinueGate:
         """The Continue gate for this decision point, judged with the lineup verdict and the pending-actions observation."""
@@ -1153,9 +1193,17 @@ class Orchestrator:
             self.notifier.failed(description, f"cancelled: {result.reason}", ref_id=result.action_id)
 
     # ----- Continue -----
-    def continue_action(self, gate: ContinueGate) -> dict[str, Any]:
+    def continue_action(self, gate: ContinueGate, snapshot: DecisionSnapshot | None = None) -> dict[str, Any]:
+        """The Continue action, carrying the in-game moment it is to move on from and the boundary it expects.
+
+        Both are what its verification plan needs later: Continue's effect is
+        that the game advanced, which is read from the in-game clock of a
+        fresh snapshot against the moment recorded here (spec 12.2, CAL 01).
+        A changed screen would prove nothing, so no target screen is named.
+        """
         boundary = gate.next_boundary.to_json() if gate.next_boundary else None
-        return {"kind": CONTINUE_ACTION_KIND, "authority_scope": "progression.continue", "targets": {"routes": ["/inbox", "/fixtures"]}, "parameters": {"expected_boundary": boundary}, "verification": "navigation_only", "required_capabilities": list(self.capabilities.requirements(CONTINUE_ACTION_KIND)), "description": f"move the calendar on to {boundary['description'] if boundary else 'the next decision point'}"}
+        parameters = {"expected_boundary": boundary, "from_game_date": snapshot.game_date if snapshot else None, "from_game_time": snapshot.game_time if snapshot else None}
+        return {"kind": CONTINUE_ACTION_KIND, "authority_scope": "progression.continue", "targets": {"routes": ["/inbox", "/fixtures"]}, "parameters": parameters, "verification": DEFAULT_VERIFICATION_PLANS[CONTINUE_ACTION_KIND], "required_capabilities": list(self.capabilities.requirements(CONTINUE_ACTION_KIND)), "description": f"move the calendar on to {boundary['description'] if boundary else 'the next decision point'}"}
 
     def maybe_continue(self, snapshot: DecisionSnapshot, gate: ContinueGate, point: DecisionPointResult | None = None) -> ExecutionReport | MissingCapabilityReport | str:
         """Before Continue, the gate must allow it, every mandatory item must be clear and the profile must permit pressing it (spec 12.4)."""
@@ -1166,7 +1214,7 @@ class Orchestrator:
             return "calendar blocked: " + "; ".join([b.description for b in point.blockers] + [p.description for p in point.pending if p.blocks_continue and not p.resolved])
         if not gate.allowed:
             return "calendar blocked: " + "; ".join(gate.blockers or [f"missing {', '.join(gate.missing_capabilities.missing)}"])
-        action = self.continue_action(gate)
+        action = self.continue_action(gate, snapshot)
         self.store.journal(JOURNAL_BOUNDARY, {"snapshot_id": snapshot.snapshot_id, "boundary": action["parameters"]["expected_boundary"]}, snapshot.snapshot_id)
         return self.execute(action, snapshot, reasons=["calendar clear: no pending decision, lineup verified, no registration deadline"])
 
@@ -1261,10 +1309,19 @@ class Orchestrator:
         establish stays UNCERTAIN; the duplicate-effect guard then refuses
         any new intent for its targets, so a timeout after a successful
         acceptance ends in reconciliation, never in a second dispatch.
+
+        Reconciliation that keeps coming back UNCERTAIN is not progress,
+        though: after :data:`RECONCILIATION_ROUNDS_BEFORE_ABANDON` rounds an
+        intent of an :data:`ABANDONABLE_KINDS` kind is closed explicitly as
+        unverifiable, with its evidence and an operator-visible reason, so a
+        permanently unsettled twin cannot wedge the calendar for good.
         """
         decisions: list[RecoveryDecision] = []
         for intent in self.store.list_intents(IN_FLIGHT_OR_UNCERTAIN, branch_id=self.branch.branch_id):
             decisions.append(reconcile_uncertain(self.store, self.adapter, intent, snapshot, reason=f"unsettled {intent.state.value} intent reconciled before replanning"))
+        for decision in decisions:
+            if decision.new_state is ActionState.UNCERTAIN:
+                self._abandon_if_unverifiable(decision, snapshot)
         if decisions:
             self.store.journal(JOURNAL_RECONCILE, {"snapshot_id": snapshot.snapshot_id, "decisions": [d.to_json() for d in decisions]}, snapshot.snapshot_id)
             for decision in decisions:
@@ -1273,6 +1330,35 @@ class Orchestrator:
                 elif decision.new_state is not ActionState.QUEUED:
                     self.notifier.failed(decision.kind, f"reconciled {decision.new_state.value}: {decision.reason}", ref_id=decision.action_id)
         return decisions
+
+    def _reconciliation_rounds(self, action_id: str) -> int:
+        """How many times this intent has been through reconciliation (each round enters RECONCILING once)."""
+        return sum(1 for entry in self.store.journal_entries("intent.transition", action_id, limit=10_000) if entry["body"].get("to") == ActionState.RECONCILING.value)
+
+    def _abandon_if_unverifiable(self, decision: RecoveryDecision, snapshot: DecisionSnapshot) -> bool:
+        """Close an intent no readback can settle, explicitly and visibly, rather than leaving it to block the branch.
+
+        Only for :data:`ABANDONABLE_KINDS`, only after
+        :data:`RECONCILIATION_ROUNDS_BEFORE_ABANDON` rounds that all ended
+        UNCERTAIN, and never by claiming an outcome: the terminal state says
+        the work is closed, the reason and the preserved verdict say the
+        effect was never established and that a person must check the game.
+        No input is sent and nothing is re-queued (spec 12.3, ACT 02).
+        """
+        rounds = self._reconciliation_rounds(decision.action_id)
+        intent = self.store.get_intent(decision.action_id)
+        if intent is None or intent.state is not ActionState.UNCERTAIN or decision.kind not in ABANDONABLE_KINDS or rounds < RECONCILIATION_ROUNDS_BEFORE_ABANDON:
+            return False
+        reason = (f"abandoned as unverifiable after {rounds} reconciliation rounds: {decision.reason}. The effect was never established and is not being claimed either way; "
+                  f"no input was re-sent and nothing was re-queued. The intent is closed so an unsettled twin stops refusing every later {decision.kind}; a person must check in the game what happened, "
+                  "and only a new decision on fresh observations may create a new intent.")
+        self.store.update_intent_state(intent, ActionState.RECONCILING, "closing an intent whose effect no readback can establish")
+        self.store.update_intent_state(intent, ActionState.FAILED, reason)
+        self.store.journal(JOURNAL_ABANDONED, {"action_id": decision.action_id, "kind": decision.kind, "rounds": rounds, "state": ActionState.FAILED.value, "effect": "unestablished", "meaning": "closed as unverifiable; not a finding that the input had no effect", "reason": reason, "evidence": list(decision.evidence), "verdict": decision.verdict.to_json() if decision.verdict else None, "snapshot_id": snapshot.snapshot_id}, decision.action_id)
+        self.notifier.required_action(f"{decision.kind} could not be verified and was closed", [reason], ref_id=decision.action_id)
+        decision.new_state = ActionState.FAILED
+        decision.reason = reason
+        return True
 
     def _decide_and_act(self, snapshot: DecisionSnapshot, triggers: list[Trigger]) -> PassResult:
         point = self.decision_point(snapshot)                       # mandatory first

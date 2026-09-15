@@ -6,7 +6,7 @@ import unittest
 from ..execution.adapter import (
     ANY_SCREEN, FAKE_SCREEN_MODEL, FAKE_WORKFLOWS, FAULT_KINDS, STEP_DONE, STEP_ILLEGAL, STEP_NO_FOCUS, STEP_STOPPED, STEP_TIMEOUT,
     STEP_UNEXPECTED_SCREEN, STEP_UNKNOWN_SCREEN, STEP_UNSUPPORTED, AdapterCrash, FakeAdapter, ScreenObservation, StopFlag, UIAdapter, UIStep,
-    WindowsAdapter, validate_environment,
+    WindowsAdapter, WorkflowInstantiationError, validate_environment,
 )
 from ..state.status import ValueStatus
 from .execution_fixtures import OFFERS
@@ -129,6 +129,41 @@ class ScreenModelTests(unittest.TestCase):
         self.assertEqual(steps[1].params, {"tactic_catalog_id": "counter-02", "catalog_version": 3})
         self.assertEqual(steps[1].risk_class, "consequential")
         self.assertEqual(FAKE_WORKFLOWS["select_validated_tactic"].screen_model.version, FAKE_SCREEN_MODEL.version)
+
+    def test_act01_instantiation_refuses_a_required_parameter_the_intent_does_not_fill(self):
+        """ACT 01: an incomplete intent builds no step, so no fabricated value can be sent (spec 12.2-12.3)."""
+        workflow = FAKE_WORKFLOWS["set.training"]
+        self.assertEqual(workflow.required_parameters(), ("settings",), "the navigation step already carries its target")
+        self.assertEqual(workflow.missing_parameters({"settings": {"intensity": "Normal"}}), [])
+        self.assertEqual(workflow.missing_parameters({}), ["settings"])
+        self.assertEqual(workflow.missing_parameters({"settings": None}), ["settings"], "an explicit null is as unfilled as an absent key")
+        with self.assertRaises(WorkflowInstantiationError) as caught:
+            workflow.instantiate({})
+        self.assertIn("settings", str(caught.exception))
+        self.assertIn("fake.set_training", str(caught.exception))
+        # The empty settings dict is a legitimate value and must still instantiate.
+        self.assertEqual(workflow.instantiate({"settings": {}})[1].params, {"settings": {}})
+        # And nothing reached the UI from the refused build.
+        adapter = FakeAdapter(screen="training", training_settings={"intensity": "High"})
+        with self.assertRaises(WorkflowInstantiationError):
+            for step in workflow.instantiate({}):
+                adapter.perform(step)
+        self.assertEqual(adapter.inputs, [])
+        self.assertEqual(adapter.training_settings, {"intensity": "High"})
+
+    def test_act01_every_fake_workflow_names_its_required_parameters(self):
+        """ACT 01: the None slots in each workflow template are declared, not silently sent as None."""
+        expected = {
+            "select_validated_tactic": ("tactic_catalog_id", "catalog_version"),
+            "submit.lineup": ("player_ids", "roles"),
+            "set.training": ("settings",),
+            "commit.contract": ("offer_id",),
+            "navigate": ("target",),
+        }
+        self.assertEqual({k: v.required_parameters() for k, v in FAKE_WORKFLOWS.items()}, expected)
+        for kind, workflow in FAKE_WORKFLOWS.items():
+            with self.assertRaises(WorkflowInstantiationError, msg=kind):
+                workflow.instantiate({})
 
     def test_legal_actions_and_transitions(self):
         self.assertTrue(FAKE_SCREEN_MODEL.legal("tactics", "select_tactic"))

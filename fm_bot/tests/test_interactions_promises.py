@@ -176,6 +176,25 @@ class MinutesTests(unittest.TestCase):
         book.record(capped, PromiseTerms(KIND_STARTING_ROLE, None, 90, 2))
         self.assertEqual(book.minutes_commitments(5)[1002], 180)
 
+    def test_sel02_two_promises_to_one_player_reserve_the_same_minutes_in_either_ledger_order(self):
+        """SEL 02 / spec 11.3: promised minutes are accumulated PER FIXTURE, so two open promises to one player with different
+        fixture scopes reserve the same total whichever order the ledger returns them in (``list_promises`` orders by deadline),
+        and neither scope caps the other away: under-reserving would hand the minutes planner capacity nobody promised."""
+        one_match = PromiseTerms(KIND_STARTING_ROLE, None, 80, 1)
+        three_matches = PromiseTerms(KIND_PLAYING_TIME, None, 30, 3)
+        totals = []
+        for first, second in ((one_match, three_matches), (three_matches, one_match)):
+            _, book = ledger()
+            for index, terms in enumerate((first, second)):
+                # The deadline decides the ledger order; with no fixture dates it does not narrow either scope.
+                promise, _ = promise_from_observed(1001, "player", "You will play", source=f"obs-{index}", source_choice=f"c{index}", deadline=f"2024-0{index + 3}-01", terms=terms)
+                book.record(promise, terms)
+            self.assertEqual([r.fixtures for r in book.minutes_reservations(3)], [first.fixtures, second.fixtures], "the ledger order is the one under test")
+            totals.append(book.minutes_commitments(3)[1001])
+        # Fixture 1 owes 80 + 30 capped at one match; fixtures 2 and 3 owe 30 each.
+        self.assertEqual(totals, [MATCH_MINUTES + 30 + 30, MATCH_MINUTES + 30 + 30])
+        self.assertGreaterEqual(totals[0], 30 * 3, "the three-fixture promise is never reserved away by the one-fixture promise")
+
     def test_combined_reservations_never_exceed_the_match_total(self):
         _, book = ledger()
         for index in range(2):

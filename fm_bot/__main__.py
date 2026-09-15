@@ -40,12 +40,12 @@ from .execution.reconciliation import reconcile_on_restart
 from .interface.controls import AUTHORITY_MODE_ALIASES, Settings, SettingsError, parse_setting_value
 from .interface.explain import ExplanationError, explain_action, explain_decision, render_action, render_decision, render_decision_evidence
 from .interface.notify import LogSink, Notifier
-from .interface.status import active_career, build_view, render_evidence, render_text, set_active_career
+from .interface.status import CONFIRM_LINEAGE_COMMAND, active_career, build_view, render_evidence, render_text, set_active_career
 from .orchestrator import DEFAULT_ROUTES, JOURNAL_LINEAGE_CONFIRMED, OPTIONAL_ROUTES, ManagerLockHeld, Orchestrator, PassResult, PassStatus, run_planner
 from .rules.capabilities import CapabilityRegistry
 from .state.identity import CareerRegistry, SaveManifest, file_sha256
 from .state.records import DecisionSnapshot
-from .state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements
+from .state.snapshot import CollectionContext, SnapshotCollector, SnapshotRequirements, anchor_of
 from .state.store import Store
 
 CLI_VERSION = "fm_bot.cli/1"
@@ -118,9 +118,23 @@ def _client(args: argparse.Namespace, store: Store, career=None, branch=None) ->
 
 
 def _collect(client: BridgeClient, store: Store, settings: Settings, career, branch, lineage_confirmed: bool, label: str) -> DecisionSnapshot:
+    """Collect one snapshot for a command, judged against the last anchor this database witnessed.
+
+    Every invocation is a fresh process, so the previous anchor has to come
+    from the store: without it a save the operator reloaded from an earlier
+    point looks like a first observation and its history would be merged onto
+    the production branch (spec 5.1, ID 01). A consistent collection becomes
+    the new witnessed anchor; one that stops for identity resolution
+    deliberately does not, so the reversal is still visible next time.
+    """
     requirements = SnapshotRequirements(routes=[*DEFAULT_ROUTES, *OPTIONAL_ROUTES], optional=list(OPTIONAL_ROUTES), label=label)
-    context = CollectionContext(career.career_id, branch.branch_id, settings.information_mode(), None, lineage_confirmed, False, None, 0)
-    return SnapshotCollector(client, store).collect(requirements, context)
+    previous = store.get_anchor(career.career_id, branch.branch_id)
+    context = CollectionContext(career.career_id, branch.branch_id, settings.information_mode(), previous, lineage_confirmed, False, None, previous.sequence if previous is not None else 0)
+    snapshot = SnapshotCollector(client, store).collect(requirements, context)
+    anchor = anchor_of(snapshot) if snapshot.valid else None
+    if anchor is not None:
+        store.put_anchor(anchor)
+    return snapshot
 
 
 def snapshot_lines(snapshot: DecisionSnapshot) -> list[str]:
@@ -132,6 +146,8 @@ def snapshot_lines(snapshot: DecisionSnapshot) -> list[str]:
         lines.append(f"  - {reason}")
     if snapshot.continuity:
         lines.append(f"Continuity: {snapshot.continuity.get('status')}" + (f" - {'; '.join(snapshot.continuity.get('reasons', []))}" if snapshot.continuity.get("reasons") else ""))
+        if snapshot.continuity.get("invalidates_snapshot") or snapshot.continuity.get("requires_lineage_confirmation"):
+            lines.append(f"This save is not the continuation of the history the bot witnessed. Nothing is decided or acted on until you vouch for it: `{CONFIRM_LINEAGE_COMMAND} --reason '...'` (not `register` again, which would fork the history into a second career).")
     return lines
 
 
@@ -227,6 +243,9 @@ def cmd_confirm_lineage(args: argparse.Namespace, store: Store, out: TextIO) -> 
     if not matched:
         raise CliError("cannot confirm lineage: the loaded save is not the registered career (" + "; ".join(problems) + "); register it as its own career instead of confirming this one", EXIT_GAME_STATE)
     set_active_career(store, career.career_id, branch.branch_id, lineage_confirmed=True)
+    # Continuity restarts from the save the operator has just vouched for: the witnessed anchor they
+    # overruled must not be compared against again on the next run (spec 5.1, ID 01).
+    store.delete_anchor(career.career_id, branch.branch_id)
     reason = args.reason or "operator confirmed the loaded save is the registered career"
     store.journal(JOURNAL_LINEAGE_CONFIRMED, {"reason": reason, "career_id": career.career_id, "branch_id": branch.branch_id, "game_date": game.data.get("date"), "game_time": game.data.get("time"), "build": state["build"], "by": "cli", "was_confirmed": confirmed}, branch.branch_id)
     print(f"Lineage confirmed for career {career.career_id} ({career.label}), branch {branch.branch_id}: {reason}", file=out)

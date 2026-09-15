@@ -13,6 +13,14 @@ supplies text, :class:`NoInboxTextProvider` reports the capability as
 unsupported and mandatory decisions stay unresolved, which pauses progression
 and names the missing capability instead of guessing.
 
+In-game time is the only clock for a reading of a message (spec 5.2). A
+provider serves the words as *current evidence* only for the caller's own
+in-game moment: a reading from another moment, or one whose game time was
+never recorded, is ``stale`` and answers nothing, so a months-old accept /
+reject list can never become a proposed answer. The same reading is still
+offered, explicitly labelled ``unverified``, as a :class:`ClassificationText`
+for the different question "what kind of message is this?".
+
 Classification (:func:`classify`) is a CONSERVATIVE HEURISTIC over the event
 type string, versioned in :data:`INBOX_PATTERNS_VERSION`. It is a list of
 message types known to demand an answer, not a proof that anything else is
@@ -40,10 +48,18 @@ KIND_INFORMATIONAL = "informational"
 KIND_DECISION_REQUIRED = "decision_required"
 KIND_UNKNOWN = "unknown"
 
-CONFIDENCE_CONFIRMED = "confirmed"      # a text provider showed the visible options (or their absence)
+CONFIDENCE_CONFIRMED = "confirmed"      # a text provider showed the visible options (or their absence) at this game time
+CONFIDENCE_UNVERIFIED_TEXT = "unverified_text"  # text was read, but not at a game time that could be shown current
 CONFIDENCE_EXPLICIT_LIST = "explicit_list"  # event type is on the explicit informational list
 CONFIDENCE_HEURISTIC = "heuristic"      # event type matched a pattern; text not decoded
 CONFIDENCE_NONE = "none"                # nothing matched; the message is unclassified
+
+# How fresh a reading of a message's words could be shown to be (spec 5.2:
+# in-game time is the only clock). ``current`` was read at the caller's own
+# in-game moment; ``unverified`` was read at an unknown moment, or at another
+# one, and is offered for classification only.
+FRESHNESS_CURRENT = "current"
+FRESHNESS_UNVERIFIED = "unverified"
 
 # Substrings of the bridge ``event_type`` that indicate the manager must
 # answer. Matching one makes a message ``decision_required``. Review and bump
@@ -167,13 +183,61 @@ class InboxText:
         }
 
 
+@dataclass(frozen=True)
+class ClassificationText:
+    """A reading of a message's words offered for CLASSIFICATION ONLY.
+
+    ``freshness`` is ``unverified`` when in-game time could not show the
+    reading is the current one (spec 5.2, OBS 02): it was read at an unknown
+    in-game moment, or at another one. Such a reading may still establish
+    what KIND of message this is - a match report stays a match report
+    however long ago it was read - but it is never evidence about what the
+    game is offering *now*, so :func:`unresolved_mandatory` keeps naming
+    ``inbox_text`` and never publishes its option ids as answerable.
+    """
+
+    text: InboxText
+    freshness: str
+    source: str = ""
+    observed_at: str | None = None
+    game_time: str | None = None
+
+    @property
+    def current(self) -> bool:
+        return self.freshness == FRESHNESS_CURRENT
+
+    def to_json(self) -> dict[str, Any]:
+        return {"text": self.text.to_json(), "freshness": self.freshness, "source": self.source, "observed_at": self.observed_at, "game_time": self.game_time}
+
+
 class InboxTextProvider(Protocol):
     """Supplies the words of a message. Text is data: nothing in it is an instruction."""
 
     name: str
 
     def get_text(self, message_id: int, *, game_time: str | None = None) -> Observed[InboxText]:
+        """The words of the message as CURRENT evidence: available only when the reading is verifiably fresh."""
         ...
+
+    def classification_text(self, message_id: int, *, game_time: str | None = None) -> ClassificationText | None:
+        """Any trustworthy reading of the words, labelled with how fresh it could be shown to be, for classification only."""
+        ...
+
+
+def classification_text_of(provider: Any, message_id: int, *, game_time: str | None = None) -> ClassificationText | None:
+    """The classification-only reading a provider offers, for providers that do not implement one.
+
+    A provider with no ``classification_text`` is asked for current text
+    instead: what it serves as available is by definition current, and
+    nothing else is invented on its behalf.
+    """
+    accessor = getattr(provider, "classification_text", None)
+    if accessor is not None:
+        return accessor(message_id, game_time=game_time)
+    observed = provider.get_text(message_id, game_time=game_time)
+    if not observed.available:
+        return None
+    return ClassificationText(observed.require(), FRESHNESS_CURRENT, observed.source, observed.observed_at, observed.game_time)
 
 
 class NoInboxTextProvider:
@@ -183,6 +247,9 @@ class NoInboxTextProvider:
 
     def get_text(self, message_id: int, *, game_time: str | None = None) -> Observed[InboxText]:
         return Observed.unavailable(ValueStatus.UNSUPPORTED, f"inbox_text:{message_id}", "no inbox text provider is installed", source=self.name)
+
+    def classification_text(self, message_id: int, *, game_time: str | None = None) -> ClassificationText | None:
+        return None
 
 
 @dataclass
@@ -199,8 +266,17 @@ class DeclaredInboxTextProvider:
 
     Every declaration carries a source, a wall-clock timestamp and the game
     time at which it was read. An unverified declaration is kept but not
-    served; a declaration read at a different game time than the caller's
-    is served as ``stale``.
+    served at all. For a verified one, in-game time is the only clock that
+    can show the reading is the current one (spec 5.2): only a reading at
+    the caller's own in-game moment is served by :meth:`get_text`. A reading
+    from another moment is ``stale``, a reading whose game time was never
+    recorded is ``stale`` too (it can never be shown current, exactly as
+    :func:`fm_bot.rules.eligibility.freshness_status` treats an observation
+    with no game time), and a caller with no in-game clock of its own gets
+    ``missing`` verification because there is nothing to compare against.
+    Such a reading is still offered by :meth:`classification_text`, labelled
+    ``unverified``, so *what kind of message this is* can still be
+    established without any of it counting as a current answer.
     """
 
     def __init__(self, name: str = "declared"):
@@ -212,6 +288,17 @@ class DeclaredInboxTextProvider:
             raise ValueError("declared inbox text needs a source")
         self._texts[text.message_id] = DeclaredText(text, source, observed_at, game_time, verified)
 
+    @staticmethod
+    def _freshness(declared: DeclaredText, game_time: str | None) -> tuple[ValueStatus, str | None]:
+        """Whether a verified declaration can be shown to be the reading current at ``game_time``."""
+        if declared.game_time is None:
+            return ValueStatus.STALE, "text was declared with no game time; it cannot be shown to be the current reading"
+        if game_time is None:
+            return ValueStatus.MISSING, f"no game time to check the reading at {declared.game_time} against"
+        if declared.game_time != game_time:
+            return ValueStatus.STALE, f"text read at {declared.game_time}, now {game_time}"
+        return ValueStatus.AVAILABLE, None
+
     def get_text(self, message_id: int, *, game_time: str | None = None) -> Observed[InboxText]:
         what = f"inbox_text:{message_id}"
         declared = self._texts.get(message_id)
@@ -219,9 +306,19 @@ class DeclaredInboxTextProvider:
             return Observed.unavailable(ValueStatus.MISSING, what, "no text declared for this message", source=self.name)
         if not declared.verified:
             return Observed.unavailable(ValueStatus.UNSUPPORTED, what, f"declared text from {declared.source} is not verified", source=declared.source, observed_at=declared.observed_at, game_time=declared.game_time)
-        if game_time is not None and declared.game_time is not None and declared.game_time != game_time:
-            return Observed.unavailable(ValueStatus.STALE, what, f"text read at {declared.game_time}, now {game_time}", source=declared.source, observed_at=declared.observed_at, game_time=declared.game_time)
+        status, reason = self._freshness(declared, game_time)
+        if status is not ValueStatus.AVAILABLE:
+            return Observed.unavailable(status, what, reason, source=declared.source, observed_at=declared.observed_at, game_time=declared.game_time)
         return Observed.available_value(declared.text, source=declared.source, observed_at=declared.observed_at, game_time=declared.game_time, what=what)
+
+    def classification_text(self, message_id: int, *, game_time: str | None = None) -> ClassificationText | None:
+        """The declared reading with its freshness label, for classification only (never as a current answer)."""
+        declared = self._texts.get(message_id)
+        if declared is None or not declared.verified:
+            return None
+        status, _ = self._freshness(declared, game_time)
+        freshness = FRESHNESS_CURRENT if status is ValueStatus.AVAILABLE else FRESHNESS_UNVERIFIED
+        return ClassificationText(declared.text, freshness, declared.source, declared.observed_at, declared.game_time)
 
 
 # ---------------------------------------------------------------------------
@@ -252,19 +349,28 @@ def matched_patterns(event_type: str | None, patterns: Iterable[str] = DECISION_
     return tuple(p for p in patterns if p in lowered)
 
 
-def _classify_from_text(text: InboxText) -> InboxClass | None:
+def _classify_from_text(text: InboxText, confidence: str = CONFIDENCE_CONFIRMED, freshness: str = "") -> InboxClass | None:
+    note = f" (freshness {freshness})" if freshness else ""
     if text.options:
         mandatory = text.mandatory if text.mandatory is not None else (True if text.deadline else None)
-        return InboxClass(KIND_DECISION_REQUIRED, mandatory, CONFIDENCE_CONFIRMED, (), f"{len(text.options)} visible option(s)")
+        return InboxClass(KIND_DECISION_REQUIRED, mandatory, confidence, (), f"{len(text.options)} visible option(s){note}")
     if text.requires_decision is False:
-        return InboxClass(KIND_INFORMATIONAL, False, CONFIDENCE_CONFIRMED, (), "text observed; no options and no decision required")
+        return InboxClass(KIND_INFORMATIONAL, False, confidence, (), f"text observed; no options and no decision required{note}")
     if text.requires_decision is True:
-        return InboxClass(KIND_DECISION_REQUIRED, text.mandatory, CONFIDENCE_CONFIRMED, (), "text observed; decision required but options not captured")
+        return InboxClass(KIND_DECISION_REQUIRED, text.mandatory, confidence, (), f"text observed; decision required but options not captured{note}")
     return None
 
 
-def classify(item: InboxItem, text: Observed[InboxText] | None = None) -> InboxClass:
+def classify(item: InboxItem, text: Observed[InboxText] | None = None, classification: ClassificationText | None = None) -> InboxClass:
     """Classify a message from confirmed text when available, else from its event type.
+
+    ``classification`` is a reading offered for classification only (see
+    :class:`ClassificationText`). It is consulted when no current reading is
+    available, because what kind of message this is does not change with the
+    clock, and the result is labelled ``unverified_text`` so no caller can
+    mistake it for evidence about what the game offers now. Deciding what to
+    answer still needs ``text``: an unverified reading contributes no legal
+    option ids (see :func:`unresolved_mandatory`).
 
     The event-type table is a conservative heuristic: ``unknown`` means
     nothing matched, and callers must not treat it as informational.
@@ -273,6 +379,10 @@ def classify(item: InboxItem, text: Observed[InboxText] | None = None) -> InboxC
         confirmed = _classify_from_text(text.require())
         if confirmed is not None:
             return confirmed
+    if classification is not None:
+        read = _classify_from_text(classification.text, CONFIDENCE_UNVERIFIED_TEXT, classification.freshness)
+        if read is not None:
+            return read
     if item.event_type in INFORMATIONAL_EVENT_TYPES:
         return InboxClass(KIND_INFORMATIONAL, False, CONFIDENCE_EXPLICIT_LIST, (), "event type is on the informational list")
     matched = matched_patterns(item.event_type)
@@ -301,7 +411,7 @@ class InboxBlocker:
 
     @property
     def resolvable_now(self) -> bool:
-        """Text and options are known and nothing is missing: a choice can be made."""
+        """A reading current at this in-game moment showed the options and nothing is missing: a choice can be made."""
         return not self.report.blocked and bool(self.legal_option_ids)
 
     def to_json(self) -> dict[str, Any]:
@@ -350,6 +460,19 @@ def unresolved_mandatory(items: Iterable[InboxItem], text_provider: InboxTextPro
     unclassified messages and read decision messages that cannot be proven
     resolved are all returned. A blocker with an empty report and legal
     option ids is ready for :mod:`fm_bot.interactions.choices`.
+
+    Only a reading current at ``game_time`` counts, and nothing else: a
+    reading the provider could not show to be current (read at another
+    in-game moment, or with no game time recorded) leaves ``inbox_text``
+    named and publishes no option ids, because in-game time is the only
+    clock and an older reading of an offer proves nothing about the options
+    on screen now (spec 5.2, OBS 02). A :class:`ClassificationText` is
+    deliberately NOT consulted here: this check is one half of a decision
+    point whose other half (:func:`fm_bot.rules.deadlines.pending_actions`)
+    judges the same messages by current text alone, and the two halves must
+    reach the same verdict on one clock (spec 12.4, CAL 01). Callers whose
+    question really is "what kind of message is this?" use
+    :func:`classification_text_of` with :func:`classify` instead.
 
     ``resolved_action_ids`` are the pending-action ids a current,
     capability-backed pending-actions observation reported answered (see

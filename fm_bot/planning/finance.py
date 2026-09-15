@@ -353,7 +353,13 @@ class CommitmentLedger:
         return [c for c in self.commitments.values() if c.category == category]
 
     def active(self, as_of: str | dt.date | None = None) -> list[FinancialCommitment]:
-        """Commitments whose payment window has not closed by ``as_of``.
+        """Commitments in force on ``as_of``: the window has opened and has not closed.
+
+        A recurring line must have *started* (``due_date <= as_of``) as well
+        as not yet ended; a contract signed today but starting in July pays
+        nothing today and so explains none of today's payroll. A one-off
+        obligation is active while it is still outstanding, i.e. due on or
+        after ``as_of``.
 
         Needs an in-game date: the argument or the ledger's ``as_of``. With
         neither there is no calendar to test against and the ledger refuses
@@ -367,7 +373,7 @@ class CommitmentLedger:
             if c.recurrence is Period.ONCE:
                 if as_date(c.due_date) >= day:
                     result.append(c)
-            elif c.end_date is None or as_date(c.end_date) >= day:
+            elif as_date(c.due_date) <= day and (c.end_date is None or as_date(c.end_date) >= day):
                 result.append(c)
         return result
 
@@ -377,7 +383,9 @@ class CommitmentLedger:
         A line whose timing is unknown (no observed start date) is not
         subtracted from the aggregate: its cash stays inside the
         ``unexplained`` residual, which is charged as observed, while the
-        line itself is reported through the projection's unknown bucket.
+        line itself is reported through the projection's unknown bucket. A
+        line that has not started yet is not subtracted either - it is not
+        part of the payroll the bridge observed today.
         """
         return [c for c in self.active(as_of) if c.included_in_aggregate == aggregate and c.recurrence is Period.WEEKLY and c.kind is MovementKind.PAYMENT and c.certainty is not Certainty.UNKNOWN]
 
@@ -583,6 +591,9 @@ class CashFlowEngine:
     inside transfer windows. Each movement is classified observed
     committed, conditional (resolved per scenario), forecast (enumerated by
     probability) or unknown (bucketed, never silently dropped or zeroed).
+    Movements outside the horizon - including forecast receipts on either
+    side of it - are bucketed too: nothing before the start date is ever
+    credited to the observed opening balance.
     """
 
     transfer_windows: tuple[tuple[tuple[int, int], tuple[int, int]], ...] = TRANSFER_WINDOWS_HEURISTIC
@@ -646,13 +657,30 @@ class CashFlowEngine:
         return certain, uncertain, unknown
 
     @staticmethod
-    def _receipt_movements(scenario: Scenario) -> list[CashMovement]:
-        items = []
+    def _receipt_movements(scenario: Scenario, start: dt.date, end: dt.date) -> tuple[list[CashMovement], list[dict[str, Any]]]:
+        """Forecast receipts inside ``[start, end]``, plus an entry for every one outside it.
+
+        A receipt dated before ``start`` is already inside the observed
+        opening balance (or never happened); crediting it would inflate that
+        balance, which spec 8.1 forbids. A receipt dated after ``end`` falls
+        outside the horizon. Neither is applied to any path and neither is
+        silently dropped: both are returned for the projection's ``unknown``
+        bucket.
+        """
+        items: list[CashMovement] = []
+        outside: list[dict[str, Any]] = []
         for r in scenario.receipts:
             if r.amount.period is not Period.ONCE:
                 raise UnitError(f"forecast receipt {r.label} must be a one-off amount; expand recurring receipts first")
-            items.append(CashMovement(as_date(r.date), r.amount, Certainty.FORECAST, r.category, r.label, None, None, None, r.prob()))
-        return items
+            day = as_date(r.date)
+            if day < start:
+                outside.append({"commitment_id": None, "label": r.label, "date": day.isoformat(), "reason": f"forecast receipt dated before the projection start {start.isoformat()} in scenario {scenario.name}; the observed opening balance is not adjusted"})
+                continue
+            if day > end:
+                outside.append({"commitment_id": None, "label": r.label, "date": day.isoformat(), "reason": f"forecast receipt dated after the projection end {end.isoformat()} in scenario {scenario.name}; outside the horizon"})
+                continue
+            items.append(CashMovement(day, r.amount, Certainty.FORECAST, r.category, r.label, None, None, None, r.prob()))
+        return items, outside
 
     # ----- paths -----
     def _walk(self, name: str, scenario: Scenario, weight: Fraction, start_balance: Money, movements: list[CashMovement], steps: list[dt.date]) -> ScenarioPath:
@@ -713,10 +741,12 @@ class CashFlowEngine:
         all_dates: set[dt.date] = {m.date for m in base_movements}
         prepared = []
         for s in scenarios:
-            movements = list(base_movements) + self._receipt_movements(s)
+            in_window, out_of_window = self._receipt_movements(s, start, end)
+            movements = list(base_movements) + in_window
             for c in s.extra_commitments:
                 movements.extend(expand_commitment(c, start, end))
             certain, uncertain, unk = self.classify(movements, s)
+            unknown.extend(out_of_window)
             unknown.extend(unk)
             all_dates.update(m.date for m in certain + uncertain)
             prepared.append((s, certain, uncertain))

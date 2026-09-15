@@ -16,6 +16,11 @@ unless the readiness freshness check reports ``current``. Only current
 observations are used as measurements (:func:`collect_measurements`); stale
 and missing ones are listed as rejected, never interpolated.
 
+Load records: one row per consecutive day. A gap in the record is a
+missing workload, never an assumed rest day, so a gapped, duplicated or
+out-of-order schedule is refused (:func:`load_record_gaps`) instead of being
+stepped over as if the logged days were consecutive.
+
 Identifiability: :func:`fit_parameters` runs a bounded grid and coordinate
 search and then asks whether the data can tell parameter sets apart. If the
 objective is flat within tolerance over a wide region, or there are too few
@@ -157,13 +162,46 @@ class ObservationModel:
         return (self.offset - condition) / self.scale
 
 
+def load_record_gaps(loads: Sequence[DailyLoad]) -> list[str]:
+    """Reasons a load record cannot be simulated as a day-by-day series.
+
+    The models advance the latent state exactly one day per record, so the
+    records must be one row per consecutive day. A missing day is a *missing
+    workload*, not a rest day: assuming zero load there would be a fabricated
+    default, so a gapped, duplicated or out-of-order record is reported here
+    and refused rather than silently stepped over (spec 10.2, 5.2).
+    """
+    reasons: list[str] = []
+    days = [l.day for l in loads]
+    if days != sorted(days):
+        reasons.append(f"load records are not in day order: {days}")
+    duplicates = sorted({d for d in days if days.count(d) > 1})
+    if duplicates:
+        reasons.append(f"more than one load record for days {duplicates}")
+    ordered = sorted(set(days))
+    missing = [d for d in range(ordered[0], ordered[-1] + 1) if d not in set(ordered)] if ordered else []
+    if missing:
+        reasons.append(f"no load records for days {missing}; unlogged days are not assumed to be zero load")
+    return reasons
+
+
 def predict_conditions(model: DiscreteFatigueModel | ContinuousFatigueModel, observation: ObservationModel, fatigue0: float, loads: Sequence[DailyLoad]) -> dict[int, float]:
-    """Predicted condition at the start of each day keyed by day index (day of ``loads[0]`` first)."""
+    """Predicted condition at the start of each day, keyed by the load record's own day.
+
+    The final entry is the state after the last record, keyed
+    ``loads[-1].day + 1``. Each simulation step is one calendar day, so the
+    records must cover consecutive days; a gapped, duplicated or out-of-order
+    record raises :class:`ValueError` instead of returning predictions whose
+    keys silently drift away from the real days (spec 10.2).
+    """
     if not loads:
         return {}
+    gaps = load_record_gaps(loads)
+    if gaps:
+        raise ValueError("load records are not a consecutive daily series: " + "; ".join(gaps))
     path = model.simulate(fatigue0, loads)
-    first = loads[0].day
-    return {first + i: observation.condition(f) for i, f in enumerate(path)}
+    days = [l.day for l in loads] + [loads[-1].day + 1]
+    return {day: observation.condition(f) for day, f in zip(days, path)}
 
 
 # ----- fitting -----
@@ -209,6 +247,7 @@ def _informative(loads: Sequence[DailyLoad], measurements: Sequence[ConditionMea
         reasons.append("all measurements identical; no variation to explain")
     if loads and len({l.workload for l in loads}) == 1 and not any(l.match_load for l in loads):
         reasons.append("constant workload and no match loads; inputs do not excite the dynamics")
+    reasons.extend(load_record_gaps(loads))
     days = {l.day for l in loads}
     outside = [m.day for m in measurements if m.day not in days and m.day != (loads[-1].day + 1 if loads else None)]
     if outside:
@@ -233,7 +272,8 @@ def fit_parameters(loads: Sequence[DailyLoad], measurements: Sequence[ConditionM
         raise ValueError("model_kind must be discrete or continuous")
     reasons = _informative(loads, measurements)
     if reasons:
-        return FitResult("insufficient_data" if len(measurements) < MIN_INFORMATIVE_OBSERVATIONS else "unidentifiable", None, None, None, reasons, {}, len(measurements), model_kind)
+        incomplete = len(measurements) < MIN_INFORMATIVE_OBSERVATIONS or bool(load_record_gaps(loads))
+        return FitResult("insufficient_data" if incomplete else "unidentifiable", None, None, None, reasons, {}, len(measurements), model_kind)
     names = ["alpha", "beta", "offset", "scale"]
     grids = {n: _grid(b, GRID_STEPS) for n, b in bounds.as_dict().items()}
     evaluated: list[tuple[float, dict[str, float]]] = []

@@ -4,9 +4,10 @@ One executor holds the ``ui_writer`` lock for a game; a second instance is
 refused. Queued intents run first-in first-out. Immediately before any input
 the executor re-checks, in order: Stop, career and branch, snapshot
 consistency, a second stable read of the intent's target routes,
-source-object freshness, the availability of a validated workflow, the
-display environment, the identified screen and the legality of the first
-action on it, required capabilities, the authority profile, and input focus.
+source-object freshness, the availability of a validated workflow, that the
+intent fills every parameter that workflow needs, the display environment,
+the identified screen and the legality of the first action on it, required
+capabilities, the authority profile, and input focus.
 Any failure ends the intent (EXPIRED or CANCELLED) or pauses it (focus) with
 no input sent.
 
@@ -52,7 +53,7 @@ LOCK_STALE_SECONDS = 300.0
 # Bounded retries for navigation-class steps after a fresh screen check (spec 12.3). Consequential steps: zero.
 NAVIGATION_RETRY_LIMIT = 2
 
-PREFLIGHT_ORDER = ("stop", "career_branch", "snapshot_valid", "action_critical", "freshness", "workflow", "environment", "screen", "capabilities", "authority", "focus")
+PREFLIGHT_ORDER = ("stop", "career_branch", "snapshot_valid", "action_critical", "freshness", "workflow", "parameters", "environment", "screen", "capabilities", "authority", "focus")
 
 RECOVERY_INSTRUCTION_UNCERTAIN = "do not retry; run reconciliation (reconcile_uncertain / reconcile_on_restart) to establish the actual state from readback"
 
@@ -275,6 +276,11 @@ class SingleWriterExecutor:
             problems.append(PreflightProblem("workflow", f"no validated UI workflow for {intent.kind!r} on adapter {self.adapter.name!r}", ActionState.CANCELLED))
             self._capability_and_authority(intent, (), problems)
             return problems
+        unfilled = workflow.missing_parameters(intent.parameters)
+        if unfilled:
+            # An incomplete intent cannot be completed by re-reading the game: refuse it outright
+            # rather than let the workflow template's own None placeholders go out as input (spec 12.2-12.3).
+            problems.append(PreflightProblem("parameters", f"intent supplies no value for workflow parameter(s) {', '.join(unfilled)} of {workflow.workflow_id} v{workflow.version}; nothing is filled in on its behalf", ActionState.CANCELLED))
         env_problems = validate_environment(screen, workflow.screen_model, require_focus=False)
         if env_problems:
             problems.append(PreflightProblem("environment", "; ".join(env_problems), ActionState.EXPIRED))

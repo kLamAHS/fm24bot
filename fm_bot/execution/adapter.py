@@ -52,6 +52,14 @@ class AdapterCrash(RuntimeError):
     """The adapter lost contact with the UI mid-step; the effect is unknown."""
 
 
+class WorkflowInstantiationError(ValueError):
+    """A workflow refuses to build because a required parameter has no value (spec 12.2-12.3).
+
+    No step exists, so nothing can be dispatched from an incomplete
+    instantiation. The message names every unfilled parameter.
+    """
+
+
 # ---------------------------------------------------------------------------
 # Observations and steps
 # ---------------------------------------------------------------------------
@@ -218,8 +226,32 @@ class Workflow:
     readback_kind: str | None
     required_capabilities: tuple[str, ...] = ("ui_action_adapter",)
 
+    def required_parameters(self) -> tuple[str, ...]:
+        """The template slots left ``None``: values only the intent can supply, in step order."""
+        names: list[str] = []
+        for template in self.steps:
+            for key, value in template.params.items():
+                if value is None and key not in names:
+                    names.append(key)
+        return tuple(names)
+
+    def missing_parameters(self, parameters: dict[str, Any]) -> list[str]:
+        """Required slots the intent does not fill. An explicit ``None`` is as unfilled as an absent key."""
+        return [name for name in self.required_parameters() if parameters.get(name) is None]
+
     def instantiate(self, parameters: dict[str, Any]) -> list[UIStep]:
-        """Fill step parameters from an intent's parameters. Unknown keys are ignored."""
+        """Fill step parameters from an intent's parameters. Unknown keys are ignored.
+
+        A required slot the intent does not fill refuses the whole workflow
+        (spec 12.2-12.3): filling it with the template's own ``None``
+        placeholder would send a blind input carrying a fabricated value -
+        ``set_training`` with ``settings=None`` wipes the program to ``{}``,
+        ``set_lineup`` with ``roles=None`` drops every role. An unknown value
+        is not an empty one, so no step is built at all.
+        """
+        missing = self.missing_parameters(parameters)
+        if missing:
+            raise WorkflowInstantiationError(f"workflow {self.workflow_id} v{self.version} ({self.kind}) needs a value for {', '.join(missing)}; the intent supplies none and nothing is filled in on its behalf, so no input is sent")
         steps = []
         for template in self.steps:
             params = {key: parameters.get(key, value) if value is None else value for key, value in template.params.items()}

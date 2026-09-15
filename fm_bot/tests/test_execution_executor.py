@@ -252,6 +252,27 @@ class PreflightTests(unittest.TestCase):
         self.assertEqual([p.check for p in report.problems], ["screen"])
         self.assertEqual(h2.adapter.inputs, [])
 
+    def test_act01_intent_missing_a_workflow_parameter_is_cancelled_without_input(self):
+        """ACT 01: an intent that does not fill a workflow parameter is refused; the template's own None is never sent (spec 12.2-12.3)."""
+        h = harness()
+        executor = h.executor()
+        snap = h.snapshot()
+        incomplete = h.factory.create("set.training", "training.set", snap, {"routes": ["/squad"]}, {"previous_settings": {"intensity": "Normal"}}, verification="training_settings_reread", decision_id="dec-no-settings")
+        executor.enqueue(h.ready(incomplete, snap))
+        report = executor.run_next(h.snapshot)
+        self.assertIs(report.state, ActionState.CANCELLED)
+        self.assertEqual([p.check for p in report.problems], ["parameters"])
+        self.assertIn("settings", report.reason)
+        self.assertEqual(h.adapter.inputs, [])
+        self.assertEqual(h.adapter.training_settings, {"intensity": "Normal"}, "an unfilled parameter must not wipe the committed program to {}")
+        self.assertIs(h.store.get_intent(incomplete.action_id).state, ActionState.CANCELLED)
+        self.assertEqual(h.store.journal_entries("ui.input", incomplete.action_id), [])
+        # The same intent with the parameter filled goes through, so the refusal is about the gap alone.
+        complete = h.training_intent(h.snapshot(), decision_id="dec-with-settings", settings={"intensity": "Double"})
+        executor.enqueue(h.ready(complete, h.snapshot()))
+        self.assertIs(executor.run_next(h.snapshot).state, ActionState.CONFIRMED)
+        self.assertEqual(h.adapter.training_settings, {"intensity": "Double"})
+
     def test_no_workflow_cancels_without_input(self):
         h = harness()
         executor = h.executor(workflows={})

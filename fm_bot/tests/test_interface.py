@@ -172,6 +172,33 @@ class StatusTests(unittest.TestCase):
         set_active_career(h.store, career.career_id, branch.branch_id, lineage_confirmed=True)
         self.assertNotIn("lineage", render_text(build_view(h.store)))
 
+    def test_the_bridge_stop_and_last_action_lines_follow_the_journal_past_a_page_limit(self):
+        """Spec 15.1: the operator sees the CURRENT connection state, the CURRENT Stop state and the LAST execution result. A
+        connection entry is written on every connect, so after a few hours of five-second polling a kind has far more entries than
+        any page of the journal; the view therefore reads the newest entry of a kind, never the end of a page of the oldest ones. A
+        deliberately tiny page stands in for those hours (no need to write ten thousand rows)."""
+        store = Store.memory()
+        for index in range(4):
+            store.journal(status.JOURNAL_CONNECTION, {"connected": index < 3, "build_supported": True, "reason": f"connect {index}", "session_id": f"s{index}"})
+            store.journal(status.JOURNAL_EXECUTION, {"action_id": f"act-{index}", "state": "CONFIRMED" if index < 3 else "UNCERTAIN", "reason": f"result {index}"}, f"act-{index}")
+            store.journal(status.JOURNAL_STOP, {"reason": f"stop {index}", "at": "now"})
+        unclamped = store.journal_entries
+
+        def one_page(*args, **kwargs):
+            kwargs["limit"] = 2          # the journal holds more entries of each kind than one page can return
+            return unclamped(*args, **kwargs)
+        store.journal_entries = one_page
+        self.assertEqual(status.last_connection(store)["reason"], "connect 3")
+        self.assertFalse(status.last_connection(store)["connected"], "the operator sees the state the bridge is in now")
+        self.assertEqual(status.last_execution(store)["action_id"], "act-3")
+        self.assertEqual(status.last_execution(store)["state"], "UNCERTAIN")
+        self.assertEqual(status.stop_state(store)["reason"], "stop 3")
+        text = render_text(build_view(store))
+        self.assertIn("Bridge: disconnected (connect 3)", text)
+        self.assertIn("Last action: UNCERTAIN - result 3", text)
+        self.assertIn("Stop: ENGAGED", text)
+        self.assertIn("stop 3", text)
+
     def test_connection_text_distinguishes_unknown_disconnected_and_unsupported(self):
         store = Store.memory()
         self.assertIn("not checked", render_text(build_view(store)))

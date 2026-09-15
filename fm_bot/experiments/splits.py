@@ -122,9 +122,29 @@ def grouped_train_tune_test(units: list[SplitUnit], *, seed: int, tune_fraction:
     return split
 
 
+def _split_moment(moment: str) -> tuple[str, str, str]:
+    """``"YYYY-MM-DD[ T]HH:MM"`` as (date, separator, time). A date-only moment keeps an empty time."""
+    text = moment.strip()
+    for separator in ("T", " "):
+        if separator in text:
+            date_part, _, time_part = text.partition(separator)
+            return date_part, separator, time_part
+    return text, "", ""
+
+
 def _shift_days(moment: str, days: int) -> str:
-    date_part = moment[:10]
-    return (dt.date.fromisoformat(date_part) + dt.timedelta(days=days)).isoformat()
+    """Move a game moment by whole days, keeping its time of day.
+
+    Truncating to the date would move a timed cutoff back to 00:00 of its
+    day, and ``game_moment_key`` scores a date-only moment as minutes ``-1``
+    (before midnight, see :mod:`fm_bot.state.units`). The embargo boundary
+    would then sit earlier than the cutoff itself, so units starting before
+    the cutoff would compare as on-or-after it. Cutoff and unit must be read
+    on the same clock.
+    """
+    date_part, separator, time_part = _split_moment(moment)
+    shifted = (dt.date.fromisoformat(date_part) + dt.timedelta(days=days)).isoformat()
+    return f"{shifted}{separator}{time_part}" if time_part else shifted
 
 
 def chronological_split(units: list[SplitUnit], *, cutoff: str, embargo_days: int = 0) -> Split:
@@ -134,6 +154,11 @@ def chronological_split(units: list[SplitUnit], *, cutoff: str, embargo_days: in
     cutoff; a unit without an end time cannot prove that and is embargoed.
     Test units start at or after the cutoff plus ``embargo_days``. Units in
     between (outcome windows overlapping the cutoff) are embargoed.
+
+    The cutoff may carry a time of day, and it is then compared against the
+    units on that same clock: a unit that starts at 10:00 on the cutoff day
+    with a 15:00 cutoff began *before* the cutoff and is embargoed, not
+    tested.
     """
     if embargo_days < 0:
         raise SplitError("embargo_days must be non-negative")

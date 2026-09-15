@@ -22,7 +22,7 @@ from ..interface.notify import NotificationKind
 from ..interface.status import active_career, set_active_career
 from ..orchestrator import (
     CALENDAR_BLOCKED_SUBJECT, JOURNAL_BOUNDARY, JOURNAL_IDENTITY, JOURNAL_INBOX_CHOICE, JOURNAL_LINEAGE_CONFIRMED, JOURNAL_MATCH, JOURNAL_NOT_EXECUTED, JOURNAL_PENDING_ACTIONS,
-    JOURNAL_PLAN, JOURNAL_RECONCILE, JOURNAL_UNAVAILABLE, MANAGER_LOCK,
+    JOURNAL_ABANDONED, JOURNAL_PLAN, JOURNAL_RECONCILE, JOURNAL_UNAVAILABLE, MANAGER_LOCK,
     FakeClock, ManagerLockHeld, Orchestrator, PassStatus, RunLevel, Trigger, detect_triggers, lineup_status_of, next_action_of, plan_due, plan_outcome_of,
 )
 from ..rules.capabilities import CapabilityRegistry
@@ -54,6 +54,51 @@ def stub_planner(candidates: list[SimpleNamespace] | None = None, decisions: lis
         return SimpleNamespace(status="planned", candidates=list(candidates or []), decisions=list(decisions or []), summaries=["stub plan"], capability_reports={}, reasons=[])
     plan_once.calls = calls
     return plan_once
+
+
+CONTINUE_STEP, ANSWER_STEP = "press_continue", "answer_message"
+# The in-game moment the fixture world is at; a reading of a message is current evidence only at its own moment.
+CURRENT_GAME_TIME = f"{fx.GAME_DATE} {fx.GAME_TIME}"
+
+
+def continue_workflow() -> Workflow:
+    """A validated Continue workflow for the fake UI.
+
+    Navigating to the fake home screen stands in for pressing Continue. Where
+    the UI ends up is deliberately not the effect: the intent's verification
+    plan reads the in-game clock back from the bridge (spec 12.2).
+    """
+    return Workflow("fake.continue", "1", "progress.continue", FAKE_SCREEN_MODEL, (UIStep(CONTINUE_STEP, "navigate", ANY_SCREEN, {"target": "home"}, RISK_NAVIGATION, "home"),), None)
+
+
+def inbox_answer_workflow() -> Workflow:
+    """A validated inbox-answer workflow for the fake UI; the effect is read back from ``/inbox`` metadata, not from the screen."""
+    return Workflow("fake.respond_inbox", "1", "respond.inbox", FAKE_SCREEN_MODEL, (UIStep(ANSWER_STEP, "navigate", ANY_SCREEN, {"target": "inbox"}, RISK_NAVIGATION, "inbox"),), None)
+
+
+class ReactingAdapter(FakeAdapter):
+    """A fake FM front end whose inputs change what the *bridge* then reports, as the real game does.
+
+    ``reactions`` maps a workflow step id to a callable run once that step has
+    succeeded: the in-game clock moves on after Continue, a message stops
+    being unread after it is answered. The adapter never reports the effect
+    itself, so the verification plans have to establish it from a fresh
+    snapshot (test double, not an adapter implementation).
+    """
+
+    def __init__(self, *, reactions: dict[str, Any] | None = None, **kw):
+        super().__init__(**kw)
+        self.reactions = dict(reactions or {})
+        self.performed: list[str] = []
+
+    def perform(self, step):
+        result = super().perform(step)
+        if result.ok:
+            self.performed.append(step.step_id)
+            reaction = self.reactions.get(step.step_id)
+            if reaction is not None:
+                reaction()
+        return result
 
 
 class World:
@@ -525,6 +570,39 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
+    def test_id01_a_restarted_orchestrator_judges_continuity_against_the_witnessed_anchor(self):
+        """ID 01 / spec 5.1: the anchor is remembered per career branch, so a *new* orchestrator over the same database starts from
+        the history the bot actually witnessed. A save reloaded while no bot was running is therefore a stop for identity
+        resolution, not a first observation merged onto the production branch, and the local sequence keeps moving forward."""
+        w = World(linked=True, authority="scoped", families=["tactics"])
+        try:
+            first = w.orchestrator.run_once()
+            self.assertIn(first.status, (PassStatus.PLANNED, PassStatus.BLOCKED), first.notes)
+            witnessed = w.store.get_anchor(w.career.career_id, w.branch.branch_id)
+            self.assertEqual((witnessed.game_date, witnessed.game_time), (fx.GAME_DATE, fx.GAME_TIME))
+            decisions_before = len(w.store.list_decisions(limit=1000))
+        finally:
+            w.orchestrator.close()
+        # a new process over the same database: the operator loaded the 10 February save while the bot was down
+        w.transport.set("/game", env({"date": "2024-02-10", "time": "10:00"}))
+        restarted = Orchestrator(w.store, w.client, w.adapter, w.settings, career=w.career, branch=w.branch, lineage_confirmed=True, clock=w.clock, sleep=w.clock.advance)
+        try:
+            self.assertEqual(restarted._anchor, witnessed, "the restarted process starts from the witnessed anchor, not from nothing")
+            self.assertEqual(restarted._sequence, witnessed.sequence, "and continues its local sequence")
+            result = restarted.run_once()
+            self.assertIs(result.status, PassStatus.IDENTITY_RESOLUTION_REQUIRED, result.notes)
+            self.assertTrue(any("date_reversed" in note for note in result.notes), result.notes)
+            self.assertTrue(restarted.identity_resolution_required)
+            self.assertFalse(restarted.execution_enabled)
+            self.assertEqual(len(w.store.list_decisions(limit=1000)), decisions_before, "nothing is decided on the branch while the lineage is unresolved")
+            self.assertEqual(w.store.list_intents(), [])
+            self.assertEqual(w.adapter.inputs, [])
+            self.assertEqual(w.store.get_anchor(w.career.career_id, w.branch.branch_id), witnessed, "the anchor stays where the witnessed history ended")
+            restarted.confirm_lineage("I loaded the 10 February save on purpose")
+            self.assertIsNone(w.store.get_anchor(w.career.career_id, w.branch.branch_id), "the overruled history is not compared against again")
+        finally:
+            restarted.close()
+
     def test_id01_reload_of_an_earlier_checkpoint_stops_for_identity_resolution(self):
         """ID 01 / spec 5.1: mid-session the operator loads an earlier save (``/game`` goes backwards). The next pass is a stop for
         identity resolution: execution is disabled, queued work is cancelled without input, and no decision or intent is recorded on
@@ -627,30 +705,116 @@ class ExecutionTests(unittest.TestCase):
         finally:
             w.close()
 
-    def test_continue_runs_after_the_gate_clears_then_settles_and_recollects(self):
-        provider = DeclaredInboxTextProvider()
-        for message_id in (501, 503):
-            provider.declare(InboxText(message_id, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=None)
-        continue_workflow = Workflow("fake.continue", "1", "progress.continue", FAKE_SCREEN_MODEL, (UIStep("go", "navigate", ANY_SCREEN, {"target": "home"}, RISK_NAVIGATION, "home"),), None)
+    def _continue_world(self, adapter: ReactingAdapter, provider: DeclaredInboxTextProvider | None = None) -> World:
+        """A world whose calendar is clear, with a validated Continue workflow and the real Continue the orchestrator mints."""
+        return World(linked=True, adapter=adapter, authority="scoped", families=["progression"], allow_continue=True,
+                     provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider or answered_inbox(501, 503),
+                     workflows={**FAKE_WORKFLOWS, "progress.continue": continue_workflow()})
 
-        class WithTarget(Orchestrator):
-            def continue_action(self, gate):
-                action = super().continue_action(gate)
-                action["parameters"]["target"] = "home"       # the fake UI's home screen stands in for the next stable point
-                return action
+    @staticmethod
+    def _game_moves_on(world: World, provider: DeclaredInboxTextProvider, moments: list[tuple[str, str]]):
+        """What the game does when Continue is pressed: the clock moves to the next moment, and the inbox reader looks again there.
 
-        w = World(linked=True, authority="scoped", families=["progression"], allow_continue=True, provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider, workflows={**FAKE_WORKFLOWS, "progress.continue": continue_workflow})
-        w.orchestrator.close()
-        w.orchestrator = WithTarget(w.store, w.client, w.adapter, w.settings, career=w.career, branch=w.branch, lineage_confirmed=True, clock=w.clock, sleep=w.clock.advance, provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider, workflows={**FAKE_WORKFLOWS, "progress.continue": continue_workflow})
+        The second reading matters because in-game time is the only clock: the
+        reading taken at the previous decision point is not evidence about
+        this one (spec 5.2).
+        """
+        def pressed() -> None:
+            date, time = moments.pop(0)
+            world.transport.set("/game", env({"date": date, "time": time}))
+            declare_nothing_to_answer(provider, f"{date} {time}", 501, 503)
+        return pressed
+
+    def test_cal01_continue_is_confirmed_by_the_game_advancing_then_settles_and_recollects(self):
+        """CAL 01 / spec 12.2, 12.4: the Continue the orchestrator itself mints names no target screen - a changed screen is not
+        evidence that the calendar moved - and is confirmed only because the in-game clock of a fresh snapshot has moved on from the
+        moment the intent recorded. Afterwards the bot settles and collects again."""
+        adapter, provider = ReactingAdapter(), answered_inbox(501, 503)
+        w = self._continue_world(adapter, provider)
+        adapter.reactions[CONTINUE_STEP] = self._game_moves_on(w, provider, [("2024-02-18", "09:00")])
         try:
             result = w.orchestrator.run_once()
             self.assertTrue(result.continue_gate.allowed, result.continue_gate.to_json())
             self.assertIn(JOURNAL_BOUNDARY, w.journal_kinds(), "the expected boundary is recorded before Continue")
             self.assertIs(result.status, PassStatus.ACTED, result.notes)
-            self.assertIs(result.executed.state, ActionState.CONFIRMED)
+            self.assertIs(result.executed.state, ActionState.CONFIRMED, result.executed.reason)
+            intent = w.store.get_intent(result.executed.action_id)
+            self.assertEqual(intent.verification, "game_advanced_past_boundary", "Continue is verified by its effect, not by a screen")
+            self.assertNotIn("target", intent.parameters)
+            self.assertNotIn("expected_screen", intent.parameters)
+            self.assertEqual((intent.parameters["from_game_date"], intent.parameters["from_game_time"]), (fx.GAME_DATE, fx.GAME_TIME))
+            effect = result.executed.verdict.details["effect"]
+            self.assertEqual(effect["from"], {"game_date": fx.GAME_DATE, "game_time": fx.GAME_TIME})
+            self.assertEqual((effect["game_date"], effect["game_time"]), ("2024-02-18", "09:00"))
+            self.assertTrue(all(r["source"].startswith("bridge:/game@") for r in result.executed.verdict.readbacks), result.executed.verdict.readbacks)
             labels = [e["body"]["requirements"]["label"] for e in w.store.journal_entries(kind="snapshot", limit=1000)]
             self.assertIn("post-progression", labels, "after progression the bot settles and collects again")
             self.assertGreaterEqual(w.clock.sleeps.count(1.0), 2, "settled twice: on connect and after progression")
+        finally:
+            w.close()
+
+    def test_cal01_a_second_continue_follows_the_confirmed_first_one(self):
+        """CAL 01 / spec 12.3, 12.4 (ACT 02): because the first Continue's effect is established from the in-game clock, its intent
+        settles CONFIRMED and the next decision point may press Continue again. No unsettled twin refuses the second one, nothing is
+        re-dispatched, and each intent records the moment it moved the calendar on from."""
+        adapter, provider = ReactingAdapter(), answered_inbox(501, 503)
+        w = self._continue_world(adapter, provider)
+        adapter.reactions[CONTINUE_STEP] = self._game_moves_on(w, provider, [("2024-02-18", "09:00"), ("2024-02-19", "09:00")])
+        try:
+            first = w.orchestrator.run_once()
+            second = w.orchestrator.run_once()
+            self.assertIs(first.status, PassStatus.ACTED, first.notes)
+            self.assertIs(second.status, PassStatus.ACTED, second.notes)
+            self.assertIs(second.executed.state, ActionState.CONFIRMED, second.executed.reason)
+            self.assertTrue(any(t.kind == "date_advanced" for t in second.triggers), [t.to_json() for t in second.triggers])
+            intents = [i for i in w.store.list_intents() if i.kind == "progress.continue"]
+            self.assertEqual(len(intents), 2, "the second Continue was minted, not refused by the duplicate-effect guard")
+            self.assertEqual([i.state for i in intents], [ActionState.CONFIRMED, ActionState.CONFIRMED])
+            self.assertEqual([i.parameters["from_game_date"] for i in intents], [fx.GAME_DATE, "2024-02-18"])
+            self.assertEqual(adapter.performed, [CONTINUE_STEP, CONTINUE_STEP], "one input per Continue; nothing retried")
+            self.assertEqual([e["body"]["reason"] for e in w.store.journal_entries(kind=JOURNAL_NOT_EXECUTED) if "duplicate-effect" in e["body"].get("reason", "")], [])
+            self.assertEqual(second.reconciled, [], "nothing was left unsettled to reconcile")
+        finally:
+            w.close()
+
+    def test_cal01_an_unverifiable_continue_is_closed_explicitly_instead_of_wedging_the_calendar(self):
+        """CAL 01 / spec 12.3, 12.4 (ACT 02): a Continue whose effect no readback can establish - here an intent an earlier process
+        left in flight without recording the in-game moment it was to move on from - keeps every later Continue out while
+        reconciliation tries, is never re-sent and never re-queued, and is finally closed explicitly, with its evidence, an
+        operator-visible reason and a notification, so the calendar is not wedged for good."""
+        adapter, provider = ReactingAdapter(), answered_inbox(501, 503)
+        w = self._continue_world(adapter, provider)
+        adapter.reactions[CONTINUE_STEP] = self._game_moves_on(w, provider, [("2024-02-19", "09:00")])
+        try:
+            w.orchestrator.validate_capabilities(fx.status_payload())     # as the connection step would, before the earlier process died
+            snap = w.orchestrator.collect("setup")
+            stale = IntentFactory(w.store).create("progress.continue", "progression.continue", snap, {"routes": ["/inbox", "/fixtures"]}, {"expected_boundary": None}, verification="game_advanced_past_boundary")
+            self.assertTrue(validate(stale, w.orchestrator.capabilities, w.settings.authority_profile(), snap, w.store).ok)
+            enqueue(w.store, stale)
+            w.store.update_intent_state(stale, ActionState.EXECUTING, "left in flight by an earlier process")
+            passes = [w.orchestrator.run_once() for _ in range(3)]
+            self.assertTrue(any("duplicate-effect guard" in n for n in passes[0].notes), passes[0].notes)
+            self.assertEqual(adapter.performed, [], "no input was ever sent for the unsettled intent")
+            abandoned = w.store.journal_entries(kind=JOURNAL_ABANDONED)
+            self.assertEqual(len(abandoned), 1, [d for p in passes for d in p.reconciled])
+            body = abandoned[0]["body"]
+            self.assertEqual((body["action_id"], body["kind"], body["rounds"], body["effect"]), (stale.action_id, "progress.continue", 3, "unestablished"))
+            self.assertEqual(body["verdict"]["kind"], "uncertain", "the evidence keeps saying the effect was never established")
+            self.assertTrue(body["evidence"], "the observations it was judged on are preserved")
+            closed = w.store.get_intent(stale.action_id)
+            self.assertIs(closed.state, ActionState.FAILED)
+            self.assertIn("abandoned as unverifiable", closed.state_reason)
+            self.assertIn("a person must check in the game", closed.state_reason)
+            transitions = [e["body"]["to"] for e in w.store.journal_entries("intent.transition", stale.action_id)]
+            self.assertNotIn("QUEUED", transitions[transitions.index("EXECUTING"):], "an in-flight intent is never silently re-queued")
+            self.assertIn(NotificationKind.USER_ACTION_REQUIRED, [n.kind for n in w.orchestrator.notifier.history])
+            # with the unverifiable intent closed, the next decision point may press Continue again
+            w.transport.set("/game", env({"date": "2024-02-18", "time": "09:00"}))
+            declare_nothing_to_answer(provider, "2024-02-18 09:00", 501, 503)      # the reader looks at the inbox at the new moment
+            after = w.orchestrator.run_once()
+            self.assertIs(after.status, PassStatus.ACTED, after.notes)
+            self.assertIs(after.executed.state, ActionState.CONFIRMED, after.executed.reason)
+            self.assertEqual(adapter.performed, [CONTINUE_STEP])
         finally:
             w.close()
 
@@ -670,12 +834,21 @@ def fixture_tomorrow() -> dict[str, Any]:
     return payload
 
 
-def answered_inbox(*message_ids: int) -> DeclaredInboxTextProvider:
-    """A text provider that read every given message at any game time and found nothing to answer."""
-    provider = DeclaredInboxTextProvider()
+def declare_nothing_to_answer(provider: DeclaredInboxTextProvider, game_time: str, *message_ids: int) -> DeclaredInboxTextProvider:
+    """Record that a reader looked at each message *at this in-game moment* and found nothing to answer.
+
+    In-game time is the only clock, so a reading is only current evidence at
+    the moment it was taken (spec 5.2): a decision point at a later moment
+    needs the reader to look again, which is what a real provider does.
+    """
     for message_id in message_ids:
-        provider.declare(InboxText(message_id, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=None)
+        provider.declare(InboxText(message_id, "informational", "nothing to answer", (), None, False, False), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=game_time)
     return provider
+
+
+def answered_inbox(*message_ids: int, game_time: str = CURRENT_GAME_TIME) -> DeclaredInboxTextProvider:
+    """A text provider that read every given message at ``game_time`` (the fixture's own moment) and found nothing to answer."""
+    return declare_nothing_to_answer(DeclaredInboxTextProvider(), game_time, *message_ids)
 
 
 class ContinueGateTests(unittest.TestCase):
@@ -836,10 +1009,10 @@ class InboxAnswerTests(unittest.TestCase):
         DialogueOption("write", "Write your own reply", kind="free_text"),
     )
 
-    def _world(self, *, language_model=None, options=OFFER_OPTIONS) -> World:
+    def _world(self, *, language_model=None, options=OFFER_OPTIONS, adapter=None, workflows=None) -> World:
         provider = answered_inbox(503)
-        provider.declare(InboxText(501, "Derby offer for Sam Wing", "Derby have offered GBP 450,000.", options, None, True, True), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=None)
-        return World(linked=True, authority="scoped", families=["inbox"], provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider, language_model=language_model)
+        provider.declare(InboxText(501, "Derby offer for Sam Wing", "Derby have offered GBP 450,000.", options, None, True, True), source="test-operator", observed_at="2026-01-01T00:00:00+00:00", game_time=CURRENT_GAME_TIME)
+        return World(linked=True, adapter=adapter, authority="scoped", families=["inbox"], provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=provider, language_model=language_model, workflows=workflows)
 
     def _inbox_observation_id(self, w: World) -> str:
         return w.store.list_observations(branch_id=w.branch.branch_id, source="bridge:/inbox", limit=1000)[-1].observation_id
@@ -921,25 +1094,34 @@ class InboxAnswerTests(unittest.TestCase):
             w.close()
 
     def test_aud01_the_executed_answer_resolves_back_to_the_option_that_was_chosen(self):
-        """AUD 01 / spec 11.3: the intent the UI writer carries out names the chosen legal option, the evidence cited for it and the
-        policy version, and it cites the dialogue decision, so the executed answer resolves back to the ranking that produced it."""
-        workflow = Workflow("fake.respond_inbox", "1", "respond.inbox", FAKE_SCREEN_MODEL, (UIStep("open", "navigate", ANY_SCREEN, {"target": None}, RISK_NAVIGATION, "inbox"),), None)
+        """AUD 01 / spec 11.3, 12.2: the intent the UI writer carries out names the chosen legal option, the evidence cited for it and
+        the policy version, and it cites the dialogue decision, so the executed answer resolves back to the ranking that produced it.
+        It is confirmed by the effect the bridge can see - the message is no longer pending in the ``/inbox`` metadata - and never by
+        the screen the UI ended up on; which option the game recorded is explicitly not read back."""
+        inbox = fx.inbox_payload()
+        adapter = ReactingAdapter()
+        w = self._world(adapter=adapter, workflows={**FAKE_WORKFLOWS, "respond.inbox": inbox_answer_workflow()})
+        w.transport.set("/inbox", lambda: env(inbox))
 
-        class WithTarget(Orchestrator):
-            def _inbox_proposal(self, blocker, snapshot):
-                proposal = super()._inbox_proposal(blocker, snapshot)
-                if proposal is not None:
-                    proposal["parameters"]["target"] = "inbox"     # the fake UI's inbox screen stands in for the message screen
-                return proposal
-
-        w = self._world()
-        w.orchestrator.close()
-        w.orchestrator = WithTarget(w.store, w.client, w.adapter, w.settings, career=w.career, branch=w.branch, lineage_confirmed=True, clock=w.clock, sleep=w.clock.advance, provisions={"pending_actions": "test-operator", "inbox_text": "test-operator"}, inbox_text_provider=w.orchestrator.inbox_text_provider, workflows={**FAKE_WORKFLOWS, "respond.inbox": workflow})
+        def answered() -> None:
+            for message in inbox["messages"]:
+                if message["id"] == 501:
+                    message["unread"] = False
+            inbox["unread_count"] = sum(1 for m in inbox["messages"] if m["unread"])
+        adapter.reactions[ANSWER_STEP] = answered
         try:
             result = w.orchestrator.run_once()
             self.assertIs(result.status, PassStatus.ACTED, result.notes)
             self.assertIs(result.executed.state, ActionState.CONFIRMED, result.executed.reason)
+            self.assertEqual(adapter.performed, [ANSWER_STEP], "one input; nothing retried")
             intent = w.store.get_intent(result.executed.action_id)
+            self.assertEqual(intent.verification, "inbox_message_answered")
+            self.assertNotIn("target", intent.parameters)
+            self.assertNotIn("expected_screen", intent.parameters)
+            effect = result.executed.verdict.details["effect"]
+            self.assertEqual((effect["message_id"], effect["option_id_sent"], effect["pending"], effect["unread"]), (501, "keep", False, False))
+            self.assertIn("cannot be read back", effect["option_readback"])
+            self.assertTrue(all(r["source"].startswith("bridge:/inbox@") for r in result.executed.verdict.readbacks), result.executed.verdict.readbacks)
             self.assertEqual(intent.kind, "respond.inbox")
             self.assertEqual(intent.parameters["option_id"], "keep")
             self.assertEqual(intent.parameters["legal_option_ids"], ["keep", "delegate"])

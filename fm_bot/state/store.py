@@ -2,10 +2,16 @@
 
 Tables: careers, branches, checkpoints, observations, snapshots, decisions,
 action_intents, action_attempts, commitments, promises, experiments,
-model_versions, settings, journal, blobs. Foreign keys are enforced. Large
-immutable evidence payloads live in ``blobs`` keyed by content hash. Schema
-migrations are explicit version increments; a backup of an existing database
-is written before a migration runs.
+model_versions, settings, journal, blobs, anchors. Foreign keys are enforced.
+Large immutable evidence payloads live in ``blobs`` keyed by content hash.
+Schema migrations are explicit version increments; a backup of an existing
+database is written before a migration runs.
+
+``anchors`` holds the last identity-and-time context the bot actually
+witnessed on a career branch (spec 5.1, ID 01). It is what makes continuity
+survive a restart: without it a new process has no previous anchor, so a save
+reloaded from an earlier point looks like a first observation and its history
+would be merged onto the production branch.
 """
 from __future__ import annotations
 
@@ -17,10 +23,10 @@ import threading
 from contextlib import contextmanager
 from typing import Any, Iterator
 
-from .identity import BranchIdentity, BranchKind, CareerIdentity, Checkpoint, SaveManifest, utc_now
+from .identity import Anchor, BranchIdentity, BranchKind, CareerIdentity, Checkpoint, SaveManifest, utc_now
 from .records import (ActionIntent, ActionResult, ActionState, Decision, DecisionSnapshot, Experiment, FinancialCommitment, ModelVersion, Observation, Promise, canonical_json)
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 MIGRATIONS: dict[int, list[str]] = {
     1: [
@@ -43,6 +49,10 @@ MIGRATIONS: dict[int, list[str]] = {
         "CREATE TABLE settings (key TEXT PRIMARY KEY, version INTEGER NOT NULL, body TEXT NOT NULL, updated_at TEXT NOT NULL)",
         "CREATE TABLE journal (seq INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, at_utc TEXT NOT NULL, ref_id TEXT, body TEXT NOT NULL)",
         "CREATE TABLE locks (name TEXT PRIMARY KEY, owner TEXT NOT NULL, acquired_at TEXT NOT NULL, heartbeat_at TEXT NOT NULL)",
+    ],
+    # The last anchor witnessed per career branch, so continuity outlives the bot process (spec 5.1, ID 01).
+    2: [
+        "CREATE TABLE anchors (career_id TEXT NOT NULL, branch_id TEXT NOT NULL, sequence INTEGER NOT NULL, witnessed_at TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(career_id, branch_id))",
     ],
 }
 
@@ -137,7 +147,14 @@ class Store:
             cursor = conn.execute("INSERT INTO journal(kind, at_utc, ref_id, body) VALUES (?, ?, ?, ?)", (kind, utc_now(), ref_id, canonical_json(body)))
             return int(cursor.lastrowid)
 
-    def journal_entries(self, kind: str | None = None, ref_id: str | None = None, limit: int = 1000) -> list[dict[str, Any]]:
+    def journal_entries(self, kind: str | None = None, ref_id: str | None = None, limit: int = 1000, *, newest_first: bool = False) -> list[dict[str, Any]]:
+        """A bounded page of journal entries, oldest first by default.
+
+        ``newest_first`` orders by descending ``seq`` instead, so a caller
+        that wants the latest entries reads the latest rows rather than the
+        first ``limit`` rows of the whole kind (see
+        :meth:`latest_journal_entry`).
+        """
         query = "SELECT seq, kind, at_utc, ref_id, body FROM journal"
         clauses, params = [], []
         if kind:
@@ -146,9 +163,20 @@ class Store:
             clauses.append("ref_id = ?"); params.append(ref_id)
         if clauses:
             query += " WHERE " + " AND ".join(clauses)
-        query += " ORDER BY seq ASC LIMIT ?"
+        query += f" ORDER BY seq {'DESC' if newest_first else 'ASC'} LIMIT ?"
         params.append(limit)
         return [{"seq": r["seq"], "kind": r["kind"], "at_utc": r["at_utc"], "ref_id": r["ref_id"], "body": json.loads(r["body"])} for r in self.connection.execute(query, params)]
+
+    def latest_journal_entry(self, kind: str | None = None, ref_id: str | None = None) -> dict[str, Any] | None:
+        """The newest journal entry of ``kind`` (highest ``seq``), or ``None`` when there is none.
+
+        A view that wants "the last one" must ask for it: taking the end of a
+        :meth:`journal_entries` page is the *oldest* ``limit`` entries' end,
+        so past that many entries of a kind it freezes on a stale row instead
+        of following the journal (spec 15.1).
+        """
+        entries = self.journal_entries(kind=kind, ref_id=ref_id, limit=1, newest_first=True)
+        return entries[0] if entries else None
 
     def put_blob(self, content_hash: str, payload: Any) -> None:
         with self.transaction() as conn:
@@ -196,6 +224,29 @@ class Store:
 
     def list_checkpoints(self, branch_id: str) -> list[Checkpoint]:
         return [Checkpoint(r["checkpoint_id"], r["branch_id"], SaveManifest.from_json(json.loads(r["manifest"])), r["created_at"], r["label"]) for r in self.connection.execute("SELECT * FROM checkpoints WHERE branch_id = ? ORDER BY created_at", (branch_id,))]
+
+    # ----- witnessed anchors (spec 5.1, ID 01) -----
+    def put_anchor(self, anchor: Anchor) -> None:
+        """Remember ``anchor`` as the last identity-and-time context witnessed on its career branch.
+
+        One row per career branch: the anchor a restarted process judges the
+        next observation against, so a save reloaded from an earlier point is
+        seen as the reload it is instead of a first observation.
+        """
+        if not anchor.career_id or not anchor.branch_id:
+            raise StoreError("an anchor without a career and branch cannot be remembered; register the career first")
+        with self.transaction() as conn:
+            conn.execute("INSERT OR REPLACE INTO anchors VALUES (?, ?, ?, ?, ?)", (anchor.career_id, anchor.branch_id, int(anchor.sequence), utc_now(), canonical_json(anchor.to_json())))
+
+    def get_anchor(self, career_id: str, branch_id: str) -> Anchor | None:
+        """The last witnessed anchor for this career branch, or ``None`` when nothing has been witnessed yet."""
+        row = self.connection.execute("SELECT body FROM anchors WHERE career_id = ? AND branch_id = ?", (career_id, branch_id)).fetchone()
+        return Anchor(**json.loads(row["body"])) if row else None
+
+    def delete_anchor(self, career_id: str, branch_id: str) -> None:
+        """Forget the witnessed anchor (the operator confirmed a different save is this career's continuation)."""
+        with self.transaction() as conn:
+            conn.execute("DELETE FROM anchors WHERE career_id = ? AND branch_id = ?", (career_id, branch_id))
 
     # ----- observations & snapshots -----
     def insert_observation(self, observation: Observation) -> None:

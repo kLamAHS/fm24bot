@@ -171,6 +171,22 @@ class CompensationTests(unittest.TestCase):
         self.assertIsNone(propose_compensation(h.store, h.factory, contract, h.snapshot()))
         self.assertTrue(h.store.journal_entries("reconcile.compensation_refused", contract.action_id))
 
+    def test_act01_a_reversal_carrying_too_few_parameters_sends_no_input(self):
+        """ACT 01: the compensation table only recovers ``previous_tactic_catalog_id``, so the reversal is refused rather than dispatched with a fabricated catalog version (spec 12.2-12.3)."""
+        h = harness()
+        snap = h.snapshot()
+        reversal = propose_compensation(h.store, h.factory, h.tactic_intent(snap), h.snapshot())
+        self.assertEqual(reversal.parameters, {"tactic_catalog_id": "balanced-01"}, "no catalog_version is recovered by the table")
+        executor = h.executor()
+        executor.enqueue(h.ready(reversal, h.snapshot()))
+        report = executor.run_next(h.snapshot)
+        self.assertIs(report.state, ActionState.CANCELLED)
+        self.assertEqual([p.check for p in report.problems], ["parameters"])
+        self.assertIn("catalog_version", report.reason)
+        self.assertEqual(h.adapter.inputs, [])
+        self.assertEqual(h.adapter.selected_tactic_id, "balanced-01")
+        executor.close()
+
 
 if __name__ == "__main__":
     unittest.main()

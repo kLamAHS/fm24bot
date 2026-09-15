@@ -167,6 +167,61 @@ class ConfirmLineageTests(CliCase):
         code, out, err = self.run_cli("run", "--once")
         self.assertEqual(code, cli.EXIT_OK, err)
 
+    def test_id01_a_restarted_process_detects_a_save_reloaded_from_an_earlier_point(self):
+        """ID 01 / spec 5.1: the documented operator sequence - run the bot, quit it, load an earlier save in FM, run it again -
+        is a stop for identity resolution, not a merge. Each invocation is a fresh process, so continuity is judged against the last
+        anchor this database witnessed: the second run records no decision, mints no intent and creates no second branch, and it
+        points at `confirm-lineage`. Only after the operator vouches for the loaded save does work resume, on the one production
+        branch."""
+        self.register("--confirm-lineage")
+        code, out, err = self.run_cli("run", "--once")
+        self.assertEqual(code, cli.EXIT_OK, err)
+        store = Store(self.db)
+        try:
+            career, branch = store.list_careers()[0], store.list_branches(store.list_careers()[0].career_id)[0]
+            witnessed = store.get_anchor(career.career_id, branch.branch_id)
+            self.assertIsNotNone(witnessed, "the process remembers the history it witnessed")
+            self.assertEqual((witnessed.game_date, witnessed.game_time), (fx.GAME_DATE, fx.GAME_TIME))
+            decisions, intents = len(store.list_decisions(limit=1000)), len(store.list_intents())
+            self.assertGreater(decisions, 0, "the first run planned on the 17 February save")
+        finally:
+            store.close()
+        # the operator quits the bot, loads the 10 February save in FM and runs the bot again
+        self.world["/game"] = FakeTransport.envelope({"date": "2024-02-10", "time": "10:00"}, session_id=fx.SESSION)
+        code, out, err = self.run_cli("run", "--once")
+        self.assertEqual(code, cli.EXIT_GAME_STATE, out)
+        self.assertIn("identity resolution required", out)
+        self.assertIn("continuity date_reversed: game time 2024-02-17 10:00 -> 2024-02-10 10:00", out)
+        self.assertIn("python -m fm_bot confirm-lineage", out)
+        code, snapshot_out, _ = self.run_cli("snapshot")
+        self.assertEqual(code, cli.EXIT_GAME_STATE)
+        self.assertIn("Continuity: date_reversed", snapshot_out)
+        self.assertIn("confirm-lineage", snapshot_out)
+        store = Store(self.db)
+        try:
+            self.assertEqual(len(store.list_careers()), 1)
+            self.assertEqual(len(store.list_branches(career.career_id)), 1, "no second branch: the reload is resolved, never merged")
+            self.assertEqual(len(store.list_decisions(limit=1000)), decisions, "nothing is decided on the branch until the lineage is confirmed")
+            self.assertEqual(len(store.list_intents()), intents, "and no intent is minted")
+            still = store.get_anchor(career.career_id, branch.branch_id)
+            self.assertEqual((still.game_date, still.game_time), (fx.GAME_DATE, fx.GAME_TIME), "the witnessed anchor stays where the history ended")
+            self.assertEqual([e["body"]["status"] for e in store.journal_entries(kind="orchestrator.identity_resolution_required")], ["date_reversed"])
+        finally:
+            store.close()
+        code, out, err = self.run_cli("confirm-lineage", "--reason", "I really did load the 10 February save")
+        self.assertEqual(code, cli.EXIT_OK, err)
+        code, out, err = self.run_cli("run", "--once")
+        self.assertEqual(code, cli.EXIT_OK, err)
+        self.assertNotIn("identity resolution required", out)
+        store = Store(self.db)
+        try:
+            self.assertEqual(len(store.list_branches(career.career_id)), 1)
+            self.assertGreater(len(store.list_decisions(limit=1000)), decisions, "work resumes on the confirmed save")
+            resumed = store.get_anchor(career.career_id, branch.branch_id)
+            self.assertEqual((resumed.game_date, resumed.game_time), ("2024-02-10", "10:00"), "continuity now runs from the save the operator vouched for")
+        finally:
+            store.close()
+
     def test_id01_confirm_lineage_refuses_a_save_that_is_not_the_registered_career(self):
         """ID 01 / spec 5.1: confirming vouches for *this* registered career, so a save whose club, manager or build differs is
         refused with the difference named; the lineage stays unconfirmed and nothing is created."""
