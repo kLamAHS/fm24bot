@@ -77,6 +77,7 @@ class BridgeClient:
             raw: RawResponse = self.transport.get(route)
         except TransportError as exc:
             response = BridgeResponse(route, None, False, None, None, None, utc_now(), payload_hash(None), error=str(exc), elapsed_ms=(time.monotonic() - started) * 1000)
+            self.errors.append({"route": route, "at": response.received_at, "http_status": None, "error": response.error, "schema_problems": []})
             self._record(response, game_date, game_time)
             return response
         elapsed = (time.monotonic() - started) * 1000
