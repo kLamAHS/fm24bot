@@ -14,7 +14,7 @@ from ..bridge_client.client import BridgeClient
 from ..bridge_client.transport import FakeTransport
 from ..execution.adapter import ANY_SCREEN, FAKE_SCREEN_MODEL, FAKE_WORKFLOWS, RISK_NAVIGATION, FakeAdapter, UIStep, Workflow
 from ..execution.lifecycle import IntentFactory, enqueue, validate
-from ..interactions.inbox import DeclaredInboxTextProvider, DialogueOption, InboxText
+from ..interactions.inbox import DeclaredInboxTextProvider, DialogueOption, InboxText, continue_blocked_by_inbox
 from ..interactions.language_model import NoLanguageModel, ScriptedLanguageModel
 from ..interface.controls import Settings
 from ..interface.explain import explain_action, render_action
@@ -772,6 +772,29 @@ class PendingActionsObservationTests(unittest.TestCase):
             self.assertNotIn("inbox:504", "; ".join(gate.blockers))
             self.assertTrue(gate.allowed, gate.to_json())
             self.assertEqual(w.store.journal_entries(kind=JOURNAL_PENDING_ACTIONS)[-1]["body"]["resolved_action_ids"], ["inbox:504"])
+        finally:
+            w.close()
+
+    def test_cal01_both_halves_of_the_decision_point_agree_about_a_resolved_message(self):
+        """CAL 01 / spec 12.4: the inbox blockers and the Continue gate judge a read message by the same evidence, so a resolved
+        message does not clear the gate while still standing as an inbox blocker that refuses progression."""
+        observation = PendingActionsObservation(frozenset({"inbox:504"}), "test-operator", fx.GAME_DATE, fx.GAME_TIME)
+        w = self._world(observation=observation, declared=True)
+        try:
+            snapshot, point, gate = self._gate(w)
+            self.assertTrue(gate.allowed, gate.to_json())
+            self.assertEqual([b.item.message_id for b in point.blockers], [])
+            self.assertTrue(point.mandatory_clear)
+            self.assertFalse(continue_blocked_by_inbox(point.blockers).blocked)
+        finally:
+            w.close()
+        # Without the capability the same observation proves nothing: the blocker stands and both halves refuse.
+        w = self._world(observation=observation, declared=True, supported=False)
+        try:
+            _, point, gate = self._gate(w)
+            self.assertFalse(gate.allowed)
+            self.assertIn(504, [b.item.message_id for b in point.blockers])
+            self.assertFalse(point.mandatory_clear)
         finally:
             w.close()
 

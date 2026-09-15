@@ -36,6 +36,8 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
         "test_snapshot.py::InjectedChangeTests::test_session_change_during_collection_is_rejected",
         "test_snapshot.py::InjectedChangeTests::test_identity_change_on_reread_stops_immediately",
         "test_snapshot.py::InjectedChangeTests::test_action_critical_field_change_is_retried",
+        "test_execution_executor.py::ActionCriticalFreshnessTests::test_obs03_a_same_tick_change_to_a_target_route_stops_the_input",
+        "test_narrow_loop.py::FreshContextTests::test_obs03_a_same_tick_change_to_the_target_route_stops_the_input_end_to_end",
     ),
     "ID 01": (
         "test_identity.py::RegistryTests::test_reloading_earlier_and_later_checkpoints_are_distinct",
@@ -87,6 +89,7 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
         "test_execution_reconciliation.py::RestartTests::test_rec01_in_flight_intent_is_reconciled_never_requeued",
         "test_orchestrator.py::ConnectionTests::test_rec01_in_flight_intent_is_reconciled_on_connect_without_input",
         "test_narrow_loop.py::InterruptionTests::test_rec01_act02_process_dies_after_executing_and_restart_reconciles_without_a_second_dispatch",
+        "test_narrow_loop.py::ManagerLockTests::test_rec01_a_heartbeat_older_than_the_stale_threshold_is_taken_over",
     ),
     "MAT 01": (
         "test_orchestrator.py::MatchLevelTests::test_mat01_live_match_only_records_observations",

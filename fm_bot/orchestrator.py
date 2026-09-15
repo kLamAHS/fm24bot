@@ -987,7 +987,8 @@ class Orchestrator:
         """
         game_time = self._game_time_of(snapshot)
         pending, notes = self._resolved_pending(snapshot)
-        blockers = unresolved_mandatory(inbox_items(snapshot), self.inbox_text_provider, game_time=game_time, pending_actions_supported=self.capabilities.supported("pending_actions"))
+        resolved_ids = [action.action_id for action in pending if action.resolved]
+        blockers = unresolved_mandatory(inbox_items(snapshot), self.inbox_text_provider, game_time=game_time, pending_actions_supported=self.capabilities.supported("pending_actions"), resolved_action_ids=resolved_ids)
         proposals = [proposal for proposal in (self._inbox_proposal(b, snapshot) for b in blockers if b.resolvable_now) if proposal is not None]
         point = DecisionPointResult(pending, blockers, None, [], proposals, notes)
         mandatory = self._mandatory_blockers(pending)

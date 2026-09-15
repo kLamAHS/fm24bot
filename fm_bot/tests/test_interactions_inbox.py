@@ -163,6 +163,19 @@ class UnresolvedMandatoryTests(unittest.TestCase):
         self.assertIn(CAPABILITY_INBOX_TEXT, blocker.report.missing)
         self.assertEqual(blocker.legal_option_ids, [])
 
+    def test_cal01_a_read_message_reported_resolved_is_no_longer_a_blocker(self):
+        """CAL 01: a read decision message named by a current, capability-backed pending-actions observation is answered, so it
+        stops being a blocker; without the capability the same id proves nothing and it keeps blocking, and an unread message is
+        never resolved this way because unread is the game's own evidence that nobody has answered it."""
+        read_offer = item(message_id=501, event_type="news_item_transfer_offer", unread=False)
+        resolved = ["inbox:501"]
+        self.assertEqual(unresolved_mandatory([read_offer], resolved_action_ids=resolved, pending_actions_supported=True), [])
+        [still_blocking] = unresolved_mandatory([read_offer], resolved_action_ids=resolved, pending_actions_supported=False)
+        self.assertIn(CAPABILITY_PENDING_ACTIONS, still_blocking.report.missing)
+        unread_offer = item(message_id=501, event_type="news_item_transfer_offer", unread=True)
+        [unread_blocker] = unresolved_mandatory([unread_offer], resolved_action_ids=resolved, pending_actions_supported=True)
+        self.assertIn(CAPABILITY_INBOX_TEXT, unread_blocker.report.missing)
+
     def test_continue_report_folds_blockers(self):
         report = continue_blocked_by_inbox(unresolved_mandatory(inbox_items(fx.inbox_payload())))
         self.assertTrue(report.blocked)

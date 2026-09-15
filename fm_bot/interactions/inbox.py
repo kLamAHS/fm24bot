@@ -308,12 +308,24 @@ class InboxBlocker:
         return {"item": self.item.to_json(), "classification": self.classification.to_json(), "report": self.report.to_json(), "text_status": self.text_status, "description": self.description, "legal_option_ids": list(self.legal_option_ids)}
 
 
-def _blocker(item: InboxItem, cls: InboxClass, text: Observed[InboxText], pending_actions_supported: bool) -> InboxBlocker | None:
+def inbox_action_id(message_id: int | None) -> str:
+    """The pending-action id a message is known by (must match :mod:`fm_bot.rules.deadlines`)."""
+    return f"inbox:{message_id}"
+
+
+def _blocker(item: InboxItem, cls: InboxClass, text: Observed[InboxText], pending_actions_supported: bool, resolved_action_ids: frozenset[str] = frozenset()) -> InboxBlocker | None:
     report = MissingCapabilityReport(f"respond.inbox:{item.message_id}")
     if cls.kind == KIND_INFORMATIONAL:
         return None
     if cls.kind == KIND_UNKNOWN and not item.unread:
         return None  # read, matched nothing: no evidence it demands anything
+    # A read message a current, capability-backed pending-actions observation
+    # reports answered is resolved: the same evidence the Continue gate uses,
+    # so the two halves of one decision point cannot disagree (CAL 01). An
+    # unread message is never resolved this way; unread is the game's own
+    # evidence that nobody has answered it.
+    if not item.unread and pending_actions_supported and inbox_action_id(item.message_id) in resolved_action_ids:
+        return None
     if not text.available:
         report.add(CAPABILITY_INBOX_TEXT, f"message text is {text.status.value}: {text.reason or 'not decoded'}")
     if not item.unread and not pending_actions_supported:
@@ -331,20 +343,28 @@ def _blocker(item: InboxItem, cls: InboxClass, text: Observed[InboxText], pendin
     return InboxBlocker(item, cls, report, text.status.value, description, legal)
 
 
-def unresolved_mandatory(items: Iterable[InboxItem], text_provider: InboxTextProvider | None = None, *, game_time: str | None = None, pending_actions_supported: bool = False) -> list[InboxBlocker]:
+def unresolved_mandatory(items: Iterable[InboxItem], text_provider: InboxTextProvider | None = None, *, game_time: str | None = None, pending_actions_supported: bool = False, resolved_action_ids: Iterable[str] = ()) -> list[InboxBlocker]:
     """Messages that may block Continue, each naming what is missing to resolve it.
 
     Conservative by design (CAL 01): decision-required messages, unread
     unclassified messages and read decision messages that cannot be proven
     resolved are all returned. A blocker with an empty report and legal
     option ids is ready for :mod:`fm_bot.interactions.choices`.
+
+    ``resolved_action_ids`` are the pending-action ids a current,
+    capability-backed pending-actions observation reported answered (see
+    :func:`fm_bot.rules.deadlines.resolve_read_actions`); a read message
+    named there is not returned as a blocker. They count only while
+    ``pending_actions_supported`` is true, so an unsupported capability
+    still leaves every read decision blocking.
     """
     provider = text_provider or NoInboxTextProvider()
+    resolved = frozenset(resolved_action_ids)
     blockers: list[InboxBlocker] = []
     for item in items:
         text = provider.get_text(item.message_id, game_time=game_time)
         cls = classify(item, text)
-        blocker = _blocker(item, cls, text, pending_actions_supported)
+        blocker = _blocker(item, cls, text, pending_actions_supported, resolved)
         if blocker is not None:
             blockers.append(blocker)
     return blockers
