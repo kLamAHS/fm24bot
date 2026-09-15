@@ -33,6 +33,22 @@ Unknown executable hashes are rejected before decoding. The build check must be 
 
 Successful observations have `observed_at` (UTC), `session_id` (connection UUID) and `data`. A session ID changes on reconnect; it is not a save identifier. Names are UTF-8. Missing players return 404, malformed IDs 400, and unavailable or inconsistent reads 503. `/status` returns HTTP 200 with `connected: false` when no supported save is available. Write methods return 405; foreign Host/Origin headers are rejected; responses are not cached. There is no arbitrary-memory endpoint.
 
+## Club management bot
+
+The `fm_bot/` package is the club management bot described in [docs/FM24_Bot_Design_Specification.md](docs/FM24_Bot_Design_Specification.md). It consumes this bridge through the loopback JSON API only, keeps its own SQLite state with an append-only journal, plans through explicit rules and bounded optimisation, and operates the game only through a separate UI adapter. It never reads or writes FM memory itself.
+
+Run the bridge in its own interpreter as above, then run the bot from a second, separate Python 3.11+ environment (standard library only):
+
+```powershell
+python -m fm_bot status
+python -m fm_bot register --label "Wycombe main" --confirm-lineage
+python -m fm_bot snapshot
+python -m fm_bot plan
+python -m unittest discover -s fm_bot/tests -t . -p "test_*.py"
+```
+
+The bot's tests are separate from the bridge regression tests in `tests/` and use a fake bridge world; see [fm_bot/README.md](fm_bot/README.md) for the delivery phases implemented, the acceptance-test map, and the explicit limits (no validated Windows UI adapter yet, no live match control, no bundled language-model provider).
+
 ## Python
 
 ```python
