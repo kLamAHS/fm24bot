@@ -116,6 +116,8 @@ ACCEPTANCE_MAP: dict[str, tuple[str, ...]] = {
     ),
     "EXP 01": (
         "test_experiments_manifests.py::TrialManifestTests::test_trial_maps_to_checkpoint_build_policy_treatment_and_outcomes",
+        "test_experiments_preregistration.py::ImmutabilityTests::test_exp01_a_declaration_is_journaled_once_and_cannot_be_edited",
+        "test_experiments_preregistration.py::ReportingTests::test_exp01_changing_the_outcome_or_the_seed_makes_the_result_exploratory",
     ),
     "EXP 02": (
         "test_experiments_leakage.py::DetectLeakageTests::test_deliberately_contaminated_dataset_fails",
